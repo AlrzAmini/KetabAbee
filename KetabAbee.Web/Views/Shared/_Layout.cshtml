@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <partial name="_Metas"/>
+
+    <title>@ViewData["Title"]</title>
+
+    <partial name="_Styles"/>
+
+</head>
+
+<body>
+
+    <div class="page-wrapper">
+
+        <partial name="_Header" />
+
+        @RenderBody()
+
+        <partial name="_Footer" />
+
+    </div>
+
+    <partial name="_Scripts" />
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+
+</html>
