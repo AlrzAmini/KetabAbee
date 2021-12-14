@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IoC", "IoC", "{58542B84-44E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KetabAbee.Web", "KetabAbee.Web\KetabAbee.Web.csproj", "{F88307C0-A856-4A79-AD93-13C8579BA06E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KetabAbee.Domain", "KetabAbee.Domain\KetabAbee.Domain.csproj", "{A3813228-0E9E-44EA-820F-867EF7349404}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,12 +27,17 @@ Global
 		{F88307C0-A856-4A79-AD93-13C8579BA06E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F88307C0-A856-4A79-AD93-13C8579BA06E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F88307C0-A856-4A79-AD93-13C8579BA06E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3813228-0E9E-44EA-820F-867EF7349404}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3813228-0E9E-44EA-820F-867EF7349404}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3813228-0E9E-44EA-820F-867EF7349404}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3813228-0E9E-44EA-820F-867EF7349404}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F88307C0-A856-4A79-AD93-13C8579BA06E} = {A44BD33F-60F2-423C-B803-B2C8D3319CA2}
+		{A3813228-0E9E-44EA-820F-867EF7349404} = {783979EB-5769-4756-B5E8-361F4939CDD2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1378765B-A4E4-4A4A-951F-BB197C978A9A}
