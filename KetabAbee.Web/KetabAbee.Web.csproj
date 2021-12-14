@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KetabAbee.Data\KetabAbee.Data.csproj" />
+    <ProjectReference Include="..\KetabAbee.IoC\KetabAbee.IoC.csproj" />
   </ItemGroup>
 
 </Project>

@@ -11,7 +11,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KetabAbee.Domain\KetabAbee.Domain.csproj" />
-    <ProjectReference Include="..\KetabAbee.Web\KetabAbee.Web.csproj" />
   </ItemGroup>
 
 </Project>
