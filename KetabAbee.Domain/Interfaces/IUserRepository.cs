@@ -10,5 +10,11 @@ namespace KetabAbee.Domain.Interfaces
     public interface IUserRepository
     {
         IEnumerable<User> GetUsers();
+
+        int AddUser(User user);
+
+        bool IsEmailExist(string email);
+
+        bool IsUserNameExist(string userName);
     }
 }

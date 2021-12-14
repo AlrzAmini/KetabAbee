@@ -18,9 +18,27 @@ namespace KetabAbee.Data.Repository
             _context = context;
         }
 
+        public int AddUser(User user)
+        {
+            _context.Users.Add(user);
+            _context.SaveChanges();
+
+            return user.UserId;
+        }
+
         public IEnumerable<User> GetUsers()
         {
             return _context.Users;
+        }
+
+        public bool IsEmailExist(string email)
+        {
+            return _context.Users.Any(u => u.Email == email);
+        }
+
+        public bool IsUserNameExist(string userName)
+        {
+            return _context.Users.Any(u => u.UserName == userName);
         }
     }
 }

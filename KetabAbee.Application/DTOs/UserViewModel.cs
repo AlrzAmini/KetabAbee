@@ -11,4 +11,9 @@ namespace KetabAbee.Application.DTOs
     {
         public IEnumerable<User> Users { get; set; }
     }
+
+    public class UserViewModel
+    {
+        public User User { get; set; }
+    }
 }

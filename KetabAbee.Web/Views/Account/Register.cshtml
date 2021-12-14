@@ -1,4 +1,4 @@
-﻿
+﻿@model KetabAbee.Application.DTOs.RegisterViewModel
 @{
     ViewData["Title"] = "ثبت نام";
 }
@@ -15,39 +15,44 @@
                 <div class="auth-form-title">
                     ثبت نام در کتاب <span class="text-primary">آبی</span>
                 </div>
-                <form action="#">
+                <form asp-action="Register" method="post">
                     <div class="form-element-row">
                         <label for="user-name" class="label-element">نام کاربری</label>
                         <div class="form-element-with-icon">
-                            <input type="text" class="input-element" id="user-name">
+                            <input type="text" asp-for="UserName" class="input-element" id="user-name">
                             <i class="fad fa-user"></i>
                         </div>
+                        <span asp-validation-for="UserName" class="text-danger"></span>
                     </div>
                     <div class="form-element-row">
                         <label for="user-email" class="label-element">ایمیل</label>
                         <div class="form-element-with-icon">
-                            <input type="email" class="input-element" id="user-email">
+                            <input type="email" asp-for="Email" class="input-element" id="user-email">
                             <i class="fad fa-mail-bulk"></i>
                         </div>
+                        <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div class="form-element-row">
                         <label for="password" class="label-element">کلمه عبور</label>
                         <div class="form-element-with-icon">
-                            <input type="password" class="input-element" id="password">
+                            <input type="password" asp-for="Password" class="input-element" id="password">
                             <i class="fad fa-key-skeleton"></i>
                         </div>
+                        <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                     <div class="form-element-row">
-                        <label class="container-checkbox">
-                            <a href="#" class="link--with-border-bottom">حریم خصوصی</a> و <a href="#" class="link--with-border-bottom">شرایط و قوانین</a> استفاده از سرویس های سایت
-                            همتا را مطالعه نموده
-                            و با کلیه موارد آن موافقم.
-                            <input type="checkbox" checked="checked">
-                            <span class="checkmark"></span>
-                        </label>
+                        <label for="password" class="label-element">تکرار کلمه عبور</label>
+                        <div class="form-element-with-icon">
+                            <input type="password" asp-for="RePassword" class="input-element" id="password">
+                            <i class="fad fa-key-skeleton"></i>
+                        </div>
+                        <span asp-validation-for="RePassword" class="text-danger"></span>
+                    </div>
+                    <div class="form-element-row">
+                        
                     </div>
                     <div class="form-element-row text-left">
-                        <button class="btn-element btn-success-element">
+                        <button type="submit" class="btn-element btn-success-element">
                             <i class="fad fa-user-edit"></i>
                             ثبت نام در کتاب آبی
                         </button>
@@ -55,7 +60,7 @@
 
                 </form>
                 <div class="auth-form-footer">
-                    <span>قبلا در همتا ثبت‌نام کرده‌اید؟</span>
+                    <span>قبلا در کتاب آبی ثبت‌نام کرده‌اید؟</span>
                     <a href="/Login" class="link--with-border-bottom">وارد شوید</a>
                 </div>
             </div>

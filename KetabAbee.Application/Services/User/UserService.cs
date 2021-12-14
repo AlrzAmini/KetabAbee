@@ -18,6 +18,21 @@ namespace KetabAbee.Application.Services.User
             _userRepository = userRepository;
         }
 
+        public int AddUser(Domain.Models.User.User user)
+        {
+            return _userRepository.AddUser(user);
+        }
+
+        public bool IsEmailExist(string email)
+        {
+            return _userRepository.IsEmailExist(email);
+        }
+
+        public bool IsUserNameExist(string userName)
+        {
+            return _userRepository.IsUserNameExist(userName);
+        }
+
         ListUsersViewModel IUserService.GetUsers()
         {
             return new ListUsersViewModel()
