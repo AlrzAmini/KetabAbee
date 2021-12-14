@@ -8,8 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KetabAbee.Data.Context;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.EntityFrameworkCore;
 
 namespace KetabAbee.Web
 {
@@ -65,34 +67,15 @@ namespace KetabAbee.Web
 
             #region Context
 
-            //services.AddDbContext<ShooraDahakContext>(option =>
-            //{
-            //    option.UseSqlServer(Configuration.GetConnectionString("KetabAbeeConnection"));
-            //});
+            services.AddDbContext<KetabAbeeDBContext>(option =>
+            {
+                option.UseSqlServer(Configuration.GetConnectionString("KetabAbeeDBConnection"));
+            });
+
 
             #endregion
 
             #region IoC
-
-            //services.AddScoped<IUserService, UserService>();
-
-            //services.AddScoped<IViewRenderService, RenderViewToString>();
-
-            //services.AddScoped<IPermissionService, PermissionService>();
-
-            //services.AddScoped<IServiceService, ServiceService>(); 
-
-            //services.AddScoped<IDiscussionService, DiscussionService>();
-
-            //services.AddScoped<ILetterService, LetterService>();
-
-            //services.AddScoped<IQuoteService, QuoteService>();
-
-            //services.AddScoped<IBlogService, BlogService>();
-
-            //services.AddScoped<ICommentService, CommentService>();
-
-            //services.AddScoped<IReportAbuseService, ReportAbuseService>();
 
 
             #endregion
