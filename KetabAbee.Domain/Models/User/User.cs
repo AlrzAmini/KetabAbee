@@ -53,11 +53,19 @@ namespace KetabAbee.Domain.Models.User
 
         #endregion
 
-        #region Active Code
+        #region Email Active Code
 
-        [DisplayName("کد فعالسازی")]
+        [DisplayName("کد فعالسازی ایمیل")]
         [MaxLength(50, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
-        public string ActivationCode { get; set; }
+        public string EmailActivationCode { get; set; }
+
+        #endregion
+
+        #region Email Active Code
+
+        [DisplayName("کد فعالسازی موبایل")]
+        [MaxLength(20, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
+        public string MobileActivationCode { get; set; }
 
         #endregion
 
@@ -68,10 +76,16 @@ namespace KetabAbee.Domain.Models.User
 
         #endregion
 
-        #region IsActive
+        #region Is email Active
+
+        public bool IsEmailActive { get; set; }
+
+        #endregion
+         
+        #region Is mobile Active
 
         [DisplayName("وضعیت")]
-        public bool IsActive { get; set; }
+        public bool IsMobileActive { get; set; }
 
         #endregion
 

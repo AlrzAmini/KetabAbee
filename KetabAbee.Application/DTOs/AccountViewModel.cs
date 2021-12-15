@@ -48,4 +48,28 @@ namespace KetabAbee.Application.DTOs
         #endregion
 
     }
+
+    public class LoginViewModel
+    {
+        #region Mobile
+
+        [DisplayName("موبایل")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
+        [MaxLength(50, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
+        public string Mobile { get; set; }
+
+        #endregion
+
+        #region Password
+
+        [DisplayName("کلمه عبور")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
+        [MaxLength(200, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
+        public string Password { get; set; }
+
+        #endregion
+
+        public bool RememberMe { get; set; }
+
+    }
 }

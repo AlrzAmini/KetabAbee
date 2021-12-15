@@ -29,9 +29,11 @@ namespace KetabAbee.Application.Services.User
                     UserName = user.UserName,
                     Mobile = user.Mobile,
                     Password = PasswordHasher.EncodePasswordMd5(user.Password),
-                    ActivationCode = CodeGenerator.GenerateUniqCode(),
+                    EmailActivationCode = CodeGenerator.GenerateUniqCode(),
+                    MobileActivationCode = new Random().Next(100000,999998).ToString(),
                     AvatarName = "User.jpg",
-                    IsActive = false,
+                    IsMobileActive = false,
+                    IsEmailActive = false,
                     IsDelete = false,
                     RegisterDate = DateTime.Now,
                 };
@@ -67,6 +69,11 @@ namespace KetabAbee.Application.Services.User
         public bool IsMobileExist(string mobile)
         {
             return _userRepository.IsMobileExist(mobile);
+        }
+
+        public Domain.Models.User.User GetUserForLogin(LoginViewModel login)
+        {
+           return _userRepository.IsUserRegistered(login.Mobile,PasswordHasher.EncodePasswordMd5(login.Password));
         }
     }
 }

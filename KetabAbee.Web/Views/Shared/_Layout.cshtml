@@ -3,11 +3,11 @@
 
 <head>
 
-    <partial name="_Metas"/>
+    <partial name="_Metas" />
 
     <title>@ViewData["Title"]</title>
 
-    <partial name="_Styles"/>
+    <partial name="_Styles" />
 
 </head>
 
@@ -24,8 +24,8 @@
     </div>
 
     <partial name="_Scripts" />
-
-    @await RenderSectionAsync("Scripts", required: false)
+    <partial name="_SiteMessages" />
+    @await RenderSectionAsync("Scripts", false)
 
 </body>
 

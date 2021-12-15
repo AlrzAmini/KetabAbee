@@ -21,6 +21,8 @@ namespace KetabAbee.Domain.Interfaces
 
         bool IsMobileExist(string mobile);
 
+        User IsUserRegistered(string mobile, string password);
+
         #endregion
 
 

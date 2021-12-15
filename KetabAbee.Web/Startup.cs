@@ -82,17 +82,7 @@ namespace KetabAbee.Web
 
             #region Authentication
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            }).AddCookie(options =>
-            {
-                options.LoginPath = "/Login";
-                options.LogoutPath = "/Logout";
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(43200);
-            });
+            
 
             #endregion
 

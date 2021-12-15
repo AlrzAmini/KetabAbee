@@ -21,6 +21,8 @@ namespace KetabAbee.Application.Interfaces.User
 
         bool IsMobileExist(string mobile);
 
+        Domain.Models.User.User GetUserForLogin(LoginViewModel login);
+
         #endregion
     }
 }

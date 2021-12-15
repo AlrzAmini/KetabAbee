@@ -1,4 +1,5 @@
-﻿<!-- Page Header -->
+﻿@using System.Security.Claims
+<!-- Page Header -->
 <header class="page-header">
     <div class="top-page-header">
         <div class="container">
@@ -149,15 +150,13 @@
                     </ul>
                 </div>
                 <div class="user-item account">
-                    <a href="/Register" class="btn-auth">
-                        <i class="fal fa-user-circle"></i>
-                        ورود و عضویت
-                    </a>
-                    @*<a href="#">
-                            علیرضا
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a href="/UserPanel">
+                            @User.FindFirstValue(ClaimTypes.Name)
                             <i class="fad fa-chevron-down text-sm mr-1"></i>
-                        </a>*@
-                    @*<ul class="dropdown--wrapper">
+                        </a>
+                        <ul class="dropdown--wrapper">
                             <li class="header-profile-dropdown-account-container">
                                 <a href="#" class="d-block">
                                     <span class="header-profile-dropdown-user">
@@ -203,17 +202,24 @@
                                     پیگیری سفارش
                                 </a>
                             </li>
-                        </ul>*@
-
-                    <ul class="dropdown--wrapper">
-                        <li>
-                            <a href="/Login" class="dropdown--btn-primary">وارد شوید</a>
-                        </li>
-                        <li>
-                            <span>کاربر جدید هستید؟</span>
-                            <a href="/Register" class="border-bottom-dt">ثبت نام</a>
-                        </li>
-                    </ul>
+                        </ul>
+                    }
+                    else
+                    {
+                        <a href="/Register" class="btn-auth">
+                            <i class="fal fa-user-circle"></i>
+                            ورود و عضویت
+                        </a>
+                        <ul class="dropdown--wrapper">
+                            <li>
+                                <a href="/Login" class="dropdown--btn-primary">وارد شوید</a>
+                            </li>
+                            <li>
+                                <span>کاربر جدید هستید؟</span>
+                                <a href="/Register" class="border-bottom-dt">ثبت نام</a>
+                            </li>
+                        </ul>
+                    }
                 </div>
             </div>
         </div>
