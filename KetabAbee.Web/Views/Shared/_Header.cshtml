@@ -165,7 +165,7 @@
                                         </span>
                                         <span class="header-profile-dropdown-user-info">
                                             <p class="header-profile-dropdown-user-name">
-                                                جلال بهرامی راد
+                                                @User.FindFirstValue(ClaimTypes.Name)
                                             </p>
                                             <span class="header-profile-dropdown-user-profile-link">
                                                 مشاهده حساب
@@ -200,6 +200,11 @@
                             <li>
                                 <a href="#">
                                     پیگیری سفارش
+                                </a>
+                            </li>
+                            <li>
+                                <a class="text-danger" href="/Logout">
+                                    خروج
                                 </a>
                             </li>
                         </ul>

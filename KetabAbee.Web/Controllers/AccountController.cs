@@ -29,6 +29,8 @@ namespace KetabAbee.Web.Controllers
         [HttpGet("Register")]
         public IActionResult Register()
         {
+            if (User.Identity.IsAuthenticated) return Redirect("/");
+
             return View();
         }
 
@@ -76,6 +78,7 @@ namespace KetabAbee.Web.Controllers
         [HttpGet("Login")]
         public IActionResult Login()
         {
+            if (User.Identity.IsAuthenticated) return Redirect("/");
             return View();
         }
 
@@ -93,7 +96,7 @@ namespace KetabAbee.Web.Controllers
             {
                 if (!user.IsMobileActive)
                 {
-                    TempData["ErrorMessage"] = "حساب کاربری شما فعال نشده است";
+                    TempData["WarningMessage"] = "حساب کاربری شما فعال نشده است";
                     return View(login);
                 }
 
@@ -122,6 +125,17 @@ namespace KetabAbee.Web.Controllers
             TempData["ErrorMessage"] = "نام کاربری یا کلمه عبور اشتباه است";
             return View(login);
 
+        }
+
+        #endregion
+
+        #region Logout
+
+        [HttpGet("Logout")]
+        public IActionResult Logout()
+        {
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Redirect("/");
         }
 
         #endregion

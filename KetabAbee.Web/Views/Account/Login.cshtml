@@ -3,6 +3,10 @@
     ViewData["Title"] = "ورود";
 }
 
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
 <div class="page-wrapper auth-page-wrapper">
 
     <!-- Page Content -->
@@ -21,10 +25,11 @@
                     <form asp-action="Login">
                         <div class="form-element-row">
                             <label for="phone-number" class="label-element">شماره موبایل</label>
-                            <div class="form-element-with-icon"> 
+                            <div class="form-element-with-icon">
                                 <input type="text" asp-for="Mobile" class="input-element" id="phone-number">
                                 <i class="fad fa-mobile-alt"></i>
                             </div>
+                            <span asp-validation-for="Mobile" class="text-danger"></span>
                         </div>
                         <div class="form-element-row">
                             <label for="password" class="label-element">
@@ -37,6 +42,7 @@
                                 <input type="text" asp-for="Password" class="input-element" id="password">
                                 <i class="fad fa-key-skeleton"></i>
                             </div>
+                            <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                         <div class="form-element-row">
                             <label class="container-checkbox">

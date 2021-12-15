@@ -24,4 +24,12 @@
             });
         </script>
     }
+    if (TempData["WarningMessage"] != null)
+    {
+        <script>
+            $(document).ready(function () {
+                ShowMessage('توجه', '@TempData["WarningMessage"]', 'warning');
+            });
+        </script>
+    }
 }
