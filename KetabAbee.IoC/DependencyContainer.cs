@@ -20,6 +20,15 @@ namespace KetabAbee.IoC
 
             //Cums From Data Layer
             service.AddScoped<IUserRepository, UserRepository>();
+
+
+            #region Authentication
+
+           
+
+            #endregion
+
+           
         }
     }
 }

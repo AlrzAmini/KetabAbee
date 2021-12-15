@@ -11,10 +11,18 @@ namespace KetabAbee.Domain.Interfaces
     {
         IEnumerable<User> GetUsers();
 
-        int AddUser(User user);
+        #region Account
+
+        bool RegisterUser(User user);
 
         bool IsEmailExist(string email);
 
         bool IsUserNameExist(string userName);
+
+        bool IsMobileExist(string mobile);
+
+        #endregion
+
+
     }
 }

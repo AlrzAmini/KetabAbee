@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs;
+using KetabAbee.Application.Generators;
 using KetabAbee.Application.Interfaces.User;
+using KetabAbee.Application.Security;
 using KetabAbee.Domain.Interfaces;
 
 namespace KetabAbee.Application.Services.User
@@ -18,9 +20,30 @@ namespace KetabAbee.Application.Services.User
             _userRepository = userRepository;
         }
 
-        public int AddUser(Domain.Models.User.User user)
+        public bool RegisterUser(RegisterViewModel user)
         {
-            return _userRepository.AddUser(user);
+            try
+            {
+                var newUser = new Domain.Models.User.User()
+                {
+                    UserName = user.UserName,
+                    Mobile = user.Mobile,
+                    Password = PasswordHasher.EncodePasswordMd5(user.Password),
+                    ActivationCode = CodeGenerator.GenerateUniqCode(),
+                    AvatarName = "User.jpg",
+                    IsActive = false,
+                    IsDelete = false,
+                    RegisterDate = DateTime.Now,
+                };
+
+                _userRepository.RegisterUser(newUser);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public bool IsEmailExist(string email)
@@ -39,6 +62,11 @@ namespace KetabAbee.Application.Services.User
             {
                 Users = _userRepository.GetUsers()
             };
+        }
+
+        public bool IsMobileExist(string mobile)
+        {
+            return _userRepository.IsMobileExist(mobile);
         }
     }
 }

@@ -19,13 +19,12 @@ namespace KetabAbee.Application.DTOs
 
         #endregion
 
-        #region Email
+        #region Phone Number
 
-        [DisplayName("ایمیل")]
+        [DisplayName("موبایل")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
-        [MaxLength(400, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
-        [EmailAddress(ErrorMessage = "ایمیل دارد شده معتبر نیست . دقت کنید !")]
-        public string Email { get; set; }
+        [MaxLength(50, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
+        public string Mobile { get; set; }
 
         #endregion
 
@@ -44,7 +43,7 @@ namespace KetabAbee.Application.DTOs
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
         [MaxLength(200, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
         [Compare("Password", ErrorMessage = "رمز عبور و تکرار آن با هم یکسان نیستند")]
-        public string RePassword { get; set; }
+        public string ConfirmPassword { get; set; }
 
         #endregion
 

@@ -11,13 +11,15 @@ namespace KetabAbee.Application.Interfaces.User
     {
         ListUsersViewModel GetUsers();
 
-        #region Register
+        #region Account
 
-        int AddUser(Domain.Models.User.User user);
+        bool RegisterUser(RegisterViewModel user);
 
         bool IsEmailExist(string email);
 
         bool IsUserNameExist(string userName);
+
+        bool IsMobileExist(string mobile);
 
         #endregion
     }

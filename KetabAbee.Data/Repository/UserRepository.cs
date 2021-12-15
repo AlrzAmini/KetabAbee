@@ -18,12 +18,12 @@ namespace KetabAbee.Data.Repository
             _context = context;
         }
 
-        public int AddUser(User user)
+        public bool RegisterUser(User user)
         {
             _context.Users.Add(user);
             _context.SaveChanges();
 
-            return user.UserId;
+            return true;
         }
 
         public IEnumerable<User> GetUsers()
@@ -39,6 +39,11 @@ namespace KetabAbee.Data.Repository
         public bool IsUserNameExist(string userName)
         {
             return _context.Users.Any(u => u.UserName == userName);
+        }
+
+        public bool IsMobileExist(string mobile)
+        {
+            return _context.Users.Any(u => u.Mobile == mobile.Trim());
         }
     }
 }

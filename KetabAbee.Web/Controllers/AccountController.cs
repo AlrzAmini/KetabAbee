@@ -23,14 +23,13 @@ namespace KetabAbee.Web.Controllers
 
         #region Register
 
-        [Route("Register")]
+        [HttpGet("Register")]
         public IActionResult Register()
         {
             return View();
         }
 
-        [HttpPost]
-        [Route("Register")]
+        [HttpPost("Register") , ValidateAntiForgeryToken]
         public IActionResult Register(RegisterViewModel register)
         {
             if (!ModelState.IsValid)
@@ -45,31 +44,36 @@ namespace KetabAbee.Web.Controllers
                 return View(register);
             }
 
-            // Check Email
-            if (_userService.IsEmailExist(FixText.EmailFixer(register.Email)))
+            // Check Mobile
+            if (_userService.IsMobileExist(register.Mobile.Trim()))
             {
-                ModelState.AddModelError("Email", "ایمیل وارد شده تکراری است");
+                ModelState.AddModelError("Mobile", "شماره موبایل وارد شده تکراری است");
                 return View(register);
             }
 
             //register user
-            var user = new User()
+            if (_userService.RegisterUser(register))
             {
-                UserName = register.UserName,
-                Email = FixText.EmailFixer(register.Email),
-                Password = PasswordHasher.EncodePasswordMd5(register.Password),
-                RegisterDate = DateTime.Now,
-                IsActive = false,
-                IsDelete = false,
-                ActivationCode = CodeGenerator.GenerateUniqCode()
-            };
-            _userService.AddUser(user);
+                TempData["RegisterSuccess"] = "ثبت نام شما با موفقیت انجام شد";
+                TempData["InfoMessage"] = "کد تایید تلفن همراه برای شما ارسال شد.";
+                return RedirectToAction("Login");
+            }
 
-            //TODO:send email
+            return RedirectToAction("Register");
+
+            //TODO:send email or sms
 
             //TODO:return view success
+        }
 
-            return Redirect("/");
+        #endregion
+
+        #region Login
+
+        [Route("Login")]
+        public IActionResult Login()
+        {
+            return View();
         }
 
         #endregion

@@ -25,12 +25,12 @@
                         <span asp-validation-for="UserName" class="text-danger"></span>
                     </div>
                     <div class="form-element-row">
-                        <label for="user-email" class="label-element">ایمیل</label>
+                        <label for="user-email" class="label-element">موبایل</label>
                         <div class="form-element-with-icon">
-                            <input type="email" asp-for="Email" class="input-element" id="user-email">
-                            <i class="fad fa-mail-bulk"></i>
+                            <input type="tel" asp-for="Mobile" class="input-element" id="user-email">
+                            <i class="fad fa-phone"></i>
                         </div>
-                        <span asp-validation-for="Email" class="text-danger"></span>
+                        <span asp-validation-for="Mobile" class="text-danger"></span>
                     </div>
                     <div class="form-element-row">
                         <label for="password" class="label-element">کلمه عبور</label>
@@ -41,12 +41,12 @@
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                     <div class="form-element-row">
-                        <label for="password" class="label-element">تکرار کلمه عبور</label>
+                        <label for="repassword" class="label-element">تکرار کلمه عبور</label>
                         <div class="form-element-with-icon">
-                            <input type="password" asp-for="RePassword" class="input-element" id="password">
+                            <input type="password" asp-for="ConfirmPassword" class="input-element" id="repassword">
                             <i class="fad fa-key-skeleton"></i>
                         </div>
-                        <span asp-validation-for="RePassword" class="text-danger"></span>
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                     </div>
                     <div class="form-element-row">
                         
