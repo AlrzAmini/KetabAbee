@@ -10,6 +10,7 @@ using KetabAbee.Application.DTOs;
 using KetabAbee.Application.Generators;
 using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Security;
+using KetabAbee.Application.Senders;
 using KetabAbee.Domain.Models.User;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -20,11 +21,13 @@ namespace KetabAbee.Web.Controllers
     {
         private readonly IUserService _userService;
         private readonly ICaptchaValidator _captchaValidator;
+        private readonly IViewRenderService _renderService;
 
-        public AccountController(IUserService userService, ICaptchaValidator captchaValidator)
+        public AccountController(IUserService userService, ICaptchaValidator captchaValidator, IViewRenderService renderService)
         {
             _userService = userService;
             _captchaValidator = captchaValidator;
+            _renderService = renderService;
         }
 
         #region Register
@@ -66,19 +69,17 @@ namespace KetabAbee.Web.Controllers
             }
 
             //register user
-            if (_userService.RegisterUser(register))
-            {
-                TempData["SuccessMessage"] = "ثبت نام شما با موفقیت انجام شد";
-                TempData["InfoMessage"] = "ایمیل فعالسازی برای شما ارسال شد";
-                TempData["WarningMessage"] = "ممکن است عملیات ارسال ایمیل فعال سازی دقایقی طول بکشد";
-                return RedirectToAction("Login");
-            }
+            var user = _userService.RegisterUser(register);
+            if (user == null) return RedirectToAction("Register");
+            TempData["SuccessMessage"] = "ثبت نام شما با موفقیت انجام شد";
+            TempData["InfoMessage"] = "ایمیل فعالسازی برای شما ارسال شد";
+            TempData["WarningMessage"] = "ممکن است عملیات ارسال ایمیل فعال سازی دقایقی طول بکشد";
 
-            return RedirectToAction("Register");
+            //send active email
+            string body = _renderService.RenderToStringAsync("_ActivationEmail", user);
+            SendEmail.Send(user.Email,"فعالسازی حساب کاربری در کتاب آبی",body);
 
-            //TODO:send email or sms
-
-            //TODO:return view success
+            return RedirectToAction("Login");
         }
 
         #endregion
@@ -155,6 +156,18 @@ namespace KetabAbee.Web.Controllers
         }
 
         #endregion
+
+        #region Active Email
+
+        [HttpGet("ActiveByEmail/{id}")]
+        public IActionResult ActiveByEmail(string id)
+        {
+            ViewBag.IsActive = _userService.ActiveAccountByEmail(id);
+            return View();
+        }
+
+        #endregion
+
 
     }
 }

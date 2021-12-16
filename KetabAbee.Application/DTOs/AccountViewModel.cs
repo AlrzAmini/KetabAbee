@@ -20,7 +20,7 @@ namespace KetabAbee.Application.DTOs
 
         #endregion
 
-        #region Phone Number
+        #region Email
 
         [DisplayName("ایمیل")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
@@ -74,5 +74,12 @@ namespace KetabAbee.Application.DTOs
 
         public bool RememberMe { get; set; }
 
+    }
+
+    public class SendEmailViewModel
+    {
+        public string UserName { get; set; }
+
+        public string ActiveEmailCode { get; set; }
     }
 }

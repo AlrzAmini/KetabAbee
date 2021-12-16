@@ -46,9 +46,32 @@ namespace KetabAbee.Data.Repository
             return _context.Users.Any(u => u.Mobile == mobile.Trim());
         }
 
-        public User IsUserRegistered(string email,string password)
+        public User IsUserRegistered(string email, string password)
         {
-            return _context.Users.SingleOrDefault(u=>u.Email == email && u.Password == password);
+            return _context.Users.SingleOrDefault(u => u.Email == email && u.Password == password);
+        }
+
+        public bool ActiveAccountByEmail(string emailActiveCode)
+        {
+            var user = _context.Users.SingleOrDefault(s => s.EmailActivationCode == emailActiveCode);
+
+            // user not found
+            if (user == null)
+            {
+                return false;
+            }
+
+            // user is already active
+            if (user.IsEmailActive)
+            {
+                return false;
+            }
+
+            user.IsEmailActive = true;
+            user.EmailActivationCode = Guid.NewGuid().ToString("N");
+            _context.SaveChanges();
+
+            return true;
         }
     }
 }

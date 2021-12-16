@@ -20,32 +20,25 @@ namespace KetabAbee.Application.Services.User
             _userRepository = userRepository;
         }
 
-        public bool RegisterUser(RegisterViewModel user)
+        public Domain.Models.User.User RegisterUser(RegisterViewModel user)
         {
-            try
+            var newUser = new Domain.Models.User.User()
             {
-                var newUser = new Domain.Models.User.User()
-                {
-                    UserName = user.UserName,
-                    Email = user.Email,
-                    Password = PasswordHasher.EncodePasswordMd5(user.Password),
-                    EmailActivationCode = CodeGenerator.GenerateUniqCode(),
-                    MobileActivationCode = new Random().Next(100000,999998).ToString(),
-                    AvatarName = "User.jpg",
-                    IsMobileActive = false,
-                    IsEmailActive = false,
-                    IsDelete = false,
-                    RegisterDate = DateTime.Now,
-                };
+                UserName = user.UserName,
+                Email = user.Email,
+                Password = PasswordHasher.EncodePasswordMd5(user.Password),
+                EmailActivationCode = CodeGenerator.GenerateUniqCode(),
+                MobileActivationCode = new Random().Next(100000, 999998).ToString(),
+                AvatarName = "User.jpg",
+                IsMobileActive = false,
+                IsEmailActive = false,
+                IsDelete = false,
+                RegisterDate = DateTime.Now,
+            };
 
-                _userRepository.RegisterUser(newUser);
+            _userRepository.RegisterUser(newUser);
 
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            return newUser;
         }
 
         public bool IsEmailExist(string email)
@@ -73,7 +66,12 @@ namespace KetabAbee.Application.Services.User
 
         public Domain.Models.User.User GetUserForLogin(LoginViewModel login)
         {
-           return _userRepository.IsUserRegistered(login.Email,PasswordHasher.EncodePasswordMd5(login.Password));
+            return _userRepository.IsUserRegistered(login.Email, PasswordHasher.EncodePasswordMd5(login.Password));
+        }
+
+        public bool ActiveAccountByEmail(string emailActiveCode)
+        {
+            return _userRepository.ActiveAccountByEmail(emailActiveCode);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace KetabAbee.Application.Interfaces.User
 
         #region Account
 
-        bool RegisterUser(RegisterViewModel user);
+        Domain.Models.User.User RegisterUser(RegisterViewModel user);
 
         bool IsEmailExist(string email);
 
@@ -22,6 +22,8 @@ namespace KetabAbee.Application.Interfaces.User
         bool IsMobileExist(string mobile);
 
         Domain.Models.User.User GetUserForLogin(LoginViewModel login);
+
+        bool ActiveAccountByEmail(string emailActiveCode);
 
         #endregion
     }

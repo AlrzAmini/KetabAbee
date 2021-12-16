@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using System.Threading.Tasks;
+using KetabAbee.Application.Convertors;
 using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Services.User;
 using KetabAbee.Data.Repository;
@@ -33,9 +34,11 @@ namespace KetabAbee.IoC
 
             #endregion
 
-            
+            #region email
 
+            service.AddScoped<IViewRenderService, RenderViewToString>();
 
+            #endregion
 
 
 

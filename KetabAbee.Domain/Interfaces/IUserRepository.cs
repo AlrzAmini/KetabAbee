@@ -23,6 +23,10 @@ namespace KetabAbee.Domain.Interfaces
 
         User IsUserRegistered(string email, string password);
 
+        bool ActiveAccountByEmail(string emailActiveCode);
+
+        
+
         #endregion
 
 
