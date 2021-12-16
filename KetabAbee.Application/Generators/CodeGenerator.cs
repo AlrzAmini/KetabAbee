@@ -10,7 +10,7 @@ namespace KetabAbee.Application.Generators
     {
         public static string GenerateUniqCode()
         {
-            return Guid.NewGuid().ToString().Replace("-", "");
+            return Guid.NewGuid().ToString("N");
         } 
     }
 }

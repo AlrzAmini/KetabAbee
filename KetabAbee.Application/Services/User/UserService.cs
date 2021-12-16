@@ -73,5 +73,20 @@ namespace KetabAbee.Application.Services.User
         {
             return _userRepository.ActiveAccountByEmail(emailActiveCode);
         }
+
+        public Domain.Models.User.User GetUserByEmail(string email)
+        {
+            return _userRepository.GetUserByEmail(email);
+        }
+
+        public Domain.Models.User.User GetUserByEmailActivationCode(string emailActiveCode)
+        {
+            return _userRepository.GetUserByEmailActivationCode(emailActiveCode);
+        }
+
+        public async Task<bool> UpdateUser(Domain.Models.User.User user)
+        {
+            return await _userRepository.UpdateUser(user);
+        }
     }
 }

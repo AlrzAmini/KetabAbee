@@ -73,5 +73,23 @@ namespace KetabAbee.Data.Repository
 
             return true;
         }
+
+        public User GetUserByEmail(string email)
+        {
+            return _context.Users.SingleOrDefault(u => u.Email == email);
+        }
+
+        public User GetUserByEmailActivationCode(string activeCode)
+        {
+            return _context.Users.SingleOrDefault(u => u.EmailActivationCode == activeCode);
+        }
+
+        public async Task<bool> UpdateUser(User user)
+        {
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
     }
 }

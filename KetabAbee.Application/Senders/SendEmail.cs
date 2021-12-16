@@ -12,7 +12,7 @@ namespace KetabAbee.Application.Senders
         {
             MailMessage mail = new MailMessage();
             SmtpClient SmtpServer = new SmtpClient("smtp.mail.yahoo.com");
-            mail.From = new MailAddress("dahakdolatabad@yahoo.com", "دهک و دولت آباد");
+            mail.From = new MailAddress("dahakdolatabad@yahoo.com", "فروشگاه آنلاین کتاب آبی");
             mail.To.Add(to);
             mail.Subject = subject;
             mail.Body = body;

@@ -25,7 +25,13 @@ namespace KetabAbee.Domain.Interfaces
 
         bool ActiveAccountByEmail(string emailActiveCode);
 
-        
+        User GetUserByEmail(string email);
+
+        User GetUserByEmailActivationCode(string activeCode);
+
+        Task<bool> UpdateUser(User user);
+
+
 
         #endregion
 

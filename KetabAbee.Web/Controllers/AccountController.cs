@@ -157,13 +157,97 @@ namespace KetabAbee.Web.Controllers
 
         #endregion
 
-        #region Active Email
+        #region Active Account Email
 
         [HttpGet("ActiveByEmail/{id}")]
         public IActionResult ActiveByEmail(string id)
         {
             ViewBag.IsActive = _userService.ActiveAccountByEmail(id);
             return View();
+        }
+
+        #endregion
+
+        #region Forgot Password
+
+        [HttpGet("ForgotPassword")]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel forgot)
+        {
+            if (!await _captchaValidator.IsCaptchaPassedAsync(forgot.Captcha))
+            {
+                TempData["ErrorMessage"] = "احراز هویت کپچا انجام نشد . دوباره تلاش کنید";
+                return View(forgot);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(forgot);
+            }
+
+            var user = _userService.GetUserByEmail(FixText.EmailFixer(forgot.Email));
+
+            // check user exist
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "کاربری با این ایمیل ثبت نشده است";
+                return View(forgot);
+            }
+
+            string body = _renderService.RenderToStringAsync("_ForgotPasswordEmail", user);
+            SendEmail.Send(user.Email, "بازیابی رمز عبور", body);
+            TempData["SuccessMessage"] = "ایمیل بازیابی رمز عبور برای شما ارسال گردید";
+
+            return View();
+        }
+
+        #endregion
+
+        #region Reset Password
+
+        [HttpGet("ResetPasswordByEmail/{id}")]
+        public IActionResult ResetPasswordByEmail(string id) // id = email Activation code
+        {
+            return View(new ResetPasswordViewModel()
+            {
+                EmailActiveCode = id
+            });
+        }
+
+        [HttpPost("ResetPasswordByEmail/{id}")]
+        public async Task<IActionResult> ResetPasswordByEmail(ResetPasswordViewModel reset)
+        {
+            if (!await _captchaValidator.IsCaptchaPassedAsync(reset.Captcha))
+            {
+                TempData["ErrorMessage"] = "احراز هویت کپچا انجام نشد . دوباره تلاش کنید";
+                return View(reset);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(reset);
+            }
+
+            var user = _userService.GetUserByEmailActivationCode(reset.EmailActiveCode);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.Password = PasswordHasher.EncodePasswordMd5(reset.Password);
+
+           await _userService.UpdateUser(user);
+
+           TempData["SuccessMessage"] = "رمز عبور شما با موفقیت تغییر کرد";
+
+            return RedirectToAction("Login");
+
         }
 
         #endregion
