@@ -152,16 +152,16 @@
                 <div class="user-item account">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <a href="/UserPanel">
+                        <a asp-controller="UserPanel" asp-action="Dashboard">
                             @User.FindFirstValue(ClaimTypes.Name)
                             <i class="fad fa-chevron-down text-sm mr-1"></i>
                         </a>
                         <ul class="dropdown--wrapper">
                             <li class="header-profile-dropdown-account-container">
-                                <a href="#" class="d-block">
+                                <a asp-controller="UserPanel" asp-action="Dashboard" class="d-block">
                                     <span class="header-profile-dropdown-user">
                                         <span class="header-profile-dropdown-user-img">
-                                            <img src="images/avatar/avatar.png">
+                                            <img src="/images/avatar/avatar.png">
                                         </span>
                                         <span class="header-profile-dropdown-user-info">
                                             <p class="header-profile-dropdown-user-name">
@@ -185,15 +185,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="dropdown--btn-primary">وارد شوید</a>
-                            </li>
-                            <li>
-                                <span>کاربر جدید هستید؟</span>
-                                <a href="#" class="border-bottom-dt">ثبت نام</a>
-                            </li>
-                            <hr>
-                            <li>
-                                <a href="#">
+                                <a asp-controller="UserPanel" asp-action="Dashboard">
                                     پروفایل
                                 </a>
                             </li>
@@ -203,7 +195,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="text-danger" href="/Logout">
+                                <a class="text-danger" asp-controller="Account" asp-action="Logout">
                                     خروج
                                 </a>
                             </li>

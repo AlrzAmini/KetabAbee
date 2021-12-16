@@ -25,4 +25,8 @@
     <ProjectReference Include="..\KetabAbee.IoC\KetabAbee.IoC.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\UserPanel\Views\Shared\" />
+  </ItemGroup>
+
 </Project>

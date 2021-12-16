@@ -1,0 +1,385 @@
+﻿@using System.Security.Claims
+
+@{
+    ViewData["Title"] = "داشبورد";
+}
+
+<main class="page-content" style="margin-top: 207px; transform: none;">
+    <div class="container" style="transform: none;">
+        <div class="row mb-5" style="transform: none;">
+            <div class="col-lg-3 col-md-4 mb-md-0 mb-3 sticky-sidebar" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
+
+                <div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none; top: 0px; left: 1062.5px;">
+                    <div class="sidebar-widget">
+                        <div class="profile-sidebar shadow-around mt-4">
+                            <div class="d-flex align-items-center">
+                                <div class="profile-avatar">
+                                    <img src="/images/avatar/avatar.png" alt="avatar">
+                                </div>
+                                <div class="profile-info">
+                                    <div class="d-block">
+                                        <h6><strong>@User.Identity.Name</strong></h6>
+                                    </div>
+                                    <div class="d-block">
+                                        <strong class="text-muted">@User.FindFirstValue(ClaimTypes.Email)</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="user-options">
+                                <ul>
+                                    <li>
+                                        <a href="#">
+                                            <span>کیف پول</span>
+                                            <span>2,500,000 <span class="text-info font-weight-bold">تومان</span></span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span>همتا کلاب</span>
+                                            <span>0 <span class="text-info font-weight-bold">امتیاز</span></span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="user-menu">
+                                <ul>
+                                    <li>
+                                        <a href="#">
+                                            <i class="far fa-clipboard-list-check"></i>
+                                            سفارش های من
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="far fa-heart"></i>
+                                            لیست علاقمندی
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="far fa-comment-alt-lines"></i>
+                                            نظرات
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="far fa-map-marked"></i>
+                                            نشانی ها
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="far fa-envelope"></i>
+                                            پیغام ها
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="far fa-clock"></i>
+                                            بازدیدهای اخیر
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="far fa-user-cog"></i>
+                                            اطلاعات حساب
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a asp-controller="Account" asp-action="Logout" class="text-danger">
+                                            <i class="far fa-sign-in-alt text-danger"></i>
+                                            خروج
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div><div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 352px; height: 1045px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-8">
+                <div class="row mb-4">
+                    <div class="col-lg-6 mb-lg-0 mb-3">
+                        <div class="section-title mb-2">
+                            اطلاعات شخصی
+                        </div>
+                        <section class="shadow-around p-3">
+                            <div class="row">
+                                <div class="col-lg-6 mb-4">
+                                    <div class="text-sm text-muted">نام و نام خانوادگی:</div>
+                                    <div class="text-dark font-weight-bold">جلال بهرامی راد</div>
+                                </div>
+                                <div class="col-lg-6 mb-4">
+                                    <div class="text-sm text-muted">پست الکترونیک:</div>
+                                    <div class="text-dark font-weight-bold">example@example.com</div>
+                                </div>
+                                <div class="col-lg-6 mb-4">
+                                    <div class="text-sm text-muted">شماره تلفن همراه:</div>
+                                    <div class="text-dark font-weight-bold">09xxxxxxxxx</div>
+                                </div>
+                                <div class="col-lg-6 mb-4">
+                                    <div class="text-sm text-muted">کد ملی:</div>
+                                    <div class="text-dark font-weight-bold">-</div>
+                                </div>
+                                <div class="col-lg-6 mb-4">
+                                    <div class="text-sm text-muted">دریافت خبرنامه:</div>
+                                    <div class="text-dark font-weight-bold">خیر</div>
+                                </div>
+                                <div class="col-lg-6 mb-4">
+                                    <div class="text-sm text-muted">روش بازگشت وجه:</div>
+                                    <div class="text-dark font-weight-bold">-</div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="text-center">
+                                        <a href="#" class="link--with-border-bottom">
+                                            <i class="far fa-edit"></i>
+                                            ویرایش اطلاعات شخصی
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="col-lg-6 mb-lg-0 mb-3">
+                        <div class="section-title mb-2">
+                            لیست آخرین علاقه‌مندی‌ها
+                        </div>
+                        <section class="shadow-around p-3">
+                            <div class="row">
+                                <div class="col-12 mb-4">
+                                    <div class="product-list-section">
+                                        <div class="product-thumbnail">
+                                            <a href="#">
+                                                <img src="/images/product-list/01.jpg" alt="product title">
+                                            </a>
+                                        </div>
+                                        <div class="product-info">
+                                            <div class="product-title">
+                                                <a href="#">
+                                                    گوشی موبایل شیائومی مدل Redmi Note 8T M1908C3XG دو
+                                                    سیم‌ کارت ظرفیت 64 گیگابایت
+                                                </a>
+                                            </div>
+                                            <div class="text-danger">
+                                                ۶,۷۹۰,۰۰۰
+                                                <span class="text-sm">تومان</span>
+                                            </div>
+                                            <button class="remove-item">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-4">
+                                    <div class="product-list-section">
+                                        <div class="product-thumbnail">
+                                            <a href="#">
+                                                <img src="/images/product-list/02.jpg" alt="product title">
+                                            </a>
+                                        </div>
+                                        <div class="product-info">
+                                            <div class="product-title">
+                                                <a href="#">لپ تاپ 15 اینچی لنوو مدل Ideapad L340-FH</a>
+                                            </div>
+                                            <div class="text-danger">
+                                                ناموجود
+                                            </div>
+                                            <button class="remove-item">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-4">
+                                    <div class="product-list-section">
+                                        <div class="product-thumbnail">
+                                            <a href="#">
+                                                <img src="/images/product-list/03.jpg" alt="product title">
+                                            </a>
+                                        </div>
+                                        <div class="product-info">
+                                            <div class="product-title">
+                                                <a href="#">
+                                                    گوشی موبایل سامسونگ مدل Galaxy A50 SM-A505F/DS دو
+                                                    سیم کارت ظرفیت 128گیگابایت
+                                                </a>
+                                            </div>
+                                            <div class="text-danger">
+                                                ناموجود
+                                            </div>
+                                            <button class="remove-item">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="text-center">
+                                        <a href="#" class="link--with-border-bottom">
+                                            <i class="far fa-edit"></i>
+                                            مشاهده و ویرایش لیست مورد علاقه
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="section-title mb-2">
+                            آخرین سفارش‌ها
+                        </div>
+                        <section class="table--order shadow-around">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>شماره سفارش</th>
+                                            <th>تاریخ ثبت سفارش</th>
+                                            <th>مبلغ قابل پرداخت</th>
+                                            <th>مبلغ کل</th>
+                                            <th>عملیات پرداخت</th>
+                                            <th>عملیات پرداخت</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>۱</td>
+                                            <td class="order-code">DKC-149404537</td>
+                                            <td>۱۴ آذر ۱۳۹۹</td>
+                                            <td>۰</td>
+                                            <td>۱۱,۶۰۰,۰۰۰ تومان</td>
+                                            <td>لغو شده</td>
+                                            <td class="order-detail-link">
+                                                <a href="#">
+                                                    <i class="far fa-chevron-left"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>۱</td>
+                                            <td class="order-code">DKC-149404537</td>
+                                            <td>۱۴ آذر ۱۳۹۹</td>
+                                            <td>۰</td>
+                                            <td>۱۱,۶۰۰,۰۰۰ تومان</td>
+                                            <td>لغو شده</td>
+                                            <td class="order-detail-link">
+                                                <a href="#">
+                                                    <i class="far fa-chevron-left"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>۱</td>
+                                            <td class="order-code">DKC-149404537</td>
+                                            <td>۱۴ آذر ۱۳۹۹</td>
+                                            <td>۰</td>
+                                            <td>۱۱,۶۰۰,۰۰۰ تومان</td>
+                                            <td>لغو شده</td>
+                                            <td class="order-detail-link">
+                                                <a href="#">
+                                                    <i class="far fa-chevron-left"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>۱</td>
+                                            <td class="order-code">DKC-149404537</td>
+                                            <td>۱۴ آذر ۱۳۹۹</td>
+                                            <td>۰</td>
+                                            <td>۱۱,۶۰۰,۰۰۰ تومان</td>
+                                            <td>لغو شده</td>
+                                            <td class="order-detail-link">
+                                                <a href="#">
+                                                    <i class="far fa-chevron-left"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>۱</td>
+                                            <td class="order-code">DKC-149404537</td>
+                                            <td>۱۴ آذر ۱۳۹۹</td>
+                                            <td>۰</td>
+                                            <td>۱۱,۶۰۰,۰۰۰ تومان</td>
+                                            <td>لغو شده</td>
+                                            <td class="order-detail-link">
+                                                <a href="#">
+                                                    <i class="far fa-chevron-left"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>۱</td>
+                                            <td class="order-code">DKC-149404537</td>
+                                            <td>۱۴ آذر ۱۳۹۹</td>
+                                            <td>۰</td>
+                                            <td>۱۱,۶۰۰,۰۰۰ تومان</td>
+                                            <td>لغو شده</td>
+                                            <td class="order-detail-link">
+                                                <a href="#">
+                                                    <i class="far fa-chevron-left"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>۱</td>
+                                            <td class="order-code">DKC-149404537</td>
+                                            <td>۱۴ آذر ۱۳۹۹</td>
+                                            <td>۰</td>
+                                            <td>۱۱,۶۰۰,۰۰۰ تومان</td>
+                                            <td>لغو شده</td>
+                                            <td class="order-detail-link">
+                                                <a href="#">
+                                                    <i class="far fa-chevron-left"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-center py-3">
+                                <a href="#" class="d-flex align-items-center justify-content-center text-dark">
+                                    مشاهده لیست سفارش ها
+                                    <i class="fal fa-arrow-to-left mr-1"></i>
+                                </a>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-lg-3 col-md-6 col-sm-6 mb-lg-0 mb-3">
+                <div class="banner">
+                    <a href="#">
+                        <img src="/images/banner/banner-sm-01.jpg" alt="banner">
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 mb-lg-0 mb-3">
+                <div class="banner">
+                    <a href="#">
+                        <img src="/images/banner/banner-sm-02.jpg" alt="banner">
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 mb-lg-0 mb-3">
+                <div class="banner">
+                    <a href="#">
+                        <img src="/images/banner/banner-sm-03.jpg" alt="banner">
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 mb-lg-0 mb-3">
+                <div class="banner">
+                    <a href="#">
+                        <img src="/images/banner/banner-sm-04.jpg" alt="banner">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
