@@ -6,6 +6,7 @@
 @section Scripts
 {
     <partial name="_ValidationScriptsPartial"/>
+    <partial name="_CaptchaScripts"/>
 }
 
 <main class="page-content">
@@ -21,6 +22,7 @@
                     ثبت نام در کتاب <span class="text-primary">آبی</span>
                 </div>
                 <form asp-action="Register" method="post">
+                    <partial name="_CaptchaInput"/>
                     <div class="form-element-row">
                         <label for="user-name" class="label-element">نام کاربری</label>
                         <div class="form-element-with-icon">
@@ -30,12 +32,12 @@
                         <span asp-validation-for="UserName" class="text-danger"></span>
                     </div>
                     <div class="form-element-row">
-                        <label for="user-email" class="label-element">موبایل</label>
+                        <label for="user-email" class="label-element">ایمیل</label>
                         <div class="form-element-with-icon">
-                            <input type="tel" asp-for="Mobile" class="input-element" id="user-email">
-                            <i class="fad fa-phone"></i>
+                            <input type="email" asp-for="Email" class="input-element" id="user-email">
+                            <i class="fad fa-send-back"></i>
                         </div>
-                        <span asp-validation-for="Mobile" class="text-danger"></span>
+                        <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div class="form-element-row">
                         <label for="password" class="label-element">کلمه عبور</label>
@@ -54,7 +56,7 @@
                         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                     </div>
                     <div class="form-element-row">
-                        
+
                     </div>
                     <div class="form-element-row text-left">
                         <button type="submit" class="btn-element btn-success-element">

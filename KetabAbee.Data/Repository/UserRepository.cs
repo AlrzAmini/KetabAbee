@@ -46,9 +46,9 @@ namespace KetabAbee.Data.Repository
             return _context.Users.Any(u => u.Mobile == mobile.Trim());
         }
 
-        public User IsUserRegistered(string mobile,string password)
+        public User IsUserRegistered(string email,string password)
         {
-            return _context.Users.SingleOrDefault(u=>u.Mobile == mobile && u.Password == password);
+            return _context.Users.SingleOrDefault(u=>u.Email == email && u.Password == password);
         }
     }
 }

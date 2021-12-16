@@ -27,7 +27,7 @@ namespace KetabAbee.Application.Services.User
                 var newUser = new Domain.Models.User.User()
                 {
                     UserName = user.UserName,
-                    Mobile = user.Mobile,
+                    Email = user.Email,
                     Password = PasswordHasher.EncodePasswordMd5(user.Password),
                     EmailActivationCode = CodeGenerator.GenerateUniqCode(),
                     MobileActivationCode = new Random().Next(100000,999998).ToString(),
@@ -73,7 +73,7 @@ namespace KetabAbee.Application.Services.User
 
         public Domain.Models.User.User GetUserForLogin(LoginViewModel login)
         {
-           return _userRepository.IsUserRegistered(login.Mobile,PasswordHasher.EncodePasswordMd5(login.Password));
+           return _userRepository.IsUserRegistered(login.Email,PasswordHasher.EncodePasswordMd5(login.Password));
         }
     }
 }

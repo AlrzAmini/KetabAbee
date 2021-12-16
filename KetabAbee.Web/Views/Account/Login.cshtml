@@ -1,4 +1,5 @@
-﻿@model KetabAbee.Application.DTOs.LoginViewModel
+﻿@using KetabAbee.Application.DTOs.Site
+@model KetabAbee.Application.DTOs.LoginViewModel
 @{
     ViewData["Title"] = "ورود";
 }
@@ -6,6 +7,7 @@
 @section Scripts
 {
     <partial name="_ValidationScriptsPartial" />
+    <partial name="_CaptchaScripts" />
 }
 <div class="page-wrapper auth-page-wrapper">
 
@@ -20,16 +22,17 @@
                         </a>
                     </div>
                     <div class="auth-form-title">
-                        ورود به کتاب آبی
+                        ورود به کتاب <span class="text-primary">آبی</span>
                     </div>
-                    <form asp-action="Login">
+                    <form asp-action="Login" method="post">
+                        <partial name="_CaptchaInput"/>
                         <div class="form-element-row">
-                            <label for="phone-number" class="label-element">شماره موبایل</label>
+                            <label for="phone-number" class="label-element">ایمیل</label>
                             <div class="form-element-with-icon">
-                                <input type="text" asp-for="Mobile" class="input-element" id="phone-number">
+                                <input type="text" asp-for="Email" class="input-element" id="phone-number">
                                 <i class="fad fa-mobile-alt"></i>
                             </div>
-                            <span asp-validation-for="Mobile" class="text-danger"></span>
+                            <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                         <div class="form-element-row">
                             <label for="password" class="label-element">

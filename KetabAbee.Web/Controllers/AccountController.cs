@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using GoogleReCaptcha.V3.Interface;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs;
 using KetabAbee.Application.Generators;
@@ -18,10 +19,12 @@ namespace KetabAbee.Web.Controllers
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
+        private readonly ICaptchaValidator _captchaValidator;
 
-        public AccountController(IUserService userService)
+        public AccountController(IUserService userService, ICaptchaValidator captchaValidator)
         {
             _userService = userService;
+            _captchaValidator = captchaValidator;
         }
 
         #region Register
@@ -34,9 +37,15 @@ namespace KetabAbee.Web.Controllers
             return View();
         }
 
-        [HttpPost("Register") , ValidateAntiForgeryToken]
-        public IActionResult Register(RegisterViewModel register)
+        [HttpPost("Register"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterViewModel register)
         {
+            if (!await _captchaValidator.IsCaptchaPassedAsync(register.Captcha))
+            {
+                TempData["ErrorMessage"] = "لطفا احراز هویت کپچا را انجام دهید";
+                return View(register);
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(register);
@@ -50,7 +59,7 @@ namespace KetabAbee.Web.Controllers
             }
 
             // Check Mobile
-            if (_userService.IsMobileExist(register.Mobile.Trim()))
+            if (_userService.IsEmailExist(FixText.EmailFixer(register.Email)))
             {
                 TempData["ErrorMessage"] = "شماره موبایل وارد شده تکراری است";
                 return View(register);
@@ -60,7 +69,8 @@ namespace KetabAbee.Web.Controllers
             if (_userService.RegisterUser(register))
             {
                 TempData["SuccessMessage"] = "ثبت نام شما با موفقیت انجام شد";
-                TempData["InfoMessage"] = "کد تایید تلفن همراه برای شما ارسال شد";
+                TempData["InfoMessage"] = "ایمیل فعالسازی برای شما ارسال شد";
+                TempData["WarningMessage"] = "ممکن است عملیات ارسال ایمیل فعال سازی دقایقی طول بکشد";
                 return RedirectToAction("Login");
             }
 
@@ -82,9 +92,15 @@ namespace KetabAbee.Web.Controllers
             return View();
         }
 
-        [HttpPost("Login"),ValidateAntiForgeryToken]
-        public IActionResult Login(LoginViewModel login)
+        [HttpPost("Login"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel login)
         {
+            if (!await _captchaValidator.IsCaptchaPassedAsync(login.Captcha))
+            {
+                TempData["ErrorMessage"] = "احراز هویت کپچا انجام نشد . دوباره تلاش کنید";
+                return View(login);
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(login);
@@ -94,7 +110,7 @@ namespace KetabAbee.Web.Controllers
 
             if (user != null)
             {
-                if (!user.IsMobileActive)
+                if (!user.IsEmailActive)
                 {
                     TempData["WarningMessage"] = "حساب کاربری شما فعال نشده است";
                     return View(login);
@@ -104,7 +120,7 @@ namespace KetabAbee.Web.Controllers
                 {
                     new Claim(ClaimTypes.NameIdentifier,user.UserId.ToString()),
                     new Claim(ClaimTypes.Name,user.UserName),
-                    new Claim(ClaimTypes.MobilePhone,user.Mobile),
+                    new Claim(ClaimTypes.Email,user.Email)
                 };
 
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -116,7 +132,7 @@ namespace KetabAbee.Web.Controllers
                 };
 
                 // command for login user
-                HttpContext.SignInAsync(principal, properties);
+                await HttpContext.SignInAsync(principal, properties);
 
                 TempData["SuccessMessage"] = "خوش آمدید";
                 return Redirect("/");

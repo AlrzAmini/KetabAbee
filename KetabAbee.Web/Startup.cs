@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GoogleReCaptcha.V3;
+using GoogleReCaptcha.V3.Interface;
 using KetabAbee.Data.Context;
 using KetabAbee.IoC;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -79,6 +81,12 @@ namespace KetabAbee.Web
             #region IoC
 
             RegisterServices(services);
+
+            #endregion
+
+            #region ReCaptcha
+
+            services.AddHttpClient<ICaptchaValidator,GoogleReCaptchaValidator>();
 
             #endregion
 

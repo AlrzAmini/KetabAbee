@@ -9,6 +9,7 @@ using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Services.User;
 using KetabAbee.Data.Repository;
 using KetabAbee.Domain.Interfaces;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KetabAbee.IoC
@@ -32,12 +33,10 @@ namespace KetabAbee.IoC
 
             #endregion
 
-
-            #region Authentication
-
+            
 
 
-            #endregion
+
 
 
         }

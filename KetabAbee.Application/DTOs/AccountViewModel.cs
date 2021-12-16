@@ -5,10 +5,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Application.DTOs.Site;
 
 namespace KetabAbee.Application.DTOs
 {
-    public class RegisterViewModel
+    public class RegisterViewModel : CaptchaViewModel
     {
         #region UserName
 
@@ -21,10 +22,11 @@ namespace KetabAbee.Application.DTOs
 
         #region Phone Number
 
-        [DisplayName("موبایل")]
+        [DisplayName("ایمیل")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
-        [MaxLength(50, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
-        public string Mobile { get; set; }
+        [MaxLength(200, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
+        [EmailAddress(ErrorMessage = "فرمت ایمیل وارد شده نادرست است")]
+        public string Email { get; set; }
 
         #endregion
 
@@ -49,14 +51,15 @@ namespace KetabAbee.Application.DTOs
 
     }
 
-    public class LoginViewModel
+    public class LoginViewModel : CaptchaViewModel
     {
-        #region Mobile
+        #region Email
 
-        [DisplayName("موبایل")]
+        [DisplayName("ایمیل")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
-        [MaxLength(50, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
-        public string Mobile { get; set; }
+        [MaxLength(200, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
+        [EmailAddress(ErrorMessage = "فرمت ایمیل وارد شده نادرست است")]
+        public string Email { get; set; }
 
         #endregion
 
