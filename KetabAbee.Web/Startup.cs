@@ -80,13 +80,8 @@ namespace KetabAbee.Web
 
             RegisterServices(services);
 
-            #region Authentication
-
-            
-
             #endregion
 
-            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
