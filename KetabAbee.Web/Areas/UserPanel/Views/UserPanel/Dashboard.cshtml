@@ -1,5 +1,6 @@
 ﻿@using System.Security.Claims
-
+@using KetabAbee.Application.Convertors
+@model KetabAbee.Application.DTOs.UserInformationInDashboardViewmodel
 @{
     ViewData["Title"] = "داشبورد";
 }
@@ -11,89 +12,7 @@
 
                 <div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none; top: 0px; left: 1062.5px;">
                     <div class="sidebar-widget">
-                        <div class="profile-sidebar shadow-around mt-4">
-                            <div class="d-flex align-items-center">
-                                <div class="profile-avatar">
-                                    <img src="/images/avatar/avatar.png" alt="avatar">
-                                </div>
-                                <div class="profile-info">
-                                    <div class="d-block">
-                                        <h6><strong>@User.Identity.Name</strong></h6>
-                                    </div>
-                                    <div class="d-block">
-                                        <strong class="text-muted">@User.FindFirstValue(ClaimTypes.Email)</strong>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="user-options">
-                                <ul>
-                                    <li>
-                                        <a href="#">
-                                            <span>کیف پول</span>
-                                            <span>2,500,000 <span class="text-info font-weight-bold">تومان</span></span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <span>همتا کلاب</span>
-                                            <span>0 <span class="text-info font-weight-bold">امتیاز</span></span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="user-menu">
-                                <ul>
-                                    <li>
-                                        <a href="#">
-                                            <i class="far fa-clipboard-list-check"></i>
-                                            سفارش های من
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="far fa-heart"></i>
-                                            لیست علاقمندی
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="far fa-comment-alt-lines"></i>
-                                            نظرات
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="far fa-map-marked"></i>
-                                            نشانی ها
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="far fa-envelope"></i>
-                                            پیغام ها
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="far fa-clock"></i>
-                                            بازدیدهای اخیر
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="far fa-user-cog"></i>
-                                            اطلاعات حساب
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a asp-controller="Account" asp-action="Logout" class="text-danger">
-                                            <i class="far fa-sign-in-alt text-danger"></i>
-                                            خروج
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                        @await Component.InvokeAsync("UserPanelSideBarComponent")
                     </div><div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 352px; height: 1045px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div>
                 </div>
             </div>
@@ -106,32 +25,48 @@
                         <section class="shadow-around p-3">
                             <div class="row">
                                 <div class="col-lg-6 mb-4">
-                                    <div class="text-sm text-muted">نام و نام خانوادگی:</div>
-                                    <div class="text-dark font-weight-bold">جلال بهرامی راد</div>
+                                    <div class="text-sm text-muted">نام کاربری:</div>
+                                    <div class="text-dark font-weight-bold">@User.Identity.Name</div>
                                 </div>
                                 <div class="col-lg-6 mb-4">
                                     <div class="text-sm text-muted">پست الکترونیک:</div>
-                                    <div class="text-dark font-weight-bold">example@example.com</div>
+                                    <div class="text-dark font-weight-bold">@User.FindFirstValue(ClaimTypes.Email)</div>
                                 </div>
                                 <div class="col-lg-6 mb-4">
                                     <div class="text-sm text-muted">شماره تلفن همراه:</div>
-                                    <div class="text-dark font-weight-bold">09xxxxxxxxx</div>
+
+                                    @if (Model.Mobile == null)
+                                    {
+                                        <div class="text-dark font-weight-bold">
+                                            -
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="text-dark font-weight-bold">
+                                            @Model.Mobile
+                                        </div>
+                                    }
+
                                 </div>
                                 <div class="col-lg-6 mb-4">
-                                    <div class="text-sm text-muted">کد ملی:</div>
-                                    <div class="text-dark font-weight-bold">-</div>
+                                    <div class="text-sm text-muted">سن:</div>
+                                    @if (Model.Age == 0)
+                                    {
+                                        <div class="text-dark font-weight-bold">-</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="text-dark font-weight-bold">@Model.Age</div>
+                                    }
                                 </div>
                                 <div class="col-lg-6 mb-4">
-                                    <div class="text-sm text-muted">دریافت خبرنامه:</div>
-                                    <div class="text-dark font-weight-bold">خیر</div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="text-sm text-muted">روش بازگشت وجه:</div>
-                                    <div class="text-dark font-weight-bold">-</div>
+                                    <div class="text-sm text-muted">تاریخ ثبت نام:</div>
+                                    <div class="text-dark font-weight-bold">@Model.RegisterDate.ToShamsi()</div>
                                 </div>
                                 <div class="col-12">
                                     <div class="text-center">
-                                        <a href="#" class="link--with-border-bottom">
+                                        <a asp-action="EditProfile" class="link--with-border-bottom">
                                             <i class="far fa-edit"></i>
                                             ویرایش اطلاعات شخصی
                                         </a>

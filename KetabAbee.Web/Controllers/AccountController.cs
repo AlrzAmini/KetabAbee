@@ -242,7 +242,7 @@ namespace KetabAbee.Web.Controllers
 
             user.Password = PasswordHasher.EncodePasswordMd5(reset.Password);
 
-           await _userService.UpdateUser(user);
+            _userService.UpdateUser(user);
 
            TempData["SuccessMessage"] = "رمز عبور شما با موفقیت تغییر کرد";
 

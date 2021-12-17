@@ -29,9 +29,14 @@ namespace KetabAbee.Domain.Interfaces
 
         User GetUserByEmailActivationCode(string activeCode);
 
-        Task<bool> UpdateUser(User user);
+        bool UpdateUser(User user);
 
 
+        #endregion
+
+        #region User Panel
+
+        User GetUserByUserName(string userName);
 
         #endregion
 

@@ -1,0 +1,78 @@
+﻿@model KetabAbee.Application.DTOs.UserPanelSideBarViewmodel
+<div class="profile-sidebar shadow-around mt-4">
+    <div class="d-flex align-items-center">
+        <div class="profile-avatar">
+            <img src="/Avatar/@Model.AvatarName" alt="avatar">
+        </div>
+        <div class="profile-info">
+            <div class="d-block">
+                <h6><strong>@Model.Name</strong></h6>
+            </div>
+            <div class="d-block">
+                <strong class="text-muted">@Model.Email</strong>
+            </div>
+        </div>
+    </div>
+    <div class="user-options">
+        <ul>
+            <li>
+                <a href="#">
+                    <span>کیف پول</span>
+                    <span>2,500,000 <span class="text-info font-weight-bold">تومان</span></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="user-menu">
+        <ul>
+            <li>
+                <a asp-controller="UserPanel" asp-action="Dashboard">
+                    <i class="far fa-list"></i>
+                    داشبورد
+                </a>
+            </li>
+            <li>
+                <a asp-controller="UserPanel" asp-action="EditProfile">
+                    <i class="far fa-edit"></i>
+                    ویرایش حساب کاربری
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="far fa-lock-open"></i>
+                    تغییر کلمه عبور
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="far fa-clipboard-list-check"></i>
+                    سفارشات
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="far fa-envelope"></i>
+                    تیکت ها
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="far fa-comment-alt-check"></i>
+                    نظرات
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="far fa-wallet"></i>
+                    کیف پول
+                </a>
+            </li>
+            <li>
+                <a asp-controller="Account" asp-action="Logout" class="text-danger">
+                    <i class="far fa-sign-in-alt text-danger"></i>
+                    خروج
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

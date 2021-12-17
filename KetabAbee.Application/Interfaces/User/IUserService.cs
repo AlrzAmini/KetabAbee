@@ -29,7 +29,19 @@ namespace KetabAbee.Application.Interfaces.User
 
         Domain.Models.User.User GetUserByEmailActivationCode(string emailActiveCode);
 
-        Task<bool> UpdateUser(Domain.Models.User.User user);
+        bool UpdateUser(Domain.Models.User.User user);
+
+        #endregion
+
+        #region User Panel
+
+        UserInformationInDashboardViewmodel GetInfoByUserEmail(string email);
+
+        UserPanelSideBarViewmodel GetUserPanelSideBarInfoByEmail(string userName);
+
+        UserPanelEditInfoViewModel GetInfoForEditInUserPanel(string userName);
+
+        bool EditUserProfile(UserPanelEditInfoViewModel edit);
 
         #endregion
     }

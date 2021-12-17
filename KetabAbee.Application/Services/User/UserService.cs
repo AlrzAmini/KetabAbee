@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -84,9 +85,102 @@ namespace KetabAbee.Application.Services.User
             return _userRepository.GetUserByEmailActivationCode(emailActiveCode);
         }
 
-        public async Task<bool> UpdateUser(Domain.Models.User.User user)
+        public bool UpdateUser(Domain.Models.User.User user)
         {
-            return await _userRepository.UpdateUser(user);
+            return _userRepository.UpdateUser(user);
+        }
+
+        public UserInformationInDashboardViewmodel GetInfoByUserEmail(string email)
+        {
+            var user =  _userRepository.GetUserByEmail(email);
+
+            var userInfo =  new UserInformationInDashboardViewmodel
+            {
+                Email = user.Email,
+                Mobile = user.Mobile,
+                Age = user.Age,
+                RegisterDate = user.RegisterDate,
+                UserName = user.UserName
+            };
+
+            return userInfo;
+
+        }
+
+        public UserPanelSideBarViewmodel GetUserPanelSideBarInfoByEmail(string userName)
+        {
+            var user = _userRepository.GetUserByUserName(userName);
+
+            var sideBarInfo = new UserPanelSideBarViewmodel
+            {
+                Email = user.Email,
+                AvatarName = user.AvatarName,
+                Name = user.UserName,
+            };
+
+            return sideBarInfo;
+        }
+
+        public UserPanelEditInfoViewModel GetInfoForEditInUserPanel(string userName)
+        {
+            var user = _userRepository.GetUserByUserName(userName);
+
+            var infoForEdit = new UserPanelEditInfoViewModel
+            {
+                Mobile = user.Mobile,
+                Age = user.Age,
+                CurrentAvatar = user.AvatarName,
+                Email = user.Email
+            };
+
+            return infoForEdit;
+        }
+
+        public bool EditUserProfile(UserPanelEditInfoViewModel edit)
+        {
+            try
+            {
+                if (edit.UserAvatar != null && edit.UserAvatar.IsImage())
+                {
+                    string imgPath = "";
+                    if (edit.CurrentAvatar != "User.jpg")
+                    {
+                        // get old avatar path
+                        imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar", edit.CurrentAvatar);
+
+                        // delete old avatar
+                        if (File.Exists(imgPath))
+                        {
+                            File.Delete(imgPath);
+                        }
+                    }
+
+                    // generate new image path and name
+                    edit.CurrentAvatar = CodeGenerator.GenerateUniqCode()+Path.GetExtension(edit.UserAvatar.FileName);
+
+                    imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar", edit.CurrentAvatar);
+                
+                    // save file in file
+                    using (var stream = new FileStream(imgPath, FileMode.Create))
+                    {
+                        edit.UserAvatar.CopyTo(stream);
+                    }
+                }
+
+                // update user
+                var user = GetUserByEmail(edit.Email);
+
+                user.Mobile = edit.Mobile;
+                user.Age = edit.Age;
+                user.AvatarName = edit.CurrentAvatar;
+
+                UpdateUser(user);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

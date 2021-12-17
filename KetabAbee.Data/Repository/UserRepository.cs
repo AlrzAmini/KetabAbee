@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using KetabAbee.Data.Context;
 using KetabAbee.Domain.Interfaces;
 using KetabAbee.Domain.Models.User;
+using Microsoft.EntityFrameworkCore;
 
 namespace KetabAbee.Data.Repository
 {
@@ -84,12 +85,24 @@ namespace KetabAbee.Data.Repository
             return _context.Users.SingleOrDefault(u => u.EmailActivationCode == activeCode);
         }
 
-        public async Task<bool> UpdateUser(User user)
+        public bool UpdateUser(User user)
         {
             _context.Users.Update(user);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             return true;
+        }
+
+        public async Task<string> GetMobileByUserEmail(string email)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
+
+            return user.Mobile;
+        }
+
+        public User GetUserByUserName(string userName)
+        {
+            return _context.Users.SingleOrDefault(u => u.UserName == userName);
         }
     }
 }

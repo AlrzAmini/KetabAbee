@@ -1,0 +1,125 @@
+﻿@model KetabAbee.Application.DTOs.UserPanelEditInfoViewModel
+@{
+    ViewData["Title"] = "ویرایش پروفایل";
+}
+
+<main class="page-content" style="margin-top: 205.5px; transform: none;">
+    <div class="container" style="transform: none;">
+        <div class="row mb-5" style="transform: none;">
+            <div class="col-lg-3 col-md-4 mb-md-0 mb-3 sticky-sidebar" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
+
+                <div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none;">
+                    <div class="sidebar-widget">
+                        @await Component.InvokeAsync("UserPanelSideBarComponent")
+                    </div><div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 322px; height: 599px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-8">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="section-title mb-2">
+                            ویرایش اطلاعات
+                        </div>
+                        <section class="shadow-around p-3">
+                            <form asp-action="EditProfile" method="post" enctype="multipart/form-data">
+                                <input type="hidden" asp-for="CurrentAvatar" />
+                                <input type="hidden" asp-for="Email" />
+                                <div class="row">
+                                    <div class="col-lg-6 mb-5">
+                                        <div class="text-sm text-muted mb-3">شماره تلفن همراه:</div>
+                                        <div class="text-dark font-weight-bold">
+                                            <div class="form-element-row mb-0">
+                                                <input type="text" class="input-element" asp-for="Mobile">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 mb-5">
+                                        <div class="text-sm text-muted mb-3">سن:</div>
+                                        <div class="text-dark font-weight-bold">
+                                            <div class="form-element-row mb-0">
+                                                <input type="number" asp-for="Age" class="input-element">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 mb-5">
+                                        <div class="text-sm text-muted mb-3">آواتار:</div>
+                                        <div class="text-dark font-weight-bold">
+                                            <div class="form-element-row mb-0">
+                                                <input type="file" class="input-element" asp-for="UserAvatar">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 mb-5">
+                                        <div class="text-sm text-muted mb-3">آواتار فعلی:</div>
+                                        <div class="text-dark font-weight-bold">
+                                            <div class="form-element-row mb-0">
+                                                <img id="AvatarImage" class="profile-avatar img-fluid" src="/Avatar/@Model.CurrentAvatar" alt="Avatar" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-element-row text-left">
+                                            <button type="submit" class="btn-element btn-success-element">
+                                                <i class="fad fa-user-edit"></i>
+                                                ذخیره تغییرات
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-lg-3 col-md-6 col-sm-6 mb-lg-0 mb-3">
+                <div class="banner">
+                    <a href="#">
+                        <img src="./assets/images/banner/banner-sm-01.jpg" alt="banner">
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 mb-lg-0 mb-3">
+                <div class="banner">
+                    <a href="#">
+                        <img src="./assets/images/banner/banner-sm-02.jpg" alt="banner">
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 mb-lg-0 mb-3">
+                <div class="banner">
+                    <a href="#">
+                        <img src="./assets/images/banner/banner-sm-03.jpg" alt="banner">
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 mb-lg-0 mb-3">
+                <div class="banner">
+                    <a href="#">
+                        <img src="./assets/images/banner/banner-sm-04.jpg" alt="banner">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+@section Scripts
+{
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#AvatarImage').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#UserAvatar").change(function() {
+            readURL(this);
+        });
+    </script>
+}
+
