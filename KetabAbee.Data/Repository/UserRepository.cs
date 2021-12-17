@@ -104,5 +104,10 @@ namespace KetabAbee.Data.Repository
         {
             return _context.Users.SingleOrDefault(u => u.UserName == userName);
         }
+
+        public bool IsOldPasswordCorrect(string username, string oldPass)
+        {
+            return _context.Users.Any(u => u.UserName == username && u.Password == oldPass);
+        }
     }
 }

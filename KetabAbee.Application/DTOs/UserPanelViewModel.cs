@@ -55,4 +55,35 @@ namespace KetabAbee.Application.DTOs
 
 
     }
+
+    public class ChangePasswordViewModel
+    {
+        #region old Password
+
+        [DisplayName("کلمه عبور فعلی")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
+        [MaxLength(200, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
+        public string OldPassword { get; set; }
+
+        #endregion
+
+        #region Password
+
+        [DisplayName("کلمه عبور")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
+        [MaxLength(200, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
+        public string Password { get; set; }
+
+        #endregion
+
+        #region Confirm Password
+
+        [DisplayName("تکرار کلمه عبور")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
+        [MaxLength(200, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
+        [Compare("Password", ErrorMessage = "رمز عبور و تکرار آن با هم یکسان نیستند")]
+        public string ConfirmPassword { get; set; }
+
+        #endregion
+    }
 }

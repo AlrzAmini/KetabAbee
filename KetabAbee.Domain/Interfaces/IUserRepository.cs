@@ -38,6 +38,8 @@ namespace KetabAbee.Domain.Interfaces
 
         User GetUserByUserName(string userName);
 
+        bool IsOldPasswordCorrect(string username, string oldPass);
+
         #endregion
 
 

@@ -182,5 +182,27 @@ namespace KetabAbee.Application.Services.User
                 return false;
             }
         }
+
+        public bool IsOldPasswordCorrect(string username, string oldPass)
+        {
+            return _userRepository.IsOldPasswordCorrect(username, PasswordHasher.EncodePasswordMd5(oldPass));
+        }
+
+        public bool ChangePasswordInUserPanel(string username, string newPass)
+        {
+            try
+            {
+                var user = _userRepository.GetUserByUserName(username);
+                user.Password = PasswordHasher.EncodePasswordMd5(newPass);
+
+                UpdateUser(user);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
     }
 }

@@ -43,6 +43,10 @@ namespace KetabAbee.Application.Interfaces.User
 
         bool EditUserProfile(UserPanelEditInfoViewModel edit);
 
+        bool IsOldPasswordCorrect(string username, string oldPass);
+
+        bool ChangePasswordInUserPanel(string username, string newPass);
+
         #endregion
     }
 }

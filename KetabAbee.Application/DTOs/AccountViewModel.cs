@@ -39,7 +39,7 @@ namespace KetabAbee.Application.DTOs
 
         #endregion
 
-        #region Re Password
+        #region Confirm Password
 
         [DisplayName("تکرار کلمه عبور")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]

@@ -69,5 +69,36 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         }
 
         #endregion
+
+        #region Change Password
+
+        [HttpGet("UserPanel/ChangePassword")]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost("UserPanel/ChangePassword")]
+        public IActionResult ChangePassword(ChangePasswordViewModel change)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(change);
+            }
+
+            string userName = User.Identity.Name;
+
+            if (!_userService.IsOldPasswordCorrect(userName,change.OldPassword))
+            {
+                TempData["ErrorMessage"] = "کلمه عبور فعلی شما همخوانی ندارد ";
+                return View(change);
+            }
+
+            if (!_userService.ChangePasswordInUserPanel(userName, change.Password)) return View(change);
+            TempData["SuccessMessage"] = "کلمه عبور شما با موفقیت بروزرسانی شد ";
+            return RedirectToAction("Dashboard");
+        }
+
+        #endregion
     }
 }
