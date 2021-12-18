@@ -12,5 +12,7 @@ namespace KetabAbee.Application.Interfaces.Ticket
         bool AddTicket(AddTicketViewmodel ticket,int senderId);
 
         IEnumerable<Domain.Models.Ticket.Ticket> GetTickets();
+
+        FilterTicketViewModel FilterTickets(FilterTicketViewModel filter);
     }
 }

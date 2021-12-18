@@ -28,5 +28,27 @@ namespace KetabAbee.Application.DTOs.Ticket
         #endregion
     }
 
+    public class FilterTicketViewModel
+    {
+        #region Properties
 
+        public string Title { get; set; }
+
+        public int? UserId { get; set; }
+
+        public FilterTicketOrder OrderBy { get; set; }
+
+        public TicketPriority? TicketPriority { get; set; }
+
+        public List<Domain.Models.Ticket.Ticket> Tickets { get; set; }
+
+        #endregion
+    }
+
+    public enum FilterTicketOrder
+    {
+        CreateDateAsc,
+        CreateDateDsc
+
+    }
 }

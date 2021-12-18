@@ -33,8 +33,46 @@ namespace KetabAbee.Application.Services.Ticket
                 IsReadBySender = true,
                 TicketState = TicketState.Pending
             };
-            
+
             return _ticketRepository.AddTicket(newTicket);
+        }
+
+        public FilterTicketViewModel FilterTickets(FilterTicketViewModel filter)
+        {
+            var result = _ticketRepository.GetTickets().AsQueryable();
+
+            // filter by create date
+            switch (filter.OrderBy)
+            {
+                case FilterTicketOrder.CreateDateAsc:
+                    result = result.OrderBy(t => t.TicketSendDate);
+                    break;
+                case FilterTicketOrder.CreateDateDsc:
+                    result = result.OrderByDescending(t => t.TicketSendDate);
+                    break;
+            }
+
+            // filter by priority
+            if (filter.TicketPriority != null)
+            {
+                result = result.Where(r => r.TicketPriority == filter.TicketPriority.Value);
+            }
+
+            //filter by user Id
+            if (filter.UserId != null)
+            {
+                result = result.Where(r => r.SenderId == filter.UserId);
+            }
+
+            //filter by title
+            if (!string.IsNullOrEmpty(filter.Title))
+            {
+                result = result.Where(r => r.Title.Contains(filter.Title));
+            }
+
+            filter.Tickets = result.ToList();
+
+            return filter;
         }
 
         public IEnumerable<Domain.Models.Ticket.Ticket> GetTickets()
