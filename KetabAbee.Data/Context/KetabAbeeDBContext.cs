@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
+using KetabAbee.Domain.Models.Ticket;
 using KetabAbee.Domain.Models.User;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,10 +20,21 @@ namespace KetabAbee.Data.Context
 
         #endregion
 
+        #region ticket
+
+        public DbSet<Ticket> Tickets { get; set; }
+
+        #endregion
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            foreach (var rel in modelBuilder.Model.GetEntityTypes().SelectMany(s => s.GetForeignKeys()))
+            {
+                rel.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+
             modelBuilder.Entity<User>()
                 .HasQueryFilter(c => !c.IsDelete);
 

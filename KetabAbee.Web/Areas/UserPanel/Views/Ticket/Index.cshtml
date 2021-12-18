@@ -1,0 +1,88 @@
+﻿@using KetabAbee.Application.Convertors
+@model IEnumerable<KetabAbee.Domain.Models.Ticket.Ticket>
+@{
+    ViewData["Title"] = "تیکت ها";
+}
+
+<main class="page-content" style="margin-top: 205.5px; transform: none;">
+    <div class="container" style="transform: none;">
+        <div class="row mb-5" style="transform: none;">
+            <div class="col-lg-3 col-md-4 mb-md-0 mb-3 sticky-sidebar" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
+
+                <div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none;">
+                    <div class="sidebar-widget">
+                        @await Component.InvokeAsync("UserPanelSideBarComponent")
+                    </div><div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 349px; height: 599px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-8">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <section class="shadow-around p-3">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="section-title mb-2">
+                                        <div class="col-9">
+                                            تیکت ها
+                                        </div>
+                                        <a asp-action="AddTicket" class="btn btn-outline-success col-3">
+                                            افزودن تیکت جدید
+                                        </a>
+                                    </div>
+                                    @if (Model.Count() != 0)
+                                    {
+                                        <section class="table--order shadow-around">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>عنوان</th>
+                                                            <th>ثبت</th>
+                                                            <th>اهمیت</th>
+                                                            <th>وضعیت</th>
+                                                            <th>جزییات</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var item in Model)
+                                                        {
+                                                            <tr>
+                                                                <td class="order-code">@item.Title</td>
+                                                                <td>@item.TicketSendDate.ToShamsi()</td>
+                                                                <td>@item.TicketPriority</td>
+                                                                <td>@item.TicketState</td>
+                                                                <td class="order-detail-link">
+                                                                    <a asp-controller="Ticket" asp-action="ShowTicket" asp-route-Id="@item.TicketId">
+                                                                        <i class="far fa-chevron-left"></i>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </section>
+                                    }
+                                    else
+                                    {
+                                        <div class="empty-box">
+                                            <div class="icon">
+                                                <i class="fal fa-times-circle"></i>
+                                            </div>
+                                            <div class="message">
+                                                <p>پیغامی برای نمایش وجود نداره!</p>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <partial name="_Banner" />
+    </div>
+</main>
+
+

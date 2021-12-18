@@ -53,7 +53,7 @@
                                         <div class="text-sm text-muted mb-3">آواتار فعلی:</div>
                                         <div class="text-dark font-weight-bold">
                                             <div class="form-element-row mb-0">
-                                                <img id="AvatarImage" class="profile-avatar img-fluid" src="/Avatar/@Model.CurrentAvatar" alt="Avatar" />
+                                                <img id="AvatarImage" class="profile-avatar img-fluid rounded" src="/Avatar/@Model.CurrentAvatar" alt="Avatar" />
                                             </div>
                                         </div>
                                     </div>
@@ -72,36 +72,7 @@
                 </div>
             </div>
         </div>
-        <div class="row mb-5">
-            <div class="col-lg-3 col-md-6 col-sm-6 mb-lg-0 mb-3">
-                <div class="banner">
-                    <a href="#">
-                        <img src="/images/banner/banner-sm-01.jpg" alt="banner">
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 mb-lg-0 mb-3">
-                <div class="banner">
-                    <a href="#">
-                        <img src="/images/banner/banner-sm-02.jpg" alt="banner">
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 mb-lg-0 mb-3">
-                <div class="banner">
-                    <a href="#">
-                        <img src="/images/banner/banner-sm-03.jpg" alt="banner">
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 mb-lg-0 mb-3">
-                <div class="banner">
-                    <a href="#">
-                        <img src="/images/banner/banner-sm-04.jpg" alt="banner">
-                    </a>
-                </div>
-            </div>
-        </div>
+        <partial name="_Banner" />
     </div>
 </main>
 @section Scripts

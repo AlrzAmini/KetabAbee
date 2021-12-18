@@ -59,13 +59,11 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
 
                 return RedirectToAction("Dashboard");
             }
-            else
-            {
-                TempData["ErrorMessage"] = "خطایی در هنگام ویرایش اطلاعات شما رخ داد";
 
-                return RedirectToAction("Dashboard");
-            }
-            
+            TempData["ErrorMessage"] = "خطایی در هنگام ویرایش اطلاعات شما رخ داد";
+
+            return RedirectToAction("Dashboard");
+
         }
 
         #endregion

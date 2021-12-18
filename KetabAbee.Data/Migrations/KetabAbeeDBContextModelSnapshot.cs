@@ -19,6 +19,47 @@ namespace KetabAbee.Data.Migrations
                 .HasAnnotation("ProductVersion", "5.0.13")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("KetabAbee.Domain.Models.Ticket.Ticket", b =>
+                {
+                    b.Property<int>("TicketId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsReadByAdmin")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsReadBySender")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("SenderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TicketPriority")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("TicketSendDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TicketState")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(400)
+                        .HasColumnType("nvarchar(400)");
+
+                    b.HasKey("TicketId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Tickets");
+                });
+
             modelBuilder.Entity("KetabAbee.Domain.Models.User.Role", b =>
                 {
                     b.Property<int>("RoleId")
@@ -116,6 +157,17 @@ namespace KetabAbee.Data.Migrations
                     b.ToTable("UserRoles");
                 });
 
+            modelBuilder.Entity("KetabAbee.Domain.Models.Ticket.Ticket", b =>
+                {
+                    b.HasOne("KetabAbee.Domain.Models.User.User", "Sender")
+                        .WithMany("Tickets")
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Sender");
+                });
+
             modelBuilder.Entity("KetabAbee.Domain.Models.User.UserRole", b =>
                 {
                     b.HasOne("KetabAbee.Domain.Models.User.Role", "Role")
@@ -142,6 +194,8 @@ namespace KetabAbee.Data.Migrations
 
             modelBuilder.Entity("KetabAbee.Domain.Models.User.User", b =>
                 {
+                    b.Navigation("Tickets");
+
                     b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618

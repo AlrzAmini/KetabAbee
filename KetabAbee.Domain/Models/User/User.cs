@@ -114,6 +114,8 @@ namespace KetabAbee.Domain.Models.User
 
         public List<UserRole> UserRoles { get; set; }
 
+        public List<Ticket.Ticket> Tickets { get; set; }
+
         #endregion
     }
 }

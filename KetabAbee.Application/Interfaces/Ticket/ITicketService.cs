@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using KetabAbee.Application.DTOs.Ticket;
+
+namespace KetabAbee.Application.Interfaces.Ticket
+{
+    public interface ITicketService
+    {
+        bool AddTicket(AddTicketViewmodel ticket,int senderId);
+
+        IEnumerable<Domain.Models.Ticket.Ticket> GetTickets();
+    }
+}
