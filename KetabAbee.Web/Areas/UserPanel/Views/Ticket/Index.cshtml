@@ -38,6 +38,7 @@
                                                         <tr>
                                                             <th>عنوان</th>
                                                             <th>ثبت</th>
+                                                            <th>خوانده شد</th>
                                                             <th>اهمیت</th>
                                                             <th>وضعیت</th>
                                                             <th>جزییات</th>
@@ -49,6 +50,14 @@
                                                             <tr>
                                                                 <td class="order-code">@item.Title</td>
                                                                 <td>@item.TicketSendDate.ToShamsi()</td>
+                                                                @if (item.IsReadByAdmin)
+                                                                {
+                                                                    <td class="text-success">بله</td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td class="text-danger">خیر</td>
+                                                                }
                                                                 <td>@item.TicketPriority</td>
                                                                 <td>@item.TicketState</td>
                                                                 <td class="order-detail-link">

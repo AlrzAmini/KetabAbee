@@ -68,7 +68,8 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         [HttpGet("Ticket/ShowTicket/{id}")]
         public IActionResult ShowTicket(int id) // id = ticket Id
         {
-            return View();
+            var ticket = _ticketService.GetTicketById(id);
+            return View(ticket);
         }
 
         #endregion

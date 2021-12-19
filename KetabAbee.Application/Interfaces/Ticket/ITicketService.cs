@@ -14,5 +14,7 @@ namespace KetabAbee.Application.Interfaces.Ticket
         IEnumerable<Domain.Models.Ticket.Ticket> GetTickets();
 
         FilterTicketViewModel FilterTickets(FilterTicketViewModel filter);
+
+        Domain.Models.Ticket.Ticket GetTicketById(int ticketId);
     }
 }

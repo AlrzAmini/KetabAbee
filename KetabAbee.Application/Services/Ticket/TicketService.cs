@@ -75,6 +75,11 @@ namespace KetabAbee.Application.Services.Ticket
             return filter;
         }
 
+        public Domain.Models.Ticket.Ticket GetTicketById(int ticketId)
+        {
+            return _ticketRepository.GetTicketById(ticketId);
+        }
+
         public IEnumerable<Domain.Models.Ticket.Ticket> GetTickets()
         {
             return _ticketRepository.GetTickets();

@@ -1,0 +1,66 @@
+﻿@using KetabAbee.Application.Convertors
+@model KetabAbee.Domain.Models.Ticket.Ticket
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<main class="page-content" style="margin-top: 205.5px; transform: none;">
+    <div class="container" style="transform: none;">
+        <div class="row mb-5" style="transform: none;">
+            <div class="col-lg-3 col-md-4 mb-md-0 mb-3 sticky-sidebar" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
+                <div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none;">
+                    <div class="sidebar-widget">
+                        @await Component.InvokeAsync("UserPanelSideBarComponent")
+                    </div><div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 349px; height: 599px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-8">
+                <div class="row mb-4">
+                    <div class="col-12">
+                                <section class="shadow-around p-3">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="checkout-section shadow-around p-2">
+                                                <div class="checkout-section-content">
+                                                    <div class="cart-items">
+                                                        <div class="mb-2">
+                                                            <span class="text-muted">عنوان:</span>
+                                                            <span class="font-weight-bold">@Model.Title</span>
+                                                        </div>
+                                                        <div class="mb-2">
+                                                            <span class="text-muted">تاریخ ارسال :</span>
+                                                            <span class="font-weight-bold">@Model.TicketSendDate.ToShamsi()</span>
+                                                        </div>
+                                                        <div class="mb-2">
+                                                            <span class="text-muted">اهمیت:</span>
+                                                            <span class="font-weight-bold">@Model.TicketPriority</span>
+                                                        </div>
+                                                        <div class="mb-2">
+                                                            <span class="text-muted">وضعیت :</span>
+                                                            <span class="font-weight-bold text-success">@Model.TicketState</span>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="cart-item py-4 px-3">
+                                                            <div class="item-info flex-grow-1">
+                                                                <div class="item-title">
+                                                                    <p>
+                                                                        @Html.Raw(Model.Body)
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                </div>
+            </div>
+        </div>
+        <partial name="_Banner" />
+    </div>
+</main>
+
+
