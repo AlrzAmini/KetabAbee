@@ -1,7 +1,8 @@
 ﻿@using KetabAbee.Application.Convertors
+@using KetabAbee.Application.Extensions
 @model KetabAbee.Domain.Models.Ticket.Ticket
 @{
-    ViewData["Title"] = Model.Title;
+    ViewData["Title"] = "جزییات " + Model.Title;
 }
 
 <main class="page-content" style="margin-top: 205.5px; transform: none;">
@@ -29,15 +30,15 @@
                                                         </div>
                                                         <div class="mb-2">
                                                             <span class="text-muted">تاریخ ارسال :</span>
-                                                            <span class="font-weight-bold">@Model.TicketSendDate.ToShamsi()</span>
+                                                            <span class="font-weight-bold">@Model.TicketSendDate.ToIraniDate() در ساعت @Model.TicketSendDate.GetHourAndMinutes() </span>
                                                         </div>
                                                         <div class="mb-2">
                                                             <span class="text-muted">اهمیت:</span>
-                                                            <span class="font-weight-bold">@Model.TicketPriority</span>
+                                                            <span class="font-weight-bold">@Model.TicketPriority.GetEnumName()</span>
                                                         </div>
                                                         <div class="mb-2">
                                                             <span class="text-muted">وضعیت :</span>
-                                                            <span class="font-weight-bold text-success">@Model.TicketState</span>
+                                                            <span class="font-weight-bold text-success">@Model.TicketState.GetEnumName()</span>
                                                         </div>
                                                         <hr>
                                                         <div class="cart-item py-4 px-3">

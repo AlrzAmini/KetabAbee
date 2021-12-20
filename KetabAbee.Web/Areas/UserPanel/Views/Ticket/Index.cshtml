@@ -1,4 +1,6 @@
 ﻿@using KetabAbee.Application.Convertors
+@using KetabAbee.Application.DTOs.Ticket
+@using KetabAbee.Application.Extensions
 @model KetabAbee.Application.DTOs.Ticket.FilterTicketViewModel
 @{
     ViewData["Title"] = "تیکت ها";
@@ -21,6 +23,31 @@
                         <section class="shadow-around p-3">
                             <div class="row">
                                 <div class="col-12">
+                                    @{
+                                        string orderBy = ViewBag.orderby as string;
+                                    }
+                                    <form id="filterform" action="/Tickets" method="get">
+                                        <div class="section-title mb-2">
+                                            <div class="col-9">
+                                                <div class="row">
+                                                    <select id="sorter" name="orderby" onchange="changeSort()" class="form-control col-3">
+                                                        @if (orderBy == "صعودی")
+                                                        {
+                                                            <option value="createdatedsc">جدید ترین</option>
+                                                            <option selected="selected" value="createdateasc">قدیمی ترین</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option selected="selected" value="createdatedsc">جدید ترین</option>
+                                                            <option value="createdateasc">قدیمی ترین</option>
+                                                        }
+                                                    </select>
+                                                    <input type="text" class="form-control border border-info col-8 mr-1" name="Title" placeholder="جستجو بر اساس عنوان تیکت"/>
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-info col-3">جستجو</button>
+                                        </div>
+                                    </form>
                                     <div class="section-title mb-2">
                                         <div class="col-9">
                                             تیکت ها
@@ -29,52 +56,44 @@
                                             افزودن تیکت جدید
                                         </a>
                                     </div>
-                                    <form asp-action="Index">
-                                        <div class="section-title mb-2">
-                                            <div class="col-9">
-                                                <input class="input-element" name="filter.Title"/>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">فیلتر</button>
-                                        </div>
-                                    </form>
-                                    @if (Model.Tickets.Count() != 0)
+                                    @if (Model.Tickets.Any())
                                     {
                                         <section class="table--order shadow-around">
                                             <div class="table-responsive">
                                                 <table class="table">
                                                     <thead>
-                                                        <tr>
-                                                            <th>عنوان</th>
-                                                            <th>ثبت</th>
-                                                            <th>خوانده شد</th>
-                                                            <th>اهمیت</th>
-                                                            <th>وضعیت</th>
-                                                            <th>جزییات</th>
-                                                        </tr>
+                                                    <tr>
+                                                        <th>عنوان</th>
+                                                        <th>ثبت</th>
+                                                        <th>خوانده شده</th>
+                                                        <th>اهمیت</th>
+                                                        <th>وضعیت</th>
+                                                        <th>جزییات</th>
+                                                    </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @foreach (var item in Model.Tickets)
-                                                        {
-                                                            <tr>
-                                                                <td class="order-code">@item.Title</td>
-                                                                <td>@item.TicketSendDate.ToShamsi()</td>
-                                                                @if (item.IsReadByAdmin)
-                                                                {
-                                                                    <td class="text-success">بله</td>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <td class="text-danger">خیر</td>
-                                                                }
-                                                                <td>@item.TicketPriority</td>
-                                                                <td>@item.TicketState</td>
-                                                                <td class="order-detail-link">
-                                                                    <a asp-controller="Ticket" asp-action="ShowTicket" asp-route-Id="@item.TicketId">
-                                                                        <i class="far fa-chevron-left"></i>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                        }
+                                                    @foreach (var item in Model.Tickets)
+                                                    {
+                                                        <tr>
+                                                            <td class="order-code">@item.Title</td>
+                                                            <td>@item.TicketSendDate.ToIraniDate()</td>
+                                                            @if (item.IsReadByAdmin)
+                                                            {
+                                                                <td class="text-success">بله</td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td class="text-danger">خیر</td>
+                                                            }
+                                                            <td>@item.TicketPriority.GetEnumName()</td>
+                                                            <td>@item.TicketState.GetEnumName()</td>
+                                                            <td class="order-detail-link">
+                                                                <a asp-controller="Ticket" asp-action="ShowTicket" asp-route-Id="@item.TicketId">
+                                                                    <i class="far fa-chevron-left"></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    }
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -87,7 +106,7 @@
                                                 <i class="fal fa-times-circle"></i>
                                             </div>
                                             <div class="message">
-                                                <p>پیغامی برای نمایش وجود نداره!</p>
+                                                <p>تیکتی برای نمایش وجود نداره!</p>
                                             </div>
                                         </div>
                                     }
@@ -101,5 +120,21 @@
         <partial name="_Banner" />
     </div>
 </main>
+@section Scripts{
 
+    <script>
+        function changeGroup() {
+            $("#filterform").submit();
+        }
+
+        function changeSort() {
+            $("#filterform").submit();
+        }
+
+        function changePage(pageNum) {
+            $("#pageNum").val(pageNum);
+            $("#ServForm").submit();
+        }
+    </script>
+}
 

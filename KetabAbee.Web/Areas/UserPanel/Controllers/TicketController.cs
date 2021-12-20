@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Ticket;
+using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Ticket;
 
 namespace KetabAbee.Web.Areas.UserPanel.Controllers
@@ -27,6 +28,10 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         [HttpGet("Tickets")]
         public IActionResult Index(FilterTicketViewModel filter)
         {
+            filter.UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            ViewBag.orderby = filter.OrderBy.GetEnumName();
+
             return View(_ticketService.FilterTickets(filter));
         }
 
@@ -69,6 +74,12 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         public IActionResult ShowTicket(int id) // id = ticket Id
         {
             var ticket = _ticketService.GetTicketById(id);
+
+            if (ticket == null)
+            {
+                return NotFound();
+            }
+            
             return View(ticket);
         }
 

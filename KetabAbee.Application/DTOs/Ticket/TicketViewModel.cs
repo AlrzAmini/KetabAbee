@@ -49,7 +49,7 @@ namespace KetabAbee.Application.DTOs.Ticket
 
         public FilterTicketViewModel SetTickets(List<Domain.Models.Ticket.Ticket> tickets)
         {
-            this.Tickets = Tickets;
+            Tickets = tickets;
             return this;
         }
 
@@ -72,7 +72,9 @@ namespace KetabAbee.Application.DTOs.Ticket
 
     public enum FilterTicketOrder
     {
+        [Display(Name = "صعودی")]
         CreateDateAsc,
+        [Display(Name = "نزولی")]
         CreateDateDsc
 
     }
