@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Application.DTOs.Paging;
 using KetabAbee.Domain.Models.Ticket;
 
 namespace KetabAbee.Application.DTOs.Ticket
@@ -28,7 +29,7 @@ namespace KetabAbee.Application.DTOs.Ticket
         #endregion
     }
 
-    public class FilterTicketViewModel
+    public class FilterTicketViewModel : BasePaging
     {
         #region Properties
 
@@ -41,6 +42,30 @@ namespace KetabAbee.Application.DTOs.Ticket
         public TicketPriority? TicketPriority { get; set; }
 
         public List<Domain.Models.Ticket.Ticket> Tickets { get; set; }
+
+        #endregion
+
+        #region Methods
+
+        public FilterTicketViewModel SetTickets(List<Domain.Models.Ticket.Ticket> tickets)
+        {
+            this.Tickets = Tickets;
+            return this;
+        }
+
+        public FilterTicketViewModel SetPaging(BasePaging paging)
+        {
+            PageNum = paging.PageNum;
+            TotalEntitiesCount = paging.TotalEntitiesCount;
+            StartPage = paging.StartPage;
+            EndPage = paging.EndPage;
+            PageCountAfterAndBefor = paging.PageCountAfterAndBefor;
+            Take = paging.Take;
+            Skip = paging.Skip;
+            TotalPages = paging.TotalPages;
+
+            return this;
+        }
 
         #endregion
     }

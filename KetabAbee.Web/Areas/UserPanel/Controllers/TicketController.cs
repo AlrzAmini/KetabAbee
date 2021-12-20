@@ -25,9 +25,9 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         #region List tickets
 
         [HttpGet("Tickets")]
-        public IActionResult Index()
+        public IActionResult Index(FilterTicketViewModel filter)
         {
-            return View(_ticketService.GetTickets());
+            return View(_ticketService.FilterTickets(filter));
         }
 
         #endregion

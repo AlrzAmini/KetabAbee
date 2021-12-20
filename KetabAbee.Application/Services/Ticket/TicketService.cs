@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Application.DTOs.Paging;
 using KetabAbee.Application.DTOs.Ticket;
 using KetabAbee.Application.Interfaces.Ticket;
 using KetabAbee.Domain.Interfaces;
@@ -70,9 +71,11 @@ namespace KetabAbee.Application.Services.Ticket
                 result = result.Where(r => r.Title.Contains(filter.Title));
             }
 
-            filter.Tickets = result.ToList();
+            //paging
+            var pager = Pager.Build(filter.PageNum, result.Count(), filter.Take, filter.PageCountAfterAndBefor);
+            var tickets = result.Paging(pager).ToList();
 
-            return filter;
+            return filter.SetPaging(pager).SetTickets(tickets);
         }
 
         public Domain.Models.Ticket.Ticket GetTicketById(int ticketId)
