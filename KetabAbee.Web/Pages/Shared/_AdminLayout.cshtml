@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title>پنل ادمین | @ViewData["Title"]</title>
+    <partial name="_AdminMetas" />
+    <partial name="_AdminStyles" />
+</head>
+
+<body>
+
+    <partial name="_AdminNav" />
+    <!-- Main Container -->
+    <div class="main-container container-fluid">
+        <!-- Page Container -->
+        <div class="page-container">
+            <div class="page-sidebar" id="sidebar">
+                <partial name="_AdminSideBar" />
+            </div>
+            <partial name="_ChatBar" />
+            @RenderBody()
+        </div>
+    </div>
+
+    <partial name="_AdminScripts" />
+
+</body>
+
+</html>

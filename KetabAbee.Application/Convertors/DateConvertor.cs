@@ -16,6 +16,19 @@ namespace KetabAbee.Application.Convertors
             return pc.GetYear(date) + "/" + pc.GetMonth(date).ToString("00") + "/" + pc.GetDayOfMonth(date).ToString("00");
         }
 
+        public static DateTime ToMiladi(this DateTime dateTime)
+        {
+            return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, new PersianCalendar());
+
+           
+            //    static void Main()
+            //    {
+            //        PersianCalendar pc = new PersianCalendar();
+            //        DateTime dt = new DateTime(1391, 4, 7, pc);
+            //        Console.WriteLine(dt.ToString(CultureInfo.InvariantCulture));
+            //    }
+        }
+
         public static string GetHourAndMinutes(this DateTime value)
         {
             return value.ToString("HH:mm");

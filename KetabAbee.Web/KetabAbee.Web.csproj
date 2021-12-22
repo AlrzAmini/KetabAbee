@@ -25,4 +25,9 @@
     <ProjectReference Include="..\KetabAbee.IoC\KetabAbee.IoC.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Admin\" />
+    <Folder Include="wwwroot\MyImages\" />
+  </ItemGroup>
+
 </Project>

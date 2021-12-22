@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31911.196
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{C9CECC50-8809-44A5-96FC-D58FAA753CAC}"
 EndProject
@@ -19,9 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KetabAbee.Domain", "KetabAb
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KetabAbee.Data", "KetabAbee.Data\KetabAbee.Data.csproj", "{00822991-ED16-417D-B506-5A34413D4535}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KetabAbee.Application", "KetabAbee.Application\KetabAbee.Application.csproj", "{67708E78-5898-42B7-BEEE-5A98B02AC11B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KetabAbee.Application", "KetabAbee.Application\KetabAbee.Application.csproj", "{67708E78-5898-42B7-BEEE-5A98B02AC11B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KetabAbee.IoC", "KetabAbee.IoC\KetabAbee.IoC.csproj", "{E644532F-7777-4E6B-B631-6885189E57B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KetabAbee.IoC", "KetabAbee.IoC\KetabAbee.IoC.csproj", "{E644532F-7777-4E6B-B631-6885189E57B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
