@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs;
+using KetabAbee.Application.DTOs.Admin.User;
 
 namespace KetabAbee.Application.Interfaces.User
 {
@@ -11,7 +12,7 @@ namespace KetabAbee.Application.Interfaces.User
     {
         ListUsersViewModel GetUsers();
 
-        IEnumerable<Domain.Models.User.User> GetAllUsers();
+        
 
         #region Account
 
@@ -48,6 +49,14 @@ namespace KetabAbee.Application.Interfaces.User
         bool IsOldPasswordCorrect(string username, string oldPass);
 
         bool ChangePasswordInUserPanel(string username, string newPass);
+
+        #endregion
+
+        #region Admin Panel
+
+        IEnumerable<UserForShowInUserListAdminViewModel> GetAllUsersForAdmin();
+
+        bool DeleteUserById(int userId);
 
         #endregion
     }

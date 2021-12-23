@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs;
+using KetabAbee.Application.DTOs.Admin.User;
 using KetabAbee.Application.Generators;
 using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Security;
@@ -205,9 +206,35 @@ namespace KetabAbee.Application.Services.User
 
         }
 
-        public IEnumerable<Domain.Models.User.User> GetAllUsers()
+        public IEnumerable<UserForShowInUserListAdminViewModel> GetAllUsersForAdmin()
         {
-            return _userRepository.GetUsers();
+            return _userRepository.GetUsers()
+                .Select(u=>new UserForShowInUserListAdminViewModel()
+                {
+                    Email = u.Email,
+                    Mobile = u.Mobile,
+                    RegisterDate = u.RegisterDate,
+                    UserName = u.UserName,
+                    ImageName = u.AvatarName,
+                    IsActiveByEmail = u.IsEmailActive,
+                    Userid = u.UserId
+                });
+        }
+
+        public bool DeleteUserById(int userId)
+        {
+            try
+            {
+                var user = _userRepository.GetUserById(userId);
+                user.IsDelete = true;
+
+                UpdateUser(user);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

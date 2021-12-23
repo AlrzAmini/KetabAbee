@@ -42,6 +42,12 @@ namespace KetabAbee.Domain.Interfaces
 
         #endregion
 
+        #region Admin Panel
+
+        User GetUserById(int userId);
+
+        #endregion
+
 
     }
 }

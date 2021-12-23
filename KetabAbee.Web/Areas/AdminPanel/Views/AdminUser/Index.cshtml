@@ -1,5 +1,5 @@
 ﻿@using KetabAbee.Application.Convertors
-@model IEnumerable<KetabAbee.Domain.Models.User.User>
+@model IEnumerable<KetabAbee.Application.DTOs.Admin.User.UserForShowInUserListAdminViewModel>
 @{
     ViewData["Title"] = "کاربران";
 }
@@ -46,32 +46,43 @@
                                     {
                                         <li class="ticket-item">
                                             <div class="row">
-                                                <div class="ticket-user col-lg-6 col-sm-12">
-                                                    <img src="/avatar/@user.AvatarName" class="user-avatar">
+                                                <div class="ticket-user col-lg-3 col-sm-12">
+                                                    <img src="/Avatar/@user.ImageName" class="user-avatar">
                                                     <span class="user-name">@user.UserName</span>
                                                     <span class="user-at">از تاریخ</span>
                                                     <span class="user-company">@user.RegisterDate.ToShamsi()</span>
                                                 </div>
-                                                <div class="ticket-time  col-lg-4 col-sm-6 col-xs-12">
+                                                <div class="ticket-time  col-lg-3 col-sm-6 col-xs-12">
                                                     <div class="divider hidden-md hidden-sm hidden-xs"></div>
-                                                    <i class="fa fa-clock-o"></i>
-                                                    <span class="time">@user.Email</span>
+                                                    <i class="glyphicon glyphicon-envelope"></i>
+                                                    <span class="time"> @user.Email </span>
+                                                </div>
+                                                <div class="ticket-type  col-lg-3 col-sm-6 col-xs-12">
+                                                    <span class="divider hidden-xs"></span>
+                                                    <i class="glyphicon glyphicon-earphone"></i>
+                                                    <span class="time">@user.Mobile</span>
                                                 </div>
                                                 <div class="ticket-type  col-lg-2 col-sm-6 col-xs-12">
                                                     <span class="divider hidden-xs"></span>
-                                                    <span class="type">@user.Mobile</span>
+                                                    <a class="btn btn-blue">ویرایش</a>
+                                                    <a class="btn btn-success">جزییات</a>
+                                                    <a asp-controller="AdminUser" asp-action="DeleteUser" asp-route-id="@user.Userid" onclick="return confirm('از حذف این کاربر اطمینان دارید ؟')" class="btn btn-danger shiny">حذف</a>
                                                 </div>
-                                                <div class="ticket-state bg-palegreen">
-                                                    @if (user.IsEmailActive)
-                                                    {
+
+                                                @if (user.IsActiveByEmail)
+                                                {
+                                                    <div class="ticket-state bg-palegreen">
                                                         <i class="fa fa-check"></i>
-                                                    }
-                                                    else
-                                                    {
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="ticket-state bg-darkorange">
                                                         <i class="fa fa-times"></i>
-                                                    }
-                                                </div>
+                                                    </div>
+                                                }
                                             </div>
+
                                         </li>
                                     }
                                 }

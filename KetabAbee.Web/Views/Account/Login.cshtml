@@ -37,7 +37,7 @@
                             <label for="password" class="label-element">
                                 <span class="d-flex justify-content-between">
                                     <span>کلمه عبور</span>
-                                    <a href="/ForgotPassword" class="link--with-border-bottom">رمز عبور خود را فراموش کرده‌ام</a>
+                                    <a asp-controller="Account" asp-action="ForgotPassword" class="link--with-border-bottom">رمز عبور خود را فراموش کرده‌ام</a>
                                 </span>
                             </label>
                             <div class="form-element-with-icon">
@@ -63,7 +63,7 @@
                     </form>
                     <div class="auth-form-footer">
                         <span>کاربر جدید هستید؟</span>
-                        <a href="/Register" class="link--with-border-bottom">ثبت نام در کتاب آبی</a>
+                        <a asp-controller="Account" asp-action="Register" class="link--with-border-bottom">ثبت نام در کتاب آبی</a>
                     </div>
                 </div>
             </div>

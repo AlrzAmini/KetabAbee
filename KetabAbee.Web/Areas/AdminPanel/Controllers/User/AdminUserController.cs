@@ -20,10 +20,31 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.User
 
         #endregion
 
+        #region Users Index
+
         [HttpGet("Admin/Users")]
         public IActionResult Index()
         {
-            return View(_userService.GetAllUsers());
+            return View(_userService.GetAllUsersForAdmin());
         }
+
+        #endregion
+
+        #region Delete User
+
+        [HttpGet("Admin/Users/DeleteUser/{id}")]
+        public IActionResult DeleteUser(int id)
+        {
+            if (_userService.DeleteUserById(id))
+            {
+                TempData["SuccessMessage"] = "حذف کاربر با موفقیت انجام شد";
+                return RedirectToAction("Index");
+            }
+            TempData["ErrorMessage"] = "عملیات حذف کاربر با شکست مواجه شد";
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
     }
 }

@@ -13,4 +13,8 @@
     <ProjectReference Include="..\KetabAbee.Domain\KetabAbee.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTOs\Admin\Ticket\" />
+  </ItemGroup>
+
 </Project>
