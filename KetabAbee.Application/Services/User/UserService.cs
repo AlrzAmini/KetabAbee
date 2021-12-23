@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs;
 using KetabAbee.Application.DTOs.Admin.User;
 using KetabAbee.Application.Generators;
@@ -144,6 +145,7 @@ namespace KetabAbee.Application.Services.User
                 if (edit.UserAvatar != null && edit.UserAvatar.IsImage())
                 {
                     string imgPath = "";
+                    string imgThumbPath = "";
                     if (edit.CurrentAvatar != "User.jpg")
                     {
                         // get old avatar path
@@ -153,6 +155,15 @@ namespace KetabAbee.Application.Services.User
                         if (File.Exists(imgPath))
                         {
                             File.Delete(imgPath);
+                        }
+
+                        // get old avatar thumb path
+                        imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar/thumb", edit.CurrentAvatar);
+
+                        // delete old thumb avatar
+                        if (File.Exists(imgThumbPath))
+                        {
+                            File.Delete(imgThumbPath);
                         }
                     }
 
@@ -166,6 +177,10 @@ namespace KetabAbee.Application.Services.User
                     {
                         edit.UserAvatar.CopyTo(stream);
                     }
+
+                    ImageConvertor imgResizer = new ImageConvertor();
+                    imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar/thumb", edit.CurrentAvatar);
+                    imgResizer.Image_resize(imgPath, imgThumbPath, 300);
                 }
 
                 // update user
@@ -226,6 +241,32 @@ namespace KetabAbee.Application.Services.User
             try
             {
                 var user = _userRepository.GetUserById(userId);
+
+                #region Delete Avatar
+
+                if (user.AvatarName != null)
+                {
+                    if (user.AvatarName != "User.jpg")
+                    {
+                        string imgDeletePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar",
+                            user.AvatarName);
+                        if (File.Exists(imgDeletePath))
+                        {
+                            File.Delete(imgDeletePath);
+                        }
+
+                        string thumbDeletePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar/thumb",
+                            user.AvatarName);
+                        if (File.Exists(thumbDeletePath))
+                        {
+                            File.Delete(thumbDeletePath);
+                        }
+                    }
+                }
+
+                #endregion
+
+                user.AvatarName = "User.jpg";
                 user.IsDelete = true;
 
                 UpdateUser(user);

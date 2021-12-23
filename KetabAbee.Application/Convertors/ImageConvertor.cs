@@ -12,101 +12,101 @@ namespace KetabAbee.Application.Convertors
 {
     public class ImageConvertor
     {
-        //public void Image_resize(string input_Image_Path, string output_Image_Path, int new_Width)
-        //{
+        public void Image_resize(string input_Image_Path, string output_Image_Path, int new_Width)
+        {
 
-        //    const long quality = 50L;
+            const long quality = 50L;
 
-        //    Bitmap source_Bitmap = new Bitmap(input_Image_Path);
-
-
-
-        //    double dblWidth_origial = source_Bitmap.Width;
-
-        //    double dblHeigth_origial = source_Bitmap.Height;
-
-        //    double relation_heigth_width = dblHeigth_origial / dblWidth_origial;
-
-        //    int new_Height = (int)(new_Width * relation_heigth_width);
+            Bitmap source_Bitmap = new Bitmap(input_Image_Path);
 
 
 
-        //    //< create Empty Drawarea >
+            double dblWidth_origial = source_Bitmap.Width;
 
-        //    var new_DrawArea = new Bitmap(new_Width, new_Height);
+            double dblHeigth_origial = source_Bitmap.Height;
 
-        //    //</ create Empty Drawarea >
+            double relation_heigth_width = dblHeigth_origial / dblWidth_origial;
 
-
-
-        //    using (var graphic_of_DrawArea = Graphics.FromImage(new_DrawArea))
-
-        //    {
-
-        //        //< setup >
-
-        //        graphic_of_DrawArea.CompositingQuality = CompositingQuality.HighSpeed;
-
-        //        graphic_of_DrawArea.InterpolationMode = InterpolationMode.HighQualityBicubic;
-
-        //        graphic_of_DrawArea.CompositingMode = CompositingMode.SourceCopy;
-
-        //        //</ setup >
+            int new_Height = (int)(new_Width * relation_heigth_width);
 
 
 
-        //        //< draw into placeholder >
+            //< create Empty Drawarea >
 
-        //        //*imports the image into the drawarea
+            var new_DrawArea = new Bitmap(new_Width, new_Height);
 
-        //        graphic_of_DrawArea.DrawImage(source_Bitmap, 0, 0, new_Width, new_Height);
-
-        //        //</ draw into placeholder >
+            //</ create Empty Drawarea >
 
 
 
-        //        //--< Output as .Jpg >--
+            using (var graphic_of_DrawArea = Graphics.FromImage(new_DrawArea))
 
-        //        using (var output = System.IO.File.Open(output_Image_Path, FileMode.Create))
+            {
 
-        //        {
+                //< setup >
 
-        //            //< setup jpg >
+                graphic_of_DrawArea.CompositingQuality = CompositingQuality.HighSpeed;
 
-        //            var qualityParamId = System.Drawing.Imaging.Encoder.Quality;
+                graphic_of_DrawArea.InterpolationMode = InterpolationMode.HighQualityBicubic;
 
-        //            var encoderParameters = new EncoderParameters(1);
+                graphic_of_DrawArea.CompositingMode = CompositingMode.SourceCopy;
 
-        //            encoderParameters.Param[0] = new EncoderParameter(qualityParamId, quality);
-
-        //            //</ setup jpg >
+                //</ setup >
 
 
 
-        //            //< save Bitmap as Jpg >
+                //< draw into placeholder >
 
-        //            var codec = ImageCodecInfo.GetImageDecoders().FirstOrDefault(c => c.FormatID == ImageFormat.Jpeg.Guid);
+                //*imports the image into the drawarea
 
-        //            new_DrawArea.Save(output, codec, encoderParameters);
+                graphic_of_DrawArea.DrawImage(source_Bitmap, 0, 0, new_Width, new_Height);
 
-        //            //resized_Bitmap.Dispose ();
+                //</ draw into placeholder >
 
-        //            output.Close();
 
-        //            //</ save Bitmap as Jpg >
 
-        //        }
+                //--< Output as .Jpg >--
 
-        //        //--</ Output as .Jpg >--
+                using (var output = System.IO.File.Open(output_Image_Path, FileMode.Create))
 
-        //        graphic_of_DrawArea.Dispose();
+                {
 
-        //    }
+                    //< setup jpg >
 
-        //    source_Bitmap.Dispose();
+                    var qualityParamId = System.Drawing.Imaging.Encoder.Quality;
 
-        //    //---------------</ Image_resize() >---------------
+                    var encoderParameters = new EncoderParameters(1);
 
-        //}
+                    encoderParameters.Param[0] = new EncoderParameter(qualityParamId, quality);
+
+                    //</ setup jpg >
+
+
+
+                    //< save Bitmap as Jpg >
+
+                    var codec = ImageCodecInfo.GetImageDecoders().FirstOrDefault(c => c.FormatID == ImageFormat.Jpeg.Guid);
+
+                    new_DrawArea.Save(output, codec, encoderParameters);
+
+                    //resized_Bitmap.Dispose ();
+
+                    output.Close();
+
+                    //</ save Bitmap as Jpg >
+
+                }
+
+                //--</ Output as .Jpg >--
+
+                graphic_of_DrawArea.Dispose();
+
+            }
+
+            source_Bitmap.Dispose();
+
+            //---------------</ Image_resize() >---------------
+
+        }
     }
 }
