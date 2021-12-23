@@ -176,7 +176,7 @@ namespace KetabAbee.Web.Controllers
             return View();
         }
 
-        [HttpPost("ForgotPassword")]
+        [HttpPost("ForgotPassword") , ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel forgot)
         {
             if (!await _captchaValidator.IsCaptchaPassedAsync(forgot.Captcha))
@@ -219,7 +219,7 @@ namespace KetabAbee.Web.Controllers
             });
         }
 
-        [HttpPost("ResetPasswordByEmail/{id}")]
+        [HttpPost("ResetPasswordByEmail/{id}") , ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPasswordByEmail(ResetPasswordViewModel reset)
         {
             if (!await _captchaValidator.IsCaptchaPassedAsync(reset.Captcha))
@@ -251,7 +251,6 @@ namespace KetabAbee.Web.Controllers
         }
 
         #endregion
-
 
     }
 }

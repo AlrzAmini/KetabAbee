@@ -44,7 +44,7 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
             return View(infoForEdit);
         }
 
-        [HttpPost("UserPanel/EditProfile")]
+        [HttpPost("UserPanel/EditProfile") , ValidateAntiForgeryToken]
         public IActionResult EditProfile(UserPanelEditInfoViewModel edit)
         {
             if (!ModelState.IsValid)
@@ -76,7 +76,7 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
             return View();
         }
 
-        [HttpPost("UserPanel/ChangePassword")]
+        [HttpPost("UserPanel/ChangePassword") , ValidateAntiForgeryToken]
         public IActionResult ChangePassword(ChangePasswordViewModel change)
         {
             if (!ModelState.IsValid)
