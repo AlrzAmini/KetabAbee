@@ -204,5 +204,10 @@ namespace KetabAbee.Application.Services.User
             }
 
         }
+
+        public IEnumerable<Domain.Models.User.User> GetAllUsers()
+        {
+            return _userRepository.GetUsers();
+        }
     }
 }

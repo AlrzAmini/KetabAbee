@@ -11,6 +11,8 @@ namespace KetabAbee.Application.Interfaces.User
     {
         ListUsersViewModel GetUsers();
 
+        IEnumerable<Domain.Models.User.User> GetAllUsers();
+
         #region Account
 
         Domain.Models.User.User RegisterUser(RegisterViewModel user);
