@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs;
 using KetabAbee.Application.DTOs.Admin.User;
+using KetabAbee.Application.DTOs.Paging;
 using KetabAbee.Application.Generators;
 using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Security;
@@ -178,7 +179,7 @@ namespace KetabAbee.Application.Services.User
                         edit.UserAvatar.CopyTo(stream);
                     }
 
-                    ImageConvertor imgResizer = new ImageConvertor();
+                    var imgResizer = new ImageConvertor();
                     imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar/thumb", edit.CurrentAvatar);
                     imgResizer.Image_resize(imgPath, imgThumbPath, 300);
                 }
@@ -276,6 +277,59 @@ namespace KetabAbee.Application.Services.User
             {
                 return false;
             }
+        }
+
+        public FilterUsersViewModel GetAllFilteredUsersInAdmin(FilterUsersViewModel filter)
+        {
+            var result = _userRepository.GetUsers().AsQueryable();
+
+            #region Filters
+
+            //filter by create date
+            switch (filter.OrderBy)
+            {
+                case FilterUserOrder.RegisterDateAsc:
+                    result = result.OrderBy(u => u.RegisterDate);
+                    break;
+                case FilterUserOrder.RegisterDateDsc:
+                    result = result.OrderByDescending(u => u.RegisterDate);
+                    break;
+            }
+
+            //filter by username
+            if (!string.IsNullOrEmpty(filter.UserName))
+            {
+                result = result.Where(u => u.UserName.Contains(filter.UserName));
+            }
+
+            //filter by email
+            if (!string.IsNullOrEmpty(filter.Email))
+            {
+                result = result.Where(u => u.Email.Contains(filter.Email));
+            }
+
+            //filter by mobile
+            if (!string.IsNullOrEmpty(filter.Mobile))
+            {
+                result = result.Where(u => u.Mobile.Contains(filter.Mobile));
+            }
+
+            #endregion
+
+            #region Paging
+
+            var pager = Pager.Build(filter.PageNum, result.Count(), filter.Take, filter.PageCountAfterAndBefor);
+            var users = result.Paging(pager).ToList();
+
+            #endregion
+
+            return filter.SetPaging(pager).SetUsers(users);
+
+        }
+
+        public string GetAvatarNameByUserId(int userId)
+        {
+            return _userRepository.GetAvatarNameByUserId(userId);
         }
     }
 }

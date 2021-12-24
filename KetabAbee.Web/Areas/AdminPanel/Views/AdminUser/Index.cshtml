@@ -1,5 +1,6 @@
 ﻿@using KetabAbee.Application.Convertors
-@model IEnumerable<KetabAbee.Application.DTOs.Admin.User.UserForShowInUserListAdminViewModel>
+@using KetabAbee.Application.Extensions
+@model KetabAbee.Application.DTOs.Admin.User.FilterUsersViewModel
 @{
     ViewData["Title"] = "کاربران";
 }
@@ -17,7 +18,55 @@
         </ul>
     </div>
     <!-- /Page Breadcrumb -->
-    <div class="col-12 col-md-12 mt-4">
+    <!-- filter users -->
+    <div class="col-12 col-md-4">
+        <div class="row mt-4">
+            <div class="col-lg-12 mt-4">
+                <div class="widget m-4">
+                    <div class="widget-header bordered-bottom bordered-azure">
+                        <i class="widget-icon fa fa-filter azure"></i>
+                        <span class="widget-caption azure">فیلتر کاربران</span>
+                    </div><!--Widget Header-->
+                    <div class="widget-body no-padding">
+                        <div class="tickets-container">
+                            <form id="filterform" asp-controller="AdminUser" asp-action="Index" method="get">
+                                <input type="hidden" asp-for="PageNum"/>
+                                <div class="form-group">
+                                    <label for="definput">نام کاربری</label>
+                                    <input type="text" class="form-control" id="definput" placeholder="جستجو بر اساس نام کاربری" asp-for="UserName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="definput2">ایمیل</label>
+                                    <input type="text" class="form-control" id="definput2" placeholder="جستجو بر اساس ایمیل" asp-for="Email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="definput3">موبایل</label>
+                                    <input type="tel" class="form-control" id="definput3" placeholder="جستجو بر اساس موبایل" asp-for="Mobile">
+                                </div>
+                                <div class="form-group">
+                                    <label for="sorter">مرتب سازی بر اساس</label>
+                                    <select id="sorter" asp-for="OrderBy" onchange="changeSort()" class="form-control">
+                                        @if (Model.OrderBy.GetEnumName() == "صعودی")
+                                        {
+                                            <option value="registerdatedsc">جدید ترین</option>
+                                            <option selected="selected" value="registerdateasc">قدیمی ترین</option>
+                                        }
+                                        else
+                                        {
+                                            <option selected="selected" value="registerdatedsc">جدید ترین</option>
+                                            <option value="registerdateasc">قدیمی ترین</option>
+                                        }
+                                    </select>
+                                </div>
+                                <button class="btn btn-azure btn-lg btn-block" type="submit"><i class="fa fa-search"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-8 mt-4">
         <div class="row mt-4">
             <div class="col-lg-12 mt-4">
                 <div class="widget m-4">
@@ -27,15 +76,15 @@
                     </div><!--Widget Header-->
                     <div class="widget-body no-padding">
                         <div class="tickets-container">
-                            @if (Model.Any())
+                            @if (Model.Users.Any())
                             {
                                 <ul class="tickets-list">
-                                    @foreach (var user in Model)
+                                    @foreach (var user in Model.Users)
                                     {
                                         <li class="ticket-item">
                                             <div class="row">
-                                                <div class="ticket-user col-lg-3 col-sm-12">
-                                                    <img src="/Avatar/thumb/@user.ImageName" class="user-avatar" alt="avatar">
+                                                <div class="ticket-user col-lg-4 col-sm-12">
+                                                    <img src="/Avatar/thumb/@user.AvatarName" class="user-avatar" alt="avatar">
                                                     <span class="user-name">@user.UserName</span>
                                                     <span class="user-at">از تاریخ</span>
                                                     <span class="user-company">@user.RegisterDate.ToShamsi()</span>
@@ -45,18 +94,18 @@
                                                     <i class="glyphicon glyphicon-envelope"></i>
                                                     <span class="time"> @user.Email </span>
                                                 </div>
-                                                <div class="ticket-type  col-lg-3 col-sm-6 col-xs-12">
+                                                <div class="ticket-type  col-lg-2 col-sm-6 col-xs-12">
                                                     <span class="divider hidden-xs"></span>
                                                     <i class="glyphicon glyphicon-earphone"></i>
                                                     <span class="time">@user.Mobile</span>
                                                 </div>
-                                                <div class="ticket-type  col-lg-2 col-sm-6 col-xs-12">
+                                                <div class="ticket-type  col-lg-3 col-sm-6 col-xs-12">
                                                     <span class="divider hidden-xs"></span>
                                                     <a class="btn btn-blue">ویرایش</a>
                                                     <a class="btn btn-success">جزییات</a>
-                                                    <a asp-controller="AdminUser" asp-action="DeleteUser" asp-route-id="@user.Userid" onclick="return confirm('از حذف این کاربر اطمینان دارید ؟')" class="btn btn-danger shiny">حذف</a>
+                                                    <a asp-controller="AdminUser" asp-action="DeleteUser" asp-route-id="@user.UserId" onclick="return confirm('از حذف این کاربر اطمینان دارید ؟')" class="btn btn-danger shiny">حذف</a>
                                                 </div>
-                                                @if (user.IsActiveByEmail)
+                                                @if (user.IsEmailActive)
                                                 {
                                                     <div class="ticket-state bg-palegreen">
                                                         <i class="fa fa-check"></i>
@@ -79,20 +128,22 @@
                                 <div class="alert alert-danger">هنوز کاربری ثبت نشده است</div>
                             }
                         </div>
-                        <ul class="pagination margin-10">
-                            <li class="disabled"><a href="#">«</a></li>
-                            <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">»</a></li>
-                        </ul>
+                        <partial name="_AdminPaging" model="Model.GetCurrentPaging()"/>
                     </div>
                 </div>
 
             </div>
         </div>
     </div>
+
 </div>
 <!-- /Page Content -->
+@section Scripts{
+
+    <script>
+
+        function changeSort() {
+            $("#filterform").submit();
+        }
+    </script>
+}

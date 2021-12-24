@@ -114,5 +114,17 @@ namespace KetabAbee.Data.Repository
         {
             return _context.Users.SingleOrDefault(u => u.UserId == userId);
         }
+
+        public string GetAvatarNameByUserId(int userId)
+        {
+            try
+            {
+                return _context.Users.SingleOrDefault(u => u.UserId == userId).AvatarName;
+            }
+            catch
+            {
+                return "Error";
+            }
+        }
     }
 }

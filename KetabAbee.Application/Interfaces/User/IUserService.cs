@@ -12,8 +12,6 @@ namespace KetabAbee.Application.Interfaces.User
     {
         ListUsersViewModel GetUsers();
 
-        
-
         #region Account
 
         Domain.Models.User.User RegisterUser(RegisterViewModel user);
@@ -56,7 +54,11 @@ namespace KetabAbee.Application.Interfaces.User
 
         IEnumerable<UserForShowInUserListAdminViewModel> GetAllUsersForAdmin();
 
+        FilterUsersViewModel GetAllFilteredUsersInAdmin(FilterUsersViewModel filter);
+
         bool DeleteUserById(int userId);
+
+        string GetAvatarNameByUserId(int userId);
 
         #endregion
     }

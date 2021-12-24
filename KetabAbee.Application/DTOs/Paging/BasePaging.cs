@@ -31,5 +31,10 @@ namespace KetabAbee.Application.DTOs.Paging
 
         public int PageCountAfterAndBefor { get; set; }
 
+        public BasePaging GetCurrentPaging()
+        {
+            return this;
+        }
+
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KetabAbee.Application.DTOs.Admin.User;
 using KetabAbee.Application.Interfaces.User;
 
 namespace KetabAbee.Web.Areas.AdminPanel.Controllers.User
@@ -23,9 +24,9 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.User
         #region Users Index
 
         [HttpGet("Admin/Users")]
-        public IActionResult Index()
+        public IActionResult Index(FilterUsersViewModel filter)
         {
-            return View(_userService.GetAllUsersForAdmin());
+            return View(_userService.GetAllFilteredUsersInAdmin(filter));
         }
 
         #endregion

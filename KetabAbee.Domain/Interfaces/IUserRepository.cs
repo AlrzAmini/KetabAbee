@@ -46,6 +46,8 @@ namespace KetabAbee.Domain.Interfaces
 
         User GetUserById(int userId);
 
+        string GetAvatarNameByUserId(int userId);
+
         #endregion
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,10 +12,13 @@ namespace KetabAbee.Application.DTOs.Admin.User
     {
         #region Props
 
-        public int? UserId { get; set; }
         public string UserName { get; set; }
+
         public string Email { get; set; }
+
         public string Mobile { get; set; }
+
+        public FilterUserOrder OrderBy { get; set; }
 
         public List<Domain.Models.User.User> Users { get; set; }
 
@@ -42,5 +46,13 @@ namespace KetabAbee.Application.DTOs.Admin.User
         }
 
         #endregion
+    }
+    public enum FilterUserOrder
+    {
+        [Display(Name = "صعودی")]
+        RegisterDateAsc,
+        [Display(Name = "نزولی")]
+        RegisterDateDsc
+
     }
 }

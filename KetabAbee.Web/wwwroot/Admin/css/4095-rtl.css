@@ -1,4 +1,7 @@
 ﻿﻿/*#region FullCalendar*/
+.cursor-pointer {
+    cursor: pointer;
+}
 .fc {
   direction: rtl;
   text-align: right;

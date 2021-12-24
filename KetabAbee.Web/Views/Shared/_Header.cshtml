@@ -1,4 +1,7 @@
 ﻿@using System.Security.Claims
+@using KetabAbee.Application.Extensions
+@using KetabAbee.Application.Interfaces.User
+@inject IUserService _userService;
 <!-- Page Header -->
 <header class="page-header">
     <div class="top-page-header">
@@ -161,7 +164,7 @@
                                 <a asp-controller="UserPanel" asp-action="Dashboard" class="d-block">
                                     <span class="header-profile-dropdown-user">
                                         <span class="header-profile-dropdown-user-img">
-                                            <img src="/images/avatar/avatar.png">
+                                            <img src="/avatar/thumb/@_userService.GetAvatarNameByUserId(User.GetUserId())" alt="avatar">
                                         </span>
                                         <span class="header-profile-dropdown-user-info">
                                             <p class="header-profile-dropdown-user-name">
