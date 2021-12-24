@@ -181,7 +181,7 @@ namespace KetabAbee.Application.Services.User
 
                     var imgResizer = new ImageConvertor();
                     imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar/thumb", edit.CurrentAvatar);
-                    imgResizer.Image_resize(imgPath, imgThumbPath, 300);
+                    imgResizer.Image_resize(imgPath, imgThumbPath, 200);
                 }
 
                 // update user

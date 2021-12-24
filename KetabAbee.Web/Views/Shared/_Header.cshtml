@@ -159,12 +159,12 @@
                             @User.FindFirstValue(ClaimTypes.Name)
                             <i class="fad fa-chevron-down text-sm mr-1"></i>
                         </a>
-                        <ul class="dropdown--wrapper">
+                        <ul class="dropdown-wrapper">
                             <li class="header-profile-dropdown-account-container">
                                 <a asp-controller="UserPanel" asp-action="Dashboard" class="d-block">
                                     <span class="header-profile-dropdown-user">
                                         <span class="header-profile-dropdown-user-img">
-                                            <img src="/avatar/thumb/@_userService.GetAvatarNameByUserId(User.GetUserId())" alt="avatar">
+                                            <img class="rounded-circle" src="/avatar/thumb/@_userService.GetAvatarNameByUserId(User.GetUserId())" alt="avatar">
                                         </span>
                                         <span class="header-profile-dropdown-user-info">
                                             <p class="header-profile-dropdown-user-name">
