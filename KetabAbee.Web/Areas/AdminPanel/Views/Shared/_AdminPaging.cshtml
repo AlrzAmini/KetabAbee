@@ -3,7 +3,7 @@
 <ul class="pagination margin-10">
     @if (Model.StartPage < Model.PageNum)
     {
-        <li class="cursor-pointer"><a onclick="FillPageNum(@(Model.PageNum-1))">«</a></li>
+        <li><a onclick="FillPageNum(@(Model.PageNum-1))">«</a></li>
     }
     @for (var i = Model.StartPage; i <= Model.EndPage; i++)
     {
@@ -11,6 +11,6 @@
     }
     @if (Model.EndPage > Model.PageNum)
     {
-        <li class="cursor-pointer"><a onclick="FillPageNum(@(Model.PageNum+1))">»</a></li>
+        <li><a onclick="FillPageNum(@(Model.PageNum+1))">»</a></li>
     }
 </ul>

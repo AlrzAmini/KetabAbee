@@ -26,11 +26,12 @@
                                     @{
                                         string orderBy = ViewBag.orderby as string;
                                     }
-                                    <form id="filterform" action="/Tickets" method="get">
+                                    <form id="filterform" asp-controller="Ticket" asp-action="Index" method="get">
+                                        <input type="hidden" asp-for="PageNum"/>
                                         <div class="section-title mb-2">
                                             <div class="col-9">
                                                 <div class="row">
-                                                    <select id="sorter" name="orderby" onchange="changeSort()" class="form-control col-3">
+                                                    <select id="sorter" asp-for="OrderBy" onchange="changeSort()" class="form-control col-3">
                                                         @if (orderBy == "صعودی")
                                                         {
                                                             <option value="createdatedsc">جدید ترین</option>
@@ -42,7 +43,7 @@
                                                             <option value="createdateasc">قدیمی ترین</option>
                                                         }
                                                     </select>
-                                                    <input type="text" class="form-control border border-info col-8 mr-1" name="Title" placeholder="جستجو بر اساس عنوان تیکت"/>
+                                                    <input type="text" class="form-control border border-info col-8 mr-1" asp-for="Title" placeholder="جستجو بر اساس عنوان تیکت"/>
                                                 </div>
                                             </div>
                                             <button type="submit" class="btn btn-info col-3">جستجو</button>
@@ -98,6 +99,7 @@
                                                 </table>
                                             </div>
                                         </section>
+                                        <partial name="_UserPanelPaging" model="Model.GetCurrentPaging()"/>
                                     }
                                     else
                                     {

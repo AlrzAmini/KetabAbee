@@ -1,0 +1,16 @@
+﻿@model KetabAbee.Application.DTOs.Paging.BasePaging
+
+<ul class="pagination margin-10">
+    @if (Model.StartPage < Model.PageNum)
+    {
+        <li class="btn btn-info btn-sm m-1"><a onclick="FillPageNum(@(Model.PageNum-1))">«</a></li>
+    }
+    @for (var i = Model.StartPage; i <= Model.EndPage; i++)
+    {
+        <li class="@(Model.PageNum == i ? "active" : "") btn btn-info btn-sm m-1"><a onclick="FillPageNum(@i)">@i</a></li>
+    }
+    @if (Model.EndPage > Model.PageNum)
+    {
+        <li class="btn btn-info btn-sm m-1"><a onclick="FillPageNum(@(Model.PageNum+1))">»</a></li>
+    }
+</ul>
