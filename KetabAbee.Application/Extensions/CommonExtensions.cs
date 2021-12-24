@@ -23,5 +23,10 @@ namespace KetabAbee.Application.Extensions
         {
             return int.Parse(claim.FindFirst(ClaimTypes.NameIdentifier).Value);
         }
+
+        public static string GetUserEmail(this ClaimsPrincipal claim)
+        {
+            return claim.FindFirst(ClaimTypes.Email).Value;
+        }
     }
 }
