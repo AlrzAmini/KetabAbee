@@ -61,10 +61,10 @@ namespace KetabAbee.Web.Controllers
                 return View(register);
             }
 
-            // Check Mobile
+            // Check Email
             if (_userService.IsEmailExist(FixText.EmailFixer(register.Email)))
             {
-                TempData["ErrorMessage"] = "شماره موبایل وارد شده تکراری است";
+                TempData["ErrorMessage"] = "ایمیل وارد شده تکراری است";
                 return View(register);
             }
 

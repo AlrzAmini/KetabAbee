@@ -52,8 +52,7 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
                 return View(edit);
             }
 
-            bool isDone = _userService.EditUserProfile(edit);
-            if (isDone)
+            if (_userService.EditUserProfile(edit))
             {
                 TempData["SuccessMessage"] = "پروفایل شما با موفقیت بروزرسانی شد";
 

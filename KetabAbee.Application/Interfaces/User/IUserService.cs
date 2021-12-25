@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs;
 using KetabAbee.Application.DTOs.Admin.User;
+using Microsoft.AspNetCore.Http;
 
 namespace KetabAbee.Application.Interfaces.User
 {
@@ -59,6 +60,8 @@ namespace KetabAbee.Application.Interfaces.User
         bool DeleteUserById(int userId);
 
         string GetAvatarNameByUserId(int userId);
+
+        bool AddUser(Domain.Models.User.User user,IFormFile imgFile);
 
         #endregion
     }

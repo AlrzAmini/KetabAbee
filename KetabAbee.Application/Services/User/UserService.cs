@@ -12,6 +12,7 @@ using KetabAbee.Application.Generators;
 using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Security;
 using KetabAbee.Domain.Interfaces;
+using Microsoft.AspNetCore.Http;
 
 namespace KetabAbee.Application.Services.User
 {
@@ -65,7 +66,7 @@ namespace KetabAbee.Application.Services.User
 
         public bool IsMobileExist(string mobile)
         {
-            return _userRepository.IsMobileExist(mobile);
+            return mobile != null && _userRepository.IsMobileExist(mobile);
         }
 
         public Domain.Models.User.User GetUserForLogin(LoginViewModel login)
@@ -330,6 +331,47 @@ namespace KetabAbee.Application.Services.User
         public string GetAvatarNameByUserId(int userId)
         {
             return _userRepository.GetAvatarNameByUserId(userId);
+        }
+
+        public bool AddUser(Domain.Models.User.User user , IFormFile imgFile)
+        {
+            if (user == null) return false;
+
+            #region Check and add Avatar
+
+            if (imgFile != null && imgFile.IsImage())
+            {
+                // generate new image path and name
+                user.AvatarName = CodeGenerator.GenerateUniqCode() + Path.GetExtension(imgFile.FileName);
+
+                string imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar", user.AvatarName);
+
+                // save file in file
+                using (var stream = new FileStream(imgPath, FileMode.Create))
+                {
+                    imgFile.CopyTo(stream);
+                }
+
+                var imgResizer = new ImageConvertor();
+                string imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar/thumb", user.AvatarName);
+                imgResizer.Image_resize(imgPath, imgThumbPath, 200);
+            }
+            else
+            {
+                user.AvatarName = "User.jpg";
+            }
+
+            #endregion
+
+            user.Password = PasswordHasher.EncodePasswordMd5(user.Password);
+            user.Email = FixText.EmailFixer(user.Email);
+            user.EmailActivationCode = CodeGenerator.GenerateUniqCode();
+            user.IsEmailActive = true;
+            user.MobileActivationCode = new Random().Next(100000, 999998).ToString();
+            user.IsMobileActive = true;
+            user.RegisterDate = DateTime.Now;
+
+            return _userRepository.RegisterUser(user);
         }
     }
 }

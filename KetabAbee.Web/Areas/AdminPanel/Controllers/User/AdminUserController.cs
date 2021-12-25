@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs.Admin.User;
 using KetabAbee.Application.Interfaces.User;
+using Microsoft.AspNetCore.Http;
 
 namespace KetabAbee.Web.Areas.AdminPanel.Controllers.User
 {
@@ -44,6 +46,64 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.User
             TempData["ErrorMessage"] = "عملیات حذف کاربر با شکست مواجه شد";
             return RedirectToAction("Index");
         }
+
+        #endregion
+
+        #region Add User
+
+        [HttpGet("Admin/Users/AddUser")]
+        public IActionResult AddUser()
+        {
+            return View();
+        }
+
+        [HttpPost("Admin/Users/AddUser") , ValidateAntiForgeryToken]
+        public IActionResult AddUser(Domain.Models.User.User user,IFormFile imgFile)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(user);
+            }
+
+            // Check User Name
+            if (_userService.IsUserNameExist(user.UserName))
+            {
+                TempData["ErrorMessage"] = "نام کاربری وارد شده تکراری است";
+                return View(user);
+            }
+
+            // Check Email
+            if (_userService.IsEmailExist(FixText.EmailFixer(user.Email)))
+            {
+                TempData["ErrorMessage"] = "شماره موبایل وارد شده تکراری است";
+                return View(user);
+            }
+
+            // Check Mobile
+            if (_userService.IsMobileExist(user.Mobile))
+            {
+                TempData["ErrorMessage"] = "شماره موبایل وارد شده تکراری است";
+                return View(user);
+            }
+
+            //register user
+            if (!_userService.AddUser(user,imgFile)) return View(user);
+
+            TempData["SuccessMessage"] = "ثبت کاربر با موفقیت انجام شد";
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region Edit User
+
+
+
+        #endregion
+
+        #region User Detail
+
+
 
         #endregion
 

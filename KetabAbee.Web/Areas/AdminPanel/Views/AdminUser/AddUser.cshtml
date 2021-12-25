@@ -1,0 +1,128 @@
+﻿@model KetabAbee.Domain.Models.User.User
+@{
+    ViewData["Title"] = "افزودن کاربر";
+}
+<!-- Page Content -->
+<div class="page-content">
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs margin-bottom-20">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+            </li>
+            <li>
+                <a asp-controller="AdminUser" asp-action="Index">کاربران</a>
+            </li>
+            <li class="active">@ViewData["Title"]</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+    <form asp-controller="AdminUser" asp-action="AddUser" method="post" role="form" enctype="multipart/form-data">
+        <div class="col-lg-7 col-sm-7 col-xs-12">
+            <div class="widget flat radius-bordered">
+                <div class="widget-header bg-blue">
+                    <span class="widget-caption">@ViewData["Title"]</span>
+                </div>
+                <div class="widget-body">
+                    <div id="registration-form">
+                        <div class="form-title">
+                            مشخصات کاربری
+                        </div>
+                        <div class="form-group">
+                            <span class="input-icon icon-right">
+                                <input type="text" class="form-control" asp-for="UserName" placeholder="نام کاربری">
+                                <i class="glyphicon glyphicon-user circular"></i>
+                            </span>
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <span class="input-icon icon-right">
+                                <input type="email" class="form-control" asp-for="Email" placeholder="ایمیل">
+                                <i class="fa fa-envelope-o circular"></i>
+                            </span>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <span class="input-icon icon-right">
+                                <input type="text" class="form-control" asp-for="Password" placeholder="کلمه عبور">
+                                <i class="fa fa-lock circular"></i>
+                            </span>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-title">
+                            مشخصات فردی
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <span class="input-icon icon-right">
+                                        <input type="text" class="form-control" asp-for="Mobile" placeholder="موبایل">
+                                        <i class="glyphicon glyphicon-phone"></i>
+                                    </span>
+                                    <span asp-validation-for="Mobile" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <span class="input-icon icon-right">
+                                        <input type="text" class="form-control" asp-for="Age" value="0" placeholder="سن">
+                                        <i class="glyphicon glyphicon-time"></i>
+                                    </span>
+                                    <p class="help-block">در صورتی که نمی خواهید سن را وارد کنید آن را صفر باقی بگذارید</p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="wide">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5 col-sm-5 col-xs-12">
+            <div class="widget flat radius-bordered">
+                <div class="widget-header bg-azure">
+                    <span class="widget-caption">آواتار</span>
+                </div>
+                <div class="widget-body">
+                    <div id="registration-form">
+                        <div class="form-title">
+                            آواتار
+                        </div>
+                        <div class="form-group">
+                            <span class="input-icon icon-right">
+                                <input id="userAvatar" type="file" name="imgFile" class="form-control">
+                                <i class="fa fa-image circular"></i>
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <img class="thumbnail img-fluid max-width100" id="avatarUp" src="/Avatar/User.jpg" alt="avatar"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <button type="submit" class="btn btn-success btn-lg btn-block">ثبت کاربر</button>
+        </div>
+    </form>
+</div>
+<!-- /Page Content -->
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#avatarUp').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#userAvatar").change(function () {
+            readURL(this);
+        });
+    </script>
+}

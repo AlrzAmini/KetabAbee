@@ -18,6 +18,9 @@
         </ul>
     </div>
     <!-- /Page Breadcrumb -->
+    <div class="col-12 col-md-12 row margin-bottom-10">
+        <a asp-controller="AdminUser" asp-action="AddUser" class="btn btn-darkorange col-md-4">افزودن کاربر جدید <i class="glyphicon glyphicon-plus"></i> </a>
+    </div>
     <!-- filter users -->
     <div class="col-12 col-md-4">
         <div class="row mt-4">
@@ -30,7 +33,7 @@
                     <div class="widget-body no-padding">
                         <div class="tickets-container">
                             <form id="filterform" asp-controller="AdminUser" asp-action="Index" method="get">
-                                <input type="hidden" asp-for="PageNum"/>
+                                <input type="hidden" asp-for="PageNum" />
                                 <div class="form-group">
                                     <label for="definput">نام کاربری</label>
                                     <input type="text" class="form-control" id="definput" placeholder="جستجو بر اساس نام کاربری" asp-for="UserName">
@@ -128,14 +131,13 @@
                                 <div class="alert alert-danger">هنوز کاربری ثبت نشده است</div>
                             }
                         </div>
-                        <partial name="_AdminPaging" model="Model.GetCurrentPaging()"/>
+                        <partial name="_AdminPaging" model="Model.GetCurrentPaging()" />
                     </div>
                 </div>
 
             </div>
         </div>
     </div>
-
 </div>
 <!-- /Page Content -->
 @section Scripts{

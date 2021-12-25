@@ -2,7 +2,10 @@
 @{
     ViewData["Title"] = "ویرایش پروفایل";
 }
-
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
 <main class="page-content" style="margin-top: 205.5px; transform: none;">
     <div class="container" style="transform: none;">
         <div class="row mb-5" style="transform: none;">
@@ -81,14 +84,14 @@
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     $('#AvatarImage').attr('src', e.target.result);
                 }
                 reader.readAsDataURL(input.files[0]);
             }
         }
 
-        $("#UserAvatar").change(function() {
+        $("#UserAvatar").change(function () {
             readURL(this);
         });
     </script>
