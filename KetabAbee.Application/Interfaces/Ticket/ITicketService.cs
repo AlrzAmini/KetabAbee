@@ -16,5 +16,13 @@ namespace KetabAbee.Application.Interfaces.Ticket
         FilterTicketViewModel FilterTickets(FilterTicketViewModel filter);
 
         Domain.Models.Ticket.Ticket GetTicketById(int ticketId);
+
+        #region Admin
+
+        bool DeleteTicketById(int ticketId);
+
+        bool TicketIsRead(int ticketId);
+
+        #endregion
     }
 }

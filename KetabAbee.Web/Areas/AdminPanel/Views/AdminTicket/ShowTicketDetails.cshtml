@@ -1,0 +1,49 @@
+﻿@using KetabAbee.Application.Convertors
+@model KetabAbee.Domain.Models.Ticket.Ticket
+@{
+    ViewData["Title"] = " جزییات تیکت " + Model.Title;
+}
+<div class="page-content">
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs margin-bottom-20">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+            </li>
+            <li>
+                <a asp-controller="AdminTicket" asp-action="Index">تیکت ها</a>
+            </li>
+            <li class="active">@ViewData["Title"]</li>
+        </ul>
+    </div>
+    <div class="page-body no-padding">
+        ‌<div class="mail-container">
+            <div class="mail-body">
+                <div class="mail-info">
+                    <div class="mail-sender">
+                        <a href="#">
+                            <img src="/Avatar/thumb/@Model.Sender.AvatarName" class="img-circle" width="30" alt="Avatar">
+                            <span>@Model.Sender.UserName</span>
+                        </a>
+                    </div>
+                    <div class="mail-date">
+                        @Model.TicketSendDate.ToIraniDate() ساعت @Model.TicketSendDate.GetHourAndMinutes()
+                    </div>
+                </div>
+                <div class="border bordered-azure">
+                    <div class="mail-text">
+                        <p>@Html.Raw(Model.Body)</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="reply-form">
+                        <div>
+                            <a class="btn btn-success">پاسخ دادن</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -14,5 +14,10 @@ namespace KetabAbee.Domain.Interfaces
         Ticket GetTicketById(int ticketId);
 
         IEnumerable<Ticket> GetTickets();
+
+        bool DeleteTicket(Ticket ticket);
+
+        void UpdateTicket(Ticket ticket);
+
     }
 }

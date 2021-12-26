@@ -8,6 +8,7 @@ using KetabAbee.Application.DTOs.Ticket;
 using KetabAbee.Application.Interfaces.Ticket;
 using KetabAbee.Domain.Interfaces;
 using KetabAbee.Domain.Models.Ticket;
+using Microsoft.EntityFrameworkCore;
 
 namespace KetabAbee.Application.Services.Ticket
 {
@@ -38,9 +39,25 @@ namespace KetabAbee.Application.Services.Ticket
             return _ticketRepository.AddTicket(newTicket);
         }
 
+        public bool DeleteTicketById(int ticketId)
+        {
+            try
+            {
+                var ticket = _ticketRepository.GetTicketById(ticketId);
+
+                if (ticket == null) return false;
+
+                return _ticketRepository.DeleteTicket(ticket);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public FilterTicketViewModel FilterTickets(FilterTicketViewModel filter)
         {
-            var result = _ticketRepository.GetTickets().AsQueryable();
+            var result = _ticketRepository.GetTickets().AsQueryable().Include(r => r.Sender).AsQueryable();
 
             // filter by create date
             switch (filter.OrderBy)
@@ -92,6 +109,37 @@ namespace KetabAbee.Application.Services.Ticket
         public IEnumerable<Domain.Models.Ticket.Ticket> GetTickets()
         {
             return _ticketRepository.GetTickets();
+        }
+
+        public bool TicketIsRead(int ticketId)
+        {
+            try
+            {
+                var ticket = GetTicketById(ticketId);
+
+                if (ticket == null)
+                {
+                    return false;
+                }
+
+                if (ticket.IsReadByAdmin)
+                {
+                    ticket.IsReadByAdmin = false;
+
+                    _ticketRepository.UpdateTicket(ticket);
+                    return true;
+                }
+
+                ticket.IsReadByAdmin = true;
+
+                _ticketRepository.UpdateTicket(ticket);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
         }
     }
 }
