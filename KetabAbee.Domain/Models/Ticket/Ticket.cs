@@ -46,6 +46,8 @@ namespace KetabAbee.Domain.Models.Ticket
 
         public User.User Sender { get; set; }
 
+        public ICollection<TicketAnswer> Answers { get; set; }
+
         #endregion
     }
 

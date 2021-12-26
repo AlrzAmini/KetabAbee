@@ -23,6 +23,7 @@ namespace KetabAbee.Data.Context
         #region ticket
 
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<TicketAnswer> TicketAnswers { get; set; }
 
         #endregion
 

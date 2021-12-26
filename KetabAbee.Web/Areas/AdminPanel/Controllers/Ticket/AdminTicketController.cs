@@ -1,13 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Ticket;
 using KetabAbee.Application.Interfaces.Ticket;
-using KetabAbee.Application.Interfaces.User;
-using KetabAbee.Domain.Models.Ticket;
-using Microsoft.AspNetCore.Mvc.Rendering;
+
 
 namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Ticket
 {
@@ -73,6 +67,12 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Ticket
             TempData["ErrorMessage"] = "عملیات با شکست مواجه شد";
             return RedirectToAction("Index");
         }
+
+        #endregion
+
+        #region Answer Ticket
+
+        //TODO : Answer Ticket
 
         #endregion
 
