@@ -74,10 +74,11 @@ namespace KetabAbee.Application.DTOs.Ticket
 
     public enum FilterTicketOrder
     {
-        [Display(Name = "صعودی")]
-        CreateDateAsc,
         [Display(Name = "نزولی")]
-        CreateDateDsc
+        CreateDateDsc,
+        [Display(Name = "صعودی")]
+        CreateDateAsc
+        
 
     }
 }

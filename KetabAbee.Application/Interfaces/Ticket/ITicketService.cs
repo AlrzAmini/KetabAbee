@@ -9,7 +9,10 @@ namespace KetabAbee.Application.Interfaces.Ticket
 {
     public interface ITicketService
     {
-        bool AddTicket(AddTicketViewmodel ticket,int senderId);
+
+        #region Ticket
+
+        bool AddTicket(AddTicketViewmodel ticket, int senderId);
 
         IEnumerable<Domain.Models.Ticket.Ticket> GetTickets();
 
@@ -24,5 +27,14 @@ namespace KetabAbee.Application.Interfaces.Ticket
         bool TicketIsRead(int ticketId);
 
         #endregion
+
+        #endregion
+
+        #region Answer
+
+        
+
+        #endregion
+
     }
 }

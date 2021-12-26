@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using KetabAbee.Application.DTOs.Ticket;
 using KetabAbee.Application.Interfaces.Ticket;
+using KetabAbee.Domain.Models.Ticket;
 
 
 namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Ticket
@@ -72,7 +73,11 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Ticket
 
         #region Answer Ticket
 
-        //TODO : Answer Ticket
+        [HttpGet("Admin/Tickets/Answer/{id}")]
+        public IActionResult AnswerTicket(int id) // id = ticketId
+        {
+            return RedirectToAction("Index");
+        }
 
         #endregion
 

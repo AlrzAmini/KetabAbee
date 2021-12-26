@@ -32,13 +32,13 @@
                         <div class="tickets-container">
                             @{
                                 List<SelectListItem> listPriority = new List<SelectListItem>
-                                {
+                                                    {
                                     new(){Text = "همه موارد",Value = ""}
                                 };
                                 listPriority.AddRange(Html.GetEnumSelectList<TicketPriority>());
 
                                 List<SelectListItem> listState = new List<SelectListItem>
-                                {
+                                                    {
                                     new(){Text = "همه موارد",Value = ""}
                                 };
                                 listState.AddRange(Html.GetEnumSelectList<TicketState>());
@@ -120,42 +120,42 @@
                     <tbody>
                         @foreach (var ticket in Model.Tickets)
                         {
-                        <tr>
-                            <td>
-                                @ticket.TicketId
-                            </td>
-                            <td>
-                                @ticket.Sender.UserName
-                            </td>
-                            <td>
-                                @ticket.Title
-                            </td>
-                            <td>
-                                @ticket.TicketSendDate.ToShamsi() ساعت @ticket.TicketSendDate.GetHourAndMinutes()
-                            </td>
-                            <td>
-                                @ticket.TicketPriority.GetEnumName()
-                            </td>
-                            <td>
-                                @ticket.TicketState.GetEnumName()
-                            </td>
-                            <td class="@((ticket.IsReadByAdmin) ? "success" : "danger")">
-                                @if (ticket.IsReadByAdmin)
-                                {
-                                    <p>بله</p>
-                                }
-                                else
-                                {
-                                    <p>خیر</p>
-                                }
-                            </td>
-                            <td>
-                                <a class="btn btn-success">پاسخ دادن</a>
-                                <a class="btn btn-info" asp-controller="AdminTicket" asp-action="ShowTicketDetails" asp-route-id="@ticket.TicketId">مشاهده</a>
-                                <a class="btn btn-danger" asp-controller="AdminTicket" asp-action="DeleteTicket" onclick="return confirm('از حذف این تیکت اطمینان دارید ؟')" asp-route-id="@ticket.TicketId">حذف</a>
-                                <a class="btn btn-purple shiny" asp-controller="AdminTicket" asp-action="TicketIsRead" onclick="return confirm('حالت | خوانده شد | این تیکت را تغییر می دهید ؟')" asp-route-id="@ticket.TicketId">خوانده شد</a>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    @ticket.TicketId
+                                </td>
+                                <td>
+                                    @ticket.Sender.UserName
+                                </td>
+                                <td>
+                                    @ticket.Title
+                                </td>
+                                <td>
+                                    @ticket.TicketSendDate.ToShamsi() ساعت @ticket.TicketSendDate.GetHourAndMinutes()
+                                </td>
+                                <td>
+                                    @ticket.TicketPriority.GetEnumName()
+                                </td>
+                                <td>
+                                    @ticket.TicketState.GetEnumName()
+                                </td>
+                                <td class="@((ticket.IsReadByAdmin) ? "success" : "danger")">
+                                    @if (ticket.IsReadByAdmin)
+                                    {
+                                        <p>بله</p>
+                                    }
+                                    else
+                                    {
+                                        <p>خیر</p>
+                                    }
+                                </td>
+                                <td>
+                                    <a class="btn btn-info" asp-controller="AdminTicket" asp-action="ShowTicketDetails" asp-route-id="@ticket.TicketId">مشاهده</a>
+                                    <a class="btn btn-success" asp-controller="AdminTicket" asp-action="AnswerTicket" asp-route-id="@ticket.TicketId">پاسخ</a>
+                                    <a class="btn btn-danger" asp-controller="AdminTicket" asp-action="DeleteTicket" onclick="return confirm('از حذف این تیکت اطمینان دارید ؟')" asp-route-id="@ticket.TicketId">حذف</a>
+                                    <a class="btn btn-purple shiny" asp-controller="AdminTicket" asp-action="TicketIsRead" onclick="return confirm('حالت | خوانده شد | این تیکت را تغییر می دهید ؟')" asp-route-id="@ticket.TicketId">خوانده شد</a>
+                                </td>
+                            </tr>
                         }
                     </tbody>
                 </table>
