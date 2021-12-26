@@ -1,0 +1,172 @@
+﻿@using KetabAbee.Application.Extensions
+@using KetabAbee.Application.Convertors
+@using KetabAbee.Domain.Models.Ticket
+@model KetabAbee.Application.DTOs.Ticket.FilterTicketViewModel
+@{
+    ViewData["Title"] = "تیکت ها";
+}
+
+<!-- Page Content -->
+<div class="page-content">
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs margin-bottom-20">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+            </li>
+            <li class="active">@ViewData["Title"]</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+    <!-- filter Tickets -->
+    <div class="col-12 col-md-4">
+        <div class="row mt-4">
+            <div class="col-lg-12 mt-4">
+                <div class="widget m-4">
+                    <div class="widget-header bordered-bottom bordered-azure">
+                        <i class="widget-icon fa fa-filter azure"></i>
+                        <span class="widget-caption azure">فیلتر تیکت ها</span>
+                    </div><!--Widget Header-->
+                    <div class="widget-body no-padding">
+                        <div class="tickets-container">
+                            @{
+                                List<SelectListItem> listPriority = new List<SelectListItem>
+                                {
+                                    new(){Text = "همه موارد",Value = ""}
+                                };
+                                listPriority.AddRange(Html.GetEnumSelectList<TicketPriority>());
+
+                                List<SelectListItem> listState = new List<SelectListItem>
+                                {
+                                    new(){Text = "همه موارد",Value = ""}
+                                };
+                                listState.AddRange(Html.GetEnumSelectList<TicketState>());
+                            }
+                            <form id="filterform" asp-controller="AdminTicket" asp-action="Index" method="get">
+                                <input type="hidden" asp-for="PageNum" />
+                                <div class="form-group">
+                                    <label for="definput">عنوان</label>
+                                    <input type="text" class="form-control" id="definput" placeholder="جستجو بر اساس عنوان" asp-for="Title">
+                                </div>
+                                <div class="form-group">
+                                    <label>اهمیت</label>
+                                    <select asp-for="TicketPriority" onchange="changeSort()" class="form-control" asp-items="listPriority"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label>وضعیت</label>
+                                    <select asp-for="TicketState" onchange="changeSort()" class="form-control" asp-items="listState"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sorter">مرتب سازی بر اساس</label>
+                                    <select id="sorter" asp-for="OrderBy" onchange="changeSort()" class="form-control">
+                                        @if (Model.OrderBy.GetEnumName() == "صعودی")
+                                        {
+                                            <option value="CreateDateDsc">جدید ترین</option>
+                                            <option selected="selected" value="CreateDateAsc">قدیمی ترین</option>
+                                        }
+                                        else
+                                        {
+                                            <option selected="selected" value="CreateDateDsc">جدید ترین</option>
+                                            <option value="CreateDateAsc">قدیمی ترین</option>
+                                        }
+                                    </select>
+                                </div>
+                                <button class="btn btn-azure btn-lg btn-block" type="submit"><i class="fa fa-search"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (Model.Tickets.Any())
+    {
+        <div class="col-xs-12 col-md-8">
+            <div class="well with-header with-footer">
+                <div class="header bordered-sky">
+                    <i class="fa fa-ticket"></i>
+                    تیکت ها
+                </div>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                شماره
+                            </th>
+                            <th>
+                                عنوان
+                            </th>
+                            <th>
+                                تاریخ ارسال
+                            </th>
+                            <th>
+                                اهمیت
+                            </th>
+                            <th>
+                                وضعیت
+                            </th>
+                            <th>
+                                خوانده شد
+                            </th>
+                            <th>
+                                دستورات
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var ticket in Model.Tickets)
+                        {
+                        <tr>
+                            <td>
+                                @ticket.TicketId
+                            </td>
+                            <td>
+                                @ticket.Title
+                            </td>
+                            <td>
+                                @ticket.TicketSendDate.ToShamsi() ساعت @ticket.TicketSendDate.GetHourAndMinutes()
+                            </td>
+                            <td>
+                                @ticket.TicketPriority.GetEnumName()
+                            </td>
+                            <td>
+                                @ticket.TicketState.GetEnumName()
+                            </td>
+                            <td class="@((ticket.IsReadByAdmin) ? "success" : "danger")">
+                                @if (ticket.IsReadByAdmin)
+                                {
+                                    <p>بله</p>
+                                }
+                                else
+                                {
+                                    <p>خیر</p>
+                                }
+                            </td>
+                            <td>
+                                <a class="btn btn-success">پاسخ دادن</a>
+                                <a class="btn btn-info">مشاهده</a>
+                                <a class="btn btn-danger">حذف</a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <partial name="_AdminPaging" model="Model.GetCurrentPaging()" />
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger">هنوز تیکتی ثبت نشده است</div>
+    }
+</div>
+<!-- /Page Content -->
+@section Scripts{
+
+    <script>
+        function changeSort() {
+            $("#filterform").submit();
+        }
+    </script>
+}

@@ -97,7 +97,11 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.User
 
         #region Edit User
 
-
+        [HttpGet("Admin/Users/EditUser/{id}")]
+        public IActionResult EditUser(int id) // id = user id
+        {
+            return View();
+        }
 
         #endregion
 

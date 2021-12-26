@@ -41,6 +41,8 @@ namespace KetabAbee.Application.DTOs.Ticket
 
         public TicketPriority? TicketPriority { get; set; }
 
+        public TicketState? TicketState { get; set; }
+
         public List<Domain.Models.Ticket.Ticket> Tickets { get; set; }
 
         #endregion

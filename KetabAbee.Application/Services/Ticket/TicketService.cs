@@ -59,6 +59,12 @@ namespace KetabAbee.Application.Services.Ticket
                 result = result.Where(r => r.TicketPriority == filter.TicketPriority.Value);
             }
 
+            // filter by state
+            if (filter.TicketState != null)
+            {
+                result = result.Where(r => r.TicketState == filter.TicketState.Value);
+            }
+
             //filter by user Id
             if (filter.UserId != null)
             {
