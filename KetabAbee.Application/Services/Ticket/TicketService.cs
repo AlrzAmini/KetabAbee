@@ -21,6 +21,25 @@ namespace KetabAbee.Application.Services.Ticket
             _ticketRepository = ticketRepository;
         }
 
+        public bool AddAnswer(TicketAnswer answer)
+        {
+            try
+            {
+                if (answer == null) return false;
+
+                answer.SendDate = DateTime.Now;
+                //answer.Ticket.TicketState = TicketState.Answered;
+                _ticketRepository.AddAnswer(answer);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+
         public bool AddTicket(AddTicketViewmodel ticket, int senderId)
         {
             if (string.IsNullOrEmpty(ticket.Body)) return false;
@@ -109,6 +128,25 @@ namespace KetabAbee.Application.Services.Ticket
         public IEnumerable<Domain.Models.Ticket.Ticket> GetTickets()
         {
             return _ticketRepository.GetTickets();
+        }
+
+        public ShowTicketInAdminViewmodel GetTicketForShowTicketInAdmin(int ticketId)
+        {
+            var ticketWithAnswers = new ShowTicketInAdminViewmodel
+            {
+                Ticket = _ticketRepository.GetTickets()
+                    .AsQueryable()
+                    .Include(t => t.Answers)
+                    .Include(t => t.Sender)
+                    .SingleOrDefault(t => t.TicketId == ticketId),
+                Answers = _ticketRepository.GetAnswers()
+                    .Where(a => a.TicketId == ticketId)
+                    .AsQueryable()
+                    .Include(a => a.Sender)
+                    .ToList()
+            };
+
+            return ticketWithAnswers;
         }
 
         public bool TicketIsRead(int ticketId)

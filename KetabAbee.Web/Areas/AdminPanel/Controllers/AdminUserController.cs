@@ -8,7 +8,7 @@ using KetabAbee.Application.DTOs.Admin.User;
 using KetabAbee.Application.Interfaces.User;
 using Microsoft.AspNetCore.Http;
 
-namespace KetabAbee.Web.Areas.AdminPanel.Controllers.User
+namespace KetabAbee.Web.Areas.AdminPanel.Controllers
 {
     public class AdminUserController : AdminBaseController
     {

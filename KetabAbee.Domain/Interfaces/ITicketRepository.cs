@@ -19,5 +19,13 @@ namespace KetabAbee.Domain.Interfaces
 
         void UpdateTicket(Ticket ticket);
 
+        #region Answer
+
+        bool AddAnswer(TicketAnswer answer);
+
+        IEnumerable<TicketAnswer> GetAnswers();
+
+        #endregion
+
     }
 }

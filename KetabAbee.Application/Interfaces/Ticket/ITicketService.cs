@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Ticket;
+using KetabAbee.Domain.Models.Ticket;
 
 namespace KetabAbee.Application.Interfaces.Ticket
 {
@@ -32,7 +33,9 @@ namespace KetabAbee.Application.Interfaces.Ticket
 
         #region Answer
 
-        
+        bool AddAnswer(TicketAnswer answer);
+
+        ShowTicketInAdminViewmodel GetTicketForShowTicketInAdmin(int ticketId);
 
         #endregion
 

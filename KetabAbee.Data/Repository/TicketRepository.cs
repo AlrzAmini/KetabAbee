@@ -19,6 +19,14 @@ namespace KetabAbee.Data.Repository
             _context = context;
         }
 
+        public bool AddAnswer(TicketAnswer answer)
+        {
+            _context.TicketAnswers.Add(answer);
+            _context.SaveChanges();
+
+            return true;
+        }
+
         public bool AddTicket(Ticket ticket)
         {
             try
@@ -40,6 +48,11 @@ namespace KetabAbee.Data.Repository
             _context.SaveChanges();
 
             return true;
+        }
+
+        public IEnumerable<TicketAnswer> GetAnswers()
+        {
+            return _context.TicketAnswers;
         }
 
         public Ticket GetTicketById(int ticketId)
