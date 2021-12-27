@@ -95,7 +95,7 @@
                     <input type="hidden" name="id" value="@Model.Ticket.TicketId" />
                     <div class="form-group has-success has-feedback">
                         <label class="control-label">متن جواب</label>
-                        <textarea name="answerBody" class="form-control"></textarea>
+                        <textarea id="Body" name="answerBody" class="form-control"></textarea>
                     </div>
                     <button class="btn btn-success" type="submit">ارسال</button>
                 </form>
@@ -103,3 +103,12 @@
         </div>
     </div>
 </div>
+@section Scripts
+{
+    <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('Body', {
+            customConfig: '/js/Config.js'
+        });
+    </script>
+}
