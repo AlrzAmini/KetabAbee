@@ -152,7 +152,8 @@
                                 <td>
                                     <a class="btn btn-info" asp-controller="AdminTicket" asp-action="ShowTicketDetails" asp-route-id="@ticket.TicketId">مشاهده</a>
                                     <a class="btn btn-danger" asp-controller="AdminTicket" asp-action="DeleteTicket" onclick="return confirm('از حذف این تیکت اطمینان دارید ؟')" asp-route-id="@ticket.TicketId">حذف</a>
-                                    <a class="btn btn-purple shiny" asp-controller="AdminTicket" asp-action="TicketIsRead" onclick="return confirm('حالت | خوانده شد | این تیکت را تغییر می دهید ؟')" asp-route-id="@ticket.TicketId">خوانده شد</a>
+                                    <a class="btn btn-success" asp-controller="AdminTicket" asp-action="TicketIsRead" onclick="return confirm('حالت | خوانده شد | این تیکت را تغییر می دهید ؟')" asp-route-id="@ticket.TicketId">خوانده شد</a>
+                                    <a class="btn btn-default" asp-controller="AdminTicket" asp-action="CloseTicket" onclick="return confirm('این تیکت را میبندید ؟')" asp-route-id="@ticket.TicketId">بستن تیکت</a>
                                 </td>
                             </tr>
                         }

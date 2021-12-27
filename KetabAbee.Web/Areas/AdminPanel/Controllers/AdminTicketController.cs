@@ -71,6 +71,22 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
 
         #endregion
 
+        #region Close Ticket
+
+        [HttpGet("Admin/Tickets/Close/{id}")]
+        public IActionResult CloseTicket(int id)
+        {
+            if (_ticketService.CloseTicket(id))
+            {
+                TempData["SuccessMessage"] = "بستن تیکت با موفقیت انجام شد";
+                return RedirectToAction("Index");
+            }
+            TempData["ErrorMessage"] = "عملیات با شکست مواجه شد";
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
         #region Answer Ticket
 
         public IActionResult CreateAnswer(int id, string answerBody)
@@ -82,7 +98,8 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
                     TicketId = id,
                     SenderId = User.GetUserId(),
                     AnswerBody = answerBody,
-                    SendDate = DateTime.Now
+                    SendDate = DateTime.Now,
+                    Ticket = _ticketService.GetTicketById(id)
                 };
 
                 if (_ticketService.AddAnswer(answer))

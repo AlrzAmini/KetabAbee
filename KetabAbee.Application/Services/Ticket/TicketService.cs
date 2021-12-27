@@ -27,8 +27,11 @@ namespace KetabAbee.Application.Services.Ticket
             {
                 if (answer == null) return false;
 
+                // after add a new answer to ticket
                 answer.SendDate = DateTime.Now;
-                //answer.Ticket.TicketState = TicketState.Answered;
+                answer.Ticket.TicketState = TicketState.Answered;
+                answer.Ticket.IsReadByAdmin = true;
+                answer.Ticket.IsReadBySender = false;
                 _ticketRepository.AddAnswer(answer);
 
                 return true;
@@ -177,6 +180,36 @@ namespace KetabAbee.Application.Services.Ticket
                 return false;
             }
 
+        }
+
+        public bool CloseTicket(int ticketId)
+        {
+            try
+            {
+                var ticket = GetTicketById(ticketId);
+
+                if (ticket == null)
+                {
+                    return false;
+                }
+
+                if (ticket.TicketState == TicketState.Closed)
+                {
+                    ticket.TicketState = TicketState.Pending;
+
+                    _ticketRepository.UpdateTicket(ticket);
+                    return true;
+                }
+
+                ticket.TicketState = TicketState.Closed;
+
+                _ticketRepository.UpdateTicket(ticket);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

@@ -44,7 +44,7 @@
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <i class="widget-icon fa fa-tasks themeprimary"></i>
-                <span class="widget-caption themeprimary">گفتگو</span>
+                <span class="widget-caption themeprimary"> گفتگو  (@Model.Answers.Count)</span>
             </div><!--Widget Header-->
             <div class="widget-body no-padding">
                 <div class="task-container">
@@ -76,8 +76,6 @@
                                     </div>
                                     <div class="task-time">@answer.SendDate.ToIraniDate() ساعت @answer.SendDate.GetHourAndMinutes()</div>
                                     <div class="task-body">@Html.Raw(answer.AnswerBody)</div>
-                                    <div class="task-creator"><a href="">Cameron Hetfield</a></div>
-                                    <div class="task-assignedto">assigned to you</div>
                                 </li>
                             }
                         </ul>

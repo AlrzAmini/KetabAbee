@@ -27,6 +27,8 @@ namespace KetabAbee.Application.Interfaces.Ticket
 
         bool TicketIsRead(int ticketId);
 
+        bool CloseTicket(int ticketId);
+
         #endregion
 
         #endregion
