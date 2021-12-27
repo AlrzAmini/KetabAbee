@@ -141,8 +141,7 @@ namespace KetabAbee.Application.Services.Ticket
                     .SingleOrDefault(t => t.TicketId == ticketId),
                 Answers = _ticketRepository.GetAnswers()
                     .Where(a => a.TicketId == ticketId)
-                    .AsQueryable()
-                    .Include(a => a.Sender)
+                    .OrderByDescending(a=>a.SendDate)
                     .ToList()
             };
 

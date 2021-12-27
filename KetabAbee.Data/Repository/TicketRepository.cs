@@ -52,7 +52,7 @@ namespace KetabAbee.Data.Repository
 
         public IEnumerable<TicketAnswer> GetAnswers()
         {
-            return _context.TicketAnswers;
+            return _context.TicketAnswers.Include(a=>a.Sender);
         }
 
         public Ticket GetTicketById(int ticketId)
