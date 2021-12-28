@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using KetabAbee.Domain.Models.Ticket;
 using KetabAbee.Domain.Models.User;
+using KetabAbee.Domain.Models.Wallet;
 using Microsoft.EntityFrameworkCore;
 
 namespace KetabAbee.Data.Context
@@ -24,6 +25,12 @@ namespace KetabAbee.Data.Context
 
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<TicketAnswer> TicketAnswers { get; set; }
+
+        #endregion
+
+        #region wallet
+
+        public DbSet<Wallet> Wallets { get; set; }
 
         #endregion
 

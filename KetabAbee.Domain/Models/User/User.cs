@@ -119,6 +119,8 @@ namespace KetabAbee.Domain.Models.User
 
         public ICollection<TicketAnswer> TicketAnswers { get; set; }
 
+        public ICollection<Wallet.Wallet> Wallets { get; set; }
+
         #endregion
     }
 }
