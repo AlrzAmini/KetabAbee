@@ -18,10 +18,23 @@ namespace KetabAbee.Data.Repository
             _context = context;
         }
 
+        public bool AddWallet(Wallet wallet)
+        {
+            _context.Wallets.Add(wallet);
+            _context.SaveChanges();
+            return true;
+        }
+
         public IEnumerable<Wallet> GetWallets()
         {
             return _context.Wallets;
         }
 
+        public bool UpdateWallet(Wallet wallet)
+        {
+            _context.Wallets.Update(wallet);
+            _context.SaveChanges();
+            return true;
+        }
     }
 }

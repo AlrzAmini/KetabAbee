@@ -10,5 +10,9 @@ namespace KetabAbee.Domain.Interfaces
     public interface IWalletRepository
     {
         IEnumerable<Wallet> GetWallets();
+
+        bool UpdateWallet(Wallet wallet);
+
+        bool AddWallet(Wallet wallet);
     }
 }

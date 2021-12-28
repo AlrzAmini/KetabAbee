@@ -89,7 +89,7 @@
                                                         }
                                                         @if (wallets.Any())
                                                         {
-                                                            foreach (var item in wallets)
+                                                            foreach (var item in wallets.OrderByDescending(w=>w.CreateDate))
                                                             {
                                                                 <tr>
                                                                     <td>@NameGenerator.WalletNumberGenerator(item.WalletId)</td>

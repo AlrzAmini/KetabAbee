@@ -37,5 +37,28 @@ namespace KetabAbee.Application.Services.Wallet
 
             return deposit.Sum() - withdraw.Sum();
         }
+
+        public bool ChargeWalletByUserId(int userId, ChargeWalletViewModel charge, bool isPay = false)
+        {
+            try
+            {
+                var wallet = new Domain.Models.Wallet.Wallet
+                {
+                    Amount = charge.Amount,
+                    Behalf = charge.Behalf,
+                    CreateDate = DateTime.Now,
+                    UserId = userId,
+                    IsPay = isPay,
+                    WalletType = WalletType.Deposit
+                };
+
+                _walletRepository.AddWallet(wallet);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

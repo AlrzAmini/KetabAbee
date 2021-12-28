@@ -12,5 +12,7 @@ namespace KetabAbee.Application.Interfaces.Wallet
         IEnumerable<Domain.Models.Wallet.Wallet> GetWalletsByUserId(int userId);
 
         long BalanceUserWallet(int userId);
+
+        bool ChargeWalletByUserId(int userId,ChargeWalletViewModel charge,bool isPay = false);
     }
 }
