@@ -93,7 +93,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
         {
             if (!string.IsNullOrEmpty(answerBody))
             {
-                var answer = new TicketAnswer()
+                var answer = new TicketAnswer
                 {
                     TicketId = id,
                     SenderId = User.GetUserId(),

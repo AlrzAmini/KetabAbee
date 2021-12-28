@@ -53,17 +53,26 @@ namespace KetabAbee.Data.Repository
         public IEnumerable<TicketAnswer> GetAnswers()
         {
             return _context.TicketAnswers
-                .Include(a=>a.Sender);
+                .Include(a => a.Sender);
         }
 
         public Ticket GetTicketById(int ticketId)
         {
-            return _context.Tickets.Include(t=>t.Sender).SingleOrDefault(t=>t.TicketId == ticketId);
+            return _context.Tickets
+                .Include(t => t.Sender)
+                .SingleOrDefault(t => t.TicketId == ticketId);
         }
 
         public IEnumerable<Ticket> GetTickets()
         {
             return _context.Tickets;
+        }
+
+        public IEnumerable<Ticket> GetTicketsForTicketDetailsInAdmin()
+        {
+            return _context.Tickets
+                  .Include(t => t.Sender)
+                  .Include(t => t.Answers);
         }
 
         public void UpdateTicket(Ticket ticket)

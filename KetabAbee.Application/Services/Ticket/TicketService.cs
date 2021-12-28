@@ -137,10 +137,7 @@ namespace KetabAbee.Application.Services.Ticket
         {
             var ticketWithAnswers = new ShowTicketInAdminViewmodel
             {
-                Ticket = _ticketRepository.GetTickets()
-                    .AsQueryable()
-                    .Include(t => t.Answers)
-                    .Include(t => t.Sender)
+                Ticket = _ticketRepository.GetTicketsForTicketDetailsInAdmin()
                     .SingleOrDefault(t => t.TicketId == ticketId),
                 Answers = _ticketRepository.GetAnswers()
                     .Where(a => a.TicketId == ticketId)

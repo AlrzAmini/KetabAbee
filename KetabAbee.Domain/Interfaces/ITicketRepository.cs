@@ -15,6 +15,8 @@ namespace KetabAbee.Domain.Interfaces
 
         IEnumerable<Ticket> GetTickets();
 
+        IEnumerable<Ticket> GetTicketsForTicketDetailsInAdmin();
+
         bool DeleteTicket(Ticket ticket);
 
         void UpdateTicket(Ticket ticket);
