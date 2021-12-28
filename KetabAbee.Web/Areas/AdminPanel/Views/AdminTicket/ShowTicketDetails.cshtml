@@ -40,12 +40,29 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-4 col-sm-12 col-xs-12">
+    <div class="col-lg-12 col-sm-6 col-xs-12">
+        <div class="widget">
+            <div class="widget-header bordered-left bordered-success">
+                <span class="widget-caption">افزودن جواب به تیکت " @Model.Ticket.Title " </span>
+            </div>
+            <div class="widget-body bordered-left bordered-green">
+                <form asp-controller="AdminTicket" asp-action="CreateAnswer">
+                    <input type="hidden" name="id" value="@Model.Ticket.TicketId" />
+                    <div class="form-group has-success has-feedback">
+                        <label class="control-label">متن جواب</label>
+                        <textarea id="Body" name="answerBody" class="form-control"></textarea>
+                    </div>
+                    <button class="btn btn-success" type="submit">ارسال</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 col-sm-12 col-xs-12">
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <i class="widget-icon fa fa-tasks themeprimary"></i>
                 <span class="widget-caption themeprimary"> گفتگو  (@Model.Answers.Count)</span>
-            </div><!--Widget Header-->
+            </div>
             <div class="widget-body no-padding">
                 <div class="task-container">
 
@@ -75,30 +92,14 @@
                                         }
                                     </div>
                                     <div class="task-time">@answer.SendDate.ToIraniDate() ساعت @answer.SendDate.GetHourAndMinutes()</div>
-                                    <div class="task-body">@Html.Raw(answer.AnswerBody)</div>
+                                    <div class="task-body">
+                                        @Html.Raw(answer.AnswerBody)
+                                    </div>
                                 </li>
                             }
                         </ul>
                     }
                 </div>
-            </div><!--Widget Body-->
-        </div>
-
-    </div>
-    <div class="col-lg-6 col-sm-6 col-xs-12">
-        <div class="widget">
-            <div class="widget-header bordered-left bordered-success">
-                <span class="widget-caption">افزودن جواب به تیکت " @Model.Ticket.Title " </span>
-            </div>
-            <div class="widget-body bordered-left bordered-green">
-                <form asp-controller="AdminTicket" asp-action="CreateAnswer">
-                    <input type="hidden" name="id" value="@Model.Ticket.TicketId" />
-                    <div class="form-group has-success has-feedback">
-                        <label class="control-label">متن جواب</label>
-                        <textarea id="Body" name="answerBody" class="form-control"></textarea>
-                    </div>
-                    <button class="btn btn-success" type="submit">ارسال</button>
-                </form>
             </div>
         </div>
     </div>

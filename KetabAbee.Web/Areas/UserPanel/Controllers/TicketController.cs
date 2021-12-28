@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Ticket;
 using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Ticket;
+using KetabAbee.Domain.Models.Ticket;
 
 namespace KetabAbee.Web.Areas.UserPanel.Controllers
 {
@@ -70,17 +71,58 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
 
         #region Show ticket
 
-        [HttpGet("Ticket/ShowTicket/{id}")]
         public IActionResult ShowTicket(int id) // id = ticket Id
         {
-            var ticket = _ticketService.GetTicketById(id);
+            var ticketWithAnswers = _ticketService.GetTicketForShowTicketInAdmin(id);
 
-            if (ticket == null)
+            if (ticketWithAnswers == null)
             {
                 return NotFound();
             }
             
-            return View(ticket);
+            return View(ticketWithAnswers);
+        }
+
+        #endregion
+
+        [HttpGet("Ticket/IsReadBySender/{id}")]
+        public IActionResult TicketIsReadBySender(int id) //id = ticketId
+        {
+            if (_ticketService.TicketIsReadBySender(id))
+            {
+                TempData["SuccessMessage"] = "حالت خوانده شده تیکت تغییر یافت";
+                return RedirectToAction("Index");
+            }
+            TempData["ErrorMessage"] = "عملیات با شکست مواجه شد";
+            return RedirectToAction("Index");
+        }
+        
+
+        #region Answer Ticket
+
+        public IActionResult CreateAnswer(int id, string answerBody)
+        {
+            if (!string.IsNullOrEmpty(answerBody))
+            {
+                var answer = new TicketAnswer
+                {
+                    TicketId = id,
+                    SenderId = User.GetUserId(),
+                    AnswerBody = answerBody,
+                    Ticket = _ticketService.GetTicketById(id)
+                };
+
+                if (_ticketService.AddAnswerFromUser(answer))
+                {
+                    TempData["SuccessMessage"] = "پاسخ تیکت ثبت شد";
+                    return RedirectToAction("ShowTicket", new { id });
+                }
+
+                TempData["ErrorMessage"] = "پاسخ تیکت ثبت نشد";
+                return RedirectToAction("ShowTicket", new { id });
+            }
+            TempData["ErrorMessage"] = "متن پاسخ نمی تواند خالی باشد";
+            return RedirectToAction("ShowTicket", new { id });
         }
 
         #endregion

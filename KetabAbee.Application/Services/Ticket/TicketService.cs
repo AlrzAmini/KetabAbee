@@ -208,5 +208,48 @@ namespace KetabAbee.Application.Services.Ticket
                 return false;
             }
         }
+
+        public bool AddAnswerFromUser(TicketAnswer answer)
+        {
+            try
+            {
+                if (answer == null) return false;
+
+                // after add a new answer to ticket
+                answer.SendDate = DateTime.Now;
+                answer.Ticket.TicketState = TicketState.Pending;
+                answer.Ticket.IsReadByAdmin = false;
+                answer.Ticket.IsReadBySender = true;
+                _ticketRepository.AddAnswer(answer);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool TicketIsReadBySender(int ticketId)
+        {
+            try
+            {
+                var ticket = GetTicketById(ticketId);
+
+                if (ticket == null)
+                {
+                    return false;
+                }
+
+                ticket.IsReadBySender = true;
+
+                _ticketRepository.UpdateTicket(ticket);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

@@ -66,7 +66,7 @@
                                                     <tr>
                                                         <th>عنوان</th>
                                                         <th>ثبت</th>
-                                                        <th>خوانده شده</th>
+                                                        <th>شما</th>
                                                         <th>اهمیت</th>
                                                         <th>وضعیت</th>
                                                         <th>جزییات</th>
@@ -78,13 +78,13 @@
                                                         <tr>
                                                             <td class="order-code">@item.Title</td>
                                                             <td>@item.TicketSendDate.ToIraniDate()</td>
-                                                            @if (item.IsReadByAdmin)
+                                                            @if (item.IsReadBySender)
                                                             {
-                                                                <td class="text-success">بله</td>
+                                                                <td class="text-success">خوانده اید</td>
                                                             }
                                                             else
                                                             {
-                                                                <td class="text-danger">خیر</td>
+                                                                <td class="text-danger">نخوانده اید</td>
                                                             }
                                                             <td>@item.TicketPriority.GetEnumName()</td>
                                                             <td>@item.TicketState.GetEnumName()</td>

@@ -21,6 +21,8 @@ namespace KetabAbee.Application.Interfaces.Ticket
 
         Domain.Models.Ticket.Ticket GetTicketById(int ticketId);
 
+        bool TicketIsReadBySender(int ticketId);
+
         #region Admin
 
         bool DeleteTicketById(int ticketId);
@@ -38,6 +40,8 @@ namespace KetabAbee.Application.Interfaces.Ticket
         bool AddAnswer(TicketAnswer answer);
 
         ShowTicketInAdminViewmodel GetTicketForShowTicketInAdmin(int ticketId);
+
+        bool AddAnswerFromUser(TicketAnswer answer);
 
         #endregion
 

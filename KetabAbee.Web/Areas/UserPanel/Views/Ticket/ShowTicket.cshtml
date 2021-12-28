@@ -1,8 +1,8 @@
 ﻿@using KetabAbee.Application.Convertors
 @using KetabAbee.Application.Extensions
-@model KetabAbee.Domain.Models.Ticket.Ticket
+@model KetabAbee.Application.DTOs.Ticket.ShowTicketInAdminViewmodel
 @{
-    ViewData["Title"] = "جزییات " + Model.Title;
+    ViewData["Title"] = "جزییات " + Model.Ticket.Title;
 }
 
 <main class="page-content" style="margin-top: 205.5px; transform: none;">
@@ -18,50 +18,110 @@
             <div class="col-lg-9 col-md-8">
                 <div class="row mb-4">
                     <div class="col-12">
-                                <section class="shadow-around p-3">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="checkout-section shadow-around p-2">
-                                                <div class="checkout-section-content">
-                                                    <div class="cart-items">
-                                                        <div class="mb-2">
-                                                            <span class="text-muted">عنوان:</span>
-                                                            <span class="font-weight-bold">@Model.Title</span>
-                                                        </div>
-                                                        <div class="mb-2">
-                                                            <span class="text-muted">تاریخ ارسال :</span>
-                                                            <span class="font-weight-bold">@Model.TicketSendDate.ToIraniDate() در ساعت @Model.TicketSendDate.GetHourAndMinutes() </span>
-                                                        </div>
-                                                        <div class="mb-2">
-                                                            <span class="text-muted">اهمیت:</span>
-                                                            <span class="font-weight-bold">@Model.TicketPriority.GetEnumName()</span>
-                                                        </div>
-                                                        <div class="mb-2">
-                                                            <span class="text-muted">وضعیت :</span>
-                                                            <span class="font-weight-bold text-success">@Model.TicketState.GetEnumName()</span>
-                                                        </div>
-                                                        <hr>
-                                                        <div class="cart-item py-4 px-3">
-                                                            <div class="item-info flex-grow-1">
-                                                                <div class="item-title">
-                                                                    <p>
-                                                                        @Html.Raw(Model.Body)
-                                                                    </p>
-                                                                </div>
-                                                            </div>
+                        <section class="shadow-around p-3">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="checkout-section shadow-around p-2">
+                                        <div class="checkout-section-content">
+                                            <div class="cart-items">
+                                                <div class="mb-2">
+                                                    <span class="text-muted">عنوان:</span>
+                                                    <span class="font-weight-bold">@Model.Ticket.Title</span>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <span class="text-muted">تاریخ ارسال :</span>
+                                                    <span class="font-weight-bold">@Model.Ticket.TicketSendDate.ToIraniDate() در ساعت @Model.Ticket.TicketSendDate.GetHourAndMinutes() </span>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <span class="text-muted">اهمیت:</span>
+                                                    <span class="font-weight-bold">@Model.Ticket.TicketPriority.GetEnumName()</span>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <span class="text-muted">وضعیت :</span>
+                                                    <span class="font-weight-bold text-success">@Model.Ticket.TicketState.GetEnumName()</span>
+                                                </div>
+                                                <hr>
+                                                <div class="cart-item py-4 px-3">
+                                                    <div class="item-info flex-grow-1">
+                                                        <div class="item-title">
+                                                            <p>
+                                                                @Html.Raw(Model.Ticket.Body)
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                @if (!Model.Ticket.IsReadBySender)
+                                                {
+                                                    <a class="btn btn-info btn-sm m-1" asp-controller="Ticket" asp-action="TicketIsReadBySender" asp-route-id="@Model.Ticket.TicketId" onclick="return confirm('تیکت را به حالت خوانده شد در می آورید ؟')">خوانده شد</a>
+                                                }
                                             </div>
                                         </div>
                                     </div>
-                                </section>
+                                </div>
                             </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-12 col-xs-12 mb-3">
+                    <div class="card-body border rounded">
+                        <div class="widget-header bordered-left bordered-success">
+                            <span class="widget-caption">افزودن جواب به تیکت " @Model.Ticket.Title " </span>
+                        </div>
+                        <div class="widget-body bordered-left bordered-green">
+                            <form asp-controller="Ticket" asp-action="CreateAnswer">
+                                <input type="hidden" name="id" value="@Model.Ticket.TicketId" />
+                                <div class="form-group has-success has-feedback">
+                                    <textarea id="Body" name="answerBody" class="form-control"></textarea>
+                                </div>
+                                <button class="btn btn-success" type="submit">ارسال</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-sellers shadow-around mb-5">
+                    @foreach (var answer in Model.Answers)
+                    {
+                        <div class="product-seller @((answer.SenderId != User.GetUserId())?"bg-light":"mr-2")">
+                            <div class="product-seller-col">
+                                <div class="product-seller-title">
+                                    <div class="icon @((answer.SenderId == User.GetUserId())?"mr-5":"mr-2")">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="detail">
+                                        <div class="name">
+                                            <span class="badge @((answer.SenderId == User.GetUserId())?"badge-success":"badge-light") rounded-pill">@answer.Sender.UserName</span>
+                                        </div>
+                                        <div class="rating">
+                                            <span class="label">@answer.SendDate.ToIraniDate()</span>
+                                            <span class="divider">|</span>
+                                            <span class="label">@answer.SendDate.GetHourAndMinutes()</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-seller-col">
+                                <div class="product-seller-conditions">
+                                    <div class="product-seller-info">
+                                        <i class="fa fa-mail-reply-all"></i>
+                                        <span>@Html.Raw(answer.AnswerBody)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
         <partial name="_Banner" />
     </div>
 </main>
-
+@section Scripts
+{
+    <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('Body', {
+            customConfig: '/js/Config.js'
+        });
+    </script>
+}
 

@@ -98,7 +98,6 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
                     TicketId = id,
                     SenderId = User.GetUserId(),
                     AnswerBody = answerBody,
-                    SendDate = DateTime.Now,
                     Ticket = _ticketService.GetTicketById(id)
                 };
 
