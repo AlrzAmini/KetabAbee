@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Ganss.XSS;
 using KetabAbee.Application.DTOs.Ticket;
 using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Ticket;
@@ -53,6 +54,10 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
             {
                 return View(ticket);
             }
+
+            // sanitize body
+            var sanitizer = new HtmlSanitizer();
+            ticket.Body = sanitizer.Sanitize(ticket.Body);
 
             bool res = _ticketService.AddTicket(ticket, int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
 

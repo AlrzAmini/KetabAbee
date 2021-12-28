@@ -1,4 +1,5 @@
 ﻿using System;
+using Ganss.XSS;
 using Microsoft.AspNetCore.Mvc;
 using KetabAbee.Application.DTOs.Ticket;
 using KetabAbee.Application.Extensions;
@@ -93,11 +94,12 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
         {
             if (!string.IsNullOrEmpty(answerBody))
             {
+                var sanitizer = new HtmlSanitizer();
                 var answer = new TicketAnswer
                 {
                     TicketId = id,
                     SenderId = User.GetUserId(),
-                    AnswerBody = answerBody,
+                    AnswerBody = sanitizer.Sanitize(answerBody),
                     Ticket = _ticketService.GetTicketById(id)
                 };
 
