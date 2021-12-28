@@ -10,6 +10,7 @@ using KetabAbee.Application.DTOs.Admin.User;
 using KetabAbee.Application.DTOs.Paging;
 using KetabAbee.Application.Generators;
 using KetabAbee.Application.Interfaces.User;
+using KetabAbee.Application.Interfaces.Wallet;
 using KetabAbee.Application.Security;
 using KetabAbee.Domain.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -19,10 +20,12 @@ namespace KetabAbee.Application.Services.User
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IWalletService _walletService;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IWalletService walletService)
         {
             _userRepository = userRepository;
+            _walletService = walletService;
         }
 
         public Domain.Models.User.User RegisterUser(RegisterViewModel user)
@@ -104,7 +107,8 @@ namespace KetabAbee.Application.Services.User
                 Mobile = user.Mobile,
                 Age = user.Age,
                 RegisterDate = user.RegisterDate,
-                UserName = user.UserName
+                UserName = user.UserName,
+                Wallet = _walletService.BalanceUserWallet(user.UserId)
             };
 
             return userInfo;
@@ -120,6 +124,7 @@ namespace KetabAbee.Application.Services.User
                 Email = user.Email,
                 AvatarName = user.AvatarName,
                 Name = user.UserName,
+                Wallet = _walletService.BalanceUserWallet(user.UserId)
             };
 
             return sideBarInfo;

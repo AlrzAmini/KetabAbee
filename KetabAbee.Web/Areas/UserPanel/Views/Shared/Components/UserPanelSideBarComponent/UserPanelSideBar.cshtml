@@ -18,7 +18,7 @@
             <li>
                 <a href="#">
                     <span>کیف پول</span>
-                    <span>2,500,000 <span class="text-info font-weight-bold">تومان</span></span>
+                    <span>@Model.Wallet <span class="text-info font-weight-bold">تومان</span></span>
                 </a>
             </li>
         </ul>
@@ -62,7 +62,7 @@
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a asp-controller="Wallet" asp-action="ChargeWallet">
                     <i class="far fa-wallet"></i>
                     کیف پول
                 </a>

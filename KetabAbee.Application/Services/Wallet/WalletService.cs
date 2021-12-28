@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Application.DTOs.Wallet;
 using KetabAbee.Application.Interfaces.Wallet;
 using KetabAbee.Domain.Interfaces;
 using KetabAbee.Domain.Models.Wallet;
@@ -27,17 +28,14 @@ namespace KetabAbee.Application.Services.Wallet
         public long BalanceUserWallet(int userId)
         {
             var deposit = _walletRepository.GetWallets()
-                .Where(w => w.UserId == userId && w.WalletType == WalletType.Deposit)
+                .Where(w => w.UserId == userId && w.WalletType == WalletType.Deposit && w.IsPay)
                 .Select(w => w.Amount);
 
             var withdraw = _walletRepository.GetWallets()
-                .Where(w => w.UserId == userId && w.WalletType == WalletType.Withdraw)
+                .Where(w => w.UserId == userId && w.WalletType == WalletType.Withdraw && w.IsPay)
                 .Select(w => w.Amount);
 
             return deposit.Sum() - withdraw.Sum();
         }
-
-        
-
     }
 }

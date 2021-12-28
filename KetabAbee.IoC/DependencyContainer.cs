@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.Interfaces.Ticket;
 using KetabAbee.Application.Interfaces.User;
+using KetabAbee.Application.Interfaces.Wallet;
 using KetabAbee.Application.Services.Ticket;
 using KetabAbee.Application.Services.User;
+using KetabAbee.Application.Services.Wallet;
 using KetabAbee.Data.Repository;
 using KetabAbee.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -24,10 +26,12 @@ namespace KetabAbee.IoC
             //Cums From App Layer
             service.AddScoped<IUserService, UserService>();
             service.AddScoped<ITicketService, TicketService>();
+            service.AddScoped<IWalletService, WalletService>();
 
             //Cums From Data Layer
             service.AddScoped<IUserRepository, UserRepository>();
             service.AddScoped<ITicketRepository, TicketRepository>();
+            service.AddScoped<IWalletRepository, WalletRepository>();
 
 
             #region html encode

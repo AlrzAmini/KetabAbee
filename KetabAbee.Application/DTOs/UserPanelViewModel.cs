@@ -19,6 +19,8 @@ namespace KetabAbee.Application.DTOs
 
         public int Age { get; set; }
 
+        public long Wallet { get; set; }
+
         public DateTime RegisterDate { get; set; }
     }
 
@@ -26,7 +28,7 @@ namespace KetabAbee.Application.DTOs
     {
         public string Name { get; set; }
         public string Email { get; set; }
-        public int Wallet { get; set; }
+        public long Wallet { get; set; }
         public string AvatarName { get; set; }
     }
 

@@ -28,5 +28,10 @@ namespace KetabAbee.Application.Extensions
         {
             return claim.FindFirst(ClaimTypes.Email).Value;
         }
+
+        public static string ToTooman(this long price)
+        {
+            return price.ToString("#,0") + " تومان ";
+        }
     }
 }

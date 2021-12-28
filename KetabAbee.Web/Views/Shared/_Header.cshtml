@@ -1,7 +1,9 @@
 ﻿@using System.Security.Claims
 @using KetabAbee.Application.Extensions
 @using KetabAbee.Application.Interfaces.User
+@using KetabAbee.Application.Interfaces.Wallet
 @inject IUserService _userService;
+@inject IWalletService _walletService;
 <!-- Page Header -->
 <header class="page-header">
     <div class="top-page-header">
@@ -179,9 +181,9 @@
                                     </span>
                                     <span class="header-profile-dropdown-account">
                                         <span class="header-profile-dropdown-account-item">
-                                            <span class="header-profile-dropdown-account-item-title">اعتبار</span>
+                                            <span class="header-profile-dropdown-account-item-title">موجودی</span>
                                             <span class="header-profile-dropdown-account-item-amount">
-                                                <span class="header-profile-dropdown-account-item-amount-number">7,500,000</span>
+                                                <span class="header-profile-dropdown-account-item-amount-number">@_walletService.BalanceUserWallet(User.GetUserId())</span>
                                                 تومان
                                             </span>
                                         </span>
