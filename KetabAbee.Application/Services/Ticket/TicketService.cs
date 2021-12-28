@@ -79,7 +79,7 @@ namespace KetabAbee.Application.Services.Ticket
 
         public FilterTicketViewModel FilterTickets(FilterTicketViewModel filter)
         {
-            var result = _ticketRepository.GetTickets().AsQueryable().Include(r => r.Sender).AsQueryable();
+            var result = _ticketRepository.GetTicketsForFilter().AsQueryable();
 
             // filter by create date
             switch (filter.OrderBy)

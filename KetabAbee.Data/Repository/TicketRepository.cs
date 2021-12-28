@@ -68,6 +68,12 @@ namespace KetabAbee.Data.Repository
             return _context.Tickets;
         }
 
+        public IEnumerable<Ticket> GetTicketsForFilter()
+        {
+            return _context.Tickets
+                .Include(t => t.Sender);
+        }
+
         public IEnumerable<Ticket> GetTicketsForTicketDetailsInAdmin()
         {
             return _context.Tickets
