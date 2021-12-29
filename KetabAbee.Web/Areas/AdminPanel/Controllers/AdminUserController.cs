@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs.Admin.User;
 using KetabAbee.Application.Interfaces.User;
+using KetabAbee.Application.Security;
 using Microsoft.AspNetCore.Http;
 
 namespace KetabAbee.Web.Areas.AdminPanel.Controllers
@@ -57,8 +58,8 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
             return View();
         }
 
-        [HttpPost("Admin/Users/AddUser") , ValidateAntiForgeryToken]
-        public IActionResult AddUser(Domain.Models.User.User user,IFormFile imgFile)
+        [HttpPost("Admin/Users/AddUser"), ValidateAntiForgeryToken]
+        public IActionResult AddUser(Domain.Models.User.User user, IFormFile imgFile)
         {
             if (!ModelState.IsValid)
             {
@@ -80,14 +81,22 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
             }
 
             // Check Mobile
-            if (_userService.IsMobileExist(user.Mobile))
+            if (!string.IsNullOrEmpty(user.Mobile) && _userService.IsMobileExist(user.Mobile))
             {
                 TempData["ErrorMessage"] = "شماره موبایل وارد شده تکراری است";
                 return View(user);
             }
 
+            // check password strength
+            if (PasswordStrengthChecker.CheckStrength(user.Password) == PasswordScore.VeryWeak)
+            {
+                TempData["WarningMessage"] = "کلمه عبور وارد شده بسیار ضعیف است";
+                TempData["InfoMessage"] = "کلمه عبور می بایست بیش از 6 کاراکتر داشته باشد";
+                return View(user);
+            }
+
             //register user
-            if (!_userService.AddUser(user,imgFile)) return View(user);
+            if (!_userService.AddUser(user, imgFile)) return View(user);
 
             TempData["SuccessMessage"] = "ثبت کاربر با موفقیت انجام شد";
             return RedirectToAction("Index");

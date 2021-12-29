@@ -43,7 +43,7 @@
                                         <div class="text-sm text-muted mb-3">بابت :</div>
                                         <div class="text-dark font-weight-bold">
                                             <div class="form-element-row mb-0">
-                                                <input type="text" asp-for="Behalf" class="input-element" placeholder="توضیحی درباره این تراکنش دهید ...">
+                                                <input type="text" asp-for="Behalf" class="input-element" value="شارژ حساب">
                                             </div>
                                             <span asp-validation-for="Behalf" class="text-danger"></span>
                                         </div>
@@ -89,7 +89,7 @@
                                                         }
                                                         @if (wallets.Any())
                                                         {
-                                                            foreach (var item in wallets.OrderByDescending(w=>w.CreateDate))
+                                                            foreach (var item in wallets.OrderByDescending(w => w.CreateDate))
                                                             {
                                                                 <tr>
                                                                     <td>@NameGenerator.WalletNumberGenerator(item.WalletId)</td>

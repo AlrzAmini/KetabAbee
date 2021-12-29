@@ -44,10 +44,10 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
             if (_walletService.ChargeWalletByUserId(User.GetUserId(), charge))
             {
                 TempData["SuccessMessage"] = "عملیات با موفقیت انجام شد";
-                return Redirect("/UserPanel/Dashboard");
+                return Redirect("/Wallet/Charge");
             }
             TempData["ErrorMessage"] = "عملیات با شکست مواجه شد";
-            return Redirect("/UserPanel/Dashboard");
+            return Redirect("/Wallet/Charge");
 
             // online payment
 

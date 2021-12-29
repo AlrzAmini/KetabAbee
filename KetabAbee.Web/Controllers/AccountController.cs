@@ -45,7 +45,7 @@ namespace KetabAbee.Web.Controllers
         {
             if (!await _captchaValidator.IsCaptchaPassedAsync(register.Captcha))
             {
-                TempData["ErrorMessage"] = "لطفا احراز هویت کپچا را انجام دهید";
+                TempData["ErrorMessage"] = "احراز هویت کپچا انجام نشد چند لحظه دیگر تلاش کنید";
                 return View(register);
             }
 
@@ -65,6 +65,16 @@ namespace KetabAbee.Web.Controllers
             if (_userService.IsEmailExist(FixText.EmailFixer(register.Email)))
             {
                 TempData["ErrorMessage"] = "ایمیل وارد شده تکراری است";
+                return View(register);
+            }
+
+            // check password strength
+            if (PasswordStrengthChecker.CheckStrength(register.Password) == PasswordScore.VeryWeak)
+            {
+                TempData["WarningMessage"] = "کلمه عبور وارد شده بسیار ضعیف است";
+                TempData["InfoMessage"] = "کلمه عبور می بایست بیش از 6 کاراکتر داشته باشد";
+                bool alertPass = true;
+                ViewBag.alertPass = alertPass;
                 return View(register);
             }
 

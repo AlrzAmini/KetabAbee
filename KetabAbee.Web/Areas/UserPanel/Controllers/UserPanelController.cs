@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs;
 using KetabAbee.Application.Interfaces.User;
+using KetabAbee.Application.Security;
 
 namespace KetabAbee.Web.Areas.UserPanel.Controllers
 {
@@ -88,6 +89,14 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
             if (!_userService.IsOldPasswordCorrect(userName,change.OldPassword))
             {
                 TempData["ErrorMessage"] = "کلمه عبور فعلی شما همخوانی ندارد ";
+                return View(change);
+            }
+
+            // check password strength
+            if (PasswordStrengthChecker.CheckStrength(change.Password) == PasswordScore.VeryWeak)
+            {
+                TempData["WarningMessage"] = "کلمه عبور جدید بسیار ضعیف است";
+                TempData["InfoMessage"] = "کلمه عبور می بایست بیش از 6 کاراکتر داشته باشد";
                 return View(change);
             }
 
