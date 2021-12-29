@@ -183,30 +183,29 @@
                                         <span class="header-profile-dropdown-account-item">
                                             <span class="header-profile-dropdown-account-item-title">موجودی</span>
                                             <span class="header-profile-dropdown-account-item-amount">
-                                                <span class="header-profile-dropdown-account-item-amount-number">@_walletService.BalanceUserWallet(User.GetUserId())</span>
-                                                تومان
+                                                <span class="header-profile-dropdown-account-item-amount-number">@_walletService.BalanceUserWallet(User.GetUserId()).ToTooman()</span>
                                             </span>
                                         </span>
                                     </span>
                                 </a>
                             </li>
                             <li>
-                                <a asp-controller="UserPanel" asp-action="Dashboard">
+                                <a asp-area="UserPanel" asp-controller="UserPanel" asp-action="Dashboard">
                                     پروفایل
                                 </a>
                             </li>
                             <li>
-                                <a asp-controller="UserPanel" asp-action="EditProfile">
+                                <a asp-area="UserPanel" asp-controller="UserPanel" asp-action="EditProfile">
                                     ویرایش حساب کاربری
                                 </a>
                             </li>
                             <li>
-                                <a asp-controller="UserPanel" asp-action="ChangePassword">
+                                <a asp-area="UserPanel" asp-controller="UserPanel" asp-action="ChangePassword">
                                     تغییر کلمه عبور
                                 </a>
                             </li>
                             <li>
-                                <a asp-controller="Ticket" asp-action="Index">
+                                <a asp-area="UserPanel" asp-controller="Ticket" asp-action="Index">
                                     تیکت ها
                                 </a>
                             </li>
