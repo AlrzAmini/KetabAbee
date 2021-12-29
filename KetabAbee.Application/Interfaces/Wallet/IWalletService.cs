@@ -13,6 +13,10 @@ namespace KetabAbee.Application.Interfaces.Wallet
 
         long BalanceUserWallet(int userId);
 
-        bool ChargeWalletByUserId(int userId,ChargeWalletViewModel charge,bool isPay = false);
+        int ChargeWalletByUserId(int userId,ChargeWalletViewModel charge,bool isPay = false);
+
+        Domain.Models.Wallet.Wallet GetWalletById(int walletId);
+
+        bool UpdateWallet(Domain.Models.Wallet.Wallet wallet);
     }
 }

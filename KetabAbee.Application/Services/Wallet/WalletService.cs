@@ -38,7 +38,7 @@ namespace KetabAbee.Application.Services.Wallet
             return deposit.Sum() - withdraw.Sum();
         }
 
-        public bool ChargeWalletByUserId(int userId, ChargeWalletViewModel charge, bool isPay = false)
+        public int ChargeWalletByUserId(int userId, ChargeWalletViewModel charge, bool isPay = false)
         {
             try
             {
@@ -52,13 +52,22 @@ namespace KetabAbee.Application.Services.Wallet
                     WalletType = WalletType.Deposit
                 };
 
-                _walletRepository.AddWallet(wallet);
-                return true;
+                return _walletRepository.AddWallet(wallet);
             }
             catch
             {
-                return false;
+                return 0;
             }
+        }
+
+        public Domain.Models.Wallet.Wallet GetWalletById(int walletId)
+        {
+           return _walletRepository.GetWallets().SingleOrDefault(w => w.WalletId == walletId);
+        }
+
+        public bool UpdateWallet(Domain.Models.Wallet.Wallet wallet)
+        {
+            return _walletRepository.UpdateWallet(wallet);
         }
     }
 }

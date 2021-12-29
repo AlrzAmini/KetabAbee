@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs;
 using KetabAbee.Application.Interfaces.User;
+using KetabAbee.Application.Interfaces.Wallet;
 using Microsoft.AspNetCore.Http;
 
 namespace KetabAbee.Web.Controllers
@@ -16,16 +17,47 @@ namespace KetabAbee.Web.Controllers
     public class HomeController : Controller
     {
         private readonly IUserService _userService;
+        private readonly IWalletService _walletService;
 
-        public HomeController(IUserService userService)
+        public HomeController(IUserService userService, IWalletService walletService)
         {
             _userService = userService;
+            _walletService = walletService;
         }
 
         public IActionResult Index()
         {
             return View();
         }
+
+        #region Online Pament
+
+        [HttpGet("Wallet/OnlinePayment/{id}")]
+        public IActionResult OnlinePayment(int id) // wallet Id
+        {
+            if (HttpContext.Request.Query["Status"] != "" &&
+                HttpContext.Request.Query["Status"].ToString().ToLower() == "ok" &&
+                HttpContext.Request.Query["Authority"] != "")
+            {
+                string auth = HttpContext.Request.Query["Authority"];
+
+                var wallet = _walletService.GetWalletById(id);
+                var payment = new ZarinpalSandbox.Payment((int) wallet.Amount);
+                var res = payment.Verification(auth).Result;
+
+                if (res.Status == 100)
+                {
+                    ViewBag.Code = res.RefId;
+                    ViewBag.IsSuccess = true;
+                    wallet.IsPay = true;
+                    _walletService.UpdateWallet(wallet);
+                }
+            }
+
+            return View();
+        }
+
+        #endregion
 
         #region CKEditor Images
 

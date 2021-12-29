@@ -18,11 +18,16 @@ namespace KetabAbee.Data.Repository
             _context = context;
         }
 
-        public bool AddWallet(Wallet wallet)
+        public int AddWallet(Wallet wallet)
         {
             _context.Wallets.Add(wallet);
             _context.SaveChanges();
-            return true;
+            return wallet.WalletId;
+        }
+
+        public Wallet GetWalletById(int walletId)
+        {
+            return _context.Wallets.SingleOrDefault(w => w.WalletId == walletId);
         }
 
         public IEnumerable<Wallet> GetWallets()

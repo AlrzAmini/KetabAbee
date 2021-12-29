@@ -40,17 +40,21 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
                 return View(charge);
             }
 
-            // charge
-            if (_walletService.ChargeWalletByUserId(User.GetUserId(), charge))
+
+            var walletId = _walletService.ChargeWalletByUserId(User.GetUserId(), charge);
+           
+            #region Payment
+
+            var payment = new ZarinpalSandbox.Payment((int)charge.Amount);
+            var res = payment.PaymentRequest(charge.Behalf, "https://localhost:44338/Wallet/OnlinePayment/" + walletId,"mranotmillion@gmail.com","09300804882");
+            if (res.Result.Status == 100)
             {
-                TempData["SuccessMessage"] = "عملیات با موفقیت انجام شد";
-                return Redirect("/Wallet/Charge");
+               return Redirect("https://sandbox.zarinpal.com/pg/startpay/"+res.Result.Authority);
             }
-            TempData["ErrorMessage"] = "عملیات با شکست مواجه شد";
+
+            #endregion
+           
             return Redirect("/Wallet/Charge");
-
-            // online payment
-
         }
 
         #endregion

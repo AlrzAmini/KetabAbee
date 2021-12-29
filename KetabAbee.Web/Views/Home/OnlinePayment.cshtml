@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewData["Title"] = "نتیجه پرداخت";
+}
+@if (ViewBag.IsSuccess)
+{
+    <div class="col-xl-3 col-lg-4 col-md-4">
+        <div class="shadow-around pt-3">
+            <div class="d-flex justify-content-between px-3 py-2">
+                <span class="font-weight-bold text-success">پرداخت با موفقیت انجام شد</span>
+            </div>
+            <hr/>
+            <div class="d-flex justify-content-between px-3 py-2">
+                <span class="font-weight-bold">کد پیگیری</span>
+                <span class="font-weight-bold">
+                    @ViewBag.Code
+                </span>
+            </div>
+            <hr>
+            <div class="d-flex px-3 py-4">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-success btn-block py-2">بازگشت به خانه</a>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+<div class="col-xl-3 col-lg-4 col-md-4">
+    <div class="shadow-around pt-3">
+        <div class="d-flex justify-content-between px-3 py-2">
+            <span class="font-weight-bold text-success">پرداخت با شکست مواجه شد</span>
+        </div>
+        <hr>
+        <div class="d-flex px-3 py-4">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-danger btn-block py-2">بازگشت به خانه</a>
+        </div>
+    </div>
+</div>
+}
+

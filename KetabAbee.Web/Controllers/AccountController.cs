@@ -73,8 +73,7 @@ namespace KetabAbee.Web.Controllers
             {
                 TempData["WarningMessage"] = "کلمه عبور وارد شده بسیار ضعیف است";
                 TempData["InfoMessage"] = "کلمه عبور می بایست بیش از 6 کاراکتر داشته باشد";
-                bool alertPass = true;
-                ViewBag.alertPass = alertPass;
+                ViewBag.alertPass = true;
                 return View(register);
             }
 

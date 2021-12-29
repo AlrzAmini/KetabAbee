@@ -13,6 +13,8 @@ namespace KetabAbee.Domain.Interfaces
 
         bool UpdateWallet(Wallet wallet);
 
-        bool AddWallet(Wallet wallet);
+        int AddWallet(Wallet wallet);
+
+        Wallet GetWalletById(int walletId);
     }
 }

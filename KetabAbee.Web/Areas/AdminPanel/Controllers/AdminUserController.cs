@@ -111,7 +111,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
         {
             return View();
         }
-
+        //TODO : Add Pass Strength for changing password
         #endregion
 
         #region User Detail
