@@ -28,8 +28,8 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         public IActionResult ChargeWallet(WalletsWithPagingViewModel walletsWithPaging)
         {
             walletsWithPaging.UserId = User.GetUserId();
-            ViewBag.WalletList = _walletService.GetWalletsWithPagingByUserId(walletsWithPaging);
-            return View();
+
+            return View(_walletService.GetWalletsWithPagingByUserId(walletsWithPaging));
         }
 
         [HttpPost("Wallet/Charge")]
@@ -37,25 +37,46 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ViewBag.WalletList = _walletService.GetWalletsByUserId(User.GetUserId());
-                return View(charge);
+                var walletWithPaging = new WalletsWithPagingViewModel
+                {
+                    UserId = User.GetUserId()
+                };
+                var newWallets = _walletService.GetWalletsWithPagingByUserId(walletWithPaging);
+                return View(newWallets);
             }
 
+            // check price cant be 0
+            if (charge.Amount == 0)
+            {
+                TempData["ErrorMessage"] = "مبلغ وارد شده نمیتواند صفر باشد";
+                var walletWithPaging = new WalletsWithPagingViewModel
+                {
+                    UserId = User.GetUserId()
+                };
+                var newWallets = _walletService.GetWalletsWithPagingByUserId(walletWithPaging);
+                return View(newWallets);
+            }
 
-            var walletId = _walletService.ChargeWalletByUserId(User.GetUserId(), charge);
-           
+            // charge wallet
+            if (_walletService.ChargeWalletByUserId(User.GetUserId(), charge))
+            {
+                TempData["SuccessMessage"] = "شارژ حساب شما با موفقیت انجام شد . لذت ببرید";
+                return Redirect("/UserPanel/Dashboard");
+            }
+
+            TempData["ErrorMessage"] = "عملیات شارژ حساب انجام نشد";
+            return Redirect("/Wallet/Charge");
+
             #region Payment
 
-            var payment = new ZarinpalSandbox.Payment((int)charge.Amount);
-            var res = payment.PaymentRequest(charge.Behalf, "https://localhost:44338/Wallet/OnlinePayment/" + walletId,"mranotmillion@gmail.com","09300804882");
-            if (res.Result.Status == 100)
-            {
-               return Redirect("https://sandbox.zarinpal.com/pg/startpay/"+res.Result.Authority);
-            }
+            //var payment = new ZarinpalSandbox.Payment((int)charge.Amount);
+            //var res = payment.PaymentRequest(charge.Behalf, "https://localhost:44338/Wallet/OnlinePayment/" + walletId, "mranotmillion@gmail.com", "09300804882");
+            //if (res.Result.Status == 100)
+            //{
+            //    return Redirect("https://sandbox.zarinpal.com/pg/startpay/" + res.Result.Authority);
+            //}
 
             #endregion
-           
-            return Redirect("/Wallet/Charge");
         }
 
         #endregion

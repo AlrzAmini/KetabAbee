@@ -33,5 +33,16 @@ namespace KetabAbee.Application.Extensions
         {
             return price.ToString("#,0") + " تومان ";
         }
+
+        public static int GetAgeByDateTime(this DateTime birthDate)
+        {
+            var dateNow = DateTime.Now;
+            var age = dateNow.Year - birthDate.Year;
+
+            if (dateNow.Month < birthDate.Month || (dateNow.Month == birthDate.Month && dateNow.Day < birthDate.Day))
+                age--;
+
+            return age;
+        }
     }
 }

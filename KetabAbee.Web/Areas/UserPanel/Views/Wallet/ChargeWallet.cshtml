@@ -1,12 +1,9 @@
 ﻿@using KetabAbee.Application.Convertors
 @using KetabAbee.Application.DTOs.Wallet
 @using KetabAbee.Application.Extensions
-@model KetabAbee.Application.DTOs.Wallet.ChargeWalletViewModel
+@model KetabAbee.Application.DTOs.Wallet.WalletsWithPagingViewModel
 @{
     ViewData["Title"] = "کیف پول";
-}
-@{
-    var Model = ViewBag.WalletList as WalletsWithPagingViewModel;
 }
 @section Scripts
 {
@@ -36,7 +33,7 @@
                                         <div class="text-sm text-muted mb-3">مبلغ (تومان) :</div>
                                         <div class="text-dark font-weight-bold">
                                             <div class="form-element-row mb-0">
-                                                <input type="number" asp-for="Amount" class="input-element" placeholder="مبلغی مورد نظر خود را به تومان وارد کنید ...">
+                                                <input type="number" asp-for="Amount" value="" class="input-element" placeholder="مبلغی مورد نظر خود را به تومان وارد کنید ...">
                                             </div>
                                             <span asp-validation-for="Amount" class="text-danger"></span>
                                         </div>
@@ -52,7 +49,7 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="form-element-row text-left">
-                                            <button class="btn-element btn-success-element">
+                                            <button class="btn-element btn-success-element" onclick="return confirm('از شارژ حساب خود مطمعن هستید ؟')">
                                                 <i class="fad fa-money-check"></i>
                                                 شارژ
                                             </button>
@@ -64,7 +61,7 @@
                     </div>
                 </div>
                 <form id="filterform" asp-area="UserPanel" asp-controller="Wallet" asp-action="ChargeWallet" method="get">
-                    <input type="hidden" id="PageNum" name="PageNum" value="@Model.PageNum"/>
+                    <input type="hidden" asp-for="PageNum"/>
                 </form>
                 <div class="col-lg-12 col-md-12">
                     <div class="row mb-4">
@@ -92,7 +89,7 @@
                                                         
                                                         @if (Model.Wallets.Any())
                                                         {
-                                                            foreach (var item in Model.Wallets.OrderBy(w=>w.WalletId))
+                                                            foreach (var item in Model.Wallets.OrderByDescending(w=>w.Amount))
                                                             {
                                                                 <tr>
                                                                     <td>KTA - @item.WalletId</td>

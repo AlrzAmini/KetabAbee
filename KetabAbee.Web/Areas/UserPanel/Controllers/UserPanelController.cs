@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs;
 using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Security;
@@ -52,6 +54,8 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
             {
                 return View(edit);
             }
+
+            edit.BirthDay = edit.BirthDay.ToString(CultureInfo.InvariantCulture).StringShamsiToMiladi();
 
             if (_userService.EditUserProfile(edit))
             {

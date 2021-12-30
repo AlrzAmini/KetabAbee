@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KetabAbee.Application.Convertors
 {
-  public static  class DateConvertor
+    public static class DateConvertor
     {
         public static string ToShamsi(this DateTime date)
         {
@@ -20,7 +20,7 @@ namespace KetabAbee.Application.Convertors
         {
             return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, new PersianCalendar());
 
-           
+
             //    static void Main()
             //    {
             //        PersianCalendar pc = new PersianCalendar();
@@ -115,6 +115,19 @@ namespace KetabAbee.Application.Convertors
             }
 
             return (string.Format("{0} {1} {2} {3}", strDayName, intDayOfMonth, strMonthName, intYear));
+        }
+
+        public static DateTime StringShamsiToMiladi(this string shamsi)
+        {
+            PersianCalendar pc = new PersianCalendar();
+
+            int year = int.Parse(shamsi.Substring(6, 4));
+            int month = int.Parse(shamsi.Substring(0, 2));
+            int day = int.Parse(shamsi.Substring(3, 2));
+
+            DateTime dt = pc.ToDateTime(year, month, day, 0, 0, 0, 0);
+
+            return dt;
         }
     }
 }

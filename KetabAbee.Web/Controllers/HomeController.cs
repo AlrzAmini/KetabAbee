@@ -32,30 +32,30 @@ namespace KetabAbee.Web.Controllers
 
         #region Online Pament
 
-        [HttpGet("Wallet/OnlinePayment/{id}")]
-        public IActionResult OnlinePayment(int id) // wallet Id
-        {
-            if (HttpContext.Request.Query["Status"] != "" &&
-                HttpContext.Request.Query["Status"].ToString().ToLower() == "ok" &&
-                HttpContext.Request.Query["Authority"] != "")
-            {
-                string auth = HttpContext.Request.Query["Authority"];
+        //[HttpGet("Wallet/OnlinePayment/{id}")]
+        //public IActionResult OnlinePayment(int id) // wallet Id
+        //{
+        //    if (HttpContext.Request.Query["Status"] != "" &&
+        //        HttpContext.Request.Query["Status"].ToString().ToLower() == "ok" &&
+        //        HttpContext.Request.Query["Authority"] != "")
+        //    {
+        //        string auth = HttpContext.Request.Query["Authority"];
 
-                var wallet = _walletService.GetWalletById(id);
-                var payment = new ZarinpalSandbox.Payment((int) wallet.Amount);
-                var res = payment.Verification(auth).Result;
+        //        var wallet = _walletService.GetWalletById(id);
+        //        var payment = new ZarinpalSandbox.Payment((int) wallet.Amount);
+        //        var res = payment.Verification(auth).Result;
 
-                if (res.Status == 100)
-                {
-                    ViewBag.Code = res.RefId;
-                    ViewBag.IsSuccess = true;
-                    wallet.IsPay = true;
-                    _walletService.UpdateWallet(wallet);
-                }
-            }
+        //        if (res.Status == 100)
+        //        {
+        //            ViewBag.Code = res.RefId;
+        //            ViewBag.IsSuccess = true;
+        //            wallet.IsPay = true;
+        //            _walletService.UpdateWallet(wallet);
+        //        }
+        //    }
 
-            return View();
-        }
+        //    return View();
+        //}
 
         #endregion
 

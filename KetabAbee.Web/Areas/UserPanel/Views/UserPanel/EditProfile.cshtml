@@ -1,10 +1,10 @@
-﻿@model KetabAbee.Application.DTOs.UserPanelEditInfoViewModel
+﻿@using KetabAbee.Application.Convertors
+@model KetabAbee.Application.DTOs.UserPanelEditInfoViewModel
 @{
     ViewData["Title"] = "ویرایش پروفایل";
 }
-@section Scripts
-{
-    <partial name="_ValidationScriptsPartial" />
+@section Styles{
+    <link type="text/css" rel="stylesheet" href="/css/JalaliDatePicker-min.css" />
 }
 <main class="page-content" style="margin-top: 205.5px; transform: none;">
     <div class="container" style="transform: none;">
@@ -37,10 +37,10 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6 mb-5">
-                                        <div class="text-sm text-muted mb-3">سن:</div>
+                                        <div class="text-sm text-muted mb-3">تاریخ تولد:</div>
                                         <div class="text-dark font-weight-bold">
                                             <div class="form-element-row mb-0">
-                                                <input type="number" asp-for="Age" class="input-element">
+                                                <input data-jdp class="input-element" name="BirthDay" value="@Model.BirthDay.ToShamsi()">
                                             </div>
                                         </div>
                                     </div>
@@ -80,6 +80,11 @@
 </main>
 @section Scripts
 {
+    <script type="text/javascript" src="/js/JalaliDataPicker-min.js"></script>
+    <script>
+        jalaliDatepicker.startWatch();
+    </script>
+    <partial name="_ValidationScriptsPartial" />
     <script>
         function readURL(input) {
             if (input.files && input.files[0]) {

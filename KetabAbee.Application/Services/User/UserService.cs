@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs;
 using KetabAbee.Application.DTOs.Admin.User;
 using KetabAbee.Application.DTOs.Paging;
+using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Generators;
 using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Interfaces.Wallet;
@@ -137,9 +139,9 @@ namespace KetabAbee.Application.Services.User
             var infoForEdit = new UserPanelEditInfoViewModel
             {
                 Mobile = user.Mobile,
-                Age = user.Age,
                 CurrentAvatar = user.AvatarName,
-                Email = user.Email
+                Email = user.Email,
+                BirthDay = user.BirthDay
             };
 
             return infoForEdit;
@@ -194,8 +196,9 @@ namespace KetabAbee.Application.Services.User
                 var user = GetUserByEmail(edit.Email);
 
                 user.Mobile = edit.Mobile;
-                user.Age = edit.Age;
                 user.AvatarName = edit.CurrentAvatar;
+                user.BirthDay = edit.BirthDay;
+                user.Age = edit.BirthDay.GetAgeByDateTime();
 
                 UpdateUser(user);
                 return true;

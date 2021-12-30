@@ -43,7 +43,7 @@ namespace KetabAbee.Application.DTOs
 
         #endregion
 
-        public int Age { get; set; }
+        public DateTime BirthDay { get; set; }
 
         public string Email { get; set; }
 

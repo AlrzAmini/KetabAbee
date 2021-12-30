@@ -77,6 +77,13 @@ namespace KetabAbee.Domain.Models.User
 
         #endregion
 
+        #region Birth Day
+
+        [DisplayName("تاریخ تولد")]
+        public DateTime BirthDay { get; set; }
+
+        #endregion
+
         #region Is email Active
 
         public bool IsEmailActive { get; set; }
