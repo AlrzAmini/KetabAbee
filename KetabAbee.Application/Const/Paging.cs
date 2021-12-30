@@ -8,6 +8,6 @@ namespace KetabAbee.Application.Const
 {
     public class Paging
     {
-        public const int TicketPerPage = 10;
+        public const int ItemPerPage = 10;
     }
 }

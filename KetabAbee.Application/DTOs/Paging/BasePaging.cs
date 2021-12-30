@@ -11,7 +11,7 @@ namespace KetabAbee.Application.DTOs.Paging
         public BasePaging()
         {
             PageNum = 1;
-            Take = Const.Paging.TicketPerPage;
+            Take = Const.Paging.ItemPerPage;
             PageCountAfterAndBefor = 5;
         }
 

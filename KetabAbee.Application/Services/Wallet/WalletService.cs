@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Application.DTOs.Paging;
 using KetabAbee.Application.DTOs.Wallet;
 using KetabAbee.Application.Interfaces.Wallet;
 using KetabAbee.Domain.Interfaces;
@@ -62,12 +63,26 @@ namespace KetabAbee.Application.Services.Wallet
 
         public Domain.Models.Wallet.Wallet GetWalletById(int walletId)
         {
-           return _walletRepository.GetWallets().SingleOrDefault(w => w.WalletId == walletId);
+            return _walletRepository.GetWalletById(walletId);
         }
 
         public bool UpdateWallet(Domain.Models.Wallet.Wallet wallet)
         {
             return _walletRepository.UpdateWallet(wallet);
+        }
+
+        public WalletsWithPagingViewModel GetWalletsWithPagingByUserId(WalletsWithPagingViewModel walletsWithPagingViewModel)
+        {
+            var result = _walletRepository.GetWalletsByUserId(walletsWithPagingViewModel.UserId).AsQueryable();
+
+            //paging
+            var pager = Pager.Build(walletsWithPagingViewModel.PageNum,
+                result.Count(),
+                walletsWithPagingViewModel.Take,
+                walletsWithPagingViewModel.PageCountAfterAndBefor);
+            var wallets = result.Paging(pager).ToList();
+
+            return walletsWithPagingViewModel.SetWallets(wallets).SetPaging(pager);
         }
     }
 }

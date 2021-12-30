@@ -25,9 +25,10 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         #region Charge Wallet
 
         [HttpGet("Wallet/Charge")]
-        public IActionResult ChargeWallet()
+        public IActionResult ChargeWallet(WalletsWithPagingViewModel walletsWithPaging)
         {
-            ViewBag.WalletList = _walletService.GetWalletsByUserId(User.GetUserId());
+            walletsWithPaging.UserId = User.GetUserId();
+            ViewBag.WalletList = _walletService.GetWalletsWithPagingByUserId(walletsWithPaging);
             return View();
         }
 

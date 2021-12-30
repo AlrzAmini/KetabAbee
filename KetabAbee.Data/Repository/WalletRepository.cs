@@ -27,12 +27,17 @@ namespace KetabAbee.Data.Repository
 
         public Wallet GetWalletById(int walletId)
         {
-            return _context.Wallets.SingleOrDefault(w => w.WalletId == walletId);
+            return _context.Wallets.Find(walletId);
         }
 
         public IEnumerable<Wallet> GetWallets()
         {
             return _context.Wallets;
+        }
+
+        public IEnumerable<Wallet> GetWalletsByUserId(int userId)
+        {
+            return _context.Wallets.Where(w => w.UserId == userId);
         }
 
         public bool UpdateWallet(Wallet wallet)

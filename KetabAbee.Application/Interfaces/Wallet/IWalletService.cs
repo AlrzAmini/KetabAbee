@@ -18,5 +18,7 @@ namespace KetabAbee.Application.Interfaces.Wallet
         Domain.Models.Wallet.Wallet GetWalletById(int walletId);
 
         bool UpdateWallet(Domain.Models.Wallet.Wallet wallet);
+
+        WalletsWithPagingViewModel GetWalletsWithPagingByUserId(WalletsWithPagingViewModel walletsWithPagingViewModel);
     }
 }

@@ -16,5 +16,7 @@ namespace KetabAbee.Domain.Interfaces
         int AddWallet(Wallet wallet);
 
         Wallet GetWalletById(int walletId);
+
+        IEnumerable<Wallet> GetWalletsByUserId(int userId);
     }
 }
