@@ -44,6 +44,8 @@ namespace KetabAbee.Application.Services.User
                 IsEmailActive = false,
                 IsDelete = false,
                 RegisterDate = DateTime.Now,
+                BirthDay = null,
+                Age = null
             };
 
             _userRepository.RegisterUser(newUser);

@@ -55,7 +55,7 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
                 return View(edit);
             }
 
-            edit.BirthDay = edit.BirthDay.ToString(CultureInfo.InvariantCulture).StringShamsiToMiladi();
+            edit.BirthDay = edit.BirthDay?.ToString(CultureInfo.InvariantCulture).StringShamsiToMiladi();
 
             if (_userService.EditUserProfile(edit))
             {

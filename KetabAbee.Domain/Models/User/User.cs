@@ -73,14 +73,14 @@ namespace KetabAbee.Domain.Models.User
         #region Age
 
         [DisplayName("سن")]
-        public int Age { get; set; }
+        public int? Age { get; set; }
 
         #endregion
 
         #region Birth Day
 
         [DisplayName("تاریخ تولد")]
-        public DateTime BirthDay { get; set; }
+        public DateTime? BirthDay { get; set; }
 
         #endregion
 

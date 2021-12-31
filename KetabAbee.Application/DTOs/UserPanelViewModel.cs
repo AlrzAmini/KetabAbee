@@ -17,7 +17,7 @@ namespace KetabAbee.Application.DTOs
 
         public string Mobile { get; set; }
 
-        public int Age { get; set; }
+        public int? Age { get; set; }
 
         public long Wallet { get; set; }
 
@@ -43,7 +43,7 @@ namespace KetabAbee.Application.DTOs
 
         #endregion
 
-        public DateTime BirthDay { get; set; }
+        public DateTime? BirthDay { get; set; }
 
         public string Email { get; set; }
 
