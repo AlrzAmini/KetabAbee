@@ -1,6 +1,7 @@
 ﻿@using KetabAbee.Application.Convertors
 @using KetabAbee.Application.DTOs.Wallet
 @using KetabAbee.Application.Extensions
+@using KetabAbee.Domain.Models.Wallet
 @model KetabAbee.Application.DTOs.Wallet.WalletsWithPagingViewModel
 @{
     ViewData["Title"] = "کیف پول";
@@ -61,7 +62,7 @@
                     </div>
                 </div>
                 <form id="filterform" asp-area="UserPanel" asp-controller="Wallet" asp-action="ChargeWallet" method="get">
-                    <input type="hidden" asp-for="PageNum"/>
+                    <input type="hidden" asp-for="PageNum" />
                 </form>
                 <div class="col-lg-12 col-md-12">
                     <div class="row mb-4">
@@ -86,16 +87,23 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        
+
                                                         @if (Model.Wallets.Any())
                                                         {
-                                                            foreach (var item in Model.Wallets.OrderByDescending(w=>w.Amount))
+                                                            foreach (var item in Model.Wallets.OrderByDescending(w => w.Amount))
                                                             {
                                                                 <tr>
                                                                     <td>KTA - @item.WalletId</td>
                                                                     <td>@item.CreateDate.ToIraniDate() ساعت @item.CreateDate.GetHourAndMinutes()</td>
                                                                     <td>@item.Amount.ToTooman()</td>
-                                                                    <td>@item.WalletType.GetEnumName()</td>
+                                                                    @if (item.WalletType == WalletType.Deposit)
+                                                                    {
+                                                                        <td><p class="badge-success rounded m-1">@item.WalletType.GetEnumName()</p></td>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td><p class="badge-danger rounded m-1">@item.WalletType.GetEnumName()</p></td>
+                                                                    }
                                                                     <td>@item.Behalf</td>
                                                                     @if (item.IsPay)
                                                                     {

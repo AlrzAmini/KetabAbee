@@ -2,7 +2,9 @@
 <div class="profile-sidebar shadow-around mt-4">
     <div class="d-flex align-items-center">
         <div class="profile-avatar">
-            <img src="/Avatar/thumb/@Model.AvatarName" alt="avatar">
+            <a asp-area="UserPanel" asp-controller="UserPanel" asp-action="EditProfile">
+                <img src="/Avatar/thumb/@Model.AvatarName" alt="avatar">
+            </a>
         </div>
         <div class="profile-info">
             <div class="d-block">
