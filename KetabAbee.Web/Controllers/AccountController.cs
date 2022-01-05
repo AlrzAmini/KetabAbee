@@ -73,7 +73,7 @@ namespace KetabAbee.Web.Controllers
             if (PasswordStrengthChecker.CheckStrength(register.Password) == PasswordScore.VeryWeak)
             {
                 TempData["WarningMessage"] = "کلمه عبور وارد شده بسیار ضعیف است";
-                TempData["InfoMessage"] = "کلمه عبور می بایست بیش از 6 کاراکتر داشته باشد";
+                TempData["InfoMessage"] = "کلمه عبور می بایست حداقل 6 کاراکتر داشته باشد";
                 ViewBag.alertPass = true;
                 return View(register);
             }
@@ -196,6 +196,7 @@ namespace KetabAbee.Web.Controllers
             }
 
             TempData["ErrorMessage"] = "مشکلی در فعالسازی حساب رخ داده است کد فعالسازی را بررسی کنید";
+            TempData["WarningMessage"] = "ممکن است حساب کاربری شما از قبل فعالسازی شده باشد بررسی کنید";
             return View(actCode);
         }
 

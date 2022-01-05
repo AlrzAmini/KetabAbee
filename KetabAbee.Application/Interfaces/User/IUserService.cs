@@ -25,7 +25,7 @@ namespace KetabAbee.Application.Interfaces.User
 
         Domain.Models.User.User GetUserForLogin(LoginViewModel login);
 
-        bool ActiveAccountByEmail(string emailActiveCode);
+        //bool ActiveAccountByEmail(string emailActiveCode);
 
         Domain.Models.User.User GetUserByEmail(string email);
 
@@ -63,7 +63,7 @@ namespace KetabAbee.Application.Interfaces.User
 
         string GetAvatarNameByUserId(int userId);
 
-        bool AddUser(Domain.Models.User.User user,IFormFile imgFile);
+        bool AddUser(Domain.Models.User.User user, IFormFile imgFile);
 
         #endregion
     }

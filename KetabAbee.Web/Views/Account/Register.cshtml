@@ -5,8 +5,8 @@
 
 @section Scripts
 {
-    <partial name="_ValidationScriptsPartial"/>
-    <partial name="_CaptchaScripts"/>
+    <partial name="_ValidationScriptsPartial" />
+    <partial name="_CaptchaScripts" />
 }
 
 <main class="page-content">
@@ -22,7 +22,7 @@
                     ثبت نام در کتاب <span class="text-primary">آبی</span>
                 </div>
                 <form asp-action="Register" method="post">
-                    <partial name="_CaptchaInput"/>
+                    <partial name="_CaptchaInput" />
                     <div class="form-element-row">
                         <label for="user-name" class="label-element">نام کاربری</label>
                         <div class="form-element-with-icon">
@@ -48,7 +48,7 @@
                         <span asp-validation-for="Password" class="text-danger"></span>
                         @if (ViewBag.alertPass != null)
                         {
-                            <p class="help-block text-info">کلمه عبور باید بیش از 6 کاراکتر داشته باشد *</p>
+                            <p class="help-block text-info">کلمه عبور باید حداقل 6 کاراکتر داشته باشد *</p>
                         }
                     </div>
                     <div class="form-element-row">

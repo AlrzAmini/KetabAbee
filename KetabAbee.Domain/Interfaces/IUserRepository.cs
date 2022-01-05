@@ -23,7 +23,7 @@ namespace KetabAbee.Domain.Interfaces
 
         User IsUserRegistered(string email, string password);
 
-        bool ActiveAccountByEmail(string emailActiveCode);
+        //bool ActiveAccountByEmail(string emailActiveCode);
 
         User GetUserByEmail(string email);
 

@@ -81,10 +81,10 @@ namespace KetabAbee.Application.Services.User
             return _userRepository.IsUserRegistered(login.Email, PasswordHasher.EncodePasswordMd5(login.Password));
         }
 
-        public bool ActiveAccountByEmail(string emailActiveCode)
-        {
-            return _userRepository.ActiveAccountByEmail(emailActiveCode);
-        }
+        //public bool ActiveAccountByEmail(string emailActiveCode)
+        //{
+        //    return _userRepository.ActiveAccountByEmail(emailActiveCode);
+        //}
 
         public Domain.Models.User.User GetUserByEmail(string email)
         {

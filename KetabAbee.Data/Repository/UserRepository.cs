@@ -52,28 +52,28 @@ namespace KetabAbee.Data.Repository
             return _context.Users.SingleOrDefault(u => u.Email == email && u.Password == password);
         }
 
-        public bool ActiveAccountByEmail(string emailActiveCode)
-        {
-            var user = _context.Users.SingleOrDefault(s => s.EmailActivationCode == emailActiveCode);
+        //public bool ActiveAccountByEmail(string emailActiveCode)
+        //{
+        //    var user = _context.Users.SingleOrDefault(s => s.EmailActivationCode == emailActiveCode);
 
-            // user not found
-            if (user == null)
-            {
-                return false;
-            }
+        //    // user not found
+        //    if (user == null)
+        //    {
+        //        return false;
+        //    }
 
-            // user is already active
-            if (user.IsEmailActive)
-            {
-                return false;
-            }
+        //    // user is already active
+        //    if (user.IsEmailActive)
+        //    {
+        //        return false;
+        //    }
 
-            user.IsEmailActive = true;
-            user.EmailActivationCode = new Random().Next(10000, 99999).ToString();
-            _context.SaveChanges();
+        //    user.IsEmailActive = true;
+        //    user.EmailActivationCode = new Random().Next(10000, 99999).ToString();
+        //    _context.SaveChanges();
 
-            return true;
-        }
+        //    return true;
+        //}
 
         public User GetUserByEmail(string email)
         {
