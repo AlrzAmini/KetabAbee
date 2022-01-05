@@ -283,6 +283,7 @@ namespace KetabAbee.Web.Controllers
             }
 
             user.Password = PasswordHasher.EncodePasswordMd5(reset.Password);
+            user.EmailActivationCode = new Random().Next(10000, 99999).ToString();
 
             _userService.UpdateUser(user);
 
