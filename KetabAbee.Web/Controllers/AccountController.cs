@@ -274,6 +274,14 @@ namespace KetabAbee.Web.Controllers
                 return NotFound();
             }
 
+            // check password strength
+            if (PasswordStrengthChecker.CheckStrength(reset.Password) == PasswordScore.VeryWeak)
+            {
+                TempData["WarningMessage"] = "کلمه عبور وارد شده بسیار ضعیف است";
+                TempData["InfoMessage"] = "کلمه عبور می بایست حداقل 6 کاراکتر داشته باشد";
+                return View(reset);
+            }
+
             user.Password = PasswordHasher.EncodePasswordMd5(reset.Password);
 
             _userService.UpdateUser(user);
