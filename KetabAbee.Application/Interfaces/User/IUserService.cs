@@ -33,6 +33,8 @@ namespace KetabAbee.Application.Interfaces.User
 
         bool UpdateUser(Domain.Models.User.User user);
 
+        bool EmailActivatorBy5ThCode(string activateCode);
+
         #endregion
 
         #region User Panel

@@ -69,7 +69,7 @@ namespace KetabAbee.Data.Repository
             }
 
             user.IsEmailActive = true;
-            user.EmailActivationCode = Guid.NewGuid().ToString("N");
+            user.EmailActivationCode = new Random().Next(10000, 99999).ToString();
             _context.SaveChanges();
 
             return true;
@@ -125,6 +125,11 @@ namespace KetabAbee.Data.Repository
             {
                 return "Error";
             }
+        }
+
+        public User GetUserByEmailActive5ThCode(string emailActiveCode)
+        {
+            return _context.Users.FirstOrDefault(u => u.EmailActivationCode == emailActiveCode);
         }
     }
 }

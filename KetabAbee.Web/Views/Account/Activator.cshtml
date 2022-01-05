@@ -1,0 +1,41 @@
+﻿@model KetabAbee.Application.DTOs.ActiveAccount.ActiveEmailBy5ThCodeViewModel
+@{
+    ViewData["Title"] = "فعالسازی حساب";
+}
+
+<div class="page-wrapper auth-page-wrapper">
+    <!-- Page Content -->
+    <main class="page-content">
+        <div class="container">
+            <div class="auth-wrapper">
+                <div class="auth-form shadow-around">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-md-8 col-sm-8 col-lg-8 alert alert-info m-4">
+                            <form asp-controller="Account" asp-action="Activator" method="post">
+                                <div class="form-element-row">
+                                    <label for="code" class="label-element">کد فعالسازی</label>
+                                    <div class="form-element-with-icon">
+                                        <input type="number" asp-for="ActiveCode" maxlength="5" class="input-element" id="code">
+                                        <i class="fad fa-user-lock"></i>
+                                    </div>
+                                    <span asp-validation-for="ActiveCode" class="text-danger"></span>
+                                </div>
+                                <div class="form-element-row text-left">
+                                    <button type="submit" class="btn-element btn-success-element">
+                                        <i class="fad fa-flash"></i>
+                                        فعال سازی
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial"/>
+}
+

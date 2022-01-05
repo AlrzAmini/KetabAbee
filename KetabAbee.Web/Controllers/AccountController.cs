@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using GoogleReCaptcha.V3.Interface;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs;
+using KetabAbee.Application.DTOs.ActiveAccount;
 using KetabAbee.Application.Generators;
 using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Security;
@@ -81,14 +82,14 @@ namespace KetabAbee.Web.Controllers
             var user = _userService.RegisterUser(register);
             if (user == null) return RedirectToAction("Register");
             TempData["SuccessMessage"] = "ثبت نام شما با موفقیت انجام شد";
-            TempData["InfoMessage"] = "ایمیل فعالسازی برای شما ارسال شد";
+            TempData["InfoMessage"] = "لطفا با استفاده از کد ارسال شده حساب خود را فعالسازی کنید";
             TempData["WarningMessage"] = "ممکن است عملیات ارسال ایمیل فعال سازی دقایقی طول بکشد";
 
             //send active email
             string body = _renderService.RenderToStringAsync("_ActivationEmail", user);
-            SendEmail.Send(user.Email,"فعالسازی حساب کاربری در کتاب آبی",body);
+            SendEmail.Send(user.Email, "فعالسازی حساب کاربری در کتاب آبی", body);
 
-            return RedirectToAction("Login");
+            return RedirectToAction("Activator");
         }
 
         #endregion
@@ -166,13 +167,36 @@ namespace KetabAbee.Web.Controllers
 
         #endregion
 
-        #region Active Account Email
+        #region Active Account by Email
 
-        [HttpGet("ActiveByEmail/{id}")]
-        public IActionResult ActiveByEmail(string id)
+        //[HttpGet("ActiveByEmail/{id}")]
+        //public IActionResult ActiveByEmail(string id) // id = active code
+        //{
+        //    ViewBag.IsActive = _userService.ActiveAccountByEmail(id);
+        //    return View();
+        //}
+
+        #endregion
+
+        #region Active Email By 5th Code
+
+        [HttpGet("Activator")]
+        public IActionResult Activator()
         {
-            ViewBag.IsActive = _userService.ActiveAccountByEmail(id);
             return View();
+        }
+
+        [HttpPost("Activator"), ValidateAntiForgeryToken]
+        public IActionResult Activator(ActiveEmailBy5ThCodeViewModel actCode)
+        {
+            if (_userService.EmailActivatorBy5ThCode(actCode.ActiveCode))
+            {
+                TempData["SuccessMessage"] = "حساب شما با موفقیت فعالسازی شد";
+                return RedirectToAction("Login");
+            }
+
+            TempData["ErrorMessage"] = "مشکلی در فعالسازی حساب رخ داده است کد فعالسازی را بررسی کنید";
+            return View(actCode);
         }
 
         #endregion
@@ -185,7 +209,7 @@ namespace KetabAbee.Web.Controllers
             return View();
         }
 
-        [HttpPost("ForgotPassword") , ValidateAntiForgeryToken]
+        [HttpPost("ForgotPassword"), ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel forgot)
         {
             if (!await _captchaValidator.IsCaptchaPassedAsync(forgot.Captcha))
@@ -228,7 +252,7 @@ namespace KetabAbee.Web.Controllers
             });
         }
 
-        [HttpPost("ResetPasswordByEmail/{id}") , ValidateAntiForgeryToken]
+        [HttpPost("ResetPasswordByEmail/{id}"), ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPasswordByEmail(ResetPasswordViewModel reset)
         {
             if (!await _captchaValidator.IsCaptchaPassedAsync(reset.Captcha))
@@ -253,7 +277,7 @@ namespace KetabAbee.Web.Controllers
 
             _userService.UpdateUser(user);
 
-           TempData["SuccessMessage"] = "رمز عبور شما با موفقیت تغییر کرد";
+            TempData["SuccessMessage"] = "رمز عبور شما با موفقیت تغییر کرد";
 
             return RedirectToAction("Login");
 

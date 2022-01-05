@@ -31,6 +31,8 @@ namespace KetabAbee.Domain.Interfaces
 
         bool UpdateUser(User user);
 
+        User GetUserByEmailActive5ThCode(string emailActiveCode);
+
 
         #endregion
 

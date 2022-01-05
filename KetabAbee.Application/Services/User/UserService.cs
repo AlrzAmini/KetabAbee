@@ -37,7 +37,7 @@ namespace KetabAbee.Application.Services.User
                 UserName = user.UserName,
                 Email = user.Email,
                 Password = PasswordHasher.EncodePasswordMd5(user.Password),
-                EmailActivationCode = CodeGenerator.GenerateUniqCode(),
+                EmailActivationCode = new Random().Next(10000, 99999).ToString(),
                 MobileActivationCode = new Random().Next(100000, 999998).ToString(),
                 AvatarName = "User.jpg",
                 IsMobileActive = false,
@@ -382,6 +382,29 @@ namespace KetabAbee.Application.Services.User
             user.RegisterDate = DateTime.Now;
 
             return _userRepository.RegisterUser(user);
+        }
+
+        public bool EmailActivatorBy5ThCode(string activateCode)
+        {
+            var user = _userRepository.GetUserByEmailActive5ThCode(activateCode);
+
+            // user not found
+            if (user == null)
+            {
+                return false;
+            }
+
+            // user is already active
+            if (user.IsEmailActive)
+            {
+                return false;
+            }
+
+            user.IsEmailActive = true;
+            user.EmailActivationCode = new Random().Next(10000, 99999).ToString();
+            _userRepository.UpdateUser(user);
+
+            return true;
         }
     }
 }
