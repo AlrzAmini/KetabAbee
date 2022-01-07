@@ -1,18 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using GoogleReCaptcha.V3.Interface;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs;
 using KetabAbee.Application.DTOs.ActiveAccount;
-using KetabAbee.Application.Generators;
 using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Security;
 using KetabAbee.Application.Senders;
-using KetabAbee.Domain.Models.User;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
@@ -37,10 +34,10 @@ namespace KetabAbee.Web.Controllers
         public IActionResult Register()
         {
             if (User.Identity.IsAuthenticated) return Redirect("/");
-
+            
             return View();
         }
-
+        
         [HttpPost("Register"), ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel register)
         {

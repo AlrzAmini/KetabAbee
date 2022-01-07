@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using KetabAbee.Domain.Models.Permission;
 using KetabAbee.Domain.Models.Ticket;
 using KetabAbee.Domain.Models.User;
 using KetabAbee.Domain.Models.Wallet;
@@ -18,6 +19,8 @@ namespace KetabAbee.Data.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
+        public DbSet<RolePermission> RolePermissions { get; set; }
 
         #endregion
 
@@ -33,6 +36,7 @@ namespace KetabAbee.Data.Context
         public DbSet<Wallet> Wallets { get; set; }
 
         #endregion
+
 
 
 
