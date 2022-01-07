@@ -9,5 +9,6 @@ namespace KetabAbee.Application.Services.Permission
 {
     public class PermissionService : IPermissionService
     {
+
     }
 }

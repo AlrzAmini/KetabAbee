@@ -155,8 +155,8 @@ namespace KetabAbee.Application.Services.User
             {
                 if (edit.UserAvatar != null && edit.UserAvatar.IsImage())
                 {
-                    string imgPath = "";
-                    string imgThumbPath = "";
+                    string imgPath;
+                    string imgThumbPath;
                     if (edit.CurrentAvatar != "User.jpg")
                     {
                         // get old avatar path
@@ -343,8 +343,10 @@ namespace KetabAbee.Application.Services.User
             return _userRepository.GetAvatarNameByUserId(userId);
         }
 
-        public bool AddUser(Domain.Models.User.User user , IFormFile imgFile)
+        public bool AddUser(AddUserFromAdminViewModel user , IFormFile imgFile)
         {
+            Domain.Models.User.User newUser = new();
+                
             if (user == null) return false;
 
             #region Check and add Avatar
@@ -352,9 +354,9 @@ namespace KetabAbee.Application.Services.User
             if (imgFile != null && imgFile.IsImage())
             {
                 // generate new image path and name
-                user.AvatarName = CodeGenerator.GenerateUniqCode() + Path.GetExtension(imgFile.FileName);
+                newUser.AvatarName = CodeGenerator.GenerateUniqCode() + Path.GetExtension(imgFile.FileName);
 
-                string imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar", user.AvatarName);
+                string imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar", newUser.AvatarName);
 
                 // save file in file
                 using (var stream = new FileStream(imgPath, FileMode.Create))
@@ -363,25 +365,29 @@ namespace KetabAbee.Application.Services.User
                 }
 
                 var imgResizer = new ImageConvertor();
-                string imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar/thumb", user.AvatarName);
+                string imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar/thumb", newUser.AvatarName);
                 imgResizer.Image_resize(imgPath, imgThumbPath, 200);
             }
             else
             {
-                user.AvatarName = "User.jpg";
+                newUser.AvatarName = "User.jpg";
             }
 
             #endregion
 
-            user.Password = PasswordHasher.EncodePasswordMd5(user.Password);
-            user.Email = FixText.EmailFixer(user.Email);
-            user.EmailActivationCode = CodeGenerator.GenerateUniqCode();
-            user.IsEmailActive = true;
-            user.MobileActivationCode = new Random().Next(100000, 999998).ToString();
-            user.IsMobileActive = true;
-            user.RegisterDate = DateTime.Now;
+            newUser.UserName = user.UserName;
+            newUser.Email = FixText.EmailFixer(user.Email);
+            newUser.Password = PasswordHasher.EncodePasswordMd5(user.Password);
+            newUser.Mobile = user.Mobile;
+            newUser.BirthDay = user.BirthDay?.ToString(CultureInfo.InvariantCulture).StringShamsiToMiladi();
+            newUser.Age = newUser.BirthDay.GetAgeByDateTime();
+            newUser.EmailActivationCode = new Random().Next(10000, 99999).ToString();
+            newUser.IsEmailActive = true;
+            newUser.MobileActivationCode = new Random().Next(100000, 999998).ToString();
+            newUser.IsMobileActive = true;
+            newUser.RegisterDate = DateTime.Now;
 
-            return _userRepository.RegisterUser(user);
+            return _userRepository.RegisterUser(newUser);
         }
 
         public bool EmailActivatorBy5ThCode(string activateCode)

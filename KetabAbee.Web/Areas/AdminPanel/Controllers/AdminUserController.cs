@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using KetabAbee.Application.Convertors;
@@ -59,7 +60,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
         }
 
         [HttpPost("Admin/Users/AddUser"), ValidateAntiForgeryToken]
-        public IActionResult AddUser(Domain.Models.User.User user, IFormFile imgFile)
+        public IActionResult AddUser(AddUserFromAdminViewModel user, IFormFile imgFile)
         {
             if (!ModelState.IsValid)
             {
