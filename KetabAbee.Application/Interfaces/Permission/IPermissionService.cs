@@ -8,5 +8,6 @@ namespace KetabAbee.Application.Interfaces.Permission
 {
     public interface IPermissionService
     {
+
     }
 }
