@@ -69,6 +69,8 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
         [HttpPost("Admin/Users/AddUser"), ValidateAntiForgeryToken]
         public IActionResult AddUser(AddUserFromAdminViewModel user, IFormFile imgFile, List<int> selectedRoles)
         {
+            #region Validations
+
             if (!ModelState.IsValid)
             {
                 // Get Roles
@@ -88,7 +90,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
             // Check Email
             if (_userService.IsEmailExist(FixText.EmailFixer(user.Email)))
             {
-                TempData["ErrorMessage"] = "شماره موبایل وارد شده تکراری است";
+                TempData["ErrorMessage"] = "ایمیل وارد شده تکراری است";
                 // Get Roles
                 ViewBag.Roles = _permissionService.GetRoles().ToList();
                 return View(user);
@@ -113,6 +115,8 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
                 return View(user);
             }
 
+            #endregion
+
             //register user
             var userId = _userService.AddUser(user, imgFile);
             if (userId == 0) return View(user);
@@ -132,7 +136,82 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
         [HttpGet("Admin/Users/EditUser/{id}")]
         public IActionResult EditUser(int id) // id = user id
         {
-            return View();
+            // All Roles
+            ViewBag.Roles = _permissionService.GetRoles().ToList();
+
+            return View(_userService.GetUserForEditInAdmin(id));
+        }
+
+        [HttpPost("Admin/Users/EditUser/{id}")]
+        public IActionResult EditUser(EditUserViewModel user, List<int> selectedRoles) // id = user id
+        {
+            #region Validations
+
+            if (!ModelState.IsValid)
+            {
+                // Get Roles
+                ViewBag.Roles = _permissionService.GetRoles().ToList();
+                return View(user);
+            }
+
+            //TODO Compare Them With Current Values
+
+            // Check User Name
+            var userName = _userService.GetUserNameByUserId(user.UserId);
+            if (userName != user.UserName) // user name changed ?
+            {
+                if (_userService.IsUserNameExist(user.UserName))
+                {
+                    TempData["ErrorMessage"] = "نام کاربری وارد شده تکراری است";
+                    // Get Roles
+                    ViewBag.Roles = _permissionService.GetRoles().ToList();
+                    return View(user);
+                }
+            }
+
+            // Check Email
+            var email = _userService.GetEmailByUserId(user.UserId);
+            if (email != FixText.EmailFixer(user.Email)) // email changed ?
+            {
+                if (_userService.IsEmailExist(FixText.EmailFixer(user.Email)))
+                {
+                    TempData["ErrorMessage"] = "ایمیل وارد شده تکراری است";
+                    // Get Roles
+                    ViewBag.Roles = _permissionService.GetRoles().ToList();
+                    return View(user);
+                }
+            }
+
+            // Check Mobile
+            var mobile = _userService.GetMobileByUserId(user.UserId);
+            if (mobile != user.Mobile) // mobile changed ?
+            {
+                if (!string.IsNullOrEmpty(user.Mobile) && _userService.IsMobileExist(user.Mobile))
+                {
+                    TempData["ErrorMessage"] = "شماره موبایل وارد شده تکراری است";
+                    // Get Roles
+                    ViewBag.Roles = _permissionService.GetRoles().ToList();
+                    return View(user);
+                }
+            }
+            
+            // check password strength
+            if (!string.IsNullOrEmpty(user.Password))
+            {
+                if (PasswordStrengthChecker.CheckStrength(user.Password) == PasswordScore.VeryWeak)
+                {
+                    TempData["WarningMessage"] = "کلمه عبور وارد شده بسیار ضعیف است";
+                    TempData["InfoMessage"] = "کلمه عبور می بایست بیش از 6 کاراکتر داشته باشد";
+                    // Get Roles
+                    ViewBag.Roles = _permissionService.GetRoles().ToList();
+                    return View(user);
+                }
+            }
+            
+
+            #endregion
+
+            return RedirectToAction("Index");
         }
         //TODO : Add Pass Strength for changing password
         #endregion

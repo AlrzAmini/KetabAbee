@@ -1,8 +1,10 @@
 ﻿@using KetabAbee.Domain.Models.User
-@model KetabAbee.Application.DTOs.Admin.User.AddUserFromAdminViewModel
+@using KetabAbee.Application.Convertors
+@model KetabAbee.Application.DTOs.Admin.User.EditUserViewModel
 @{
-    ViewData["Title"] = "افزودن کاربر";
+    ViewData["Title"] = " ویرایش " + Model.UserName;
 }
+
 <!-- Page Content -->
 <div class="page-content">
     <!-- Page Breadcrumb -->
@@ -19,7 +21,9 @@
         </ul>
     </div>
     <!-- /Page Breadcrumb -->
-    <form asp-area="AdminPanel" asp-controller="AdminUser" asp-action="AddUser" method="post" role="form" enctype="multipart/form-data">
+    <form asp-area="AdminPanel" asp-controller="AdminUser" asp-action="EditUser" method="post" role="form" enctype="multipart/form-data">
+        <input type="hidden" asp-for="AvatarName"/>
+        <input type="hidden" asp-for="UserId"/>
         <div class="col-lg-8 col-sm-8 col-xs-12">
             <div class="widget flat radius-bordered">
                 <div class="widget-header bg-blue">
@@ -46,10 +50,9 @@
                         </div>
                         <div class="form-group">
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" asp-for="Password" placeholder="کلمه عبور">
+                                <input type="text" class="form-control" asp-for="Password" placeholder="کلمه عبور جدید">
                                 <i class="fa fa-lock circular"></i>
                             </span>
-                            <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                         <div class="form-title">
                             مشخصات فردی
@@ -67,7 +70,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <span class="input-icon icon-right">
-                                        <input data-jdp class="form-control" name="BirthDay" placeholder="تاریخ تولد">
+                                        <input data-jdp class="form-control" name="BirthDay" value="@Model.BirthDay?.ToShamsi()" placeholder="تاریخ تولد">
                                         <i class="glyphicon glyphicon-time"></i>
                                     </span>
                                 </div>
@@ -90,7 +93,7 @@
                                             {
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input type="checkbox" name="selectedRoles" value="@role.RoleId" class="colored-success" >
+                                                        <input type="checkbox" name="selectedRoles" value="@role.RoleId" class="colored-success" @((Model.UserRoles.Any(r=>r==role.RoleId)?"checked":""))>
                                                         <span class="text">@role.RoleTitle</span>
                                                     </label>
                                                 </div>
@@ -113,20 +116,20 @@
                     <div id="registration-form">
                         <div class="form-group">
                             <span class="input-icon icon-right">
-                                <input id="userAvatar" type="file" name="imgFile" class="form-control">
+                                <input id="userAvatar" type="file" asp-for="Avatar" class="form-control">
                                 <i class="fa fa-image circular"></i>
                             </span>
                         </div>
                         <div class="form-group">
-                            <img class="thumbnail img-fluid max-width100 height400" id="avatarUp" src="/Avatar/User.jpg" alt="avatar" />
+                            <img class="thumbnail img-fluid max-width100 height400" id="avatarUp" src="/Avatar/@Model.AvatarName" alt="avatar"/>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
+
         <div class="col-md-12">
-            <button type="submit" class="btn btn-success btn-lg btn-block">ثبت کاربر</button>
+            <button type="submit" class="btn btn-success btn-lg btn-block">ویرایش کاربر</button>
         </div>
     </form>
 </div>
@@ -154,3 +157,4 @@
         });
     </script>
 }
+

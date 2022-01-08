@@ -50,6 +50,14 @@ namespace KetabAbee.Domain.Interfaces
 
         string GetAvatarNameByUserId(int userId);
 
+        IEnumerable<User> GetUsersForEditAdmin();
+
+        string GetUserNameByUserId(int userId);
+
+        string GetEmailByUserId(int userId);
+
+        string GetMobileByUserId(int userId);
+
         #endregion
 
 

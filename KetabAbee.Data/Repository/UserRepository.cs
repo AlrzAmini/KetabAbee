@@ -131,5 +131,26 @@ namespace KetabAbee.Data.Repository
         {
             return _context.Users.FirstOrDefault(u => u.EmailActivationCode == emailActiveCode);
         }
+
+        public IEnumerable<User> GetUsersForEditAdmin()
+        {
+            return _context.Users
+                .Include(u => u.UserRoles);
+        }
+
+        public string GetUserNameByUserId(int userId)
+        {
+            return _context.Users.SingleOrDefault(u => u.UserId == userId).UserName;
+        }
+
+        public string GetEmailByUserId(int userId)
+        {
+            return _context.Users.SingleOrDefault(u => u.UserId == userId).Email;
+        }
+
+        public string GetMobileByUserId(int userId)
+        {
+            return _context.Users.SingleOrDefault(u => u.UserId == userId).Mobile;
+        }
     }
 }

@@ -413,5 +413,37 @@ namespace KetabAbee.Application.Services.User
 
             return true;
         }
+
+        public EditUserViewModel GetUserForEditInAdmin(int userId)
+        {
+            return _userRepository.GetUsersForEditAdmin()
+                .Where(u => u.UserId == userId)
+                .Select(u => new EditUserViewModel()
+                {
+                    UserName = u.UserName,
+                    AvatarName = u.AvatarName,
+                    Mobile = u.Mobile,
+                    Email = u.Email,
+                    BirthDay = u.BirthDay,
+                    UserId = u.UserId,
+                    UserRoles = u.UserRoles.Select(r => r.RoleId).ToList()
+                }).Single();
+
+        }
+
+        public string GetUserNameByUserId(int userId)
+        {
+            return _userRepository.GetUserNameByUserId(userId);
+        }
+
+        public string GetEmailByUserId(int userId)
+        {
+            return _userRepository.GetEmailByUserId(userId);
+        }
+
+        public string GetMobileByUserId(int userId)
+        {
+            return _userRepository.GetMobileByUserId(userId);
+        }
     }
 }

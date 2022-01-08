@@ -65,6 +65,14 @@ namespace KetabAbee.Application.Interfaces.User
 
         int AddUser(AddUserFromAdminViewModel user, IFormFile imgFile);
 
+        EditUserViewModel GetUserForEditInAdmin(int userId);
+
+        string GetUserNameByUserId(int userId);
+
+        string GetEmailByUserId(int userId);
+
+        string GetMobileByUserId(int userId);
+
         #endregion
     }
 }
