@@ -59,11 +59,5 @@ namespace KetabAbee.Application.DTOs.Admin.User
         public IFormFile Avatar { get; set; }
 
         #endregion
-
-        #region Roles
-
-        public List<int> SelectedRoles { get; set; }
-
-        #endregion
     }
 }

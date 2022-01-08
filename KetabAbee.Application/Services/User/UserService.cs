@@ -343,11 +343,11 @@ namespace KetabAbee.Application.Services.User
             return _userRepository.GetAvatarNameByUserId(userId);
         }
 
-        public bool AddUser(AddUserFromAdminViewModel user , IFormFile imgFile)
+        public int AddUser(AddUserFromAdminViewModel user , IFormFile imgFile)
         {
             Domain.Models.User.User newUser = new();
                 
-            if (user == null) return false;
+            if (user == null) return 0;
 
             #region Check and add Avatar
 
@@ -386,8 +386,9 @@ namespace KetabAbee.Application.Services.User
             newUser.MobileActivationCode = new Random().Next(100000, 999998).ToString();
             newUser.IsMobileActive = true;
             newUser.RegisterDate = DateTime.Now;
+            _userRepository.RegisterUser(newUser);
 
-            return _userRepository.RegisterUser(newUser);
+            return newUser.UserId;
         }
 
         public bool EmailActivatorBy5ThCode(string activateCode)

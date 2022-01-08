@@ -63,7 +63,7 @@ namespace KetabAbee.Application.Interfaces.User
 
         string GetAvatarNameByUserId(int userId);
 
-        bool AddUser(AddUserFromAdminViewModel user, IFormFile imgFile);
+        int AddUser(AddUserFromAdminViewModel user, IFormFile imgFile);
 
         #endregion
     }

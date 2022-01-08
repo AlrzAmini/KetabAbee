@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs.Admin.User;
+using KetabAbee.Application.Extensions;
+using KetabAbee.Application.Interfaces.Permission;
 using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Security;
 using Microsoft.AspNetCore.Http;
@@ -17,10 +19,12 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
         #region constructure
 
         private readonly IUserService _userService;
+        private readonly IPermissionService _permissionService;
 
-        public AdminUserController(IUserService userService)
+        public AdminUserController(IUserService userService, IPermissionService permissionService)
         {
             _userService = userService;
+            _permissionService = permissionService;
         }
 
         #endregion
@@ -56,14 +60,19 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
         [HttpGet("Admin/Users/AddUser")]
         public IActionResult AddUser()
         {
+            // All Roles
+            ViewBag.Roles = _permissionService.GetRoles().ToList();
+
             return View();
         }
 
         [HttpPost("Admin/Users/AddUser"), ValidateAntiForgeryToken]
-        public IActionResult AddUser(AddUserFromAdminViewModel user, IFormFile imgFile)
+        public IActionResult AddUser(AddUserFromAdminViewModel user, IFormFile imgFile, List<int> selectedRoles)
         {
             if (!ModelState.IsValid)
             {
+                // Get Roles
+                ViewBag.Roles = _permissionService.GetRoles().ToList();
                 return View(user);
             }
 
@@ -71,6 +80,8 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
             if (_userService.IsUserNameExist(user.UserName))
             {
                 TempData["ErrorMessage"] = "نام کاربری وارد شده تکراری است";
+                // Get Roles
+                ViewBag.Roles = _permissionService.GetRoles().ToList();
                 return View(user);
             }
 
@@ -78,6 +89,8 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
             if (_userService.IsEmailExist(FixText.EmailFixer(user.Email)))
             {
                 TempData["ErrorMessage"] = "شماره موبایل وارد شده تکراری است";
+                // Get Roles
+                ViewBag.Roles = _permissionService.GetRoles().ToList();
                 return View(user);
             }
 
@@ -85,6 +98,8 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
             if (!string.IsNullOrEmpty(user.Mobile) && _userService.IsMobileExist(user.Mobile))
             {
                 TempData["ErrorMessage"] = "شماره موبایل وارد شده تکراری است";
+                // Get Roles
+                ViewBag.Roles = _permissionService.GetRoles().ToList();
                 return View(user);
             }
 
@@ -93,13 +108,20 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
             {
                 TempData["WarningMessage"] = "کلمه عبور وارد شده بسیار ضعیف است";
                 TempData["InfoMessage"] = "کلمه عبور می بایست بیش از 6 کاراکتر داشته باشد";
+                // Get Roles
+                ViewBag.Roles = _permissionService.GetRoles().ToList();
                 return View(user);
             }
 
             //register user
-            if (!_userService.AddUser(user, imgFile)) return View(user);
+            var userId = _userService.AddUser(user, imgFile);
+            if (userId == 0) return View(user);
+
+            // add roles to user
+            _permissionService.AddRolesToUser(selectedRoles, userId);
 
             TempData["SuccessMessage"] = "ثبت کاربر با موفقیت انجام شد";
+
             return RedirectToAction("Index");
         }
 
