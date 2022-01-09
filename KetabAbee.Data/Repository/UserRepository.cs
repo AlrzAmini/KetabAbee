@@ -112,7 +112,7 @@ namespace KetabAbee.Data.Repository
 
         public User GetUserById(int userId)
         {
-            return _context.Users.SingleOrDefault(u => u.UserId == userId);
+            return _context.Users.Find(userId);
         }
 
         public string GetAvatarNameByUserId(int userId)

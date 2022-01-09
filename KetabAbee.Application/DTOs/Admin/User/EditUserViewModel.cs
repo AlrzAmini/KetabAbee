@@ -37,6 +37,7 @@ namespace KetabAbee.Application.DTOs.Admin.User
 
         [DisplayName("کلمه عبور")]
         [MaxLength(200, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
+        [MinLength(6, ErrorMessage = "{0} باید حداقل {1} کاراکتر داشته باشد")]
         public string Password { get; set; }
 
         #endregion

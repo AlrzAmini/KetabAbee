@@ -73,6 +73,8 @@ namespace KetabAbee.Application.Interfaces.User
 
         string GetMobileByUserId(int userId);
 
+        bool EditUserFromAdmin(EditUserViewModel user);
+
         #endregion
     }
 }

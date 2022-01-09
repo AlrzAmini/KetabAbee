@@ -37,5 +37,16 @@ namespace KetabAbee.Data.Repository
 
             _context.SaveChanges();
         }
+
+        public void EditUserRoles(List<int> selectedRoleIds, int userId)
+        {
+            // remove old user roles
+            _context.UserRoles.Where(r=>r.UserId == userId)
+                .ToList()
+                .ForEach(r=> _context.UserRoles.Remove(r));
+
+            // add new roles to user
+            AddRolesToUser(selectedRoleIds,userId);
+        }
     }
 }

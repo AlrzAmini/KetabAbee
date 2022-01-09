@@ -50,9 +50,10 @@
                         </div>
                         <div class="form-group">
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" asp-for="Password" placeholder="کلمه عبور جدید">
+                                <input type="text" class="form-control" asp-for="Password" minlength="6" placeholder="کلمه عبور جدید">
                                 <i class="fa fa-lock circular"></i>
                             </span>
+                            <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                         <div class="form-title">
                             مشخصات فردی
@@ -73,6 +74,7 @@
                                         <input data-jdp class="form-control" name="BirthDay" value="@Model.BirthDay?.ToShamsi()" placeholder="تاریخ تولد">
                                         <i class="glyphicon glyphicon-time"></i>
                                     </span>
+                                    <span asp-validation-for="BirthDay" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
@@ -93,7 +95,7 @@
                                             {
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input type="checkbox" name="selectedRoles" value="@role.RoleId" class="colored-success" @((Model.UserRoles.Any(r=>r==role.RoleId)?"checked":""))>
+                                                        <input type="checkbox" name="selectedRoles" value="@role.RoleId" class="colored-success" @(Model.UserRoles.Any(r=>r==role.RoleId)?"checked":"")>
                                                         <span class="text">@role.RoleTitle</span>
                                                     </label>
                                                 </div>

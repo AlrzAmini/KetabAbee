@@ -15,6 +15,8 @@ namespace KetabAbee.Domain.Interfaces
 
         void AddRolesToUser(List<int> selectedRoleIds,int userId);
 
+        void EditUserRoles(List<int> selectedRoleIds, int userId);
+
         #endregion
     }
 }

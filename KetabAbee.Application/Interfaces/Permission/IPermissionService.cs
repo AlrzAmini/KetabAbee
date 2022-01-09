@@ -12,5 +12,7 @@ namespace KetabAbee.Application.Interfaces.Permission
         IEnumerable<Role> GetRoles();
 
         void AddRolesToUser(List<int> selectedRoles, int userId);
+
+        void EditUserRoles(List<int> selectedRoles, int userId);
     }
 }

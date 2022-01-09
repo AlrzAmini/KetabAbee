@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using KetabAbee.Application.Convertors;
+﻿using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs;
 using KetabAbee.Application.DTOs.Admin.User;
 using KetabAbee.Application.DTOs.Paging;
@@ -16,6 +9,11 @@ using KetabAbee.Application.Interfaces.Wallet;
 using KetabAbee.Application.Security;
 using KetabAbee.Domain.Interfaces;
 using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
 
 namespace KetabAbee.Application.Services.User
 {
@@ -351,27 +349,7 @@ namespace KetabAbee.Application.Services.User
 
             #region Check and add Avatar
 
-            if (imgFile != null && imgFile.IsImage())
-            {
-                // generate new image path and name
-                newUser.AvatarName = CodeGenerator.GenerateUniqCode() + Path.GetExtension(imgFile.FileName);
-
-                string imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar", newUser.AvatarName);
-
-                // save file in file
-                using (var stream = new FileStream(imgPath, FileMode.Create))
-                {
-                    imgFile.CopyTo(stream);
-                }
-
-                var imgResizer = new ImageConvertor();
-                string imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar/thumb", newUser.AvatarName);
-                imgResizer.Image_resize(imgPath, imgThumbPath, 200);
-            }
-            else
-            {
-                newUser.AvatarName = "User.jpg";
-            }
+            AddAvatar(imgFile, newUser);
 
             #endregion
 
@@ -389,6 +367,31 @@ namespace KetabAbee.Application.Services.User
             _userRepository.RegisterUser(newUser);
 
             return newUser.UserId;
+        }
+
+        private static void AddAvatar(IFormFile imgFile, Domain.Models.User.User newUser)
+        {
+            if (imgFile != null && imgFile.IsImage())
+            {
+                // generate new image path and name
+                newUser.AvatarName = CodeGenerator.GenerateUniqCode() + Path.GetExtension(imgFile.FileName);
+
+                string imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar", newUser.AvatarName);
+
+                // save avatar in file
+                using (var stream = new FileStream(imgPath, FileMode.Create))
+                {
+                    imgFile.CopyTo(stream);
+                }
+
+                var imgResizer = new ImageConvertor();
+                string imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar/thumb", newUser.AvatarName);
+                imgResizer.Image_resize(imgPath, imgThumbPath, 200);
+            }
+            else
+            {
+                newUser.AvatarName = "User.jpg";
+            }
         }
 
         public bool EmailActivatorBy5ThCode(string activateCode)
@@ -444,6 +447,77 @@ namespace KetabAbee.Application.Services.User
         public string GetMobileByUserId(int userId)
         {
             return _userRepository.GetMobileByUserId(userId);
+        }
+
+        public bool EditUserFromAdmin(EditUserViewModel user)
+        {
+            try
+            {
+                var newUser = _userRepository.GetUserById(user.UserId);
+
+                newUser.Email = FixText.EmailFixer(user.Email);
+                newUser.Mobile = user.Mobile;
+                newUser.UserName = user.UserName;
+                if (!string.IsNullOrEmpty(user.Password))
+                {
+                    newUser.Password = PasswordHasher.EncodePasswordMd5(user.Password);
+                }
+                newUser.BirthDay = user.BirthDay?.ToString(CultureInfo.InvariantCulture).StringShamsiToMiladi();
+                newUser.UserId = user.UserId;
+
+                #region Check and add Avatar
+
+                EditAvatar(user, newUser);
+
+                #endregion
+
+                return _userRepository.UpdateUser(newUser);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private static void EditAvatar(EditUserViewModel user, Domain.Models.User.User newUser)
+        {
+            if (user.Avatar != null && user.Avatar.IsImage())
+            {
+                // delete old avatar if avatar changed
+                if (user.AvatarName != "User.jpg")
+                {
+                    string deletePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar", user.AvatarName);
+
+                    if (File.Exists(deletePath))
+                    {
+                        File.Delete(deletePath);
+                    }
+
+                    // delete old avatar thumb if avatar changed
+                    string thumbDeletePath =
+                        Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar/thumb", user.AvatarName);
+
+                    if (File.Exists(thumbDeletePath))
+                    {
+                        File.Delete(thumbDeletePath);
+                    }
+                }
+
+                // generate new image path and name
+                newUser.AvatarName = CodeGenerator.GenerateUniqCode() + Path.GetExtension(user.Avatar.FileName);
+
+                string imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar", newUser.AvatarName);
+
+                // save avatar in file
+                using (var stream = new FileStream(imgPath, FileMode.Create))
+                {
+                    user.Avatar.CopyTo(stream);
+                }
+
+                var imgResizer = new ImageConvertor();
+                string imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar/thumb", newUser.AvatarName);
+                imgResizer.Image_resize(imgPath, imgThumbPath, 200);
+            }
         }
     }
 }

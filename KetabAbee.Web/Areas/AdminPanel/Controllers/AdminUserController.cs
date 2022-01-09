@@ -138,7 +138,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
         {
             // All Roles
             ViewBag.Roles = _permissionService.GetRoles().ToList();
-
+           
             return View(_userService.GetUserForEditInAdmin(id));
         }
 
@@ -154,17 +154,16 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
                 return View(user);
             }
 
-            //TODO Compare Them With Current Values
-
             // Check User Name
             var userName = _userService.GetUserNameByUserId(user.UserId);
             if (userName != user.UserName) // user name changed ?
             {
                 if (_userService.IsUserNameExist(user.UserName))
                 {
-                    TempData["ErrorMessage"] = "نام کاربری وارد شده تکراری است";
                     // Get Roles
                     ViewBag.Roles = _permissionService.GetRoles().ToList();
+                    TempData["ErrorMessage"] = "نام کاربری وارد شده تکراری است";
+                    user.UserRoles = selectedRoles;
                     return View(user);
                 }
             }
@@ -175,9 +174,10 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
             {
                 if (_userService.IsEmailExist(FixText.EmailFixer(user.Email)))
                 {
-                    TempData["ErrorMessage"] = "ایمیل وارد شده تکراری است";
                     // Get Roles
                     ViewBag.Roles = _permissionService.GetRoles().ToList();
+                    TempData["ErrorMessage"] = "ایمیل وارد شده تکراری است";
+                    user.UserRoles = selectedRoles;
                     return View(user);
                 }
             }
@@ -188,9 +188,10 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
             {
                 if (!string.IsNullOrEmpty(user.Mobile) && _userService.IsMobileExist(user.Mobile))
                 {
-                    TempData["ErrorMessage"] = "شماره موبایل وارد شده تکراری است";
                     // Get Roles
                     ViewBag.Roles = _permissionService.GetRoles().ToList();
+                    TempData["ErrorMessage"] = "شماره موبایل وارد شده تکراری است";
+                    user.UserRoles = selectedRoles;
                     return View(user);
                 }
             }
@@ -198,12 +199,13 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
             // check password strength
             if (!string.IsNullOrEmpty(user.Password))
             {
-                if (PasswordStrengthChecker.CheckStrength(user.Password) == PasswordScore.VeryWeak)
+                if (PasswordStrengthChecker.CheckStrength(user.Password) == PasswordScore.VeryWeak || PasswordStrengthChecker.CheckStrength(user.Password) == PasswordScore.Blank)
                 {
-                    TempData["WarningMessage"] = "کلمه عبور وارد شده بسیار ضعیف است";
-                    TempData["InfoMessage"] = "کلمه عبور می بایست بیش از 6 کاراکتر داشته باشد";
                     // Get Roles
                     ViewBag.Roles = _permissionService.GetRoles().ToList();
+                    TempData["WarningMessage"] = "کلمه عبور وارد شده بسیار ضعیف است";
+                    TempData["InfoMessage"] = "کلمه عبور می بایست بیش از 6 کاراکتر داشته باشد";
+                    user.UserRoles = selectedRoles;
                     return View(user);
                 }
             }
@@ -211,14 +213,17 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
 
             #endregion
 
+            if (_userService.EditUserFromAdmin(user))
+            {
+                //Edit Roles
+                _permissionService.EditUserRoles(selectedRoles,user.UserId);
+
+                TempData["SuccessMessage"] = "ویرایش کاربر با موفقیت انجام شد";
+                return RedirectToAction("Index");
+            }
+            TempData["ErrorMessage"] = "ویرایش کاربر با شکست مواجه شد";
             return RedirectToAction("Index");
         }
-        //TODO : Add Pass Strength for changing password
-        #endregion
-
-        #region User Detail
-
-
 
         #endregion
 
