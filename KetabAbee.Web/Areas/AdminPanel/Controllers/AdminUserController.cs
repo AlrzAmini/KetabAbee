@@ -6,9 +6,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs.Admin.User;
+using KetabAbee.Application.DTOs.Admin.Wallet;
 using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Permission;
 using KetabAbee.Application.Interfaces.User;
+using KetabAbee.Application.Interfaces.Wallet;
 using KetabAbee.Application.Security;
 using Microsoft.AspNetCore.Http;
 
@@ -20,11 +22,13 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
 
         private readonly IUserService _userService;
         private readonly IPermissionService _permissionService;
+        private readonly IWalletService _walletService;
 
-        public AdminUserController(IUserService userService, IPermissionService permissionService)
+        public AdminUserController(IUserService userService, IPermissionService permissionService, IWalletService walletService)
         {
             _userService = userService;
             _permissionService = permissionService;
+            _walletService = walletService;
         }
 
         #endregion
@@ -138,7 +142,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
         {
             // All Roles
             ViewBag.Roles = _permissionService.GetRoles().ToList();
-           
+
             return View(_userService.GetUserForEditInAdmin(id));
         }
 
@@ -195,7 +199,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
                     return View(user);
                 }
             }
-            
+
             // check password strength
             if (!string.IsNullOrEmpty(user.Password))
             {
@@ -209,20 +213,94 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
                     return View(user);
                 }
             }
-            
+
 
             #endregion
 
             if (_userService.EditUserFromAdmin(user))
             {
                 //Edit Roles
-                _permissionService.EditUserRoles(selectedRoles,user.UserId);
+                _permissionService.EditUserRoles(selectedRoles, user.UserId);
 
                 TempData["SuccessMessage"] = "ویرایش کاربر با موفقیت انجام شد";
                 return RedirectToAction("Index");
             }
             TempData["ErrorMessage"] = "ویرایش کاربر با شکست مواجه شد";
             return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region Charge Wallet
+
+        [HttpGet("Admin/Users/ChargeWallet/{id}")]
+        public IActionResult ChargeWallet(int id) // id = user id
+        {
+            return View(_userService.GetChargeInfoForAdmin(id));
+        }
+
+        [HttpPost("Admin/Users/ChargeWallet/{userId}")]
+        public IActionResult ChargeWallet(ChargeWalletFromAdminViewModel charge) // id = user id
+        {
+            if (!ModelState.IsValid)
+            {
+                var newCharge = _userService.GetChargeInfoForAdmin(charge.UserId);
+                return View(newCharge);
+            }
+
+            // check price cant be 0
+            if (charge.Amount <= 0)
+            {
+                TempData["ErrorMessage"] = "مبلغ وارد شده صحیح نمی باشد";
+                var newCharge = _userService.GetChargeInfoForAdmin(charge.UserId);
+                return View(newCharge);
+            }
+
+            // charge wallet
+            if (_walletService.ChargeWalletFromAdmin(charge))
+            {
+                TempData["SuccessMessage"] = "شارژ حساب با موفقیت انجام شد ";
+                var newCharge = _userService.GetChargeInfoForAdmin(charge.UserId);
+                return View(newCharge);
+            }
+
+            TempData["ErrorMessage"] = "عملیات شارژ حساب انجام نشد";
+            var oCharge = _userService.GetChargeInfoForAdmin(charge.UserId);
+            return View(oCharge);
+        }
+
+        #endregion
+
+        #region withdraw from wallet
+
+        [HttpPost]
+        public IActionResult WithDrawFromWallet(ChargeWalletFromAdminViewModel charge) // id = user id
+        {
+            if (!ModelState.IsValid)
+            {
+                var newCharge = _userService.GetChargeInfoForAdmin(charge.UserId);
+                return View("ChargeWallet", newCharge);
+            }
+
+            // check price cant be 0
+            if (charge.Amount <= 0)
+            {
+                TempData["ErrorMessage"] = "مبلغ وارد شده صحیح نمی باشد";
+                var newCharge = _userService.GetChargeInfoForAdmin(charge.UserId);
+                return View("ChargeWallet", newCharge);
+            }
+
+            // charge wallet
+            if (_walletService.WithDrawWalletFromAdmin(charge))
+            {
+                TempData["SuccessMessage"] = "برداشت از حساب با موفقیت انجام شد ";
+                var newCharge = _userService.GetChargeInfoForAdmin(charge.UserId);
+                return View("ChargeWallet", newCharge);
+            }
+
+            TempData["ErrorMessage"] = "عملیات برداشت انجام نشد";
+            var oCharge = _userService.GetChargeInfoForAdmin(charge.UserId);
+            return RedirectToAction("ChargeWallet", oCharge);
         }
 
         #endregion

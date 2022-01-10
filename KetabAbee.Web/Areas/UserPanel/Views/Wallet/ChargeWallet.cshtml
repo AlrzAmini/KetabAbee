@@ -86,7 +86,7 @@
 
                                                         @if (Model.Wallets.Any())
                                                         {
-                                                            foreach (var item in Model.Wallets.OrderByDescending(w => w.Amount))
+                                                            foreach (var item in Model.Wallets.OrderByDescending(w => w.CreateDate))
                                                             {
                                                                 <tr>
                                                                     <td>KTA - @item.WalletId</td>

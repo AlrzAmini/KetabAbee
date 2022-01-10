@@ -1,0 +1,119 @@
+﻿@model KetabAbee.Application.DTOs.Admin.Wallet.ChargeWalletFromAdminViewModel
+@{
+    ViewData["Title"] = "شارژ کیف پول " + Model.UserName;
+}
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<!-- Page Content -->
+<div class="page-content">
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs margin-bottom-20">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a asp-area="AdminPanel" asp-controller="AdminHome" asp-action="Home">خانه</a>
+            </li>
+            <li>
+                <a asp-area="AdminPanel" asp-controller="AdminUser" asp-action="Index">کاربران</a>
+            </li>
+            <li class="active">@ViewData["Title"]</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+    <form asp-area="AdminPanel" asp-controller="AdminUser" asp-action="ChargeWallet" method="post" role="form">
+        <input type="hidden" asp-for="UserId" />
+        <div class="col-lg-7 col-sm-7 col-xs-12">
+            <div class="widget flat radius-bordered">
+                <div class="widget-header bg-blue">
+                    <span class="widget-caption">@ViewData["Title"]</span>
+                </div>
+                <div class="widget-body">
+                    <div id="registration-form">
+                        <div class="form-title">
+                            جزییات شارژ
+                        </div>
+                        <div class="form-group">
+                            <span class="input-icon icon-right">
+                                <input type="number" class="form-control" asp-for="Amount" value="" placeholder="مبلغ">
+                                <i class="fa fa-dollar circular"></i>
+                            </span>
+                            <span asp-validation-for="Amount" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <span class="input-icon icon-right">
+                                <input type="text" class="form-control" asp-for="Behalf" placeholder="بابت">
+                                <i class="fa fa-book circular"></i>
+                            </span>
+                            <span asp-validation-for="Behalf" class="text-danger"></span>
+                        </div>
+                        <hr class="wide">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5 col-sm-5 col-xs-12">
+            <div class="widget flat radius-bordered">
+                <div class="widget-header bg-azure">
+                    <span class="widget-caption"> کیف پول</span>
+                </div>
+                <div class="widget-body">
+                    <div id="registration-form">
+                        <div class="form-title">
+                            جزییات کیف پول
+                        </div>
+                        <div class="form-group">
+                            <span class="input-icon icon-right">
+                                <input type="text" class="form-control" disabled="disabled" asp-for="Inventory" placeholder="موجودی">
+                                <i class="fa fa-dollar circular"></i>
+                            </span>
+                        </div>
+                        <hr class="wide">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7 margin-bottom-40">
+            <button type="submit" class="btn btn-success btn-lg btn-block" onclick="return confirm('از شارژ حساب مطمعن هستید ؟')">شارژ </button>
+        </div>
+    </form>
+
+    <form asp-area="AdminPanel" asp-controller="AdminUser" asp-action="WithDrawFromWallet" method="post" role="form">
+        <input type="hidden" asp-for="UserId" />
+        <div class="col-lg-7 col-sm-7 col-xs-12">
+            <div class="widget flat radius-bordered">
+                <div class="widget-header bg-danger">
+                    <span class="widget-caption">برداشت</span>
+                </div>
+                <div class="widget-body">
+                    <div id="registration-form">
+                        <div class="form-title">
+                            جزییات برداشت
+                        </div>
+                        <div class="form-group">
+                            <span class="input-icon icon-right">
+                                <input type="number" class="form-control" asp-for="Amount" value="" placeholder="مبلغ">
+                                <i class="fa fa-dollar circular"></i>
+                            </span>
+                            <span asp-validation-for="Amount" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <span class="input-icon icon-right">
+                                <input type="text" class="form-control" asp-for="Behalf" placeholder="بابت">
+                                <i class="fa fa-book circular"></i>
+                            </span>
+                            <span asp-validation-for="Behalf" class="text-danger"></span>
+                        </div>
+                        <hr class="wide">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <button type="submit" class="btn btn-danger btn-lg btn-block" onclick="return confirm('از برداشت از حساب مطمعن هستید ؟')">برداشت </button>
+        </div>
+    </form>
+</div>
+<!-- /Page Content -->

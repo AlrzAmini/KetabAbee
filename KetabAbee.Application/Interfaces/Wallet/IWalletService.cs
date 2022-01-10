@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Application.DTOs.Admin.Wallet;
 using KetabAbee.Application.DTOs.Wallet;
 
 namespace KetabAbee.Application.Interfaces.Wallet
@@ -20,5 +21,9 @@ namespace KetabAbee.Application.Interfaces.Wallet
         bool UpdateWallet(Domain.Models.Wallet.Wallet wallet);
 
         WalletsWithPagingViewModel GetWalletsWithPagingByUserId(WalletsWithPagingViewModel walletsWithPagingViewModel);
+
+        bool ChargeWalletFromAdmin(ChargeWalletFromAdminViewModel charge);
+
+        bool WithDrawWalletFromAdmin(ChargeWalletFromAdminViewModel charge);
     }
 }

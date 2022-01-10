@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Application.DTOs.Admin.Wallet;
 using KetabAbee.Application.DTOs.Paging;
 using KetabAbee.Application.DTOs.Wallet;
 using KetabAbee.Application.Interfaces.Wallet;
@@ -84,6 +85,52 @@ namespace KetabAbee.Application.Services.Wallet
             var wallets = result.Paging(pager).ToList();
 
             return walletsWithPagingViewModel.SetPaging(pager).SetWallets(wallets);
+        }
+
+        public bool ChargeWalletFromAdmin(ChargeWalletFromAdminViewModel charge)
+        {
+            try
+            {
+                var wallet = new Domain.Models.Wallet.Wallet
+                {
+                    Amount = charge.Amount,
+                    Behalf = charge.Behalf,
+                    CreateDate = DateTime.Now,
+                    UserId = charge.UserId,
+                    IsPay = true,
+                    WalletType = WalletType.Deposit
+                };
+
+                _walletRepository.AddWallet(wallet);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool WithDrawWalletFromAdmin(ChargeWalletFromAdminViewModel charge)
+        {
+            try
+            {
+                var wallet = new Domain.Models.Wallet.Wallet
+                {
+                    Amount = charge.Amount,
+                    Behalf = charge.Behalf,
+                    CreateDate = DateTime.Now,
+                    UserId = charge.UserId,
+                    IsPay = true,
+                    WalletType = WalletType.Withdraw
+                };
+
+                _walletRepository.AddWallet(wallet);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

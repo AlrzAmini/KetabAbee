@@ -1,6 +1,7 @@
 ﻿using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs;
 using KetabAbee.Application.DTOs.Admin.User;
+using KetabAbee.Application.DTOs.Admin.Wallet;
 using KetabAbee.Application.DTOs.Paging;
 using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Generators;
@@ -518,6 +519,18 @@ namespace KetabAbee.Application.Services.User
                 string imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar/thumb", newUser.AvatarName);
                 imgResizer.Image_resize(imgPath, imgThumbPath, 200);
             }
+        }
+
+        public ChargeWalletFromAdminViewModel GetChargeInfoForAdmin(int userId)
+        {
+            var charge = new ChargeWalletFromAdminViewModel()
+            {
+                UserId = userId,
+                UserName = GetUserNameByUserId(userId),
+                Inventory = _walletService.BalanceUserWallet(userId).ToString("#,0")
+            };
+
+            return charge;
         }
     }
 }

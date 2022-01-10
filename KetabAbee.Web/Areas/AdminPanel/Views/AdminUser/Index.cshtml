@@ -19,7 +19,7 @@
     </div>
     <!-- /Page Breadcrumb -->
     <div class="col-12 col-md-12 row margin-bottom-10">
-        <a asp-controller="AdminUser" asp-action="AddUser" class="btn btn-darkorange col-md-4">افزودن کاربر جدید <i class="glyphicon glyphicon-plus"></i> </a>
+        <a asp-controller="AdminUser" asp-action="AddUser" class="btn btn-success col-md-4">افزودن کاربر جدید <i class="glyphicon glyphicon-plus"></i> </a>
     </div>
     <!-- filter users -->
     <div class="col-12 col-md-4">
@@ -104,6 +104,7 @@
                                                 </div>
                                                 <div class="ticket-type  col-lg-3 col-sm-6 col-xs-12">
                                                     <span class="divider hidden-xs"></span>
+                                                    <a asp-area="AdminPanel" asp-controller="AdminUser" asp-action="ChargeWallet" asp-route-id="@user.UserId" class="btn btn-success">کیف پول</a>
                                                     <a asp-area="AdminPanel" asp-controller="AdminUser" asp-action="EditUser" asp-route-id="@user.UserId" class="btn btn-blue">ویرایش</a>
                                                     <a asp-area="AdminPanel" asp-controller="AdminUser" asp-action="DeleteUser" asp-route-id="@user.UserId" onclick="return confirm('از حذف این کاربر اطمینان دارید ؟')" class="btn btn-danger shiny">حذف</a>
                                                 </div>

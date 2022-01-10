@@ -46,9 +46,9 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
             }
 
             // check price cant be 0
-            if (charge.Amount == 0)
+            if (charge.Amount <= 0)
             {
-                TempData["ErrorMessage"] = "مبلغ وارد شده نمیتواند صفر باشد";
+                TempData["ErrorMessage"] = "مبلغ وارد شده صحیح نمی باشد";
                 var walletWithPaging = new WalletsWithPagingViewModel
                 {
                     UserId = User.GetUserId()
