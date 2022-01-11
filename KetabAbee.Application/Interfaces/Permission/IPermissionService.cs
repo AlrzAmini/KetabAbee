@@ -14,5 +14,7 @@ namespace KetabAbee.Application.Interfaces.Permission
         void AddRolesToUser(List<int> selectedRoles, int userId);
 
         void EditUserRoles(List<int> selectedRoles, int userId);
+
+        bool DeleteRoleById(int roleId);
     }
 }

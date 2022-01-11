@@ -20,12 +20,22 @@ namespace KetabAbee.Application.Services.Permission
 
         public void AddRolesToUser(List<int> selectedRoles, int userId)
         {
-            _permissionRepository.AddRolesToUser(selectedRoles,userId);
+            _permissionRepository.AddRolesToUser(selectedRoles, userId);
+        }
+
+        public bool DeleteRoleById(int roleId)
+        {
+            return _permissionRepository.DeleteRole(roleId);
         }
 
         public void EditUserRoles(List<int> selectedRoles, int userId)
         {
-            _permissionRepository.EditUserRoles(selectedRoles,userId);
+            _permissionRepository.EditUserRoles(selectedRoles, userId);
+        }
+
+        public Role GetRoleById(int roleId)
+        {
+            return _permissionRepository.GetRoleById(roleId);
         }
 
         public IEnumerable<Role> GetRoles()

@@ -48,5 +48,38 @@ namespace KetabAbee.Data.Repository
             // add new roles to user
             AddRolesToUser(selectedRoleIds,userId);
         }
+        public Role GetRoleById(int roleId)
+        {
+            return _context.Roles.Find(roleId);
+        }
+
+        public bool DeleteRole(int roleId)
+        {
+            try
+            {
+                var role = GetRoleById(roleId);
+                role.IsDelete = true;
+                UpdateRole(role);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool UpdateRole(Role role)
+        {
+            try
+            {
+                _context.Roles.Update(role);
+                _context.SaveChanges();
+                return true;
+            }
+            catch 
+            {
+                return false;
+            }
+        }
     }
 }

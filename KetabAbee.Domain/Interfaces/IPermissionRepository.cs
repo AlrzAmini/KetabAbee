@@ -17,6 +17,12 @@ namespace KetabAbee.Domain.Interfaces
 
         void EditUserRoles(List<int> selectedRoleIds, int userId);
 
+        Role GetRoleById(int roleId);
+
+        bool DeleteRole(int roleId);
+
+        bool UpdateRole(Role role);
+
         #endregion
     }
 }
