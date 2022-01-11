@@ -50,6 +50,9 @@ namespace KetabAbee.Data.Context
             modelBuilder.Entity<User>()
                 .HasQueryFilter(c => !c.IsDelete);
 
+            modelBuilder.Entity<Role>()
+                .HasQueryFilter(c => !c.IsDelete);
+
             base.OnModelCreating(modelBuilder);
         }
     }

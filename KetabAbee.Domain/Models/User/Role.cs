@@ -26,6 +26,8 @@ namespace KetabAbee.Domain.Models.User
 
         #endregion
 
+        public bool IsDelete { get; set; }
+
         #region Relations
 
         public List<UserRole> UserRoles { get; set; }
