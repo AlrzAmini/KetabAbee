@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KetabAbee.Application.Interfaces.Permission;
+using KetabAbee.Domain.Models.User;
 
 namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Roles
 {
@@ -43,6 +44,61 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Roles
             }
 
             TempData["ErrorMessage"] = "حذف نقش با شکست مواجه شد";
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region Add Role
+
+        [HttpGet("AddRole")]
+        public IActionResult AddRole()
+        {
+            return View();
+        }
+
+        [HttpPost("AddRole")]
+        public IActionResult AddRole(Role role)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(role);
+            }
+
+            if (_permissionService.AddRole(role))
+            {
+                TempData["SuccessMessage"] = "افزودن نقش با موفقیت انجام شد";
+                return RedirectToAction("Index");
+            }
+
+            TempData["ErrorMessage"] = "افزودن نقش با شکست مواجه شد";
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region Edit Role
+
+        [HttpGet("EditRole/{roleId}")]
+        public IActionResult EditRole(int roleId)
+        {
+            return View(_permissionService.GetRoleById(roleId));
+        }
+
+        [HttpPost("EditRole/{roleId}")]
+        public IActionResult EditRole(Role role)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(role);
+            }
+            
+            if (_permissionService.UpdateRole(role))
+            {
+                TempData["SuccessMessage"] = "ویرایش نقش با موفقیت انجام شد";
+                return RedirectToAction("Index");
+            }
+            TempData["ErrorMessage"] = "ویرایش نقش با شکست مواجه شد";
             return RedirectToAction("Index");
         }
 

@@ -23,6 +23,8 @@ namespace KetabAbee.Domain.Interfaces
 
         bool UpdateRole(Role role);
 
+        bool AddRole(Role role);
+
         #endregion
     }
 }

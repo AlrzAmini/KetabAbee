@@ -3,8 +3,6 @@
     ViewData["Title"] = "نقش ها";
 }
 
-
-
     <!-- Page Breadcrumb -->
     <div class="page-breadcrumbs margin-bottom-20">
         <ul class="breadcrumb">
@@ -17,7 +15,7 @@
     </div>
     <!-- /Page Breadcrumb -->
     <div class="col-12 col-md-12 row margin-bottom-10">
-        <a asp-controller="AdminUser" asp-action="AddUser" class="btn btn-success col-md-4">افزودن نقش جدید <i class="glyphicon glyphicon-plus"></i> </a>
+        <a asp-area="AdminPanel" asp-controller="AdminRole" asp-action="AddRole" class="btn btn-success col-md-4">افزودن نقش جدید <i class="glyphicon glyphicon-plus"></i> </a>
     </div>
     <div class="col-xs-12 col-md-6">
         <div class="well with-header with-footer">
@@ -51,7 +49,7 @@
                                     @role.RoleTitle
                                 </td>
                                 <td>
-                                    <a href="#" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
+                                    <a asp-area="AdminPanel" asp-controller="AdminRole" asp-action="EditRole" asp-route-roleId="@role.RoleId" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
                                     <a asp-area="AdminPanel" asp-controller="AdminRole" asp-action="DeleteRole" asp-route-roleId="@role.RoleId" onclick="return confirm('از حذف این نقش اطمینان دارید ؟')" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i> حذف</a>
                                 </td>
                             </tr>

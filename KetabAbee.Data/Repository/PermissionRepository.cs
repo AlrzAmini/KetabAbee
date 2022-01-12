@@ -81,5 +81,13 @@ namespace KetabAbee.Data.Repository
                 return false;
             }
         }
+
+        public bool AddRole(Role role)
+        {
+            role.IsDelete = false;
+            _context.Roles.Add(role);
+            _context.SaveChanges();
+            return true;
+        }
     }
 }
