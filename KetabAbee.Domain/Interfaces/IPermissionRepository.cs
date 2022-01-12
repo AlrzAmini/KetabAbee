@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Domain.Models.Permission;
 using KetabAbee.Domain.Models.User;
 
 namespace KetabAbee.Domain.Interfaces
@@ -13,7 +14,7 @@ namespace KetabAbee.Domain.Interfaces
 
         IEnumerable<Role> GetRoles();
 
-        void AddRolesToUser(List<int> selectedRoleIds,int userId);
+        void AddRolesToUser(List<int> selectedRoleIds, int userId);
 
         void EditUserRoles(List<int> selectedRoleIds, int userId);
 
@@ -23,7 +24,15 @@ namespace KetabAbee.Domain.Interfaces
 
         bool UpdateRole(Role role);
 
-        bool AddRole(Role role);
+        int AddRole(Role role);
+
+        #endregion
+
+        #region Permission
+
+        IEnumerable<Permission> GetPermissions();
+
+        void AddPermissionsToRole(int roleId, List<int> selectedPermissions);
 
         #endregion
     }

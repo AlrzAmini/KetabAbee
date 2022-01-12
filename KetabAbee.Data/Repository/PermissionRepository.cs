@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Data.Context;
 using KetabAbee.Domain.Interfaces;
+using KetabAbee.Domain.Models.Permission;
 using KetabAbee.Domain.Models.User;
 
 namespace KetabAbee.Data.Repository
@@ -82,12 +83,31 @@ namespace KetabAbee.Data.Repository
             }
         }
 
-        public bool AddRole(Role role)
+        public int AddRole(Role role)
         {
             role.IsDelete = false;
             _context.Roles.Add(role);
             _context.SaveChanges();
-            return true;
+            return role.RoleId;
+        }
+
+        public IEnumerable<Permission> GetPermissions()
+        {
+            return _context.Permissions;
+        }
+
+        public void AddPermissionsToRole(int roleId, List<int> selectedPermissions)
+        {
+            foreach (var perId in selectedPermissions)
+            {
+                _context.RolePermissions.Add(new RolePermission
+                {
+                    RoleId = roleId,
+                    PermissionId = perId
+                });
+            }
+
+            _context.SaveChanges();
         }
     }
 }

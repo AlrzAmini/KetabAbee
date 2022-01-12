@@ -27,7 +27,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Roles
         [HttpGet]
         public IActionResult Index()
         {
-            return View(_permissionService.GetRoles().ToList()); 
+            return View(_permissionService.GetRoles().ToList());
         }
 
         #endregion
@@ -54,19 +54,23 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Roles
         [HttpGet("AddRole")]
         public IActionResult AddRole()
         {
+            ViewBag.Permissions = _permissionService.GetPermissions().ToList();
             return View();
         }
 
         [HttpPost("AddRole")]
-        public IActionResult AddRole(Role role)
+        public IActionResult AddRole(Role role, List<int> selectedPermission)
         {
             if (!ModelState.IsValid)
             {
                 return View(role);
             }
 
-            if (_permissionService.AddRole(role))
+            var roleId = _permissionService.AddRole(role);
+            if (roleId != 0)
             {
+                _permissionService.AddPermissionsToRole(roleId,selectedPermission);
+
                 TempData["SuccessMessage"] = "افزودن نقش با موفقیت انجام شد";
                 return RedirectToAction("Index");
             }
@@ -92,7 +96,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Roles
             {
                 return View(role);
             }
-            
+
             if (_permissionService.UpdateRole(role))
             {
                 TempData["SuccessMessage"] = "ویرایش نقش با موفقیت انجام شد";

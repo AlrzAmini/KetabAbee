@@ -9,6 +9,8 @@ namespace KetabAbee.Application.Interfaces.Permission
 {
     public interface IPermissionService
     {
+        #region Role
+
         IEnumerable<Role> GetRoles();
 
         void AddRolesToUser(List<int> selectedRoles, int userId);
@@ -17,10 +19,20 @@ namespace KetabAbee.Application.Interfaces.Permission
 
         bool DeleteRoleById(int roleId);
 
-        bool AddRole(Role role);
+        int AddRole(Role role);
 
         Role GetRoleById(int roleId);
 
         bool UpdateRole(Role role);
+
+        #endregion
+
+        #region Permission
+
+        IEnumerable<Domain.Models.Permission.Permission> GetPermissions();
+
+        void AddPermissionsToRole(int roleId, List<int> selectedPermissions);
+
+        #endregion
     }
 }

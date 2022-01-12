@@ -1,4 +1,5 @@
-﻿@model KetabAbee.Domain.Models.User.Role
+﻿@using KetabAbee.Domain.Models.Permission
+@model KetabAbee.Domain.Models.User.Role
 @{
     ViewData["Title"] = "افزودن نقش";
 }
@@ -40,7 +41,50 @@
             </div>
         </div>
     </div>
-    
+    <div class="col-sm-4 col-xs-12">
+        <div class="widget flat radius-bordered">
+            <div class="widget-header bg-green">
+                <span class="widget-caption">دسترسی های این نقش</span>
+            </div>
+            <div class="widget-body">
+                <div id="registration-form">
+                    <div class="form-title">
+                        دسترسی ها
+                    </div>
+                    @{
+                        var permissions = ViewBag.Permissions as List<Permission>;
+                    }
+                    <div class="control-group">
+                        @if (permissions != null && permissions.Any())
+                        {
+                            foreach (var item in permissions.Where(p=>p.ParrentId == null))
+                            {
+                                <div class="radio">
+                                    <label>
+                                        <input name="selectedPermission" value="@item.PermissionId" type="checkbox" class="colored-success">
+                                        <span class="text"> @item.PermissionTitle</span>
+                                    </label>
+                                </div>
+                                @if (permissions.Any(p => p.ParrentId != null))
+                                {
+                                    foreach (var sub in permissions.Where(p=>p.ParrentId == item.PermissionId))
+                                    {
+                                        <div class="radio margin-10">
+                                            <label>
+                                                <input name="selectedPermission" value="@sub.PermissionId" type="checkbox" class="colored-success">
+                                                <span class="text"> @sub.PermissionTitle</span>
+                                            </label>
+                                        </div>
+                                    }
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <div class="col-md-8">
         <button type="submit" class="btn btn-success btn-lg btn-block">ثبت نقش</button>
