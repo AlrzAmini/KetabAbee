@@ -34,6 +34,10 @@ namespace KetabAbee.Domain.Interfaces
 
         void AddPermissionsToRole(int roleId, List<int> selectedPermissions);
 
+        List<int> GetPermissionIdsOfRoleByRoleId(int roleId);
+
+        void UpdatePermissionOfRole(int roleId, List<int> selectedPermission);
+
         #endregion
     }
 }

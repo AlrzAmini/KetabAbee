@@ -1,5 +1,5 @@
 ﻿@using KetabAbee.Domain.Models.Permission
-@model KetabAbee.Domain.Models.User.Role
+@model KetabAbee.Application.DTOs.Admin.Role.AddRoleViewModel
 @{
     ViewData["Title"] = "افزودن نقش";
 }
@@ -32,10 +32,10 @@
                     </div>
                     <div class="form-group">
                         <span class="input-icon icon-right">
-                            <input type="text" class="form-control" asp-for="RoleTitle" placeholder="عنوان نقش">
+                            <input type="text" class="form-control" asp-for="Role.RoleTitle" placeholder="عنوان نقش">
                             <i class="fa fa-book circular"></i>
                         </span>
-                        <span asp-validation-for="RoleTitle" class="text-danger"></span>
+                        <span asp-validation-for="Role.RoleTitle" class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -61,7 +61,7 @@
                             {
                                 <div class="radio">
                                     <label>
-                                        <input name="selectedPermission" value="@item.PermissionId" type="checkbox" class="colored-success">
+                                        <input name="SelectedPermissions" value="@item.PermissionId" type="checkbox" class="colored-success">
                                         <span class="text"> @item.PermissionTitle</span>
                                     </label>
                                 </div>
@@ -71,7 +71,7 @@
                                     {
                                         <div class="radio margin-10">
                                             <label>
-                                                <input name="selectedPermission" value="@sub.PermissionId" type="checkbox" class="colored-success">
+                                                <input name="SelectedPermissions" value="@sub.PermissionId" type="checkbox" class="colored-success">
                                                 <span class="text"> @sub.PermissionTitle</span>
                                             </label>
                                         </div>
@@ -84,8 +84,6 @@
             </div>
         </div>
     </div>
-
-
     <div class="col-md-8">
         <button type="submit" class="btn btn-success btn-lg btn-block">ثبت نقش</button>
     </div>

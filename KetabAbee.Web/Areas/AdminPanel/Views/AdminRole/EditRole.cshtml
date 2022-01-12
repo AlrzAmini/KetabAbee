@@ -1,4 +1,5 @@
-﻿@model KetabAbee.Domain.Models.User.Role
+﻿@using KetabAbee.Domain.Models.Permission
+@model KetabAbee.Application.DTOs.Admin.Role.EditRoleViewModel
 @{
     ViewData["Title"] = "ویرایش نقش";
 }
@@ -19,7 +20,7 @@
 <!-- /Page Breadcrumb -->
 
 <form asp-area="AdminPanel" asp-controller="AdminRole" asp-action="EditRole" method="post" role="form">
-    <input type="hidden" asp-for="RoleId"/>
+    <input type="hidden" asp-for="Role.RoleId" />
     <div class="col-lg-8 col-sm-8 col-xs-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bg-blue">
@@ -32,10 +33,53 @@
                     </div>
                     <div class="form-group">
                         <span class="input-icon icon-right">
-                            <input type="text" class="form-control" asp-for="RoleTitle" placeholder="عنوان نقش">
+                            <input type="text" class="form-control" asp-for="Role.RoleTitle" placeholder="عنوان نقش">
                             <i class="fa fa-book circular"></i>
                         </span>
-                        <span asp-validation-for="RoleTitle" class="text-danger"></span>
+                        <span asp-validation-for="Role.RoleTitle" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4 col-xs-12">
+        <div class="widget flat radius-bordered">
+            <div class="widget-header bg-green">
+                <span class="widget-caption">دسترسی های این نقش</span>
+            </div>
+            <div class="widget-body">
+                <div id="registration-form">
+                    <div class="form-title">
+                        دسترسی ها
+                    </div>
+                    @{
+                        var permissions = ViewBag.Permissions as List<Permission>;
+                    }
+                    <div class="control-group">
+                        @if (permissions != null && permissions.Any())
+                        {
+                            foreach (var item in permissions.Where(p => p.ParrentId == null))
+                            {
+                                <div class="radio">
+                                    <label>
+                                        <input name="SelectedPermissions" value="@item.PermissionId" @(Model.SelectedPermissions.Any(p=>p == item.PermissionId)?"checked":"") type="checkbox" class="colored-success">
+                                        <span class="text"> @item.PermissionTitle</span>
+                                    </label>
+                                </div>
+                                @if (permissions.Any(p => p.ParrentId != null))
+                                {
+                                    foreach (var sub in permissions.Where(p => p.ParrentId == item.PermissionId))
+                                    {
+                                        <div class="radio margin-10">
+                                            <label>
+                                                <input name="SelectedPermissions" value="@sub.PermissionId" @(Model.SelectedPermissions.Any(p=>p == sub.PermissionId)?"checked":"") type="checkbox" class="colored-success">
+                                                <span class="text"> @sub.PermissionTitle</span>
+                                            </label>
+                                        </div>
+                                    }
+                                }
+                            }
+                        }
                     </div>
                 </div>
             </div>

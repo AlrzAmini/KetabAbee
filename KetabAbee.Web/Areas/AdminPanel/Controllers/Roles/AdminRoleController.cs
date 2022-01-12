@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KetabAbee.Application.DTOs.Admin.Role;
 using KetabAbee.Application.Interfaces.Permission;
 using KetabAbee.Domain.Models.User;
 
@@ -59,17 +60,17 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Roles
         }
 
         [HttpPost("AddRole")]
-        public IActionResult AddRole(Role role, List<int> selectedPermission)
+        public IActionResult AddRole(AddRoleViewModel addRole)
         {
             if (!ModelState.IsValid)
             {
-                return View(role);
+                return View(addRole);
             }
 
-            var roleId = _permissionService.AddRole(role);
+            var roleId = _permissionService.AddRole(addRole.Role);
             if (roleId != 0)
             {
-                _permissionService.AddPermissionsToRole(roleId,selectedPermission);
+                _permissionService.AddPermissionsToRole(roleId,addRole.SelectedPermissions);
 
                 TempData["SuccessMessage"] = "افزودن نقش با موفقیت انجام شد";
                 return RedirectToAction("Index");
@@ -86,19 +87,26 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Roles
         [HttpGet("EditRole/{roleId}")]
         public IActionResult EditRole(int roleId)
         {
-            return View(_permissionService.GetRoleById(roleId));
+            ViewBag.Permissions = _permissionService.GetPermissions().ToList();
+            var editRole = new EditRoleViewModel
+            {
+                Role = _permissionService.GetRoleById(roleId),
+                SelectedPermissions = _permissionService.GetPermissionIdsOfRoleByRoleId(roleId)
+            };
+            return View(editRole);
         }
 
         [HttpPost("EditRole/{roleId}")]
-        public IActionResult EditRole(Role role)
+        public IActionResult EditRole(EditRoleViewModel editRole)
         {
             if (!ModelState.IsValid)
             {
-                return View(role);
+                return View(editRole);
             }
 
-            if (_permissionService.UpdateRole(role))
+            if (_permissionService.UpdateRole(editRole.Role))
             {
+                _permissionService.UpdatePermissionOfRole(editRole.Role.RoleId,editRole.SelectedPermissions);
                 TempData["SuccessMessage"] = "ویرایش نقش با موفقیت انجام شد";
                 return RedirectToAction("Index");
             }
