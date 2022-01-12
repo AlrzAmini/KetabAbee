@@ -42,12 +42,12 @@ namespace KetabAbee.Data.Repository
         public void EditUserRoles(List<int> selectedRoleIds, int userId)
         {
             // remove old user roles
-            _context.UserRoles.Where(r=>r.UserId == userId)
+            _context.UserRoles.Where(r => r.UserId == userId)
                 .ToList()
-                .ForEach(r=> _context.UserRoles.Remove(r));
+                .ForEach(r => _context.UserRoles.Remove(r));
 
             // add new roles to user
-            AddRolesToUser(selectedRoleIds,userId);
+            AddRolesToUser(selectedRoleIds, userId);
         }
         public Role GetRoleById(int roleId)
         {
@@ -77,7 +77,7 @@ namespace KetabAbee.Data.Repository
                 _context.SaveChanges();
                 return true;
             }
-            catch 
+            catch
             {
                 return false;
             }
@@ -119,15 +119,13 @@ namespace KetabAbee.Data.Repository
         public void UpdatePermissionOfRole(int roleId, List<int> selectedPermission)
         {
             // remove old permissions of role
-            var rPerms = _context.RolePermissions.Where(p => p.RoleId == roleId).ToList();
-
-            foreach (var item in rPerms)
-            {
-                _context.RolePermissions.Remove(item);
-            }
+            _context.RolePermissions
+               .Where(p => p.RoleId == roleId)
+               .ToList()
+               .ForEach(p => _context.RolePermissions.Remove(p));
 
             // add new roles
-            AddPermissionsToRole(roleId,selectedPermission);
+            AddPermissionsToRole(roleId, selectedPermission);
         }
     }
 }
