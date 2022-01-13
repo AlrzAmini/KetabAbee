@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Application.Interfaces.Permission;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -11,33 +12,32 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace KetabAbee.Application.Security
 {
-    //public class PermissionCheckerAttribute : AuthorizeAttribute, IAuthorizationFilter
-    //{
-    //    private IPermissionService _permissionService;
-    //    private int _permissionId = 0;
+    public class PermissionCheckerAttribute : AuthorizeAttribute, IAuthorizationFilter
+    {
+        private IPermissionService _permissionService;
+        private readonly int _permissionId;
 
-    //    public PermissionCheckerAttribute(int permissionId)
-    //    {
-    //        _permissionId = permissionId;
-    //    }
-    //    public void OnAuthorization(AuthorizationFilterContext context)
-    //    {
-    //        _permissionService = (IPermissionService)context.HttpContext.RequestServices.GetService(typeof(IPermissionService));
+        public PermissionCheckerAttribute(int permissionId)
+        {
+            _permissionId = permissionId;
+        }
+        public void OnAuthorization(AuthorizationFilterContext context)
+        {
+            _permissionService = (IPermissionService)context.HttpContext.RequestServices.GetService(typeof(IPermissionService));
 
-
-    //        if (context.HttpContext.User.Identity.IsAuthenticated)
-    //        {
-    //            string email = context.HttpContext.User.FindFirst(ClaimTypes.Email).Value;
-
-    //            if (!_permissionService.CheckPermission(_permissionId, email))
-    //            {
-    //                context.Result = new RedirectResult("/Login");
-    //            }
-    //        }
-    //        else
-    //        {
-    //            context.Result = new RedirectResult("/Login");
-    //        }
-    //    }
-    //}
+            if (context.HttpContext.User.Identity.IsAuthenticated)
+            {
+                var email = context.HttpContext.User.FindFirst(ClaimTypes.Email).Value;
+                 
+                if (!_permissionService.CheckPermission(_permissionId, email))
+                {
+                    context.Result = new RedirectResult("/");
+                }
+            }
+            else
+            {
+                context.Result = new RedirectResult("/Login");
+            }
+        }
+    }
 }

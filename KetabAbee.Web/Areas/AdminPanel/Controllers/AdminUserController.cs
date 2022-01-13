@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using KetabAbee.Application.Const;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs.Admin.User;
 using KetabAbee.Application.DTOs.Admin.Wallet;
@@ -16,6 +17,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace KetabAbee.Web.Areas.AdminPanel.Controllers
 {
+    [PermissionChecker(PerIds.AdminUsers)]
     public class AdminUserController : AdminBaseController
     {
         #region constructure

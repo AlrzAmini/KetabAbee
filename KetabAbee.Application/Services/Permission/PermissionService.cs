@@ -40,6 +40,11 @@ namespace KetabAbee.Application.Services.Permission
             _permissionRepository.AddRolesToUser(selectedRoles, userId);
         }
 
+        public bool CheckPermission(int permissionId, string email)
+        {
+            return _permissionRepository.CheckPermission(permissionId, email);
+        }
+
         public bool DeleteRoleById(int roleId)
         {
             return _permissionRepository.DeleteRole(roleId);

@@ -3,12 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KetabAbee.Application.Const;
 using KetabAbee.Application.DTOs.Admin.Role;
 using KetabAbee.Application.Interfaces.Permission;
+using KetabAbee.Application.Security;
 using KetabAbee.Domain.Models.User;
 
 namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Roles
 {
+    [PermissionChecker(PerIds.AdminRoles)]
     [Route("Admin/Roles")]
     public class AdminRoleController : AdminBaseController
     {

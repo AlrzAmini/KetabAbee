@@ -127,5 +127,39 @@ namespace KetabAbee.Data.Repository
             // add new roles
             AddPermissionsToRole(roleId, selectedPermission);
         }
+
+        public bool CheckPermission(int permissionId, string email)
+        {
+            var userId = GetUserIdByEmail(email);
+
+            var userRoles = GetUserRolesByUserId(userId);
+
+            if (!userRoles.Any()) return false;
+
+            var rolesOfPermission = GetRolesOfPermissionByPermissionId(permissionId);
+
+            return rolesOfPermission.Any(r => userRoles.Contains(r));
+        }
+
+        public List<int> GetUserRolesByUserId(int userId)
+        {
+            return _context.UserRoles
+                .Where(r => r.UserId == userId)
+                .Select(r => r.RoleId)
+                .ToList();
+        }
+
+        public int GetUserIdByEmail(string email)
+        {
+            return _context.Users.SingleOrDefault(u => u.Email == email).UserId;
+        }
+
+        public List<int> GetRolesOfPermissionByPermissionId(int permissionId)
+        {
+            return _context.RolePermissions
+                .Where(r => r.PermissionId == permissionId)
+                .Select(r => r.RoleId)
+                .ToList();
+        }
     }
 }

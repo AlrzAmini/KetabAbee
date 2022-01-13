@@ -1,14 +1,17 @@
 ﻿using System;
 using Ganss.XSS;
+using KetabAbee.Application.Const;
 using Microsoft.AspNetCore.Mvc;
 using KetabAbee.Application.DTOs.Ticket;
 using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Ticket;
+using KetabAbee.Application.Security;
 using KetabAbee.Domain.Models.Ticket;
 
 
 namespace KetabAbee.Web.Areas.AdminPanel.Controllers
 {
+    [PermissionChecker(PerIds.AdminTickets)]
     public class AdminTicketController : AdminBaseController
     {
         #region constructure

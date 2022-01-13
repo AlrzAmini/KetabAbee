@@ -38,6 +38,14 @@ namespace KetabAbee.Domain.Interfaces
 
         void UpdatePermissionOfRole(int roleId, List<int> selectedPermission);
 
+        List<int> GetUserRolesByUserId(int userId);
+
+        bool CheckPermission(int permissionId, string email);
+
+        int GetUserIdByEmail(string email);
+
+        List<int> GetRolesOfPermissionByPermissionId(int permissionId);
+
         #endregion
     }
 }

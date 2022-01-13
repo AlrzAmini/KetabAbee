@@ -37,6 +37,8 @@ namespace KetabAbee.Application.Interfaces.Permission
 
         void UpdatePermissionOfRole(int roleId, List<int> selectedPermission);
 
+        bool CheckPermission(int permissionId, string email);
+
         #endregion
     }
 }
