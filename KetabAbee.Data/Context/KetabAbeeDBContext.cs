@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using KetabAbee.Domain.Models.Permission;
+using KetabAbee.Domain.Models.Products;
 using KetabAbee.Domain.Models.Ticket;
 using KetabAbee.Domain.Models.User;
 using KetabAbee.Domain.Models.Wallet;
@@ -37,6 +38,12 @@ namespace KetabAbee.Data.Context
 
         #endregion
 
+        #region Products
+
+        public DbSet<ProductGroup> ProductGroups { get; set; }
+
+        #endregion
+
 
 
 
@@ -47,11 +54,18 @@ namespace KetabAbee.Data.Context
                 rel.DeleteBehavior = DeleteBehavior.Restrict;
             }
 
+            #region query filters
+
             modelBuilder.Entity<User>()
                 .HasQueryFilter(c => !c.IsDelete);
 
             modelBuilder.Entity<Role>()
                 .HasQueryFilter(c => !c.IsDelete);
+
+            modelBuilder.Entity<ProductGroup>()
+                .HasQueryFilter(c => !c.IsDelete);
+
+            #endregion
 
             base.OnModelCreating(modelBuilder);
         }
