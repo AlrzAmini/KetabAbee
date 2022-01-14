@@ -18,9 +18,24 @@ namespace KetabAbee.Application.Services.Product
             _productRepository = productRepository;
         }
 
+        public bool AddGroup(ProductGroup group)
+        {
+            return _productRepository.AddGroup(group);
+        }
+
         public IEnumerable<ProductGroup> GetGroups()
         {
             return _productRepository.GetGroups();
+        }
+
+        public IEnumerable<ProductGroup> GetGroupsForAdmin()
+        {
+            return _productRepository.GetGroupsForAdmin();
+        }
+
+        public bool UpdateGroup(ProductGroup group)
+        {
+            return _productRepository.UpdateGroup(group);
         }
     }
 }

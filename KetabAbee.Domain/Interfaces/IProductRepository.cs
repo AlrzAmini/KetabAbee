@@ -13,6 +13,12 @@ namespace KetabAbee.Domain.Interfaces
 
         IEnumerable<ProductGroup> GetGroups();
 
+        IEnumerable<ProductGroup> GetGroupsForAdmin();
+
+        bool AddGroup(ProductGroup group);
+
+        bool UpdateGroup(ProductGroup group);
+
         #endregion
     }
 }

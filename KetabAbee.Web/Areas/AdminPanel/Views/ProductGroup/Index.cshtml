@@ -1,0 +1,92 @@
+﻿@model List<KetabAbee.Domain.Models.Products.ProductGroup>
+@{
+    ViewData["Title"] = "دسته های محصولات";
+}
+
+<!-- Page Content -->
+<!-- Page Breadcrumb -->
+<div class="page-breadcrumbs margin-bottom-20">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
+<!-- /Page Breadcrumb -->
+<div class="col-12 col-md-12 row margin-bottom-10">
+    <a asp-area="AdminPanel" asp-controller="ProductGroup" asp-action="AddGroup" class="btn btn-success col-md-4">افزودن دسته بندی جدید <i class="glyphicon glyphicon-plus"></i> </a>
+</div>
+<div class="col-xs-12 col-md-9">
+    <div class="well with-header with-footer">
+        <div class="header bordered-sky">
+            <i class="fa fa-ticket"></i>
+            @ViewData["Title"]
+        </div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        شماره
+                    </th>
+                    <th>
+                        عنوان دسته بندی
+                    </th>
+                    <th>
+                        زیر گروه ها
+                    </th>
+                    <th>
+                        دستورات
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var group in Model)
+                {
+                    <tr>
+                        <td>
+                            @group.GroupId
+                        </td>
+                        <td>
+                            @group.GroupTitle
+                        </td>
+                        <td>
+                            @if (group.ProductGroups.Any())
+                            {
+                                foreach (var sub in group.ProductGroups)
+                                {
+                                    <p>@sub.GroupTitle</p>
+                                    <a class="btn btn-success btn-xs" asp-controller="ProductGroup" asp-action="AddGroup" asp-route-id="@sub.GroupId">افزودن زیر گروه</a>
+                                    <a class="btn btn-info btn-xs" asp-controller="AdminTicket" asp-action="ShowTicketDetails" asp-route-id="@sub.GroupId">ویرایش</a>
+                                    <a class="btn btn-danger btn-xs" asp-controller="AdminTicket" asp-action="DeleteTicket" onclick="return confirm('از حذف این دسته بندی اطمینان دارید ؟')" asp-route-id="@sub.GroupId">حذف</a>
+                                    @if (sub.ProductGroups.Any())
+                                    {
+                                        <ul>
+                                            @foreach (var sub2 in sub.ProductGroups)
+                                            {
+                                                <li>
+                                                    @sub2.GroupTitle
+                                                    <a class="btn btn-info btn-xs margin-10" asp-controller="AdminTicket" asp-action="ShowTicketDetails" asp-route-id="@sub2.GroupId">ویرایش</a>
+                                                    <a class="btn btn-danger btn-xs margin-10" asp-controller="AdminTicket" asp-action="DeleteTicket" onclick="return confirm('از حذف این دسته بندی اطمینان دارید ؟')" asp-route-id="@sub2.GroupId">حذف</a>
+                                                </li>
+                                            }
+                                        </ul> 
+                                    }
+
+                                }
+                            }
+                        </td>
+                        <td>
+                            <a class="btn btn-success" asp-controller="ProductGroup" asp-action="AddGroup" asp-route-id="@group.GroupId">افزودن زیر گروه</a>
+                            <a class="btn btn-info" asp-controller="AdminTicket" asp-action="ShowTicketDetails" asp-route-id="@group.GroupId">ویرایش</a>
+                            <a class="btn btn-danger" asp-controller="AdminTicket" asp-action="DeleteTicket" onclick="return confirm('از حذف این دسته بندی اطمینان دارید ؟')" asp-route-id="@group.GroupId">حذف</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- /Page Content -->

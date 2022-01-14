@@ -15,5 +15,7 @@ namespace KetabAbee.Application.Const
         public const int AdminTickets = 3;
 
         public const int AdminRoles = 4;
+
+        public const int AdminGroups = 5;
     }
 }

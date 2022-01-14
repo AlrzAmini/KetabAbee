@@ -1,0 +1,53 @@
+﻿@model KetabAbee.Domain.Models.Products.ProductGroup
+@{
+    ViewData["Title"] = "افزودن دسته بندی";
+}
+
+<!-- Page Breadcrumb -->
+<div class="page-breadcrumbs margin-bottom-20">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li>
+            <a asp-controller="ProductGroup" asp-action="Index">دسته بندی ها</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
+<!-- /Page Breadcrumb -->
+
+<form asp-area="AdminPanel" asp-controller="ProductGroup" asp-action="AddGroup" method="post" role="form">
+    <input type="hidden" asp-for="ParentId"/>
+    <div class="col-lg-8 col-sm-8 col-xs-12">
+        <div class="widget flat radius-bordered">
+            <div class="widget-header bg-success">
+                <span class="widget-caption">@ViewData["Title"]</span>
+            </div>
+            <div class="widget-body">
+                <div id="registration-form">
+                    <div class="form-title">
+                        اطلاعات دسته بندی
+                    </div>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input type="text" class="form-control" asp-for="GroupTitle" placeholder="عنوان دسته بندی">
+                            <i class="fa fa-book circular"></i>
+                        </span>
+                        <span asp-validation-for="GroupTitle" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <button type="submit" class="btn btn-success btn-lg btn-block">ثبت دسته بندی</button>
+    </div>
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial"/>
+}
+

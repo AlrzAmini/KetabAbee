@@ -7,6 +7,13 @@
             <span class="menu-text"> داشبورد </span>
         </a>
     </li>
+    <!--Roles-->
+    <li>
+        <a asp-area="AdminPanel" asp-controller="AdminRole" asp-action="Index">
+            <i class="menu-icon fa fa-user-secret"></i>
+            <span class="menu-text"> مدیریت نقش ها </span>
+        </a>
+    </li>
     <!--Users-->
     <li>
         <a asp-area="AdminPanel" asp-controller="AdminUser" asp-action="Index">
@@ -21,12 +28,13 @@
             <span class="menu-text"> مدیریت تیکت ها </span>
         </a>
     </li>
-    <!--Roles-->
+    <!--Groups-->
     <li>
-        <a asp-area="AdminPanel" asp-controller="AdminRole" asp-action="Index">
-            <i class="menu-icon fa fa-user-secret"></i>
-            <span class="menu-text"> مدیریت نقش ها </span>
+        <a asp-area="AdminPanel" asp-controller="ProductGroup" asp-action="Index">
+            <i class="menu-icon fa fa-bar-chart"></i>
+            <span class="menu-text"> مدیریت دسته بندی ها </span>
         </a>
     </li>
+
 </ul>
 <!-- /Sidebar Menu -->
