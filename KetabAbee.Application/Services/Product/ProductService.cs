@@ -42,5 +42,12 @@ namespace KetabAbee.Application.Services.Product
         {
             return _productRepository.GetGroupById(groupId);
         }
+
+        public bool DeleteGroupById(int groupId)
+        {
+            var group = GetGroupById(groupId);
+            group.IsDelete = true;
+            return UpdateGroup(group);
+        }
     }
 }

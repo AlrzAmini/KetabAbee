@@ -95,5 +95,22 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
 
         #endregion
 
+        #region Delete Group
+
+        [HttpGet("Delete/{id}")]
+        public IActionResult DeleteGroup(int id)
+        {
+            if (_productService.DeleteGroupById(id))
+            {
+                TempData["SuccessMessage"] = "حذف دسته بندی با موفقیت انجام شد";
+                return RedirectToAction("Index");
+            }
+
+            TempData["ErrorMessage"] = "حذف دسته بندی با شکست مواجه شد";
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
     }
 }

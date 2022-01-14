@@ -59,7 +59,7 @@
                                     <p>@sub.GroupTitle</p>
                                     <a class="btn btn-success btn-xs" asp-controller="ProductGroup" asp-action="AddGroup" asp-route-id="@sub.GroupId">افزودن زیر گروه</a>
                                     <a class="btn btn-info btn-xs" asp-controller="ProductGroup" asp-action="EditGroup" asp-route-id="@sub.GroupId">ویرایش</a>
-                                    <a class="btn btn-danger btn-xs" asp-controller="AdminTicket" asp-action="DeleteTicket" onclick="return confirm('از حذف این دسته بندی اطمینان دارید ؟')" asp-route-id="@sub.GroupId">حذف</a>
+                                    <a class="btn btn-danger btn-xs" asp-controller="ProductGroup" asp-action="DeleteGroup" onclick="return confirm('از حذف این دسته بندی اطمینان دارید ؟')" asp-route-id="@sub.GroupId">حذف</a>
                                     @if (sub.ProductGroups.Any())
                                     {
                                         <ul>
@@ -68,7 +68,7 @@
                                                 <li>
                                                     @sub2.GroupTitle
                                                     <a class="btn btn-info btn-xs margin-10" asp-controller="ProductGroup" asp-action="EditGroup" asp-route-id="@sub2.GroupId">ویرایش</a>
-                                                    <a class="btn btn-danger btn-xs margin-10" asp-controller="AdminTicket" asp-action="DeleteTicket" onclick="return confirm('از حذف این دسته بندی اطمینان دارید ؟')" asp-route-id="@sub2.GroupId">حذف</a>
+                                                    <a class="btn btn-danger btn-xs margin-10" asp-controller="ProductGroup" asp-action="DeleteGroup" onclick="return confirm('از حذف این دسته بندی اطمینان دارید ؟')" asp-route-id="@sub2.GroupId">حذف</a>
                                                 </li>
                                             }
                                         </ul> 
@@ -80,7 +80,7 @@
                         <td>
                             <a class="btn btn-success" asp-controller="ProductGroup" asp-action="AddGroup" asp-route-id="@group.GroupId">افزودن زیر گروه</a>
                             <a class="btn btn-info" asp-controller="ProductGroup" asp-action="EditGroup" asp-route-id="@group.GroupId">ویرایش</a>
-                            <a class="btn btn-danger" asp-controller="AdminTicket" asp-action="DeleteTicket" onclick="return confirm('از حذف این دسته بندی اطمینان دارید ؟')" asp-route-id="@group.GroupId">حذف</a>
+                            <a class="btn btn-danger" asp-controller="ProductGroup" asp-action="DeleteGroup" onclick="return confirm('از حذف این دسته بندی اطمینان دارید ؟')" asp-route-id="@group.GroupId">حذف</a>
                         </td>
                     </tr>
                 }

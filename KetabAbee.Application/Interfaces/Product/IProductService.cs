@@ -21,6 +21,8 @@ namespace KetabAbee.Application.Interfaces.Product
 
         ProductGroup GetGroupById(int groupId);
 
+        bool DeleteGroupById(int groupId);
+
         #endregion
     }
 }
