@@ -66,5 +66,34 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
 
         #endregion
 
+        #region Edit Group
+
+        [HttpGet("EditGroup/{id}")]
+        public IActionResult EditGroup(int id) // id = groupId
+        {
+            var group = _productService.GetGroupById(id);
+            return View(group);
+        }
+
+        [HttpPost("EditGroup/{id}")]
+        public IActionResult EditGroup(ProductGroup group) // id = groupId
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(group);
+            }
+
+            if (_productService.UpdateGroup(group))
+            {
+                TempData["SuccessMessage"] = "ویرایش دسته بندی با موفقیت انجام شد";
+                return RedirectToAction("Index");
+            }
+
+            TempData["ErrorMessage"] = "ویرایش دسته بندی با شکست مواجه شد";
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
     }
 }

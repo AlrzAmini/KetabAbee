@@ -37,5 +37,10 @@ namespace KetabAbee.Application.Services.Product
         {
             return _productRepository.UpdateGroup(group);
         }
+
+        public ProductGroup GetGroupById(int groupId)
+        {
+            return _productRepository.GetGroupById(groupId);
+        }
     }
 }

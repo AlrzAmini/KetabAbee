@@ -19,6 +19,8 @@ namespace KetabAbee.Application.Interfaces.Product
 
         bool UpdateGroup(ProductGroup group);
 
+        ProductGroup GetGroupById(int groupId);
+
         #endregion
     }
 }

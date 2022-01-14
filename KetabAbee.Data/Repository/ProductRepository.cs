@@ -43,5 +43,10 @@ namespace KetabAbee.Data.Repository
             _context.SaveChanges();
             return true;
         }
+
+        public ProductGroup GetGroupById(int groupId)
+        {
+            return _context.ProductGroups.Find(groupId);
+        }
     }
 }

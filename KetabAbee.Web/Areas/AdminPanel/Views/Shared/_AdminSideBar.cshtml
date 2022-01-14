@@ -1,4 +1,8 @@
-﻿ <!-- Sidebar Menu -->
+﻿@using KetabAbee.Application.Interfaces.Permission
+@using KetabAbee.Application.Const
+@using System.Security.Claims
+@inject IPermissionService _permissionService;
+ <!-- Sidebar Menu -->
 <ul class="nav sidebar-menu">
     <!--Dashboard-->
     <li>
@@ -7,34 +11,45 @@
             <span class="menu-text"> داشبورد </span>
         </a>
     </li>
-    <!--Roles-->
-    <li>
-        <a asp-area="AdminPanel" asp-controller="AdminRole" asp-action="Index">
-            <i class="menu-icon fa fa-user-secret"></i>
-            <span class="menu-text"> مدیریت نقش ها </span>
-        </a>
-    </li>
-    <!--Users-->
-    <li>
-        <a asp-area="AdminPanel" asp-controller="AdminUser" asp-action="Index">
-            <i class="menu-icon glyphicon glyphicon-user"></i>
-            <span class="menu-text"> مدیریت کاربران </span>
-        </a>
-    </li>
-    <!--Tickets-->
-    <li>
-        <a asp-area="AdminPanel" asp-controller="AdminTicket" asp-action="Index">
-            <i class="menu-icon glyphicon glyphicon-comment"></i>
-            <span class="menu-text"> مدیریت تیکت ها </span>
-        </a>
-    </li>
-    <!--Groups-->
-    <li>
-        <a asp-area="AdminPanel" asp-controller="ProductGroup" asp-action="Index">
-            <i class="menu-icon fa fa-bar-chart"></i>
-            <span class="menu-text"> مدیریت دسته بندی ها </span>
-        </a>
-    </li>
-
+    @if (_permissionService.CheckPermission(PerIds.AdminRoles, User.FindFirstValue(ClaimTypes.Email)))
+    {
+        <!--Roles-->
+        <li>
+            <a asp-area="AdminPanel" asp-controller="AdminRole" asp-action="Index">
+                <i class="menu-icon fa fa-user-secret"></i>
+                <span class="menu-text"> مدیریت نقش ها </span>
+            </a>
+        </li>
+    }
+    @if (_permissionService.CheckPermission(PerIds.AdminUsers, User.FindFirstValue(ClaimTypes.Email)))
+    {
+        <!--Users-->
+        <li>
+            <a asp-area="AdminPanel" asp-controller="AdminUser" asp-action="Index">
+                <i class="menu-icon glyphicon glyphicon-user"></i>
+                <span class="menu-text"> مدیریت کاربران </span>
+            </a>
+        </li>
+    }
+    @if (_permissionService.CheckPermission(PerIds.AdminTickets, User.FindFirstValue(ClaimTypes.Email)))
+    {
+        <!--Tickets-->
+        <li>
+            <a asp-area="AdminPanel" asp-controller="AdminTicket" asp-action="Index">
+                <i class="menu-icon glyphicon glyphicon-comment"></i>
+                <span class="menu-text"> مدیریت تیکت ها </span>
+            </a>
+        </li>
+    }
+    @if (_permissionService.CheckPermission(PerIds.AdminGroups, User.FindFirstValue(ClaimTypes.Email)))
+    {
+        <!--Groups-->
+        <li>
+            <a asp-area="AdminPanel" asp-controller="ProductGroup" asp-action="Index">
+                <i class="menu-icon fa fa-bar-chart"></i>
+                <span class="menu-text"> مدیریت دسته بندی ها </span>
+            </a>
+        </li>
+    }
 </ul>
 <!-- /Sidebar Menu -->
