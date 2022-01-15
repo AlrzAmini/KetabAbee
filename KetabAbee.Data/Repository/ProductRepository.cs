@@ -48,5 +48,10 @@ namespace KetabAbee.Data.Repository
         {
             return _context.ProductGroups.Find(groupId);
         }
+
+        public IEnumerable<Publisher> GetPublishers()
+        {
+            return _context.Publishers;
+        }
     }
 }

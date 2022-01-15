@@ -23,9 +23,9 @@ namespace KetabAbee.Domain.Interfaces
 
         #endregion
 
-        #region Product
+        #region Book
 
-        
+        IEnumerable<Publisher> GetPublishers();
 
         #endregion
     }

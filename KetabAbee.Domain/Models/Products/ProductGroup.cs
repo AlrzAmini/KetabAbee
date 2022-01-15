@@ -35,7 +35,14 @@ namespace KetabAbee.Domain.Models.Products
         [ForeignKey("ParentId")]
         public ICollection<ProductGroup> ProductGroups { get; set; }
 
+        [InverseProperty("Group")]
         public ICollection<Book> Books { get; set; }
+
+        [InverseProperty("SubGroup")]
+        public ICollection<Book> Subs1 { get; set; }
+
+        [InverseProperty("SubGroup2")]
+        public ICollection<Book> Subs2 { get; set; }
 
         #endregion
     }

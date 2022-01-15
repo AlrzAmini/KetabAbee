@@ -13,14 +13,28 @@ namespace KetabAbee.Domain.Models.Products
         [Key]
         public int BookId { get; set; }
 
+        [DisplayName("ناشر")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
         public int PublisherId { get; set; }
 
+        [DisplayName("دسته بندی اصلی")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
         public int GroupId { get; set; }
 
+        public int? SubGroupId { get; set; }
+
+        public int? SubGroup2Id { get; set; }
+
+        [DisplayName("رنج سنی")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
         public AgeRange AgeRange { get; set; }
 
+        [DisplayName("نوع جلد")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
         public CoverType CoverType { get; set; }
 
+        [DisplayName("وضعیت موجودی")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
         public ExistStatus ExistStatus { get; set; }
 
 
@@ -57,6 +71,10 @@ namespace KetabAbee.Domain.Models.Products
         public Publisher Publisher { get; set; }
 
         public ProductGroup Group { get; set; }
+
+        public ProductGroup SubGroup { get; set; }
+
+        public ProductGroup SubGroup2 { get; set; }
 
 
         #endregion

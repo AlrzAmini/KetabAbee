@@ -4,14 +4,16 @@ using KetabAbee.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KetabAbee.Data.Migrations
 {
     [DbContext(typeof(KetabAbeeDBContext))]
-    partial class KetabAbeeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220115172940_changetblpublisher")]
+    partial class changetblpublisher
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,12 +105,6 @@ namespace KetabAbee.Data.Migrations
                     b.Property<int>("PublisherId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SubGroup2Id")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SubGroupId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Writer")
                         .IsRequired()
                         .HasMaxLength(300)
@@ -119,10 +115,6 @@ namespace KetabAbee.Data.Migrations
                     b.HasIndex("GroupId");
 
                     b.HasIndex("PublisherId");
-
-                    b.HasIndex("SubGroup2Id");
-
-                    b.HasIndex("SubGroupId");
 
                     b.ToTable("Books");
                 });
@@ -422,23 +414,9 @@ namespace KetabAbee.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("KetabAbee.Domain.Models.Products.ProductGroup", "SubGroup2")
-                        .WithMany("Subs2")
-                        .HasForeignKey("SubGroup2Id")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("KetabAbee.Domain.Models.Products.ProductGroup", "SubGroup")
-                        .WithMany("Subs1")
-                        .HasForeignKey("SubGroupId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.Navigation("Group");
 
                     b.Navigation("Publisher");
-
-                    b.Navigation("SubGroup");
-
-                    b.Navigation("SubGroup2");
                 });
 
             modelBuilder.Entity("KetabAbee.Domain.Models.Products.ProductGroup", b =>
@@ -521,10 +499,6 @@ namespace KetabAbee.Data.Migrations
                     b.Navigation("Books");
 
                     b.Navigation("ProductGroups");
-
-                    b.Navigation("Subs1");
-
-                    b.Navigation("Subs2");
                 });
 
             modelBuilder.Entity("KetabAbee.Domain.Models.Products.Publisher", b =>

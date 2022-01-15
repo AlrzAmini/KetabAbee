@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using KetabAbee.Application.Interfaces.Product;
 using KetabAbee.Domain.Interfaces;
 using KetabAbee.Domain.Models.Products;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KetabAbee.Application.Services.Product
 {
@@ -48,6 +49,31 @@ namespace KetabAbee.Application.Services.Product
             var group = GetGroupById(groupId);
             group.IsDelete = true;
             return UpdateGroup(group);
+        }
+
+        public IEnumerable<Publisher> GetPublishers()
+        {
+            return _productRepository.GetPublishers();
+        }
+
+        public List<SelectListItem> GetGroupsForAddBook()
+        {
+            return _productRepository.GetGroups().Where(g => g.ParentId == null)
+                .Select(g => new SelectListItem
+                {
+                    Value = g.GroupId.ToString(),
+                    Text = g.GroupTitle
+                }).ToList();
+        }
+
+        public List<SelectListItem> GetSubGroupsForAddBook(int groupId)
+        {
+            return _productRepository.GetGroups().Where(g => g.ParentId == groupId)
+                .Select(g => new SelectListItem
+                {
+                    Value = g.GroupId.ToString(),
+                    Text = g.GroupTitle
+                }).ToList();
         }
     }
 }

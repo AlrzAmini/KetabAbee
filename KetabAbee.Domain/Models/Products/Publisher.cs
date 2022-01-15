@@ -13,8 +13,6 @@ namespace KetabAbee.Domain.Models.Products
         [Key]
         public int PublisherId { get; set; }
 
-        public int BooksId { get; set; }
-
         #region Props
 
         [DisplayName("ناشر")]
