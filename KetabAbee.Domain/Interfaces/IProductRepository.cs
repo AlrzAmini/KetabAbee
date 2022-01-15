@@ -9,7 +9,7 @@ namespace KetabAbee.Domain.Interfaces
 {
    public interface IProductRepository
     {
-        #region Product Group
+        #region Group
 
         IEnumerable<ProductGroup> GetGroups();
 
@@ -20,6 +20,12 @@ namespace KetabAbee.Domain.Interfaces
         bool UpdateGroup(ProductGroup group);
 
         ProductGroup GetGroupById(int groupId);
+
+        #endregion
+
+        #region Product
+
+        
 
         #endregion
     }

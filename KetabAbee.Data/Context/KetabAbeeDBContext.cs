@@ -42,6 +42,10 @@ namespace KetabAbee.Data.Context
 
         public DbSet<ProductGroup> ProductGroups { get; set; }
 
+        public DbSet<Book> Books { get; set; }
+
+        public DbSet<Publisher> Publishers { get; set; }
+
         #endregion
 
 
@@ -63,6 +67,12 @@ namespace KetabAbee.Data.Context
                 .HasQueryFilter(c => !c.IsDelete);
 
             modelBuilder.Entity<ProductGroup>()
+                .HasQueryFilter(c => !c.IsDelete);
+
+            modelBuilder.Entity<Publisher>()
+                .HasQueryFilter(c => !c.IsDelete);
+
+            modelBuilder.Entity<Book>()
                 .HasQueryFilter(c => !c.IsDelete);
 
             #endregion
