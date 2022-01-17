@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Application.Convertors;
+using KetabAbee.Application.Generators;
 using KetabAbee.Application.Interfaces.Product;
+using KetabAbee.Application.Security;
 using KetabAbee.Domain.Interfaces;
 using KetabAbee.Domain.Models.Products;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KetabAbee.Application.Services.Product
@@ -74,6 +79,37 @@ namespace KetabAbee.Application.Services.Product
                     Value = g.GroupId.ToString(),
                     Text = g.GroupTitle
                 }).ToList();
+        }
+
+        public bool AddBook(Book book, IFormFile imgFile)
+        {
+            
+            if (imgFile == null || !imgFile.IsImage()) return _productRepository.AddBook(book);
+
+            // add image
+            // generate name
+            book.ImageName = CodeGenerator.GenerateUniqCode() + Path.GetExtension(imgFile.FileName);
+
+            // image path
+            string imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/Book/image", book.ImageName);
+
+            // save file in file
+            using (var stream = new FileStream(imgPath, FileMode.Create))
+            {
+                imgFile.CopyTo(stream);
+            }
+
+            // thumb
+            var imgResizer = new ImageConvertor();
+            string imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/Book/thumb", book.ImageName);
+            imgResizer.Image_resize(imgPath, imgThumbPath, 400);
+
+            return _productRepository.AddBook(book);
+        }
+
+        public IEnumerable<Book> GetBooksForAdmin()
+        {
+            return _productRepository.GetBooksForAdmin();
         }
     }
 }

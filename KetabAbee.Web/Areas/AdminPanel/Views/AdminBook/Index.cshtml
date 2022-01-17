@@ -1,4 +1,7 @@
-﻿
+﻿@using KetabAbee.Application.Convertors
+@using KetabAbee.Application.Extensions
+@using KetabAbee.Domain.Models.Products
+@model List<KetabAbee.Domain.Models.Products.Book>
 @{
     ViewData["Title"] = "لیست کتابها";
 }
@@ -18,23 +21,47 @@
 <div class="col-12 col-md-12 row margin-bottom-10">
     <a asp-area="AdminPanel" asp-controller="AdminBook" asp-action="AddBook" class="btn btn-success col-md-4">افزودن کتاب جدید <i class="glyphicon glyphicon-plus"></i> </a>
 </div>
-<div class="col-xs-12 col-md-9">
+<div class="col-xs-12 col-md-12">
     <div class="well with-header with-footer">
         <div class="header bordered-sky">
             <i class="fa fa-ticket"></i>
             @ViewData["Title"]
         </div>
-        @*<table class="table table-bordered table-hover">
+        <table class="table table-bordered table-hover">
             <thead>
                 <tr>
                     <th>
                         شماره
                     </th>
                     <th>
-                        عنوان دسته بندی
+                        نام کتاب
                     </th>
                     <th>
-                        زیر گروه ها
+                        ناشر
+                    </th>
+                    <th>
+                        دسته بندی
+                    </th>
+                    <th>
+                        قیمت
+                    </th>
+                    <th>
+                        نویسنده
+                    </th>
+                    <th>
+                        تعداد صفحه
+                    </th>
+                    <th>
+                        محدوده سنی
+                    </th>
+                    <th>
+                        نوع جلد
+                    </th>
+                    <th>
+                        وضعیت موجودی
+                    </th>
+                    <th>
+                        تصویر
                     </th>
                     <th>
                         دستورات
@@ -42,50 +69,60 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var group in Model.Where(g => g.ParentId == null))
+                @foreach (var book in Model)
                 {
-                    <tr>
-                        <td>
-                            @group.GroupId
-                        </td>
-                        <td>
-                            @group.GroupTitle
-                        </td>
-                        <td>
-                            @if (group.ProductGroups.Any())
+                <tr>
+                    <td>
+                        @book.BookId
+                    </td>
+                    <td>
+                        @book.Name
+                    </td>
+                    <td>
+                        @book.Publisher.PublisherName
+                    </td>
+                    <td>
+                        @book.Group.GroupTitle
+                        @if (book.SubGroupId != null)
+                        {
+                            <a class="text-info">( @book.SubGroup.GroupTitle )</a>
+                            @if (book.SubGroup2Id != null)
                             {
-                                foreach (var sub in group.ProductGroups)
-                                {
-                                    <p>@sub.GroupTitle</p>
-                                    <a class="btn btn-success btn-xs" asp-controller="ProductGroup" asp-action="AddGroup" asp-route-id="@sub.GroupId">افزودن زیر گروه</a>
-                                    <a class="btn btn-info btn-xs" asp-controller="ProductGroup" asp-action="EditGroup" asp-route-id="@sub.GroupId">ویرایش</a>
-                                    <a class="btn btn-danger btn-xs" asp-controller="ProductGroup" asp-action="DeleteGroup" onclick="return confirm('از حذف این دسته بندی اطمینان دارید ؟')" asp-route-id="@sub.GroupId">حذف</a>
-                                    @if (sub.ProductGroups.Any())
-                                    {
-                                        <ul>
-                                            @foreach (var sub2 in sub.ProductGroups)
-                                            {
-                                                <li>
-                                                    @sub2.GroupTitle
-                                                    <a class="btn btn-info btn-xs margin-10" asp-controller="ProductGroup" asp-action="EditGroup" asp-route-id="@sub2.GroupId">ویرایش</a>
-                                                    <a class="btn btn-danger btn-xs margin-10" asp-controller="ProductGroup" asp-action="DeleteGroup" onclick="return confirm('از حذف این دسته بندی اطمینان دارید ؟')" asp-route-id="@sub2.GroupId">حذف</a>
-                                                </li>
-                                            }
-                                        </ul>
-                                    }
-
-                                }
+                                <a class="text-primary">( @book.SubGroup2.GroupTitle )</a>
                             }
-                        </td>
-                        <td>
-                            <a class="btn btn-success" asp-controller="ProductGroup" asp-action="AddGroup" asp-route-id="@group.GroupId">افزودن زیر گروه</a>
-                            <a class="btn btn-info" asp-controller="ProductGroup" asp-action="EditGroup" asp-route-id="@group.GroupId">ویرایش</a>
-                            <a class="btn btn-danger" asp-controller="ProductGroup" asp-action="DeleteGroup" onclick="return confirm('از حذف این دسته بندی اطمینان دارید ؟')" asp-route-id="@group.GroupId">حذف</a>
-                        </td>
-                    </tr>
+                        }
+                    </td>
+                    <td>
+                        @book.Price.ToToman()
+                    </td>
+                    <td>
+                        @book.Writer
+                    </td>
+                    <td>
+                        @book.PagesCount
+                    </td>
+                    <td>
+                        @book.AgeRange.GetEnumName()
+                    </td>
+                    <th>
+                        @book.CoverType.GetEnumName()
+                    </th>
+                    <th class="@((book.ExistStatus == ExistStatus.Exist)?"bg-success":"")
+                            @((book.ExistStatus == ExistStatus.InStock)?"bg-warning":"")
+                            @((book.ExistStatus == ExistStatus.IsNotExist)?"bg-danger":"")">
+                        @book.ExistStatus.GetEnumName()
+                    </th>
+                    <td class="text-align-center">
+                        <img alt="@book.Name" src="/images/Book/thumb/@book.ImageName" class="img-fluid width-50"/>
+                    </td>
+                    <td>
+                        <a class="btn btn-info" asp-controller="ProductGroup" asp-action="EditGroup" asp-route-id="@book.GroupId">ویرایش</a>
+                        <a class="btn btn-danger" asp-controller="ProductGroup" asp-action="DeleteGroup" onclick="return confirm('از حذف این دسته بندی اطمینان دارید ؟')" asp-route-id="@book.GroupId">حذف</a>
+                    </td>
+                </tr>
                 }
             </tbody>
-        </table>*@
+        </table>
     </div>
 </div>
 

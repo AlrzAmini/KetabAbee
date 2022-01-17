@@ -27,6 +27,10 @@ namespace KetabAbee.Domain.Interfaces
 
         IEnumerable<Publisher> GetPublishers();
 
+        IEnumerable<Book> GetBooksForAdmin();
+
+        bool AddBook(Book book);
+
         #endregion
     }
 }

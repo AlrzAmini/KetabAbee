@@ -29,8 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\images\Book\images\" />
-    <Folder Include="wwwroot\images\Book\thumb\" />
     <Folder Include="wwwroot\MyImages\" />
   </ItemGroup>
 

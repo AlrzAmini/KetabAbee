@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using KetabAbee.Application.Interfaces.Product;
 using KetabAbee.Domain.Models.Products;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
@@ -27,7 +28,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
 
         public IActionResult Index()
         {
-            return View();
+            return View(_productService.GetBooksForAdmin().ToList());
         }
 
         #endregion
@@ -95,9 +96,20 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
         }
 
         [HttpPost("AddBook")]
-        public IActionResult AddBook(Book book)
+        public IActionResult AddBook(Book book, IFormFile imgFile)
         {
-            return View();
+            if (!ModelState.IsValid)
+            {
+                return View(book);
+            }
+            if (_productService.AddBook(book, imgFile))
+            {
+                TempData["SuccessMessage"] = "ثبت کتاب با موفقیت انجام شد";
+                return RedirectToAction("Index");
+            }
+
+            TempData["ErrorMessage"] = "در هنگام ثبت کتاب مشکلی بوجود آمد";
+            return RedirectToAction("Index");
         }
 
         #endregion
