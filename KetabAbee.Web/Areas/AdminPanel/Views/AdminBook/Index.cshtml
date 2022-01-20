@@ -1,7 +1,7 @@
 ﻿@using KetabAbee.Application.Convertors
 @using KetabAbee.Application.Extensions
 @using KetabAbee.Domain.Models.Products
-@model List<KetabAbee.Domain.Models.Products.Book>
+@model KetabAbee.Application.DTOs.Admin.Products.Book.FilterBooksViewModel
 @{
     ViewData["Title"] = "لیست کتابها";
 }
@@ -21,10 +21,95 @@
 <div class="col-12 col-md-12 row margin-bottom-10">
     <a asp-area="AdminPanel" asp-controller="AdminBook" asp-action="AddBook" class="btn btn-success col-md-4">افزودن کتاب جدید <i class="glyphicon glyphicon-plus"></i> </a>
 </div>
-<div class="col-xs-12 col-md-12">
+<div class="col-12 col-md-3">
+    <div class="row mt-4">
+        <div class="col-lg-12 mt-4">
+            <div class="widget m-4">
+                <div class="widget-header bordered-bottom bordered-azure">
+                    <i class="widget-icon fa fa-filter azure"></i>
+                    <span class="widget-caption azure">فیلتر کتاب ها</span>
+                </div><!--Widget Header-->
+                <div class="widget-body no-padding">
+                    <div class="tickets-container">
+                        @{
+                            var listsAgeRange = new List<SelectListItem>
+                                                                                                                        {
+                                        new(){Text = "همه موارد",Value = ""}
+                                    };
+                            listsAgeRange.AddRange(Html.GetEnumSelectList<AgeRange>());
+
+                            var listCoverTypes = new List<SelectListItem>
+                                                                                                                        {
+                                        new(){Text = "همه موارد",Value = ""}
+                                    };
+                            listCoverTypes.AddRange(Html.GetEnumSelectList<CoverType>());
+
+                            var listExistStatus = new List<SelectListItem>
+                                                                            {
+                                new(){Text = "همه موارد",Value = ""}
+                            };
+                            listExistStatus.AddRange(Html.GetEnumSelectList<ExistStatus>());
+                        }
+                        <form id="filterform" asp-controller="AdminBook" asp-action="Index" method="get">
+                            <input type="hidden" asp-for="PageNum" />
+                            <div class="form-group">
+                                <label for="definput">نام کتاب</label>
+                                <input type="text" class="form-control" id="definput" placeholder="جستجو بر اساس نام کتاب" asp-for="BookName">
+                            </div>
+                            <div class="form-group">
+                                <label for="definput1">نام ناشر</label>
+                                <input type="text" class="form-control" id="definput1" placeholder="جستجو بر اساس نام ناشر" asp-for="PublisherName">
+                            </div>
+                            <div class="form-group">
+                                <label for="definput2">نام نویسنده</label>
+                                <input type="text" class="form-control" id="definput2" placeholder="جستجو بر اساس نام نویسنده" asp-for="Writer">
+                            </div>
+                            <div class="form-group">
+                                <label>شماره کتاب</label>
+                                <input type="number" class="form-control" placeholder="از شماره ..." asp-for="MinNumber">
+                            </div>
+                            <div class="form-group">
+                                <input type="number" class="form-control" placeholder="تا شماره ..." asp-for="MaxNumber">
+                            </div>
+                            <div class="form-group">
+                                <label>قیمت</label>
+                                <input type="number" class="form-control" placeholder="از قیمت ..." asp-for="MinPrice">
+                            </div>
+                            <div class="form-group">
+                                <input type="number" class="form-control" placeholder="تا قیمت ..." asp-for="MaxPrice">
+                            </div>
+                            <div class="form-group">
+                                <label>تعداد صفحه</label>
+                                <input type="number" class="form-control" placeholder="از تعداد صفحه ..." asp-for="MinPageCount">
+                            </div>
+                            <div class="form-group">
+                                <input type="number" class="form-control" placeholder="تا تعداد صفحه ..." asp-for="MaxPageCount">
+                            </div>
+                            <div class="form-group">
+                                <label>محدوده سنی</label>
+                                <select asp-for="AgeRange" onchange="changeSort()" class="form-control" asp-items="listsAgeRange"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>نوع جلد</label>
+                                <select asp-for="CoverType" onchange="changeSort()" class="form-control" asp-items="listCoverTypes"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>وضعیت موجودی</label>
+                                <select asp-for="ExistStatus" onchange="changeSort()" class="form-control" asp-items="listExistStatus"></select>
+                            </div>
+                            <button class="btn btn-azure btn-lg btn-block" type="submit"><i class="fa fa-search"></i></button>
+                            <a class="btn btn-warning btn-lg btn-block" asp-area="AdminPanel" asp-controller="AdminBook" asp-action="Index">لغو فیلتر ها</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-xs-12 col-md-9">
     <div class="well with-header with-footer">
         <div class="header bordered-sky">
-            <i class="fa fa-ticket"></i>
+            <i class="fa fa-book"></i>
             @ViewData["Title"]
         </div>
         <table class="table table-bordered table-hover">
@@ -69,61 +154,70 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var book in Model)
+                @foreach (var book in Model.Books)
                 {
-                <tr>
-                    <td>
-                        @book.BookId
-                    </td>
-                    <td>
-                        @book.Name
-                    </td>
-                    <td>
-                        @book.Publisher.PublisherName
-                    </td>
-                    <td>
-                        @book.Group.GroupTitle
-                        @if (book.SubGroupId != null)
-                        {
-                            <a class="text-info">( @book.SubGroup.GroupTitle )</a>
-                            @if (book.SubGroup2Id != null)
+                    <tr>
+                        <td>
+                            @book.BookId
+                        </td>
+                        <td>
+                            @book.Name
+                        </td>
+                        <td>
+                            @book.Publisher.PublisherName
+                        </td>
+                        <td>
+                            @book.Group.GroupTitle
+                            @if (book.SubGroupId != null)
                             {
-                                <a class="text-primary">( @book.SubGroup2.GroupTitle )</a>
+                                <a class="text-info">( @book.SubGroup.GroupTitle )</a>
+                                @if (book.SubGroup2Id != null)
+                                {
+                                    <a class="text-primary">( @book.SubGroup2.GroupTitle )</a>
+                                }
                             }
-                        }
-                    </td>
-                    <td>
-                        @book.Price.ToToman()
-                    </td>
-                    <td>
-                        @book.Writer
-                    </td>
-                    <td>
-                        @book.PagesCount
-                    </td>
-                    <td>
-                        @book.AgeRange.GetEnumName()
-                    </td>
-                    <th>
-                        @book.CoverType.GetEnumName()
-                    </th>
-                    <th class="@((book.ExistStatus == ExistStatus.Exist)?"bg-success":"")
+                        </td>
+                        <td>
+                            @book.Price.ToToman()
+                        </td>
+                        <td>
+                            @book.Writer
+                        </td>
+                        <td>
+                            @book.PagesCount
+                        </td>
+                        <td>
+                            @book.AgeRange.GetEnumName()
+                        </td>
+                        <th>
+                            @book.CoverType.GetEnumName()
+                        </th>
+                        <th class="@((book.ExistStatus == ExistStatus.Exist)?"bg-success":"")
                             @((book.ExistStatus == ExistStatus.InStock)?"bg-warning":"")
-                            @((book.ExistStatus == ExistStatus.IsNotExist)?"bg-danger":"")">
-                        @book.ExistStatus.GetEnumName()
-                    </th>
-                    <td class="text-align-center">
-                        <img alt="@book.Name" src="/images/Book/thumb/@book.ImageName" class="img-fluid width-50"/>
-                    </td>
-                    <td>
-                        <a class="btn btn-info" asp-controller="ProductGroup" asp-action="EditGroup" asp-route-id="@book.GroupId">ویرایش</a>
-                        <a class="btn btn-danger" asp-controller="ProductGroup" asp-action="DeleteGroup" onclick="return confirm('از حذف این دسته بندی اطمینان دارید ؟')" asp-route-id="@book.GroupId">حذف</a>
-                    </td>
-                </tr>
+                            @((book.ExistStatus == ExistStatus.IsNotExist)?"bg-danger":"") p-3">
+                            @book.ExistStatus.GetEnumName()
+                        </th>
+                        <td class="text-align-center">
+                            <img alt="@book.Name" src="/images/Book/thumb/@book.ImageName" class="img-fluid width-50" />
+                        </td>
+                        <td>
+                            <a class="btn btn-info" asp-controller="AdminBook" asp-action="EditBook" asp-route-bookId="@book.BookId">ویرایش</a>
+                            <a class="btn btn-danger" asp-controller="AdminBook" asp-action="DeleteBook" onclick="return confirm('از حذف این کتاب اطمینان دارید ؟')" asp-route-bookId="@book.BookId">حذف</a>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>
+        <partial name="_AdminPaging" model="Model.GetCurrentPaging()" />
     </div>
 </div>
 
 <!-- /Page Content -->
+@section Scripts{
+
+    <script>
+        function changeSort() {
+            $("#filterform").submit();
+        }
+    </script>
+}

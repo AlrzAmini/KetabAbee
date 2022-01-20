@@ -69,5 +69,24 @@ namespace KetabAbee.Data.Repository
                 .Include(b=>b.SubGroup)
                 .Include(b=>b.SubGroup2);
         }
+
+        public bool AddPublisher(Publisher publisher)
+        {
+            _context.Publishers.Add(publisher);
+            _context.SaveChanges();
+            return true;
+        }
+
+        public bool UpdateBook(Book book)
+        {
+            _context.Books.Update(book);
+            _context.SaveChanges();
+            return true;
+        }
+
+        public Book GetBookById(int bookId)
+        {
+            return _context.Books.Find(bookId);
+        }
     }
 }

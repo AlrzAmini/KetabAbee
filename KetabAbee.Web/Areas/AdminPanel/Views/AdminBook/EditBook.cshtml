@@ -1,34 +1,7 @@
 ﻿@using KetabAbee.Domain.Models.Products
 @model KetabAbee.Domain.Models.Products.Book
 @{
-    ViewData["Title"] = "افزودن کتاب جدید";
-}
-@{
-    var publishers = ViewBag.Publishers as List<SelectListItem>;
-
-    var groups = ViewBag.Groups as List<SelectListItem>;
-
-    var subGroups = ViewBag.SubGroups as List<SelectListItem>;
-
-    var sub2Groups = ViewBag.Sub2Groups as List<SelectListItem>;
-
-    var selectAgeRanges = new List<SelectListItem>
-{
-        new(){Text = "رنج سنی مناسب را انتخاب کنید",Value = ""}
-    };
-    selectAgeRanges.AddRange(Html.GetEnumSelectList<AgeRange>());
-
-    var selectCoverTypes = new List<SelectListItem>
-{
-        new(){Text = "نوع جلد را انتخاب کنید",Value = ""}
-    };
-    selectCoverTypes.AddRange(Html.GetEnumSelectList<CoverType>());
-
-    var selectStatus = new List<SelectListItem>
-{
-        new(){Text = "وضعیت موجودی را انتخاب کنید",Value = ""}
-    };
-    selectStatus.AddRange(Html.GetEnumSelectList<ExistStatus>());
+    ViewData["Title"] = "ویرایش کتاب";
 }
 <!-- Page Content -->
 <!-- Page Breadcrumb -->
@@ -45,8 +18,9 @@
     </ul>
 </div>
 <!-- /Page Breadcrumb -->
-<partial name="_AddPublisher" />
-<form asp-area="AdminPanel" asp-controller="AdminBook" asp-action="AddBook" method="post" role="form" enctype="multipart/form-data">
+<form asp-area="AdminPanel" asp-controller="AdminBook" asp-action="EditBook" method="post" role="form" enctype="multipart/form-data">
+    <input type="hidden" asp-for="BookId"/>
+    <input type="hidden" asp-for="ImageName"/>
     <div class="col-lg-8 col-sm-8 col-xs-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bg-blue">
@@ -58,6 +32,7 @@
                         مشخصات کتاب
                     </div>
                     <div class="form-group">
+                        <label>نام کتاب</label>
                         <span class="input-icon icon-right">
                             <input type="text" class="form-control" asp-for="Name" placeholder="نام کتاب">
                             <i class="glyphicon glyphicon-book circular"></i>
@@ -65,6 +40,7 @@
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                     <div class="form-group">
+                        <label>قیمت</label>
                         <span class="input-icon icon-right">
                             <input type="number" class="form-control" asp-for="Price" placeholder="قیمت">
                             <i class="fa fa-money circular"></i>
@@ -72,6 +48,7 @@
                         <span asp-validation-for="Price" class="text-danger"></span>
                     </div>
                     <div class="form-group">
+                        <label>نویسنده</label>
                         <span class="input-icon icon-right">
                             <input type="text" class="form-control" asp-for="Writer" placeholder="نویسنده">
                             <i class="fa fa-user circular"></i>
@@ -79,6 +56,7 @@
                         <span asp-validation-for="Writer" class="text-danger"></span>
                     </div>
                     <div class="form-group">
+                        <label>تعداد صفحه</label>
                         <span class="input-icon icon-right">
                             <input type="number" class="form-control" asp-for="PagesCount" placeholder="تعداد صفحه">
                             <i class="fa fa-book circular"></i>
@@ -86,44 +64,51 @@
                         <span asp-validation-for="PagesCount" class="text-danger"></span>
                     </div>
                     <div class="form-group">
+                        <label>دسته بندی اصلی</label>
                         <span class="input-icon icon-right">
-                            <select asp-for="GroupId" asp-items="groups" class="form-control"></select>
+                            <select asp-for="GroupId" asp-items="@(ViewBag.Groups as SelectList)" class="form-control"></select>
                         </span>
                         <span asp-validation-for="GroupId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
+                        <label>دسته بندی فرعی اول</label>
                         <span class="input-icon icon-right">
-                            <select asp-for="SubGroupId" asp-items="subGroups" class="form-control"></select>
+                            <select asp-for="SubGroupId" asp-items="@(ViewBag.sub1Groups as SelectList)" class="form-control"></select>
                         </span>
                         <span asp-validation-for="SubGroupId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
+                        <label>دسته بندی فرعی دوم</label>
                         <span class="input-icon icon-right">
-                            <select asp-for="SubGroup2Id" asp-items="sub2Groups" class="form-control"></select>
+                            <select asp-for="SubGroup2Id" asp-items="@(ViewBag.sub2Groups as SelectList)" class="form-control"></select>
                         </span>
                         <span asp-validation-for="SubGroup2Id" class="text-danger"></span>
                     </div>
                     <div class="form-group">
+                        <label>ناشر</label>
                         <span class="input-icon icon-right">
-                            <select asp-for="PublisherId" asp-items="publishers" class="form-control"></select>
+                            <select asp-for="PublisherId" asp-items="@(ViewBag.publishers as SelectList)" class="form-control"></select>
                         </span>
                         <span asp-validation-for="PublisherId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
+                        <label>نوع جلد</label>
                         <span class="input-icon icon-right">
-                            <select asp-for="CoverType" asp-items="selectCoverTypes" class="form-control"></select>
+                            <select asp-for="CoverType" asp-items="@Html.GetEnumSelectList<CoverType>()" class="form-control"></select>
                         </span>
                         <span asp-validation-for="CoverType" class="text-danger"></span>
                     </div>
                     <div class="form-group">
+                        <label>محدوده سنی</label>
                         <span class="input-icon icon-right">
-                            <select asp-for="AgeRange" asp-items="selectAgeRanges" class="form-control"></select>
+                            <select asp-for="AgeRange" asp-items="@Html.GetEnumSelectList<AgeRange>()" class="form-control"></select>
                         </span>
                         <span asp-validation-for="AgeRange" class="text-danger"></span>
                     </div>
                     <div class="form-group">
+                        <label>وضعیت موجودی</label>
                         <span class="input-icon icon-right">
-                            <select asp-for="ExistStatus" asp-items="selectStatus" class="form-control"></select>
+                            <select asp-for="ExistStatus" asp-items="@Html.GetEnumSelectList<ExistStatus>()" class="form-control"></select>
                         </span>
                         <span asp-validation-for="ExistStatus" class="text-danger"></span>
                     </div>
@@ -145,7 +130,7 @@
                         </span>
                     </div>
                     <div class="form-group">
-                        <img class="thumbnail img-fluid max-width100" id="imageUp" src="/images/Defualt.jpg" alt="book" />
+                        <img class="thumbnail img-fluid max-width100" id="imageUp" src="/images/Book/image/@Model.ImageName" alt="book"/>
                     </div>
                 </div>
             </div>
@@ -183,6 +168,10 @@
                 });
         });
     </script>
+    <script type="text/javascript" src="/js/JalaliDataPicker-min.js"></script>
+    <script>
+        jalaliDatepicker.startWatch();
+    </script>
     <script>
         function readURL(input) {
             if (input.files && input.files[0]) {
@@ -199,4 +188,3 @@
         });
     </script>
 }
-

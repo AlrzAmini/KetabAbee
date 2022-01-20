@@ -1,0 +1,13 @@
+﻿@model KetabAbee.Domain.Models.Products.Publisher
+<form asp-area="AdminPanel" asp-controller="AdminBook" asp-action="AddPublisher">
+    <div class="col-md-6 bordered-azure">
+        <div class="col-md-6">
+            <input class="form-control rounded" asp-for="PublisherName" />
+            <p class="help-block">اگر نیاز به ثبت ناشر جدیدی دارید اینجا وارد کنید</p>
+        </div>
+        <div class="col-md-6">
+            <button type="submit" class="btn btn-info margin-bottom-10">افزودن ناشر جدید</button>
+        </div>
+        <span asp-validation-for="PublisherName" class="text-danger"></span>
+    </div>
+</form>

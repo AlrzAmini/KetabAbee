@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Application.DTOs.Admin.Products.Book;
 using KetabAbee.Domain.Models.Products;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -25,11 +26,11 @@ namespace KetabAbee.Application.Interfaces.Product
 
         bool DeleteGroupById(int groupId);
 
+        List<SelectListItem> GetGroupsForSelect();
+
         #endregion
 
         #region Book
-
-        IEnumerable<Publisher> GetPublishers();
 
         List<SelectListItem> GetGroupsForAddBook();
 
@@ -38,6 +39,29 @@ namespace KetabAbee.Application.Interfaces.Product
         bool AddBook(Book book,IFormFile imgFile);
 
         IEnumerable<Book> GetBooksForAdmin();
+
+        FilterBooksViewModel GetBooksByFilter(FilterBooksViewModel filter);
+
+        bool DeleteBook(int bookId);
+
+        bool UpdateBook(Book book);
+
+        Book GetBookById(int bookId);
+
+        bool EditBook(Book book, IFormFile imgFile);
+
+        #endregion
+
+        #region Publisher
+
+        IEnumerable<Publisher> GetPublishers();
+
+        bool AddPublisher(Publisher publisher);
+
+        bool IsPublisherUnique(string publisherName);
+
+        List<SelectListItem> GetPublishersForSelect();
+
 
         #endregion
     }

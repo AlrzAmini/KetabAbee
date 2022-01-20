@@ -31,6 +31,17 @@ namespace KetabAbee.Domain.Interfaces
 
         bool AddBook(Book book);
 
+        bool UpdateBook(Book book);
+
+        Book GetBookById(int bookId);
+
+        #endregion
+
+        #region Publisher
+
+        bool AddPublisher(Publisher publisher);
+
+
         #endregion
     }
 }

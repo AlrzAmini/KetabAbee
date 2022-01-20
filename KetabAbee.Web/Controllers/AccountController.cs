@@ -55,23 +55,22 @@ namespace KetabAbee.Web.Controllers
             // Check User Name
             if (_userService.IsUserNameExist(register.UserName))
             {
-                TempData["ErrorMessage"] = "نام کاربری وارد شده تکراری است";
+                TempData["ErrorMessage"] = "کاش میشد قبول کنم ولی این اسم رو قبلا یکی گذاشته برا خودش";
                 return View(register);
             }
 
             // Check Email
             if (_userService.IsEmailExist(FixText.EmailFixer(register.Email)))
             {
-                TempData["ErrorMessage"] = "ایمیل وارد شده تکراری است";
+                TempData["ErrorMessage"] = "شرمنده بخدا ولی یکی این ایمیل رو زودتر وارد کرده";
                 return View(register);
             }
 
             // check password strength
             if (PasswordStrengthChecker.CheckStrength(register.Password) == PasswordScore.VeryWeak)
             {
-                TempData["WarningMessage"] = "کلمه عبور وارد شده بسیار ضعیف است";
+                TempData["ErrorMessage"] = "همه جا همینجوری رمز وارد میکنی ستون ؟";
                 TempData["InfoMessage"] = "کلمه عبور می بایست حداقل 6 کاراکتر داشته باشد";
-                ViewBag.alertPass = true;
                 return View(register);
             }
 
