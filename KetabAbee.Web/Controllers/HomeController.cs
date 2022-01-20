@@ -8,6 +8,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs;
+using KetabAbee.Application.DTOs.Book;
+using KetabAbee.Application.Interfaces.Product;
 using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Interfaces.Wallet;
 using Microsoft.AspNetCore.Http;
@@ -18,16 +20,19 @@ namespace KetabAbee.Web.Controllers
     {
         private readonly IUserService _userService;
         private readonly IWalletService _walletService;
+        private readonly IProductService _productService;
 
-        public HomeController(IUserService userService, IWalletService walletService)
+        public HomeController(IUserService userService, IWalletService walletService, IProductService productService)
         {
             _userService = userService;
             _walletService = walletService;
+            _productService = productService;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Index(FilterBookListViewModel filter)
         {
-            return View();
+            return View(_productService.GetBooksForIndex(filter));
         }
 
         #region Online Pament

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Admin.Products.Book;
+using KetabAbee.Application.DTOs.Book;
 using KetabAbee.Domain.Models.Products;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -49,6 +50,8 @@ namespace KetabAbee.Application.Interfaces.Product
         Book GetBookById(int bookId);
 
         bool EditBook(Book book, IFormFile imgFile);
+
+        FilterBookListViewModel GetBooksForIndex(FilterBookListViewModel filter);
 
         #endregion
 

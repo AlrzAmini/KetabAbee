@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs.Admin.Products.Book;
+using KetabAbee.Application.DTOs.Book;
 using KetabAbee.Application.DTOs.Paging;
 using KetabAbee.Application.Generators;
 using KetabAbee.Application.Interfaces.Product;
@@ -124,6 +125,8 @@ namespace KetabAbee.Application.Services.Product
             var result = _productRepository.GetBooksForAdmin().AsQueryable();
 
             // filter by book id range
+            #region Id
+
             if (filter.MinNumber != null)
             {
                 result = result.Where(r => r.BookId >= filter.MinNumber);
@@ -133,7 +136,11 @@ namespace KetabAbee.Application.Services.Product
                 result = result.Where(r => r.BookId <= filter.MaxNumber);
             }
 
+            #endregion
+
             // filter by price range
+            #region price
+
             if (filter.MinPrice != null)
             {
                 result = result.Where(r => r.Price >= filter.MinPrice);
@@ -143,7 +150,11 @@ namespace KetabAbee.Application.Services.Product
                 result = result.Where(r => r.Price <= filter.MaxPrice);
             }
 
+            #endregion
+
             // filter by page count range
+            #region page
+
             if (filter.MinPageCount != null)
             {
                 result = result.Where(r => r.PagesCount >= filter.MinPageCount);
@@ -153,41 +164,69 @@ namespace KetabAbee.Application.Services.Product
                 result = result.Where(r => r.PagesCount <= filter.MaxPageCount);
             }
 
+            #endregion
+
             // filter by book Name
+            #region book name
+
             if (!string.IsNullOrEmpty(filter.BookName))
             {
                 result = result.Where(r => r.Name.Contains(filter.BookName));
             }
 
+            #endregion
+
             // filter by publisher name
+            #region publisher
+
             if (!string.IsNullOrEmpty(filter.PublisherName))
             {
                 result = result.Where(r => r.Publisher.PublisherName.Contains(filter.PublisherName));
             }
 
+            #endregion
+
             // filter by writer name
+            #region writer
+
             if (!string.IsNullOrEmpty(filter.Writer))
             {
                 result = result.Where(r => r.Writer.Contains(filter.Writer));
             }
 
+            #endregion
+
             // filter by age range
+            #region age
+
             if (filter.AgeRange != null)
             {
                 result = result.Where(r => r.AgeRange == filter.AgeRange.Value);
             }
 
+            #endregion
+
             // filter by cover type
+            #region cover
+
             if (filter.CoverType != null)
             {
                 result = result.Where(r => r.CoverType == filter.CoverType.Value);
             }
 
-            // filter by exist status
+            #endregion
+
+            // filter by exist status 
+            #region exist status
+
             if (filter.ExistStatus != null)
             {
                 result = result.Where(r => r.ExistStatus == filter.ExistStatus.Value);
             }
+
+            #endregion
+
+            #region filter by groups
 
             // filter by selected group
             //if (filter.SelectedGroups != null && filter.SelectedGroups.Any()) 
@@ -198,6 +237,8 @@ namespace KetabAbee.Application.Services.Product
             //                               r.SubGroupId == groupId ||
             //                               r.SubGroup2Id == groupId));
             //}
+
+            #endregion
 
             //paging
             var pager = Pager.Build(filter.PageNum, result.Count(), filter.Take, filter.PageCountAfterAndBefor);
@@ -292,7 +333,7 @@ namespace KetabAbee.Application.Services.Product
         public bool EditBook(Book book, IFormFile imgFile)
         {
             // update image
-            if (imgFile != null )
+            if (imgFile != null)
             {
                 string imgPath;
                 string imgThumbPath;
@@ -335,5 +376,81 @@ namespace KetabAbee.Application.Services.Product
 
             return UpdateBook(book);
         }
+
+        public FilterBookListViewModel GetBooksForIndex(FilterBookListViewModel filter)
+        {
+            var result = _productRepository.GetBooksForAdmin().AsQueryable();
+
+            // filter by price range
+            #region price
+
+            if (filter.MinPrice != null)
+            {
+                result = result.Where(r => r.Price >= filter.MinPrice);
+            }
+            if (filter.MaxPrice != null)
+            {
+                result = result.Where(r => r.Price <= filter.MaxPrice);
+            }
+
+            #endregion
+
+            // filter by book Name
+            #region book name
+
+            if (!string.IsNullOrEmpty(filter.BookName))
+            {
+                result = result.Where(r => r.Name.Contains(filter.BookName));
+            }
+
+            #endregion
+
+            // filter by publisher name
+            #region publisher
+
+            if (!string.IsNullOrEmpty(filter.PublisherName))
+            {
+                result = result.Where(r => r.Publisher.PublisherName.Contains(filter.PublisherName));
+            }
+
+            #endregion
+
+            // filter by writer name
+            #region writer
+
+            if (!string.IsNullOrEmpty(filter.Writer))
+            {
+                result = result.Where(r => r.Writer.Contains(filter.Writer));
+            }
+
+            #endregion
+
+            // filter by age range
+            #region age
+
+            if (filter.AgeRange != null)
+            {
+                result = result.Where(r => r.AgeRange == filter.AgeRange.Value);
+            }
+
+            #endregion
+
+            //paging
+            filter.Take = 15;
+            var pager = Pager.Build(filter.PageNum, result.Count(), filter.Take, filter.PageCountAfterAndBefor);
+            var books = result.Select(b => new BookListViewModel
+            {
+                BookId = b.BookId,
+                ImageName = b.ImageName,
+                Name = b.Name,
+                Price = b.Price,
+                PublisherName = b.Publisher.PublisherName,
+                Writer = b.Writer
+            }).Paging(pager).ToList();
+
+
+            return filter.SetPaging(pager).SetBooks(books);
+        }
+
     }
 }

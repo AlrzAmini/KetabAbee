@@ -3,14 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KetabAbee.Application.Const;
 using KetabAbee.Application.DTOs.Admin.Products.Book;
 using KetabAbee.Application.Interfaces.Product;
+using KetabAbee.Application.Security;
 using KetabAbee.Domain.Models.Products;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
 {
+    [PermissionChecker(PerIds.Admin‌Books)]
     [Route("Admin/Books")]
     public class AdminBookController : AdminBaseController
     {
@@ -183,7 +186,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
 
             #region Sub 2
 
-            var sub2Groups = _productService.GetSubGroupsForAddBook(book.SubGroupId??0);
+            var sub2Groups = _productService.GetSubGroupsForAddBook(book.SubGroupId);
             ViewBag.sub2Groups = new SelectList(sub2Groups, "Value", "Text", book.SubGroup2Id);
 
             #endregion

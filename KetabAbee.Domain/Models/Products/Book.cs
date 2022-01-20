@@ -21,8 +21,11 @@ namespace KetabAbee.Domain.Models.Products
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
         public int GroupId { get; set; }
 
-        public int? SubGroupId { get; set; }
+        [DisplayName("دسته بندی فرعی")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
+        public int SubGroupId { get; set; }
 
+        [DisplayName("دسته بندی فرعی دوم")]
         public int? SubGroup2Id { get; set; }
 
         [DisplayName("رنج سنی")]

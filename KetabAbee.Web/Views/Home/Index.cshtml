@@ -1,9 +1,10 @@
-﻿@{
+﻿@model KetabAbee.Application.DTOs.Book.FilterBookListViewModel
+@{
     ViewData["Title"] = "کتاب آبی";
 }
 <main class="page-content">
     <div class="container">
-    <div class="row d-none d-sm-block">
+        <div class="row d-none d-sm-block">
             <div class="col-12 mb-3">
                 <div class="banner">
                     <a href="/">
@@ -68,7 +69,7 @@
                         <div class="swiper-button-prev"></div>
                     </div>
                     <div class="swiper-container main-page-slider-thumbs d-none d-sm-block">
-                       
+
                     </div>
                 </div>
             </div>
@@ -94,7 +95,7 @@
         <div class="row align-items-center mb-4 in-box p-3">
             <div class="col-md-12 order-1 order-lg-12 ml-lg-0 border border-danger rounded2x">
                 <div class="offer-slider-wrapper">
-                    <div class="offer-slider-title">پیشنهاد شگفت انگیز</div>
+                    <div class="offer-slider-title">پیشنهاد های امروز</div>
                     <div class="row">
                         <div class="col-12 mb-1">
                             <div class="swiper-container offer-slider">
@@ -270,286 +271,14 @@
         <section class="product-carousel in-box">
             <div class="section-title">
                 <i class="fad fa-pen-nib"></i>
-                میز تحریر
+                جدیدترین کتاب ها
             </div>
             <div class="swiper-container slider-lg">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="product-card">
-                            <div class="product-card-top">
-                                <a href="" class="product-image">
-                                    <img src="images/products/01.jpg" alt="product image">
-                                </a>
-                                <div class="product-card-actions">
-                                    <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-random"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-card-middle">
-                                <div class="ratings-container">
-                                    <div class="ratings">
-                                        <div class="ratings-val" style="width: 65%;"></div>
-                                    </div>
-                                </div>
-                                <h6 class="product-name">
-                                    <a href="#">
-                                        میز تحریر تاشوو تنظیم شو میلاد سفید
-                                        70
-                                    </a>
-                                </h6>
-                                <div class="product-price product-price-clone">650,000 تومان</div>
-                            </div>
-                            <div class="product-card-bottom">
-                                <div class="product-price">
-                                    650,000 تومان
-                                </div>
-                                <a href="#" class="btn-add-to-cart">
-                                    <i class="fad fa-cart-plus"></i>
-                                    افزودن به سبد خرید
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="product-card">
-                            <div class="product-card-top">
-                                <a href="" class="product-image">
-                                    <img src="images/products/02.jpg" alt="product image">
-                                </a>
-                                <div class="product-card-actions">
-                                    <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-random"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-card-middle">
-                                <div class="ratings-container">
-                                    <div class="ratings">
-                                        <div class="ratings-val" style="width: 65%;"></div>
-                                    </div>
-                                </div>
-                                <h6 class="product-name">
-                                    <a href="#">میز تحریر مدل M191</a>
-                                </h6>
-                                <div class="product-price product-price-clone">650,000 تومان</div>
-                            </div>
-                            <div class="product-card-bottom">
-                                <div class="product-price">
-                                    650,000 تومان
-                                </div>
-                                <a href="#" class="btn-add-to-cart">
-                                    <i class="fad fa-cart-plus"></i>
-                                    افزودن به سبد خرید
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="product-card">
-                            <div class="product-card-top">
-                                <a href="" class="product-image">
-                                    <img src="images/products/03.jpg" alt="product image">
-                                </a>
-                                <div class="product-card-actions">
-                                    <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-random"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-card-middle">
-                                <div class="ratings-container">
-                                    <div class="ratings">
-                                        <div class="ratings-val" style="width: 65%;"></div>
-                                    </div>
-                                </div>
-                                <h6 class="product-name">
-                                    <a href="#">
-                                        میز تحریر و لپ تاپ تاشو سایز بزرگ مدل
-                                        G0025
-                                    </a>
-                                </h6>
-                                <div class="product-price product-price-clone">650,000 تومان</div>
-                            </div>
-                            <div class="product-card-bottom">
-                                <div class="product-price">
-                                    650,000 تومان
-                                </div>
-                                <a href="#" class="btn-add-to-cart">
-                                    <i class="fad fa-cart-plus"></i>
-                                    افزودن به سبد خرید
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="product-card">
-                            <div class="product-card-top">
-                                <a href="" class="product-image">
-                                    <img src="images/products/04.jpg" alt="product image">
-                                </a>
-                                <div class="product-card-actions">
-                                    <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-random"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-card-middle">
-                                <div class="ratings-container">
-                                    <div class="ratings">
-                                        <div class="ratings-val" style="width: 65%;"></div>
-                                    </div>
-                                </div>
-                                <h6 class="product-name">
-                                    <a href="#">میز تحریر مدل 80 Owens B</a>
-                                </h6>
-                                <div class="product-price product-price-clone">650,000 تومان</div>
-                            </div>
-                            <div class="product-card-bottom">
-                                <div class="product-price">
-                                    650,000 تومان
-                                </div>
-                                <a href="#" class="btn-add-to-cart">
-                                    <i class="fad fa-cart-plus"></i>
-                                    افزودن به سبد خرید
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="product-card">
-                            <div class="product-card-top">
-                                <a href="" class="product-image">
-                                    <img src="images/products/05.jpg" alt="product image">
-                                </a>
-                                <div class="product-card-actions">
-                                    <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-random"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-card-middle">
-                                <div class="ratings-container">
-                                    <div class="ratings">
-                                        <div class="ratings-val" style="width: 65%;"></div>
-                                    </div>
-                                </div>
-                                <h6 class="product-name">
-                                    <a href="#">میز تحریر مدل الیت</a>
-                                </h6>
-                                <div class="product-price product-price-clone">650,000 تومان</div>
-                            </div>
-                            <div class="product-card-bottom">
-                                <div class="product-price">
-                                    650,000 تومان
-                                </div>
-                                <a href="#" class="btn-add-to-cart">
-                                    <i class="fad fa-cart-plus"></i>
-                                    افزودن به سبد خرید
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="product-card">
-                            <div class="product-card-top">
-                                <a href="" class="product-image">
-                                    <img src="images/products/06.jpg" alt="product image">
-                                </a>
-                                <div class="product-card-actions">
-                                    <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-random"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-card-middle">
-                                <div class="ratings-container">
-                                    <div class="ratings">
-                                        <div class="ratings-val" style="width: 65%;"></div>
-                                    </div>
-                                </div>
-                                <h6 class="product-name">
-                                    <a href="#">میز تحریر مدل چند حالته MT11</a>
-                                </h6>
-                                <div class="product-price product-price-clone">650,000 تومان</div>
-                            </div>
-                            <div class="product-card-bottom">
-                                <div class="product-price">
-                                    650,000 تومان
-                                </div>
-                                <a href="#" class="btn-add-to-cart">
-                                    <i class="fad fa-cart-plus"></i>
-                                    افزودن به سبد خرید
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="product-card">
-                            <div class="product-card-top">
-                                <a href="" class="product-image">
-                                    <img src="images/products/07.jpg" alt="product image">
-                                </a>
-                                <div class="product-card-actions">
-                                    <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-random"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-card-middle">
-                                <div class="ratings-container">
-                                    <div class="ratings">
-                                        <div class="ratings-val" style="width: 65%;"></div>
-                                    </div>
-                                </div>
-                                <h6 class="product-name">
-                                    <a href="#">
-                                        میز تحریر تاشو و تنظیم شو سپهر یاس مدل
-                                        60
-                                    </a>
-                                </h6>
-                                <div class="product-price product-price-clone">650,000 تومان</div>
-                            </div>
-                            <div class="product-card-bottom">
-                                <div class="product-price">
-                                    650,000 تومان
-                                </div>
-                                <a href="#" class="btn-add-to-cart">
-                                    <i class="fad fa-cart-plus"></i>
-                                    افزودن به سبد خرید
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="product-card">
-                            <div class="product-card-top">
-                                <a href="" class="product-image">
-                                    <img src="images/products/08.jpg" alt="product image">
-                                </a>
-                                <div class="product-card-actions">
-                                    <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-random"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-card-middle">
-                                <div class="ratings-container">
-                                    <div class="ratings">
-                                        <div class="ratings-val" style="width: 65%;"></div>
-                                    </div>
-                                </div>
-                                <h6 class="product-name">
-                                    <a href="#">
-                                        میز تحریر باکسدار و صندلی طرح توت فرنگی
-                                        (وایت بردی،تاشو،تنظیم شونده ارتفاع)
-                                    </a>
-                                </h6>
-                                <div class="product-price product-price-clone">650,000 تومان</div>
-                            </div>
-                            <div class="product-card-bottom">
-                                <div class="product-price">
-                                    650,000 تومان
-                                </div>
-                                <a href="#" class="btn-add-to-cart">
-                                    <i class="fad fa-cart-plus"></i>
-                                    افزودن به سبد خرید
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    @foreach (var book in Model.Books.OrderByDescending(b => b.BookId))
+                    {
+                        <partial name="_BookBox" model="book" />
+                    }
                 </div>
                 <!-- Add Arrows -->
                 <div class="swiper-button-next"></div>

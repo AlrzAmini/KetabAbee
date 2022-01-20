@@ -1,35 +1,36 @@
 ﻿@model List<KetabAbee.Domain.Models.Products.ProductGroup>
+
 <li class="category-list">
     <a href="#"><i class="fal fa-bars"></i>دسته بندی کالاها</a>
-    @if (Model != null && Model.Any())
-    {
-        <ul>
-            @foreach (var group in Model.Where(g => g.ParentId == null))
-            {
-                <li>
-                    <a href="#">@group.GroupTitle</a>
-                    @if (Model.Any(g => g.ParentId == group.GroupId))
-                    {
-                        <ul class="row">
-                            @foreach (var sub in Model.Where(s => s.ParentId == group.GroupId))
-                            {
-                                <li class="col-3">
-                                    <a href="#">@sub.GroupTitle</a>
-                                    @if (Model.Any(g => g.ParentId == sub.GroupId))
-                                    {
-                                        <ul>
-                                            @foreach (var sub2 in Model.Where(s => s.ParentId == sub.GroupId))
-                                            {
-                                                <li><a href="#">@sub2.GroupTitle</a></li>
-                                            }
-                                        </ul>
-                                    }
-                                </li>
-                            }
-                        </ul>
-                    }
-                </li>
-            }
-        </ul>
-    }
+        @if (Model != null && Model.Any())
+        {
+            <ul>
+                @foreach (var group in Model.Where(g => g.ParentId == null))
+                {
+                    <li>
+                        <a href="#">@group.GroupTitle</a>
+                        @if (Model.Any(g => g.ParentId == group.GroupId))
+                        {
+                            <ul class="row">
+                                @foreach (var sub in Model.Where(s => s.ParentId == group.GroupId))
+                                {
+                                    <li class="col-3">
+                                        <a href="#">@sub.GroupTitle</a>
+                                        @if (Model.Any(g => g.ParentId == sub.GroupId))
+                                        {
+                                            <ul>
+                                                @foreach (var sub2 in Model.Where(s => s.ParentId == sub.GroupId))
+                                                {
+                                                    <li><a href="#">@sub2.GroupTitle</a></li>
+                                                }
+                                            </ul>
+                                        }
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    </li>
+                }
+            </ul>
+        }
 </li>
