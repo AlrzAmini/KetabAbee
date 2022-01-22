@@ -35,6 +35,8 @@ namespace KetabAbee.Domain.Interfaces
 
         Book GetBookById(int bookId);
 
+        IEnumerable<Book> GetLatestBook(int take);
+
         #endregion
 
         #region Publisher

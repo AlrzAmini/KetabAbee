@@ -18,21 +18,20 @@ namespace KetabAbee.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IUserService _userService;
-        private readonly IWalletService _walletService;
+        #region constructor
+
         private readonly IProductService _productService;
 
-        public HomeController(IUserService userService, IWalletService walletService, IProductService productService)
+        public HomeController(IProductService productService)
         {
-            _userService = userService;
-            _walletService = walletService;
             _productService = productService;
         }
 
-        [HttpGet]
-        public IActionResult Index(FilterBookListViewModel filter)
+        #endregion
+
+        public IActionResult Index()
         {
-            return View(_productService.GetBooksForIndex(filter));
+            return View();
         }
 
         #region Online Pament

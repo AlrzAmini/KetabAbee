@@ -107,10 +107,10 @@ namespace KetabAbee.Domain.Models.Products
     {
         [Display(Name = "موجود")]
         Exist,
-        [Display(Name = "موجود در انبار")]
-        InStock,
         [Display(Name = "نا موجود")]
-        IsNotExist
+        IsNotExist,
+        [Display(Name = "موجود در انبار")]
+        InStock
     }
 
 }

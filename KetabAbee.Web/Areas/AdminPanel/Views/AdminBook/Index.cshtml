@@ -33,19 +33,19 @@
                     <div class="tickets-container">
                         @{
                             var listsAgeRange = new List<SelectListItem>
-                                                                                                                        {
+                                                                                                                                        {
                                         new(){Text = "همه موارد",Value = ""}
                                     };
                             listsAgeRange.AddRange(Html.GetEnumSelectList<AgeRange>());
 
                             var listCoverTypes = new List<SelectListItem>
-                                                                                                                        {
+                                                                                                                                        {
                                         new(){Text = "همه موارد",Value = ""}
                                     };
                             listCoverTypes.AddRange(Html.GetEnumSelectList<CoverType>());
 
                             var listExistStatus = new List<SelectListItem>
-                                                                            {
+                                                                                            {
                                 new(){Text = "همه موارد",Value = ""}
                             };
                             listExistStatus.AddRange(Html.GetEnumSelectList<ExistStatus>());
@@ -168,13 +168,10 @@
                         </td>
                         <td>
                             @book.Group.GroupTitle
-                            @if (book.SubGroupId != null)
+                            <a class="text-info">( @book.SubGroup.GroupTitle )</a>
+                            @if (book.SubGroup2Id != null)
                             {
-                                <a class="text-info">( @book.SubGroup.GroupTitle )</a>
-                                @if (book.SubGroup2Id != null)
-                                {
-                                    <a class="text-primary">( @book.SubGroup2.GroupTitle )</a>
-                                }
+                                <a class="text-primary">( @book.SubGroup2.GroupTitle )</a>
                             }
                         </td>
                         <td>

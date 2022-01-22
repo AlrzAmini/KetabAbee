@@ -88,5 +88,13 @@ namespace KetabAbee.Data.Repository
         {
             return _context.Books.Find(bookId);
         }
+
+        public IEnumerable<Book> GetLatestBook(int take)
+        {
+            return _context.Books
+                .Include(b => b.Publisher)
+                .OrderByDescending(b=>b.BookId)
+                .Take(take);
+        }
     }
 }

@@ -22,11 +22,17 @@ namespace KetabAbee.Application.DTOs.Book
 
         public string Writer { get; set; }
 
-        public List<int> SelectedGroups { get; set; } = null;
+        public List<int> SelectedGroups { get; set; } 
+
+        public List<int> SelectedPublishers { get; set; } 
 
         public AgeRange? AgeRange { get; set; }
 
+        public ExistStatus? ExistStatus { get; set; }
+
         public List<BookListViewModel> Books { get; set; }
+
+        public bool Exist { get; set; }
 
         #endregion
 

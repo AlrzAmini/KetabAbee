@@ -53,6 +53,8 @@ namespace KetabAbee.Application.Interfaces.Product
 
         FilterBookListViewModel GetBooksForIndex(FilterBookListViewModel filter);
 
+        IEnumerable<BookListViewModel> GetLatestBooksInIndex(int take);
+
         #endregion
 
         #region Publisher

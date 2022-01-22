@@ -226,20 +226,6 @@ namespace KetabAbee.Application.Services.Product
 
             #endregion
 
-            #region filter by groups
-
-            // filter by selected group
-            //if (filter.SelectedGroups != null && filter.SelectedGroups.Any()) 
-            //{
-            //    result = filter.SelectedGroups
-            //        .Aggregate(result, (current, groupId) =>
-            //            current.Where(r => r.GroupId == groupId ||
-            //                               r.SubGroupId == groupId ||
-            //                               r.SubGroup2Id == groupId));
-            //}
-
-            #endregion
-
             //paging
             var pager = Pager.Build(filter.PageNum, result.Count(), filter.Take, filter.PageCountAfterAndBefor);
             var books = result.Paging(pager).ToList();
@@ -435,8 +421,44 @@ namespace KetabAbee.Application.Services.Product
 
             #endregion
 
+            // filter by selected groups
+            #region selected group
+
+            if (filter.SelectedGroups != null && filter.SelectedGroups.Any())
+            {
+                result = filter.SelectedGroups
+                    .Aggregate(result, (current, groupId)
+                        => current.Where(g => g.GroupId == groupId ||
+                                              g.SubGroupId == groupId ||
+                                              g.SubGroup2Id == groupId));
+            }
+
+            #endregion
+
+            // filter by selected publishers
+            #region selected publishers
+
+            if (filter.SelectedPublishers != null && filter.SelectedPublishers.Any())
+            {
+                result = filter.SelectedPublishers
+                    .Aggregate(result, (current, publisherId)
+                        => current.Where(p => p.PublisherId == publisherId));
+            }
+
+            #endregion
+
+            // filter by exist status 
+            #region exist status
+
+            if (filter.ExistStatus != null)
+            {
+                result = result.Where(r => r.ExistStatus == filter.ExistStatus.Value);
+            }
+
+            #endregion
+
             //paging
-            filter.Take = 15;
+            filter.Take = 16;
             var pager = Pager.Build(filter.PageNum, result.Count(), filter.Take, filter.PageCountAfterAndBefor);
             var books = result.Select(b => new BookListViewModel
             {
@@ -452,5 +474,19 @@ namespace KetabAbee.Application.Services.Product
             return filter.SetPaging(pager).SetBooks(books);
         }
 
+        public IEnumerable<BookListViewModel> GetLatestBooksInIndex(int take)
+        {
+            return _productRepository.GetLatestBook(take)
+                .Select(b => new BookListViewModel
+                {
+                    BookId = b.BookId,
+                    ImageName = b.ImageName,
+                    PublisherName = b.Publisher.PublisherName,
+                    Name = b.Name,
+                    Price = b.Price,
+                    Writer = b.Writer
+                });
+
+        }
     }
 }

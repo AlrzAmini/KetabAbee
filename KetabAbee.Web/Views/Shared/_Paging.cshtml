@@ -1,0 +1,16 @@
+﻿@model KetabAbee.Application.DTOs.Paging.BasePaging
+
+<div class="pagination">
+    @if (Model.StartPage < Model.PageNum)
+    {
+        <a onclick="FillPageNum(@(Model.PageNum-1))" class="prev"><i class="far fa-arrow-from-left"></i></a>
+    }
+    @for (var i = Model.StartPage; i <= Model.EndPage; i++)
+    {
+        <a href="#" class="@(Model.PageNum == i ? "current" : "")" onclick="FillPageNum(@i)">@i</a>
+    }
+    @if (Model.EndPage > Model.PageNum)
+    {
+        <a onclick="FillPageNum(@(Model.PageNum+1))" class="next"><i class="far fa-arrow-to-left"></i></a>
+    }
+</div>
