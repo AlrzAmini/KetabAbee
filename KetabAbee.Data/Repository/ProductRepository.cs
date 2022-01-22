@@ -96,5 +96,20 @@ namespace KetabAbee.Data.Repository
                 .OrderByDescending(b=>b.BookId)
                 .Take(take);
         }
+
+        public Book GetBookForShowByBookId(int bookId)
+        {
+            return _context.Books
+                .Include(b => b.Publisher)
+                .Include(b=>b.Group)
+                .Include(b=>b.SubGroup)
+                .Include(b=>b.SubGroup2)
+                .SingleOrDefault(b => b.BookId == bookId);
+        }
+
+        public IEnumerable<Book> PublisherBooks(int publisherId)
+        {
+            return _context.Books.Include(b=>b.Publisher).Where(b => b.PublisherId == publisherId);
+        }
     }
 }

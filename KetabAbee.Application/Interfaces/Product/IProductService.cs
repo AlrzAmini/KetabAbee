@@ -55,6 +55,10 @@ namespace KetabAbee.Application.Interfaces.Product
 
         IEnumerable<BookListViewModel> GetLatestBooksInIndex(int take);
 
+        Book GetBookForShowByBookId(int bookId);
+
+        IEnumerable<BookListViewModel> PublisherBooks(int publisherId);
+
         #endregion
 
         #region Publisher

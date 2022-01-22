@@ -488,5 +488,24 @@ namespace KetabAbee.Application.Services.Product
                 });
 
         }
+
+        public Book GetBookForShowByBookId(int bookId)
+        {
+            return _productRepository.GetBookForShowByBookId(bookId);
+        }
+
+        public IEnumerable<BookListViewModel> PublisherBooks(int publisherId)
+        {
+            return _productRepository.PublisherBooks(publisherId)
+                .Select(b => new BookListViewModel
+                {
+                    BookId = b.BookId,
+                    ImageName = b.ImageName,
+                    PublisherName = b.Publisher.PublisherName,
+                    Name = b.Name,
+                    Price = b.Price,
+                    Writer = b.Writer
+                });
+        }
     }
 }

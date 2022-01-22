@@ -1,6 +1,6 @@
 ﻿@using KetabAbee.Application.Convertors
 @model KetabAbee.Application.DTOs.Book.BookListViewModel
-<div class="swiper-slide">
+<div class="swiper-slide" style="width: 209px; margin-left: 10px;">
     <div class="product-card">
         <div class="product-card-top">
             <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@Model.BookId" class="product-image">
@@ -19,7 +19,7 @@
             </div>
             <h6 class="product-name">
                 <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@Model.BookId">
-                     @Model.Name اثر @Model.Writer نشر @Model.PublisherName
+                    @Model.Name اثر @Model.Writer نشر @Model.PublisherName
                 </a>
             </h6>
             <div class="product-price product-price-clone">@Model.Price.ToToman()</div>

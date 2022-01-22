@@ -42,7 +42,15 @@ namespace KetabAbee.Web.Controllers
 
         #region Book Info
 
-        
+        [HttpGet("BookInfo/{bookId}")]
+        public IActionResult BookInfo(int bookId)
+        {
+            var model = _productService.GetBookForShowByBookId(bookId);
+
+            ViewBag.PublisherBooks = _productService.PublisherBooks(model.PublisherId).ToList();
+
+            return View(model);
+        }
 
         #endregion
 
