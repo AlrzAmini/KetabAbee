@@ -19,8 +19,8 @@
 </div>
 <!-- /Page Breadcrumb -->
 <form asp-area="AdminPanel" asp-controller="AdminBook" asp-action="EditBook" method="post" role="form" enctype="multipart/form-data">
-    <input type="hidden" asp-for="BookId"/>
-    <input type="hidden" asp-for="ImageName"/>
+    <input type="hidden" asp-for="BookId" />
+    <input type="hidden" asp-for="ImageName" />
     <div class="col-lg-8 col-sm-8 col-xs-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bg-blue">
@@ -112,6 +112,14 @@
                         </span>
                         <span asp-validation-for="ExistStatus" class="text-danger"></span>
                     </div>
+                    <div class="form-group">
+                        <label>خلاصه کتاب</label>
+                        <span class="input-icon icon-right">
+                            <textarea class="form-control" asp-for="Abstract" placeholder="خلاصه ای برای این کتاب ...">@Html.Raw(Model.Abstract)</textarea>
+                            <i class="fa fa-book circular"></i>
+                        </span>
+                        <span asp-validation-for="Abstract" class="text-danger"></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -130,7 +138,7 @@
                         </span>
                     </div>
                     <div class="form-group">
-                        <img class="thumbnail img-fluid max-width100" id="imageUp" src="/images/Book/image/@Model.ImageName" alt="book"/>
+                        <img class="thumbnail img-fluid max-width100" id="imageUp" src="/images/Book/image/@Model.ImageName" alt="book" />
                     </div>
                 </div>
             </div>
@@ -138,7 +146,7 @@
     </div>
 
     <div class="col-md-12">
-        <button type="submit" class="btn btn-success btn-lg btn-block">ثبت کتاب</button>
+        <button type="submit" class="btn btn-success btn-lg btn-block">ویرایش کتاب</button>
     </div>
 </form>
 
@@ -185,6 +193,12 @@
 
         $("#userAvatar").change(function () {
             readURL(this);
+        });
+    </script>
+    <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('Abstract', {
+            customConfig: '/js/Config.js'
         });
     </script>
 }

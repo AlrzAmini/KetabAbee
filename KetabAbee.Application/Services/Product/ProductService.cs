@@ -109,7 +109,7 @@ namespace KetabAbee.Application.Services.Product
             }
             else
             {
-                book.ImageName = "Default.jpg";
+                book.ImageName = "Defualt.jpg";
             }
 
             return _productRepository.AddBook(book);
