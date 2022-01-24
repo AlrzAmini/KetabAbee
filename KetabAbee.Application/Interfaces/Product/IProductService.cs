@@ -57,7 +57,9 @@ namespace KetabAbee.Application.Interfaces.Product
 
         Book GetBookForShowByBookId(int bookId);
 
-        IEnumerable<BookListViewModel> PublisherBooks(int publisherId);
+        IEnumerable<BookListViewModel> PublisherBooks(int publisherId,Book book);
+
+        BookListViewModel GetBookListViewModelByBook(Book book);
 
         #endregion
 

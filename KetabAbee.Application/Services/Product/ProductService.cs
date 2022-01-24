@@ -59,6 +59,19 @@ namespace KetabAbee.Application.Services.Product
             return UpdateGroup(group);
         }
 
+        public BookListViewModel GetBookListViewModelByBook(Book book)
+        {
+            return new BookListViewModel
+            {
+                BookId = book.BookId,
+                ImageName = book.ImageName,
+                PublisherName = book.Publisher.PublisherName,
+                Name = book.Name,
+                Price = book.Price,
+                Writer = book.Writer
+            };
+        }
+
         public IEnumerable<Publisher> GetPublishers()
         {
             return _productRepository.GetPublishers();
@@ -494,18 +507,23 @@ namespace KetabAbee.Application.Services.Product
             return _productRepository.GetBookForShowByBookId(bookId);
         }
 
-        public IEnumerable<BookListViewModel> PublisherBooks(int publisherId)
+        public IEnumerable<BookListViewModel> PublisherBooks(int publisherId, Book book)
         {
-            return _productRepository.PublisherBooks(publisherId)
-                .Select(b => new BookListViewModel
-                {
-                    BookId = b.BookId,
-                    ImageName = b.ImageName,
-                    PublisherName = b.Publisher.PublisherName,
-                    Name = b.Name,
-                    Price = b.Price,
-                    Writer = b.Writer
-                });
+            var publisherBookList = _productRepository.PublisherBooks(publisherId).ToList();
+            if (publisherBookList.FirstOrDefault(b => b.BookId == book.BookId) != null)
+            {
+                publisherBookList.Remove(book);
+            }
+
+            return publisherBookList.Select(b => new BookListViewModel
+            {
+                BookId = b.BookId,
+                ImageName = b.ImageName,
+                PublisherName = b.Publisher.PublisherName,
+                Name = b.Name,
+                Price = b.Price,
+                Writer = b.Writer
+            });
         }
     }
 }

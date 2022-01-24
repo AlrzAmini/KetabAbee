@@ -1209,10 +1209,7 @@
                     {
                         foreach (var book in publisherBooks)
                         {
-                            if (book.BookId != Model.BookId)
-                            {
-                                <partial name="_PublisherBooksBox" model="book" />
-                            }
+                            <partial name="_PublisherBooksBox" model="book" />
                         }
                     }
                     else

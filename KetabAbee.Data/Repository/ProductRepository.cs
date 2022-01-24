@@ -109,7 +109,8 @@ namespace KetabAbee.Data.Repository
 
         public IEnumerable<Book> PublisherBooks(int publisherId)
         {
-            return _context.Books.Include(b=>b.Publisher).Where(b => b.PublisherId == publisherId);
+            return _context.Books.Include(b=>b.Publisher)
+                .Where(b => b.PublisherId == publisherId);
         }
     }
 }

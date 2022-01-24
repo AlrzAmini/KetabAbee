@@ -46,9 +46,8 @@ namespace KetabAbee.Web.Controllers
         public IActionResult BookInfo(int bookId)
         {
             var model = _productService.GetBookForShowByBookId(bookId);
-
-            ViewBag.PublisherBooks = _productService.PublisherBooks(model.PublisherId).ToList();
-
+            ViewBag.PublisherBooks = _productService.PublisherBooks(model.PublisherId,model).ToList();
+            
             return View(model);
         }
 
