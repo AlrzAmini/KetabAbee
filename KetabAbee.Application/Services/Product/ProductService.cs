@@ -525,5 +525,50 @@ namespace KetabAbee.Application.Services.Product
                 Writer = b.Writer
             });
         }
+
+        public ChangeInventoryViewModel GetInventoryInfoByBookId(int bookId)
+        {
+            var book = GetBookById(bookId);
+            return new ChangeInventoryViewModel
+            {
+                BookName = book.Name,
+                CurrentInventory = book.Inventory,
+                BookId = bookId
+            };
+        }
+
+        public bool IncreaseInventory(ChangeInventoryViewModel inventory)
+        {
+            var book = GetBookById(inventory.BookId);
+
+            // if book.inv == null -> book.inv = 0
+            book.Inventory ??= 0;
+
+            // sum
+            var sum = book.Inventory + inventory.IncNumber;
+            book.Inventory = sum;
+
+            return UpdateBook(book);
+        }
+
+        public string DecreaseInventory(ChangeInventoryViewModel inventory)
+        {
+            var book = GetBookById(inventory.BookId);
+
+            // if book.inv == null -> book.inv = 0
+            book.Inventory ??= 0;
+
+            // sum
+            var mines = book.Inventory - inventory.DecNumber;
+            if (mines < 0)
+            {
+                return "NegativeError";
+            }
+
+            book.Inventory = mines;
+
+            UpdateBook(book);
+            return "Success";
+        }
     }
 }

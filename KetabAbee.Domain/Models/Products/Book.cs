@@ -68,6 +68,9 @@ namespace KetabAbee.Domain.Models.Products
         [MaxLength(700, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
         public string Abstract { get; set; }
 
+        [DisplayName("موجودی")]
+        public int? Inventory { get; set; }
+
         public bool IsDelete { get; set; }
 
 

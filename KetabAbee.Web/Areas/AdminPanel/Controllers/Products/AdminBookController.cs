@@ -221,5 +221,72 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
         }
 
         #endregion
+
+        #region Change inventory
+
+        [HttpGet("ChangeInventory/{bookId}")]
+        public IActionResult ChangeInventory(int bookId)
+        {
+            return View(_productService.GetInventoryInfoByBookId(bookId));
+        }
+
+        [HttpPost("ChangeInventory/{bookId}")]
+        public IActionResult ChangeInventory(ChangeInventoryViewModel inventory)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(inventory);
+            }
+
+            if (!string.IsNullOrEmpty(inventory.IncNumber.ToString()) && !string.IsNullOrEmpty(inventory.DecNumber.ToString()))
+            {
+                TempData["ErrorMessage"] = "هر دو فیلد افزایش و کاهش موجودی نمی توانند همزمان اعمال شوند";
+                return View(inventory);
+            }
+
+            if (!string.IsNullOrEmpty(inventory.IncNumber.ToString()))
+            {
+                if (inventory.IncNumber < 0)
+                {
+                    TempData["ErrorMessage"] = "مقدار  افزایش موجودی نا معتبر است";
+                    return View(inventory);
+                }
+
+                if (_productService.IncreaseInventory(inventory))
+                {
+                    TempData["SuccessMessage"] = "افزایش موجودی با موفقیت انجام شد";
+                    return RedirectToAction("Index");
+                }
+                TempData["ErrorMessage"] = "افزایش موجودی با شکست مواجه شد";
+                return RedirectToAction("Index");
+            }
+
+            if (!string.IsNullOrEmpty(inventory.DecNumber.ToString()))
+            {
+                if (inventory.DecNumber < 0)
+                {
+                    TempData["ErrorMessage"] = "مقدار  کاهش موجودی نا معتبر است";
+                    return View(inventory);
+                }
+
+                var res = _productService.DecreaseInventory(inventory);
+                switch (res)
+                {
+                    case "Success":
+                        TempData["SuccessMessage"] = "کاهش موجودی با موفقیت انجام شد";
+                        return RedirectToAction("Index");
+                    case "NegativeError":
+                        TempData["WarningMessage"] = "موجودی کتاب نمی تواند تبدیل به عددی منفی شود";
+                        return View(inventory);
+                    default:
+                        TempData["ErrorMessage"] = "کاهش موجودی با شکست مواجه شد";
+                        return RedirectToAction("Index");
+                }
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        #endregion
     }
 }

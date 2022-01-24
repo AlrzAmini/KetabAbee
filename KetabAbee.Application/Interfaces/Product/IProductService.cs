@@ -61,6 +61,12 @@ namespace KetabAbee.Application.Interfaces.Product
 
         BookListViewModel GetBookListViewModelByBook(Book book);
 
+        ChangeInventoryViewModel GetInventoryInfoByBookId(int bookId);
+
+        bool IncreaseInventory(ChangeInventoryViewModel inventory);
+
+        string DecreaseInventory(ChangeInventoryViewModel inventory);
+
         #endregion
 
         #region Publisher

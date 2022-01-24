@@ -1,0 +1,101 @@
+﻿@model KetabAbee.Application.DTOs.Admin.Products.Book.ChangeInventoryViewModel
+@{
+    ViewData["Title"] = " تغییر موجودی کتاب " + Model.BookName;
+}
+
+
+
+<!-- Page Content -->
+<!-- Page Breadcrumb -->
+<div class="page-breadcrumbs margin-bottom-20">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-area="AdminPanel" asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li>
+            <a asp-area="AdminPanel" asp-controller="AdminBook" asp-action="Index">کتاب ها</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
+<!-- /Page Breadcrumb -->
+<form asp-area="AdminPanel" asp-controller="AdminBook" asp-action="ChangeInventory" method="post" role="form">
+    <input type="hidden" asp-for="BookId" />
+    <div class="col-lg-7 col-sm-7 col-xs-12">
+        <div class="widget flat radius-bordered">
+            <div class="widget-header bg-blue">
+                <span class="widget-caption">@ViewData["Title"]</span>
+            </div>
+            <div class="widget-body">
+                <div id="registration-form">
+                    <div class="form-title">
+                        جزییات تغییر موجودی
+                    </div>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input type="number" class="form-control border bordered-success" asp-for="IncNumber" value="" placeholder="افزایش موجودی این کتاب به تعداد ...">
+                            <i class="fa fa-dollar circular"></i>
+                        </span>
+                        <span asp-validation-for="IncNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input type="number" class="form-control border bordered-red" asp-for="DecNumber" value="" placeholder="کاهش موجودی این کتاب به تعداد ...">
+                            <i class="fa fa-dollar circular"></i>
+                        </span>
+                        <span asp-validation-for="DecNumber" class="text-danger"></span>
+                    </div>
+                    <hr class="wide">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5 col-sm-5 col-xs-12">
+        <div class="widget flat radius-bordered">
+            <div class="widget-header bg-azure">
+                <span class="widget-caption"> موجودی کتاب @Model.BookName</span>
+            </div>
+            <div class="widget-body">
+                <div id="registration-form">
+                    <div class="form-title">
+                        جزییات موجودی
+                    </div>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            @if (Model.CurrentInventory == null)
+                            {
+                                <p>0</p>
+                            }
+                            else
+                            {
+                                <p>@Model.CurrentInventory کتاب @Model.BookName در فروشگاه موجود است</p>
+                            }
+                            <i class="fa fa-sort-numeric-asc circular"></i>
+                        </span>
+                    </div>
+                    <hr class="wide">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-7 margin-bottom-40">
+        <button type="submit" class="btn btn-success btn-lg btn-block">تغییر موجودی </button>
+    </div>
+</form>
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        var inp1 = document.getElementById("DecNumber");
+        inp1.addEventListener("input", function () {
+            document.getElementById("IncNumber").disabled = this.value != "";
+        });
+
+        var inp2 = document.getElementById("IncNumber");
+        inp2.addEventListener("input", function () {
+            document.getElementById("DecNumber").disabled = this.value != "";
+        });
+    </script>
+}
