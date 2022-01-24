@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Application.Const;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs.Admin.Products.Book;
 using KetabAbee.Application.DTOs.Book;
@@ -547,7 +548,7 @@ namespace KetabAbee.Application.Services.Product
             // sum
             var sum = book.Inventory + inventory.IncNumber;
             book.Inventory = sum;
-            AddInventoryReport(inventory.BookId,1, (int)inventory.IncNumber);
+            AddInventoryReport(inventory.BookId,Report.IncreaseChangeId, (int)inventory.IncNumber);
 
             return UpdateBook(book);
         }
@@ -567,7 +568,7 @@ namespace KetabAbee.Application.Services.Product
             }
 
             book.Inventory = mines;
-            AddInventoryReport(inventory.BookId, 2, (int)inventory.DecNumber);
+            AddInventoryReport(inventory.BookId, Report.DecreaseChangeId, (int)inventory.DecNumber);
 
             UpdateBook(book);
             return "Success";
