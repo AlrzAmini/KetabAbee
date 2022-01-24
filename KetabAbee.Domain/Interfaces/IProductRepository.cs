@@ -43,6 +43,14 @@ namespace KetabAbee.Domain.Interfaces
 
         #endregion
 
+        #region Report
+
+        void AddInventoryReport(int bookId, int changeId, int changeNumber);
+
+        void UpdateInventoryReport(InventoryReport report);
+
+        #endregion
+
         #region Publisher
 
         bool AddPublisher(Publisher publisher);

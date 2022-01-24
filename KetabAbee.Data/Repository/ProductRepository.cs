@@ -112,5 +112,24 @@ namespace KetabAbee.Data.Repository
             return _context.Books.Include(b=>b.Publisher)
                 .Where(b => b.PublisherId == publisherId);
         }
+
+        public void AddInventoryReport(int bookId, int changeId, int changeNumber)
+        {
+            var report = new InventoryReport
+            {
+                BookId = bookId,
+                ChangeId = changeId,
+                ChangeNumber = changeNumber,
+                Date = DateTime.Now
+            };
+            _context.InventoryReports.Add(report);
+            _context.SaveChanges();
+        }
+
+        public void UpdateInventoryReport(InventoryReport report)
+        {
+            _context.InventoryReports.Update(report);
+            _context.SaveChanges();
+        }
     }
 }

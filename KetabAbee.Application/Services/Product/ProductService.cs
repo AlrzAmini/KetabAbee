@@ -547,6 +547,7 @@ namespace KetabAbee.Application.Services.Product
             // sum
             var sum = book.Inventory + inventory.IncNumber;
             book.Inventory = sum;
+            AddInventoryReport(inventory.BookId,1, (int)inventory.IncNumber);
 
             return UpdateBook(book);
         }
@@ -566,9 +567,15 @@ namespace KetabAbee.Application.Services.Product
             }
 
             book.Inventory = mines;
+            AddInventoryReport(inventory.BookId, 2, (int)inventory.DecNumber);
 
             UpdateBook(book);
             return "Success";
+        }
+
+        public void AddInventoryReport(int bookId, int changeId, int changeNumber)
+        {
+            _productRepository.AddInventoryReport(bookId, changeId, changeNumber);
         }
     }
 }

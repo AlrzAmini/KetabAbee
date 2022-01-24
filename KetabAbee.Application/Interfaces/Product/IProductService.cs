@@ -37,7 +37,7 @@ namespace KetabAbee.Application.Interfaces.Product
 
         List<SelectListItem> GetSubGroupsForAddBook(int groupId);
 
-        bool AddBook(Book book,IFormFile imgFile);
+        bool AddBook(Book book, IFormFile imgFile);
 
         IEnumerable<Book> GetBooksForAdmin();
 
@@ -57,7 +57,7 @@ namespace KetabAbee.Application.Interfaces.Product
 
         Book GetBookForShowByBookId(int bookId);
 
-        IEnumerable<BookListViewModel> PublisherBooks(int publisherId,Book book);
+        IEnumerable<BookListViewModel> PublisherBooks(int publisherId, Book book);
 
         BookListViewModel GetBookListViewModelByBook(Book book);
 
@@ -66,6 +66,8 @@ namespace KetabAbee.Application.Interfaces.Product
         bool IncreaseInventory(ChangeInventoryViewModel inventory);
 
         string DecreaseInventory(ChangeInventoryViewModel inventory);
+
+        void AddInventoryReport(int bookId, int changeId, int changeNumber);
 
         #endregion
 

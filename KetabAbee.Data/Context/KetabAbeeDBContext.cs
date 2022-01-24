@@ -46,6 +46,8 @@ namespace KetabAbee.Data.Context
 
         public DbSet<Publisher> Publishers { get; set; }
 
+        public DbSet<InventoryReport> InventoryReports { get; set; }
+
         #endregion
 
 
