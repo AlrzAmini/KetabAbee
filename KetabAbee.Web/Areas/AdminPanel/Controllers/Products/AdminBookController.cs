@@ -227,6 +227,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
         [HttpGet("ChangeInventory/{bookId}")]
         public IActionResult ChangeInventory(int bookId)
         {
+            ViewBag.BookInventoryList = _productService.GetBookChangeInventoryReports(bookId).ToList();
             return View(_productService.GetInventoryInfoByBookId(bookId));
         }
 
@@ -285,6 +286,16 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
             }
 
             return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region change inventory list
+
+        [HttpGet("AllInventoryReports")]
+        public IActionResult AllInventoryReports()
+        {
+            return View(_productService.GetAllInventoryReports().ToList());
         }
 
         #endregion

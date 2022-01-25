@@ -131,5 +131,20 @@ namespace KetabAbee.Data.Repository
             _context.InventoryReports.Update(report);
             _context.SaveChanges();
         }
+
+        public IEnumerable<InventoryReport> GetBookInventoryReports(int bookId)
+        {
+            return _context.InventoryReports.Where(r => r.BookId == bookId);
+        }
+
+        public IEnumerable<InventoryReport> GetAllInventoryReports()
+        {
+            return _context.InventoryReports;
+        }
+
+        public string GetBookNameById(int bookId)
+        {
+            return GetBookById(bookId).Name;
+        }
     }
 }

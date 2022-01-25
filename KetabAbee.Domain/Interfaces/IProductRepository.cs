@@ -41,6 +41,8 @@ namespace KetabAbee.Domain.Interfaces
 
         IEnumerable<Book> PublisherBooks(int publisherId);
 
+        string GetBookNameById(int bookId);
+
         #endregion
 
         #region Report
@@ -48,6 +50,10 @@ namespace KetabAbee.Domain.Interfaces
         void AddInventoryReport(int bookId, int changeId, int changeNumber);
 
         void UpdateInventoryReport(InventoryReport report);
+
+        IEnumerable<InventoryReport> GetBookInventoryReports(int bookId);
+
+        IEnumerable<InventoryReport> GetAllInventoryReports();
 
         #endregion
 

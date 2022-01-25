@@ -1,0 +1,90 @@
+﻿@using KetabAbee.Application.Convertors
+@model List<KetabAbee.Application.DTOs.Admin.Products.Book.AllInventoryReportsViewModel>
+@{
+    ViewData["Title"] = "گزارش تغییرات موجودی کتاب ها";
+}
+<div class="page-breadcrumbs margin-bottom-20">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-area="AdminPanel" asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li>
+            <a asp-area="AdminPanel" asp-controller="AdminBook" asp-action="Index">کتاب ها</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
+<div class="col-xs-12 col-md-12">
+    <div class="well with-header with-footer">
+        <div class="header bordered-pink">
+            تغییرات موجودی این کتاب
+        </div>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        شماره تغییر
+                    </th>
+                    <th>
+                        نام کتاب
+                    </th>
+                    <th>
+                        نوع
+                    </th>
+                    <th>
+                        تعداد
+                    </th>
+                    <th>
+                        تاریخ
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var report in Model)
+                    {
+                        <tr>
+                            <td>
+                                @report.ReportId
+                            </td>
+                            <td>
+                                @report.BookName
+                            </td>
+                            <td>
+                                @if (report.ChangeId == 1)
+                                {
+                                    <p class="text-success">افزایش موجودی</p>
+                                }
+                                else
+                                {
+                                    <p class="text-danger">کاهش موجودی</p>
+                                }
+                            </td>
+                            <td>
+                                @report.ChangeNumber
+                            </td>
+                            <td>
+                                @report.Date.ToShamsi()
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td class="alert alert-info">هنوز تغییر موجودی انجام نشده است</td>
+                        <td class="alert alert-info"></td>
+                        <td class="alert alert-info"></td>
+                        <td class="alert alert-info"></td>
+                        <td class="alert alert-info"></td>
+                        <td class="alert alert-info"></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

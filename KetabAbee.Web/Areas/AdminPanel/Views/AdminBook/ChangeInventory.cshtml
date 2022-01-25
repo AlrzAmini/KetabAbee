@@ -1,9 +1,8 @@
-﻿@model KetabAbee.Application.DTOs.Admin.Products.Book.ChangeInventoryViewModel
+﻿@using KetabAbee.Domain.Models.Products
+@model KetabAbee.Application.DTOs.Admin.Products.Book.ChangeInventoryViewModel
 @{
     ViewData["Title"] = " تغییر موجودی کتاب " + Model.BookName;
 }
-
-
 
 <!-- Page Content -->
 <!-- Page Breadcrumb -->
@@ -83,6 +82,8 @@
         <button type="submit" class="btn btn-success btn-lg btn-block">تغییر موجودی </button>
     </div>
 </form>
+<partial name="_BookInventoryReport" model="ViewBag.BookInventoryList as List<InventoryReport>"/>
+
 @section Scripts
 {
     <partial name="_ValidationScriptsPartial" />

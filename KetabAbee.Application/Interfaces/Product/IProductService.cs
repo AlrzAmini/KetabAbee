@@ -69,6 +69,11 @@ namespace KetabAbee.Application.Interfaces.Product
 
         void AddInventoryReport(int bookId, int changeId, int changeNumber);
 
+        IEnumerable<InventoryReport> GetBookChangeInventoryReports(int bookId);
+
+        IEnumerable<AllInventoryReportsViewModel> GetAllInventoryReports();
+       
+
         #endregion
 
         #region Publisher

@@ -548,7 +548,7 @@ namespace KetabAbee.Application.Services.Product
             // sum
             var sum = book.Inventory + inventory.IncNumber;
             book.Inventory = sum;
-            AddInventoryReport(inventory.BookId,Report.IncreaseChangeId, (int)inventory.IncNumber);
+            AddInventoryReport(inventory.BookId, Report.IncreaseChangeId, (int)inventory.IncNumber);
 
             return UpdateBook(book);
         }
@@ -577,6 +577,25 @@ namespace KetabAbee.Application.Services.Product
         public void AddInventoryReport(int bookId, int changeId, int changeNumber)
         {
             _productRepository.AddInventoryReport(bookId, changeId, changeNumber);
+        }
+
+        public IEnumerable<InventoryReport> GetBookChangeInventoryReports(int bookId)
+        {
+            return _productRepository.GetBookInventoryReports(bookId);
+        }
+
+        public IEnumerable<AllInventoryReportsViewModel> GetAllInventoryReports()
+        {
+            return _productRepository.GetAllInventoryReports()
+                .OrderByDescending(s=>s.Date)
+                .Select(r => new AllInventoryReportsViewModel()
+                {
+                    ReportId = r.ReportId,
+                    BookName = _productRepository.GetBookNameById(r.BookId),
+                    ChangeNumber = r.ChangeNumber,
+                    Date = r.Date,
+                    ChangeId = r.ChangeId
+                });
         }
     }
 }

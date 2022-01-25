@@ -1,0 +1,60 @@
+﻿@using KetabAbee.Application.Convertors
+@model List<KetabAbee.Domain.Models.Products.InventoryReport>
+<div class="col-xs-12 col-md-6">
+    <div class="well with-header with-footer">
+        <div class="header bordered-pink">
+            تغییرات موجودی این کتاب
+        </div>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        نوع
+                    </th>
+                    <th>
+                        تعداد
+                    </th>
+                    <th>
+                        تاریخ
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var report in Model)
+                    {
+                        <tr>
+                            @if (report.ChangeId == 1)
+                            {
+                                <td>
+                                    افزایش موجودی
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    کاهش موجودی
+                                </td>
+                            }
+                            <td>
+                                @report.ChangeNumber
+                            </td>
+                            <td>
+                              @report.Date.ToShamsi()
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td class="alert alert-info">هنوز تغییر موجودی برای این کتاب انجام نشده است</td>
+                        <td class="alert alert-info"></td>
+                        <td class="alert alert-info"></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
