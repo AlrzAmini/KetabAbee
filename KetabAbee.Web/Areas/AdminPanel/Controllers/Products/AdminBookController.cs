@@ -105,6 +105,64 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
         {
             if (!ModelState.IsValid)
             {
+                #region re claim values
+
+                #region Publishers
+
+                // its not the best way to do it but i just want to show this way
+                var listPublishers = new List<SelectListItem>
+                {
+                    new(){Text = "ناشر را انتخاب کنید",Value = ""}
+                };
+                var publishers = _productService.GetPublishers()
+                    .Select(p => new SelectListItem
+                    {
+                        Text = p.PublisherName,
+                        Value = p.PublisherId.ToString()
+                    }).ToList();
+                listPublishers.AddRange(publishers);
+                ViewBag.Publishers = listPublishers;
+
+                #endregion
+
+                #region Main Group
+
+                var groups = _productService.GetGroupsForAddBook();
+                var selectGroups = new List<SelectListItem>
+                {
+                    new(){Text = "دسته بندی اصلی را انتخاب کنید",Value = ""}
+                };
+                selectGroups.AddRange(groups);
+                ViewBag.Groups = selectGroups;
+
+                #endregion
+
+                #region Sub 1
+
+                var subGroups = _productService.GetSubGroupsForAddBook(int.Parse(groups.First().Value));
+                var selectSubGroups = new List<SelectListItem>
+                {
+                    new(){Text = "دسته بندی فرعی اول را انتخاب کنید",Value = ""}
+                };
+                selectSubGroups.AddRange(subGroups);
+                ViewBag.SubGroups = selectSubGroups;
+
+                #endregion
+
+                #region Sub 2
+
+                var sub2Groups = _productService.GetSubGroupsForAddBook(int.Parse(subGroups.First().Value));
+                var selectSub2Groups = new List<SelectListItem>
+                {
+                    new(){Text = "دسته بندی فرعی دوم را انتخاب کنید",Value = ""}
+                };
+                selectSub2Groups.AddRange(sub2Groups);
+                ViewBag.Sub2Groups = selectSub2Groups;
+
+                #endregion
+
+                #endregion
+
                 return View(book);
             }
             if (_productService.AddBook(book, imgFile))
@@ -193,7 +251,6 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
 
             #region Publishers
 
-            
             var publishers = _productService.GetPublishersForSelect();
             ViewBag.publishers = new SelectList(publishers, "Value", "Text", book.PublisherId);
 
@@ -207,6 +264,38 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
         {
             if (!ModelState.IsValid)
             {
+                #region re claim values
+
+                #region Main Group
+
+                var groups = _productService.GetGroupsForSelect();
+                ViewBag.Groups = new SelectList(groups, "Value", "Text", book.GroupId);
+
+                #endregion
+
+                #region Sub 1
+
+                var sub1Groups = _productService.GetSubGroupsForAddBook(book.GroupId);
+                ViewBag.sub1Groups = new SelectList(sub1Groups, "Value", "Text", book.SubGroupId);
+
+                #endregion
+
+                #region Sub 2
+
+                var sub2Groups = _productService.GetSubGroupsForAddBook(book.SubGroupId);
+                ViewBag.sub2Groups = new SelectList(sub2Groups, "Value", "Text", book.SubGroup2Id);
+
+                #endregion
+
+                #region Publishers
+
+                var publishers = _productService.GetPublishersForSelect();
+                ViewBag.publishers = new SelectList(publishers, "Value", "Text", book.PublisherId);
+
+                #endregion
+
+                #endregion
+
                 return View(book);
             }
 

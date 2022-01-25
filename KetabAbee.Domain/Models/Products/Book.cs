@@ -46,6 +46,7 @@ namespace KetabAbee.Domain.Models.Products
 
         [DisplayName("قیمت")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
+        [Range(0,999999, ErrorMessage = "{0} باید بین {1} و {2} باشد")]
         public int Price { get; set; }
 
         [DisplayName("نویسنده")]
