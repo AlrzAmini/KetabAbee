@@ -28,8 +28,6 @@ namespace KetabAbee.Application.DTOs.Book
 
         public AgeRange? AgeRange { get; set; }
 
-        public ExistStatus? ExistStatus { get; set; }
-
         public List<BookListViewModel> Books { get; set; }
 
         public bool Exist { get; set; }

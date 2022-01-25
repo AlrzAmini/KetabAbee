@@ -36,10 +36,6 @@ namespace KetabAbee.Domain.Models.Products
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
         public CoverType CoverType { get; set; }
 
-        [DisplayName("وضعیت موجودی")]
-        [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
-        public ExistStatus ExistStatus { get; set; }
-
 
         #region Props
 
@@ -107,16 +103,6 @@ namespace KetabAbee.Domain.Models.Products
         Paper,
         [Display(Name = "سخت")]
         Hardcover
-    }
-
-    public enum ExistStatus
-    {
-        [Display(Name = "موجود")]
-        Exist,
-        [Display(Name = "نا موجود")]
-        IsNotExist,
-        [Display(Name = "موجود در انبار")]
-        InStock
     }
 
 }

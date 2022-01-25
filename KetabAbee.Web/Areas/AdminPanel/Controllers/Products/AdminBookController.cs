@@ -242,6 +242,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
             if (!string.IsNullOrEmpty(inventory.IncNumber.ToString()) && !string.IsNullOrEmpty(inventory.DecNumber.ToString()))
             {
                 TempData["ErrorMessage"] = "هر دو فیلد افزایش و کاهش موجودی نمی توانند همزمان اعمال شوند";
+                inventory = _productService.GetInventoryInfoByBookId(inventory.BookId);
                 return View(inventory);
             }
 
@@ -250,6 +251,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
                 if (inventory.IncNumber < 0)
                 {
                     TempData["ErrorMessage"] = "مقدار  افزایش موجودی نا معتبر است";
+                    inventory = _productService.GetInventoryInfoByBookId(inventory.BookId);
                     return View(inventory);
                 }
 
@@ -267,6 +269,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
                 if (inventory.DecNumber < 0)
                 {
                     TempData["ErrorMessage"] = "مقدار  کاهش موجودی نا معتبر است";
+                    inventory = _productService.GetInventoryInfoByBookId(inventory.BookId);
                     return View(inventory);
                 }
 
@@ -278,6 +281,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
                         return RedirectToAction("Index");
                     case "NegativeError":
                         TempData["WarningMessage"] = "موجودی کتاب نمی تواند تبدیل به عددی منفی شود";
+                        inventory = _productService.GetInventoryInfoByBookId(inventory.BookId);
                         return View(inventory);
                     default:
                         TempData["ErrorMessage"] = "کاهش موجودی با شکست مواجه شد";

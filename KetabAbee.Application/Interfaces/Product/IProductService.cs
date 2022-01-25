@@ -67,7 +67,7 @@ namespace KetabAbee.Application.Interfaces.Product
 
         string DecreaseInventory(ChangeInventoryViewModel inventory);
 
-        void AddInventoryReport(int bookId, int changeId, int changeNumber);
+        void AddInventoryReport(int bookId, int changeId, int changeNumber, string bookName);
 
         IEnumerable<InventoryReport> GetBookChangeInventoryReports(int bookId);
 

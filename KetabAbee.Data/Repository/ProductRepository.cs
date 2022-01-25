@@ -113,14 +113,15 @@ namespace KetabAbee.Data.Repository
                 .Where(b => b.PublisherId == publisherId);
         }
 
-        public void AddInventoryReport(int bookId, int changeId, int changeNumber)
+        public void AddInventoryReport(int bookId, int changeId, int changeNumber, string bookName)
         {
             var report = new InventoryReport
             {
                 BookId = bookId,
                 ChangeId = changeId,
                 ChangeNumber = changeNumber,
-                Date = DateTime.Now
+                Date = DateTime.Now,
+                BookName = bookName
             };
             _context.InventoryReports.Add(report);
             _context.SaveChanges();

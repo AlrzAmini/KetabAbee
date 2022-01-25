@@ -34,22 +34,16 @@
                     <div class="tickets-container">
                         @{
                             var listsAgeRange = new List<SelectListItem>
-                                                                                                                                        {
+                                                                                                                                                                                                        {
                                         new(){Text = "همه موارد",Value = ""}
                                     };
                             listsAgeRange.AddRange(Html.GetEnumSelectList<AgeRange>());
 
                             var listCoverTypes = new List<SelectListItem>
-                                                                                                                                        {
+                                                                                                                                                                                                        {
                                         new(){Text = "همه موارد",Value = ""}
                                     };
                             listCoverTypes.AddRange(Html.GetEnumSelectList<CoverType>());
-
-                            var listExistStatus = new List<SelectListItem>
-                                                                                            {
-                                new(){Text = "همه موارد",Value = ""}
-                            };
-                            listExistStatus.AddRange(Html.GetEnumSelectList<ExistStatus>());
                         }
                         <form id="filterform" asp-controller="AdminBook" asp-action="Index" method="get">
                             <input type="hidden" asp-for="PageNum" />
@@ -93,10 +87,6 @@
                             <div class="form-group">
                                 <label>نوع جلد</label>
                                 <select asp-for="CoverType" onchange="changeSort()" class="form-control" asp-items="listCoverTypes"></select>
-                            </div>
-                            <div class="form-group">
-                                <label>وضعیت موجودی</label>
-                                <select asp-for="ExistStatus" onchange="changeSort()" class="form-control" asp-items="listExistStatus"></select>
                             </div>
                             <button class="btn btn-azure btn-lg btn-block" type="submit"><i class="fa fa-search"></i></button>
                             <a class="btn btn-warning btn-lg btn-block" asp-area="AdminPanel" asp-controller="AdminBook" asp-action="Index">لغو فیلتر ها</a>
@@ -190,10 +180,15 @@
                         <th>
                             @book.CoverType.GetEnumName()
                         </th>
-                        <th class="@((book.ExistStatus == ExistStatus.Exist)?"bg-success":"")
-                            @((book.ExistStatus == ExistStatus.InStock)?"bg-warning":"")
-                            @((book.ExistStatus == ExistStatus.IsNotExist)?"bg-danger":"") p-3">
-                            @book.ExistStatus.GetEnumName()
+                        <th>
+                            @if (book.Inventory != null && book.Inventory != 0)
+                            {
+                                <p class="text-success">موجود</p>
+                            }
+                            else
+                            {
+                                <p class="text-danger">نا موجود</p>
+                            }
                         </th>
                         <td class="text-align-center">
                             <img alt="@book.Name" src="/images/Book/thumb/@book.ImageName" class="img-fluid width-50" />

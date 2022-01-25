@@ -7,7 +7,7 @@ using KetabAbee.Domain.Models.Products;
 
 namespace KetabAbee.Domain.Interfaces
 {
-   public interface IProductRepository
+    public interface IProductRepository
     {
         #region Group
 
@@ -47,7 +47,7 @@ namespace KetabAbee.Domain.Interfaces
 
         #region Report
 
-        void AddInventoryReport(int bookId, int changeId, int changeNumber);
+        void AddInventoryReport(int bookId, int changeId, int changeNumber, string bookName);
 
         void UpdateInventoryReport(InventoryReport report);
 

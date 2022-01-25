@@ -16,6 +16,10 @@ namespace KetabAbee.Domain.Models.Products
         public int BookId { get; set; }
 
         [Required]
+        [MaxLength(300)]
+        public string BookName { get; set; }
+
+        [Required]
         public int ChangeId { get; set; } // change Id : 1 -> increase // change Id : 2 -> Decrease
 
         [Required]

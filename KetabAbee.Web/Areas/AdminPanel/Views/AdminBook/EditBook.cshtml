@@ -21,6 +21,7 @@
 <form asp-area="AdminPanel" asp-controller="AdminBook" asp-action="EditBook" method="post" role="form" enctype="multipart/form-data">
     <input type="hidden" asp-for="BookId" />
     <input type="hidden" asp-for="ImageName" />
+    <input type="hidden" asp-for="Inventory" />
     <div class="col-lg-8 col-sm-8 col-xs-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bg-blue">
@@ -104,13 +105,6 @@
                             <select asp-for="AgeRange" asp-items="@Html.GetEnumSelectList<AgeRange>()" class="form-control"></select>
                         </span>
                         <span asp-validation-for="AgeRange" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label>وضعیت موجودی</label>
-                        <span class="input-icon icon-right">
-                            <select asp-for="ExistStatus" asp-items="@Html.GetEnumSelectList<ExistStatus>()" class="form-control"></select>
-                        </span>
-                        <span asp-validation-for="ExistStatus" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label>خلاصه کتاب</label>

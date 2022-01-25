@@ -230,16 +230,6 @@ namespace KetabAbee.Application.Services.Product
 
             #endregion
 
-            // filter by exist status 
-            #region exist status
-
-            if (filter.ExistStatus != null)
-            {
-                result = result.Where(r => r.ExistStatus == filter.ExistStatus.Value);
-            }
-
-            #endregion
-
             //paging
             var pager = Pager.Build(filter.PageNum, result.Count(), filter.Take, filter.PageCountAfterAndBefor);
             var books = result.Paging(pager).ToList();
@@ -426,7 +416,7 @@ namespace KetabAbee.Application.Services.Product
             #endregion
 
             // filter by age range
-            #region age
+            #region age range
 
             if (filter.AgeRange != null)
             {
@@ -461,15 +451,16 @@ namespace KetabAbee.Application.Services.Product
 
             #endregion
 
-            // filter by exist status 
-            #region exist status
+            // filter by exist books
+            #region exist
 
-            if (filter.ExistStatus != null)
+            if (filter.Exist)
             {
-                result = result.Where(r => r.ExistStatus == filter.ExistStatus.Value);
+                result = result.Where(b => b.Inventory != null && b.Inventory != 0);
             }
 
             #endregion
+
 
             //paging
             filter.Take = 16;
@@ -548,7 +539,7 @@ namespace KetabAbee.Application.Services.Product
             // sum
             var sum = book.Inventory + inventory.IncNumber;
             book.Inventory = sum;
-            AddInventoryReport(inventory.BookId, Report.IncreaseChangeId, (int)inventory.IncNumber);
+            AddInventoryReport(inventory.BookId, Report.IncreaseChangeId, (int)inventory.IncNumber, inventory.BookName);
 
             return UpdateBook(book);
         }
@@ -568,15 +559,15 @@ namespace KetabAbee.Application.Services.Product
             }
 
             book.Inventory = mines;
-            AddInventoryReport(inventory.BookId, Report.DecreaseChangeId, (int)inventory.DecNumber);
+            AddInventoryReport(inventory.BookId, Report.DecreaseChangeId, (int)inventory.DecNumber, inventory.BookName);
 
             UpdateBook(book);
             return "Success";
         }
 
-        public void AddInventoryReport(int bookId, int changeId, int changeNumber)
+        public void AddInventoryReport(int bookId, int changeId, int changeNumber, string bookName)
         {
-            _productRepository.AddInventoryReport(bookId, changeId, changeNumber);
+            _productRepository.AddInventoryReport(bookId, changeId, changeNumber, bookName);
         }
 
         public IEnumerable<InventoryReport> GetBookChangeInventoryReports(int bookId)
@@ -587,11 +578,11 @@ namespace KetabAbee.Application.Services.Product
         public IEnumerable<AllInventoryReportsViewModel> GetAllInventoryReports()
         {
             return _productRepository.GetAllInventoryReports()
-                .OrderByDescending(s=>s.Date)
+                .OrderByDescending(s => s.Date)
                 .Select(r => new AllInventoryReportsViewModel()
                 {
                     ReportId = r.ReportId,
-                    BookName = _productRepository.GetBookNameById(r.BookId),
+                    BookName = r.BookName,
                     ChangeNumber = r.ChangeNumber,
                     Date = r.Date,
                     ChangeId = r.ChangeId

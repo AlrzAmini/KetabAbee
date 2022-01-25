@@ -30,11 +30,6 @@ namespace KetabAbee.Web.Controllers
             ViewBag.Groups = _productService.GetGroups().ToList();
             ViewBag.Publishers = _productService.GetPublishers().ToList();
 
-            if (filter.Exist)
-            {
-                filter.ExistStatus = ExistStatus.Exist;
-            }
-
             return View(_productService.GetBooksForIndex(filter));
         }
 

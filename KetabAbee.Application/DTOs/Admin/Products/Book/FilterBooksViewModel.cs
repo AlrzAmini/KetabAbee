@@ -32,8 +32,8 @@ namespace KetabAbee.Application.DTOs.Admin.Products.Book
         public int? MaxPageCount { get; set; }
 
         public AgeRange? AgeRange { get; set; }
+
         public CoverType? CoverType { get; set; }
-        public ExistStatus? ExistStatus { get; set; }
 
         public List<Domain.Models.Products.Book> Books { get; set; }
 

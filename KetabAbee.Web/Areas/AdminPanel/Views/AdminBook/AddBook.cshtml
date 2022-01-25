@@ -23,12 +23,6 @@
         new(){Text = "نوع جلد را انتخاب کنید",Value = ""}
     };
     selectCoverTypes.AddRange(Html.GetEnumSelectList<CoverType>());
-
-    var selectStatus = new List<SelectListItem>
-{
-        new(){Text = "وضعیت موجودی را انتخاب کنید",Value = ""}
-    };
-    selectStatus.AddRange(Html.GetEnumSelectList<ExistStatus>());
 }
 <!-- Page Content -->
 <!-- Page Breadcrumb -->
@@ -120,12 +114,6 @@
                             <select asp-for="AgeRange" asp-items="selectAgeRanges" class="form-control"></select>
                         </span>
                         <span asp-validation-for="AgeRange" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <span class="input-icon icon-right">
-                            <select asp-for="ExistStatus" asp-items="selectStatus" class="form-control"></select>
-                        </span>
-                        <span asp-validation-for="ExistStatus" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label>خلاصه کتاب</label>
