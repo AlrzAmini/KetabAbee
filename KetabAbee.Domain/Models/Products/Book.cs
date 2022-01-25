@@ -65,7 +65,6 @@ namespace KetabAbee.Domain.Models.Products
         public string ImageName { get; set; }
 
         [DisplayName("خلاصه کتاب")]
-        [MaxLength(700, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
         public string Abstract { get; set; }
 
         [DisplayName("موجودی")]
