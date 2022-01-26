@@ -1,0 +1,10 @@
+﻿@model KetabAbee.Domain.Models.Products.FavoriteBook
+@if (!Model.IsLiked)
+{
+    <form asp-controller="Book" asp-action="AddToFavorite" method="post">
+        <input type="hidden" asp-for="BookId" />
+        <input type="hidden" asp-for="IsLiked" />
+        <button class="add-to-favorite"><i class="fas fa-heart"></i></button>
+        <span class="tooltip--action">افزودن به علاقمندی</span>
+    </form>
+}

@@ -66,8 +66,8 @@ namespace KetabAbee.Data.Repository
             return _context.Books
                 .Include(b => b.Publisher)
                 .Include(b => b.Group)
-                .Include(b=>b.SubGroup)
-                .Include(b=>b.SubGroup2);
+                .Include(b => b.SubGroup)
+                .Include(b => b.SubGroup2);
         }
 
         public bool AddPublisher(Publisher publisher)
@@ -93,7 +93,7 @@ namespace KetabAbee.Data.Repository
         {
             return _context.Books
                 .Include(b => b.Publisher)
-                .OrderByDescending(b=>b.BookId)
+                .OrderByDescending(b => b.BookId)
                 .Take(take);
         }
 
@@ -101,15 +101,15 @@ namespace KetabAbee.Data.Repository
         {
             return _context.Books
                 .Include(b => b.Publisher)
-                .Include(b=>b.Group)
-                .Include(b=>b.SubGroup)
-                .Include(b=>b.SubGroup2)
+                .Include(b => b.Group)
+                .Include(b => b.SubGroup)
+                .Include(b => b.SubGroup2)
                 .SingleOrDefault(b => b.BookId == bookId);
         }
 
         public IEnumerable<Book> PublisherBooks(int publisherId)
         {
-            return _context.Books.Include(b=>b.Publisher)
+            return _context.Books.Include(b => b.Publisher)
                 .Where(b => b.PublisherId == publisherId);
         }
 
@@ -146,6 +146,43 @@ namespace KetabAbee.Data.Repository
         public string GetBookNameById(int bookId)
         {
             return GetBookById(bookId).Name;
+        }
+
+        public int GetAgeByUserName(string userName)
+        {
+            return (int)_context.Users.SingleOrDefault(u => u.UserName == userName).Age;
+        }
+
+        public void AddBookToFavorite(FavoriteBook favoriteBook)
+        {
+            _context.FavoriteBooks.Add(favoriteBook);
+            _context.SaveChanges();
+        }
+
+        public void RemoveFromFavorite(FavoriteBook favoriteBook)
+        {
+            var getFav = GetFavByBookIdAndUserId(favoriteBook.BookId, favoriteBook.UserId, favoriteBook.IsLiked);
+            getFav.IsDelete = true;
+            _context.FavoriteBooks.Update(getFav);
+            _context.SaveChanges();
+        }
+
+        public bool IsUserLikedBook(int userId, int bookId)
+        {
+            return _context.FavoriteBooks.Any(f => f.UserId == userId && f.BookId == bookId && f.IsLiked);
+        }
+
+        public void UpdateFavorite(FavoriteBook favoriteBook)
+        {
+            var getFav = GetFavByBookIdAndUserId(favoriteBook.BookId, favoriteBook.UserId, favoriteBook.IsLiked);
+            getFav.IsLiked = false;
+            _context.FavoriteBooks.Update(getFav);
+            _context.SaveChanges();
+        }
+
+        public FavoriteBook GetFavByBookIdAndUserId(int bookId, int userId, bool isLiked)
+        {
+            return _context.FavoriteBooks.SingleOrDefault(f => f.BookId == bookId && f.UserId == userId);
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿@using KetabAbee.Application.Extensions
 @using KetabAbee.Application.Convertors
 @using KetabAbee.Application.DTOs.Book
+@using System.Collections
+@using KetabAbee.Domain.Models.Products
 @model KetabAbee.Domain.Models.Products.Book
 @{
     ViewData["Title"] = " مشخصلات، قیمت و خرید کتاب " + Model.Name + " اثر " + Model.Writer + " نشر " + Model.Publisher.PublisherName;
@@ -34,28 +36,17 @@
                             <div class="swiper-pagination d-md-none swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-bullets-dynamic" style="width: 40px;"><span class="swiper-pagination-bullet swiper-pagination-bullet-active swiper-pagination-bullet-active-main" tabindex="0" role="button" aria-label="Go to slide 1" style="right: 16px;"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active-next" tabindex="0" role="button" aria-label="Go to slide 2" style="right: 16px;"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active-next-next" tabindex="0" role="button" aria-label="Go to slide 3" style="right: 16px;"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 4" style="right: 16px;"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 5" style="right: 16px;"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 6" style="right: 16px;"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 7" style="right: 16px;"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 8" style="right: 16px;"></span></div>
                             <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
                         </div>
-                        <ul class="product--actions">
-                            <li>
-                                <!-- در صورت نیاز به استفاده از فرم از کد زیر استفاده کنید -->
-                                <!-- <form action="">
-                                    <button class="add-to-favorite"><i class="fas fa-heart"></i></button>
-                                </form> -->
-                                <a href="#" class="is-action add-to-favorite"><i class="fas fa-heart"></i></a>
-                                <span class="tooltip--action">افزودن به علاقمندی</span>
-                            </li>
-                            <li>
-                                <a href="#" data-toggle="modal" data-target="#shareLinkModal"><i class="fas fa-share-alt"></i></a>
-                                <span class="tooltip--action">اشتراک گذاری</span>
-                            </li>
-                            <li>
-                                <a href="#" class="is-action add-to-compare"><i class="fas fa-adjust"></i></a>
-                                <span class="tooltip--action">افزودن به لیست مقایسه</span>
-                            </li>
-                            <li>
-                                <a href="#" data-toggle="modal" data-target="#chartModal"><i class="fas fa-chart-area"></i></a>
-                                <span class="tooltip--action">نمودار قیمت</span>
-                            </li>
-                        </ul>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <ul class="product--actions">
+                                <li>
+                                    <!-- در صورت نیاز به استفاده از فرم از کد زیر استفاده کنید -->
+                                    <partial name="_AddToFavorite" model="ViewBag.FavBook as FavoriteBook" />
+                                    @*<a asp-controller="Book" asp-action="AddToFavorite" asp-route-bookId="@Model.BookId" class="is-action add-to-favorite"><i class="fas fa-heart"></i></a>
+                                        <span class="tooltip--action">افزودن به علاقمندی</span>*@
+                                </li>
+                            </ul>
+                        }
                     </div>
                 </div>
                 <div class="col-xl-5 col-lg-4 col-md-6">
@@ -147,7 +138,7 @@
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
-                                <a href="#" class="add-to-cart btn-block">
+                                <a asp-controller="Book" asp-action="AddToFavorite" asp-route-bookId="@Model.BookId" class="add-to-cart btn-block">
                                     افزودن به سبد خرید
                                 </a>
                             </div>
@@ -230,6 +221,38 @@
                 </div>
             </div>
         </div>
+        @{
+            var ageRangeBooks = ViewBag.AgeRangeBooks as List<BookListViewModel>;
+            var age = ViewBag.UserAge;
+        }
+        @if (User.Identity.IsAuthenticated && age != null && age != 0)
+        {
+            <section class="product-carousel mb-5">
+                <div class="section-title">
+                    <i class="fad fa-retweet"></i>
+                    کتاب های مناسب سن شما
+                </div>
+                <div class="swiper-container slider-lg swiper-container-initialized swiper-container-horizontal swiper-container-rtl">
+                    <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
+                        @if (ageRangeBooks != null && ageRangeBooks.Any())
+                        {
+                            foreach (var book in ageRangeBooks)
+                            {
+                                <partial name="_PublisherBooksBox" model="book" />
+                            }
+                        }
+                        else
+                        {
+                            <div class="alert alert-warning col-md-12">کتابی مناسب سن شما ثبت نشده است.</div>
+                        }
+                    </div>
+                    <!-- Add Arrows -->
+                    <div class="swiper-button-next" tabindex="0" role="button" aria-label="Next slide" aria-disabled="false"></div>
+                    <div class="swiper-button-prev swiper-button-disabled" tabindex="0" role="button" aria-label="Previous slide" aria-disabled="true"></div>
+                    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                </div>
+            </section>
+        }
 
         <!-- product-tab-content -->
         <div class="row mb-5">

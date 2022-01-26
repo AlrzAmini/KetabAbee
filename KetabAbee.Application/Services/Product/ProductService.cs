@@ -588,5 +588,60 @@ namespace KetabAbee.Application.Services.Product
                     ChangeId = r.ChangeId
                 });
         }
+
+        public IEnumerable<BookListViewModel> GetBooksByAgeRange(string userName)
+        {
+            var userAge = _productRepository.GetAgeByUserName(userName);
+            var result = _productRepository.GetBooksForAdmin().AsQueryable();
+
+            switch (userAge)
+            {
+                case <= 10:
+                    result = result.Where(r => r.AgeRange == AgeRange.Kid);
+                    break;
+                case > 10 and <= 20:
+                    result = result.Where(r => r.AgeRange == AgeRange.Teenager);
+                    break;
+                case > 20:
+                    result = result.Where(r => r.AgeRange == AgeRange.Adult);
+                    break;
+            }
+
+            return result.Select(r => new BookListViewModel
+            {
+                BookId = r.BookId,
+                ImageName = r.ImageName,
+                PublisherName = r.Publisher.PublisherName,
+                Name = r.Name,
+                Price = r.Price,
+                Writer = r.Writer
+            }).Take(10);
+        }
+
+        public int GetAgeByUserName(string userName)
+        {
+            return _productRepository.GetAgeByUserName(userName);
+        }
+
+        public bool AddBookToFavorite(FavoriteBook favoriteBook)
+        {
+            favoriteBook.IsLiked = true;
+            _productRepository.AddBookToFavorite(favoriteBook);
+            return true;
+        }
+
+        public FavoriteBook GetFavBookInfoFromBook(int userId, int bookId)
+        {
+            return new FavoriteBook
+            {
+                BookId = bookId,
+                IsLiked = IsUserLikedBook(userId, bookId)
+            };
+        }
+
+        public bool IsUserLikedBook(int userId, int bookId)
+        {
+            return _productRepository.IsUserLikedBook(userId, bookId);
+        }
     }
 }

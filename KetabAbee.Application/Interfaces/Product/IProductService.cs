@@ -72,7 +72,17 @@ namespace KetabAbee.Application.Interfaces.Product
         IEnumerable<InventoryReport> GetBookChangeInventoryReports(int bookId);
 
         IEnumerable<AllInventoryReportsViewModel> GetAllInventoryReports();
-       
+
+        IEnumerable<BookListViewModel> GetBooksByAgeRange(string userName);
+
+        int GetAgeByUserName(string userName);
+
+        bool AddBookToFavorite(FavoriteBook favoriteBook);
+
+        FavoriteBook GetFavBookInfoFromBook(int userId, int bookId);
+
+        bool IsUserLikedBook(int userId, int bookId);
+
 
         #endregion
 

@@ -48,6 +48,8 @@ namespace KetabAbee.Data.Context
 
         public DbSet<InventoryReport> InventoryReports { get; set; }
 
+        public DbSet<FavoriteBook> FavoriteBooks { get; set; }
+
         #endregion
 
 
@@ -75,6 +77,9 @@ namespace KetabAbee.Data.Context
                 .HasQueryFilter(c => !c.IsDelete);
 
             modelBuilder.Entity<Book>()
+                .HasQueryFilter(c => !c.IsDelete);
+
+            modelBuilder.Entity<FavoriteBook>()
                 .HasQueryFilter(c => !c.IsDelete);
 
             #endregion

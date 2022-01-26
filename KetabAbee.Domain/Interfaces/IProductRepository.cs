@@ -43,6 +43,18 @@ namespace KetabAbee.Domain.Interfaces
 
         string GetBookNameById(int bookId);
 
+        int GetAgeByUserName(string userName);
+
+        void AddBookToFavorite(FavoriteBook favoriteBook);
+
+        void RemoveFromFavorite(FavoriteBook favoriteBook);
+
+        void UpdateFavorite(FavoriteBook favoriteBook);
+
+        bool IsUserLikedBook(int userId, int bookId);
+
+        FavoriteBook GetFavByBookIdAndUserId(int bookId, int userId, bool isLiked);
+
         #endregion
 
         #region Report

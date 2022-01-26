@@ -82,6 +82,8 @@ namespace KetabAbee.Domain.Models.Products
 
         public ProductGroup SubGroup2 { get; set; }
 
+        public ICollection<FavoriteBook> FavoriteBook { get; set; }
+
 
         #endregion
     }

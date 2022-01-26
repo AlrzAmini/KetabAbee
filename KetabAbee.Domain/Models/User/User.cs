@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Domain.Models.Products;
 using KetabAbee.Domain.Models.Ticket;
 
 namespace KetabAbee.Domain.Models.User
@@ -127,6 +128,8 @@ namespace KetabAbee.Domain.Models.User
         public ICollection<TicketAnswer> TicketAnswers { get; set; }
 
         public ICollection<Wallet.Wallet> Wallets { get; set; }
+
+        public ICollection<FavoriteBook> FavoriteBooks { get; set; }
 
         #endregion
     }
