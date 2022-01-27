@@ -83,6 +83,14 @@ namespace KetabAbee.Application.Interfaces.Product
 
         bool IsUserLikedBook(int userId, int bookId);
 
+        IEnumerable<BookListViewModel> GetFavBooksByBookIds(List<int> bookIds);
+
+        int GetFavBookIdByBookIdAndUserId(int userId, int bookId);
+
+        bool RemoveFromFav(int likeId);
+
+        FavoriteBook GetFavById(int likeId);
+
 
         #endregion
 

@@ -1,7 +1,10 @@
 ﻿@using System.Security.Claims
 @using KetabAbee.Application.Convertors
+@using KetabAbee.Application.DTOs.Book
 @using KetabAbee.Application.Extensions
+@using KetabAbee.Application.Interfaces.Product
 @model KetabAbee.Application.DTOs.UserInformationInDashboardViewmodel
+@inject IProductService _productService;
 @{
     ViewData["Title"] = "داشبورد";
 }
@@ -80,87 +83,48 @@
                             </div>
                         </section>
                     </div>
+                    @{
+                        var favBooks = ViewBag.FavBooks as List<BookListViewModel>;
+                        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                    }
                     <div class="col-lg-6 mb-lg-0 mb-3">
                         <div class="section-title mb-2">
-                            لیست آخرین علاقه‌مندی‌ها
+                            لیست علاقه‌مندی‌ها
                         </div>
                         <section class="shadow-around p-3">
                             <div class="row">
-                                <div class="col-12 mb-4">
-                                    <div class="product-list-section">
-                                        <div class="product-thumbnail">
-                                            <a href="#">
-                                                <img src="/images/product-list/01.jpg" alt="product title">
-                                            </a>
-                                        </div>
-                                        <div class="product-info">
-                                            <div class="product-title">
-                                                <a href="#">
-                                                    گوشی موبایل شیائومی مدل Redmi Note 8T M1908C3XG دو
-                                                    سیم‌ کارت ظرفیت 64 گیگابایت
-                                                </a>
+                                @if (favBooks != null && favBooks.Any())
+                                {
+                                    foreach (var book in favBooks)
+                                    {
+                                        <div class="col-12 mb-4">
+                                            <div class="product-list-section">
+                                                <div class="product-thumbnail">
+                                                    <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@book.BookId">
+                                                        <img src="/images/Book/thumb/@book.ImageName" alt="product image">
+                                                    </a>
+                                                </div>
+                                                <div class="product-info">
+                                                    <div class="product-title">
+                                                        <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@book.BookId">
+                                                            @book.Name
+                                                        </a>
+                                                    </div>
+                                                    <div class="text-danger">
+                                                        @book.Price.ToString("#,0")
+                                                        <span class="text-sm">تومان</span>
+                                                    </div>
+                                                    @{
+                                                        var likeId = _productService.GetFavBookIdByBookIdAndUserId(userId, book.BookId);
+                                                    }
+                                                    <div class="remove-item p-1">
+                                                        <a asp-controller="Book" asp-action="RemoveBookFromFavorite" asp-route-likeId="@likeId"><i class="far fa-trash-alt"></i></a>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="text-danger">
-                                                ۶,۷۹۰,۰۰۰
-                                                <span class="text-sm">تومان</span>
-                                            </div>
-                                            <button class="remove-item">
-                                                <i class="far fa-trash-alt"></i>
-                                            </button>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 mb-4">
-                                    <div class="product-list-section">
-                                        <div class="product-thumbnail">
-                                            <a href="#">
-                                                <img src="/images/product-list/02.jpg" alt="product title">
-                                            </a>
-                                        </div>
-                                        <div class="product-info">
-                                            <div class="product-title">
-                                                <a href="#">لپ تاپ 15 اینچی لنوو مدل Ideapad L340-FH</a>
-                                            </div>
-                                            <div class="text-danger">
-                                                ناموجود
-                                            </div>
-                                            <button class="remove-item">
-                                                <i class="far fa-trash-alt"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 mb-4">
-                                    <div class="product-list-section">
-                                        <div class="product-thumbnail">
-                                            <a href="#">
-                                                <img src="/images/product-list/03.jpg" alt="product title">
-                                            </a>
-                                        </div>
-                                        <div class="product-info">
-                                            <div class="product-title">
-                                                <a href="#">
-                                                    گوشی موبایل سامسونگ مدل Galaxy A50 SM-A505F/DS دو
-                                                    سیم کارت ظرفیت 128گیگابایت
-                                                </a>
-                                            </div>
-                                            <div class="text-danger">
-                                                ناموجود
-                                            </div>
-                                            <button class="remove-item">
-                                                <i class="far fa-trash-alt"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="text-center">
-                                        <a href="#" class="link--with-border-bottom">
-                                            <i class="far fa-edit"></i>
-                                            مشاهده و ویرایش لیست مورد علاقه
-                                        </a>
-                                    </div>
-                                </div>
+                                    }
+                                }
                             </div>
                         </section>
                     </div>

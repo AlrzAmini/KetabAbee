@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs;
+using KetabAbee.Application.Interfaces.Product;
 using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Security;
 
@@ -17,10 +18,12 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         #region constructor
 
         private readonly IUserService _userService;
+        private readonly IProductService _productService;
 
-        public UserPanelController(IUserService userService)
+        public UserPanelController(IUserService userService, IProductService productService)
         {
             _userService = userService;
+            _productService = productService;
         }
 
         #endregion
@@ -31,7 +34,8 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         public IActionResult Dashboard()
         {
             var userInfo = _userService.GetInfoByUserEmail(User.FindFirstValue(ClaimTypes.Email));
-
+            var userBookIds = _userService.GetUserFavBookIds(int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            ViewBag.FavBooks = _productService.GetFavBooksByBookIds(userBookIds).ToList();
             return View(userInfo);
         }
 

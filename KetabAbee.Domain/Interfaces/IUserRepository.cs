@@ -42,6 +42,8 @@ namespace KetabAbee.Domain.Interfaces
 
         bool IsOldPasswordCorrect(string username, string oldPass);
 
+        List<int> GetUserFavBookIds(int userId);
+
         #endregion
 
         #region Admin Panel

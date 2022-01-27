@@ -152,5 +152,11 @@ namespace KetabAbee.Data.Repository
         {
             return _context.Users.SingleOrDefault(u => u.UserId == userId).Mobile;
         }
+
+        public List<int> GetUserFavBookIds(int userId)
+        {
+            return _context.FavoriteBooks.Where(f => f.UserId == userId)
+                .Select(f => f.BookId).ToList();
+        }
     }
 }

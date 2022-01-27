@@ -643,5 +643,35 @@ namespace KetabAbee.Application.Services.Product
         {
             return _productRepository.IsUserLikedBook(userId, bookId);
         }
+
+        public IEnumerable<BookListViewModel> GetFavBooksByBookIds(List<int> bookIds)
+        {
+            return _productRepository.GetFavBooksByBookIds(bookIds)
+                .Select(b => new BookListViewModel
+                {
+                    BookId = b.BookId,
+                    ImageName = b.ImageName,
+                    Name = b.Name,
+                    Price = b.Price
+                });
+        }
+
+        public int GetFavBookIdByBookIdAndUserId(int userId, int bookId)
+        {
+            return _productRepository.GetFavBookIdByBookIdAndUserId(userId, bookId);
+        }
+
+        public bool RemoveFromFav(int likeId)
+        {
+            var fav = GetFavById(likeId);
+            fav.IsDelete = true;
+            _productRepository.UpdateFavorite(fav);
+            return true;
+        }
+
+        public FavoriteBook GetFavById(int likeId)
+        {
+            return _productRepository.GetFavById(likeId);
+        }
     }
 }

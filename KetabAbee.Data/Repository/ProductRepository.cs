@@ -161,9 +161,7 @@ namespace KetabAbee.Data.Repository
 
         public void RemoveFromFavorite(FavoriteBook favoriteBook)
         {
-            var getFav = GetFavByBookIdAndUserId(favoriteBook.BookId, favoriteBook.UserId, favoriteBook.IsLiked);
-            getFav.IsDelete = true;
-            _context.FavoriteBooks.Update(getFav);
+            _context.FavoriteBooks.Update(favoriteBook);
             _context.SaveChanges();
         }
 
@@ -174,15 +172,28 @@ namespace KetabAbee.Data.Repository
 
         public void UpdateFavorite(FavoriteBook favoriteBook)
         {
-            var getFav = GetFavByBookIdAndUserId(favoriteBook.BookId, favoriteBook.UserId, favoriteBook.IsLiked);
-            getFav.IsLiked = false;
-            _context.FavoriteBooks.Update(getFav);
+            _context.FavoriteBooks.Update(favoriteBook);
             _context.SaveChanges();
         }
 
         public FavoriteBook GetFavByBookIdAndUserId(int bookId, int userId, bool isLiked)
         {
             return _context.FavoriteBooks.SingleOrDefault(f => f.BookId == bookId && f.UserId == userId);
+        }
+
+        public IEnumerable<Book> GetFavBooksByBookIds(List<int> bookIds)
+        {
+            return bookIds.Select(GetBookById);
+        }
+
+        public int GetFavBookIdByBookIdAndUserId(int userId, int bookId)
+        {
+            return _context.FavoriteBooks.FirstOrDefault(f => f.UserId == userId && f.BookId == bookId).LikeId;
+        }
+
+        public FavoriteBook GetFavById(int likeId)
+        {
+            return _context.FavoriteBooks.Find(likeId);
         }
     }
 }

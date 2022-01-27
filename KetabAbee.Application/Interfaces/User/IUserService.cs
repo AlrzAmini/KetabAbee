@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using KetabAbee.Application.DTOs;
 using KetabAbee.Application.DTOs.Admin.User;
 using KetabAbee.Application.DTOs.Admin.Wallet;
+using KetabAbee.Application.DTOs.Book;
 using Microsoft.AspNetCore.Http;
 
 namespace KetabAbee.Application.Interfaces.User
@@ -51,6 +52,10 @@ namespace KetabAbee.Application.Interfaces.User
         bool IsOldPasswordCorrect(string username, string oldPass);
 
         bool ChangePasswordInUserPanel(string username, string newPass);
+
+        List<int> GetUserFavBookIds(int userId);
+
+        
 
         #endregion
 

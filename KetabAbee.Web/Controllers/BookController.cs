@@ -77,5 +77,21 @@ namespace KetabAbee.Web.Controllers
 
         #endregion
 
+        #region remove book from favorite
+
+        [HttpGet("RemoveF/{likeId}")]
+        public IActionResult RemoveBookFromFavorite(int likeId)
+        {
+            if (_productService.RemoveFromFav(likeId))
+            {
+                TempData["SuccessMessage"] = "حذف از علاقه مندی ها با موفقیت انجام شد";
+                return Redirect("/UserPanel/Dashboard");
+            }
+            TempData["ErrorMessage"] = "حذف از علاقه مندی ها با شکست مواجه شد";
+            return Redirect("/UserPanel/Dashboard");
+        }
+
+        #endregion
+
     }
 }
