@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using KetabAbee.Domain.Models.Order;
 using KetabAbee.Domain.Models.Permission;
 using KetabAbee.Domain.Models.Products;
 using KetabAbee.Domain.Models.Ticket;
@@ -52,6 +53,13 @@ namespace KetabAbee.Data.Context
 
         #endregion
 
+        #region Order
+
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderDetail> OrderDetails  { get; set; }
+
+        #endregion
 
 
 
@@ -80,6 +88,12 @@ namespace KetabAbee.Data.Context
                 .HasQueryFilter(c => !c.IsDelete);
 
             modelBuilder.Entity<FavoriteBook>()
+                .HasQueryFilter(c => !c.IsDelete);
+
+            modelBuilder.Entity<Order>()
+                .HasQueryFilter(c => !c.IsDelete);
+
+            modelBuilder.Entity<OrderDetail>()
                 .HasQueryFilter(c => !c.IsDelete);
 
             #endregion

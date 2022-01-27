@@ -131,6 +131,8 @@ namespace KetabAbee.Domain.Models.User
 
         public ICollection<FavoriteBook> FavoriteBooks { get; set; }
 
+        public ICollection<Order.Order> Orders { get; set; }
+
         #endregion
     }
 }
