@@ -22,7 +22,7 @@ namespace KetabAbee.Application.DTOs.Book
 
         public string Writer { get; set; }
 
-        public List<int> SelectedGroups { get; set; } 
+        public List<int> SearchCategory { get; set; } 
 
         public List<int> SelectedPublishers { get; set; } 
 

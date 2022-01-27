@@ -428,9 +428,9 @@ namespace KetabAbee.Application.Services.Product
             // filter by selected groups
             #region selected group
 
-            if (filter.SelectedGroups != null && filter.SelectedGroups.Any())
+            if (filter.SearchCategory != null && filter.SearchCategory.Any())
             {
-                result = filter.SelectedGroups
+                result = filter.SearchCategory
                     .Aggregate(result, (current, groupId)
                         => current.Where(g => g.GroupId == groupId ||
                                               g.SubGroupId == groupId ||

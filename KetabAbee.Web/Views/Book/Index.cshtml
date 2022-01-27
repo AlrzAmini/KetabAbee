@@ -28,13 +28,13 @@
                                         foreach (var group in groups.Where(g => g.ParentId == null))
                                         {
                                             <div class="custom-control custom-switch">
-                                                @if (Model.SelectedGroups != null && Model.SelectedGroups.Any())
+                                                @if (Model.SearchCategory != null && Model.SearchCategory.Any())
                                                 {
-                                                    <input onchange="submitchange()" type="checkbox" @(Model.SelectedGroups.Any(g => g == group.GroupId) ? "checked" : "") name="SelectedGroups" value="@group.GroupId" id="@group.GroupId" class="custom-control-input">
+                                                    <input onchange="submitchange()" type="checkbox" @(Model.SearchCategory.Any(g => g == group.GroupId) ? "checked" : "") name="SearchCategory" value="@group.GroupId" id="@group.GroupId" class="custom-control-input">
                                                 }
                                                 else
                                                 {
-                                                    <input onchange="submitchange()" type="checkbox" name="SelectedGroups" value="@group.GroupId" id="@group.GroupId" class="custom-control-input">
+                                                    <input onchange="submitchange()" type="checkbox" name="SearchCategory" value="@group.GroupId" id="@group.GroupId" class="custom-control-input">
                                                 }
                                                 <label class="custom-control-label" for="@group.GroupId">
                                                     @group.GroupTitle
