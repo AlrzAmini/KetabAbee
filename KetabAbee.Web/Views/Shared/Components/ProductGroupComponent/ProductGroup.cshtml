@@ -8,20 +8,20 @@
                 @foreach (var group in Model.Where(g => g.ParentId == null))
                 {
                     <li>
-                        <a href="/Book?SearchCategory=@group.GroupId">@group.GroupTitle</a>
+                        <a href="/Books?SearchCategory=@group.GroupId">@group.GroupTitle</a>
                         @if (Model.Any(g => g.ParentId == group.GroupId))
                         {
                             <ul class="row">
                                 @foreach (var sub in Model.Where(s => s.ParentId == group.GroupId))
                                 {
                                     <li class="col-3">
-                                        <a href="/Book?SearchCategory=@sub.GroupId">@sub.GroupTitle</a>
+                                        <a href="/Books?SearchCategory=@sub.GroupId">@sub.GroupTitle</a>
                                         @if (Model.Any(g => g.ParentId == sub.GroupId))
                                         {
                                             <ul>
                                                 @foreach (var sub2 in Model.Where(s => s.ParentId == sub.GroupId))
                                                 {
-                                                    <li><a href="/Book?SearchCategory=@sub2.GroupId">@sub2.GroupTitle</a></li>
+                                                    <li><a href="/Books?SearchCategory=@sub2.GroupId">@sub2.GroupTitle</a></li>
                                                 }
                                             </ul>
                                         }

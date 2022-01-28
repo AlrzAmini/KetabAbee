@@ -12,7 +12,7 @@ namespace KetabAbee.Application.DTOs.Book
     {
         #region props
 
-        public string BookName { get; set; }
+        public string Search { get; set; }
 
         public string PublisherName { get; set; }
 

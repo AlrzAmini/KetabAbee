@@ -388,9 +388,9 @@ namespace KetabAbee.Application.Services.Product
             // filter by book Name
             #region book name
 
-            if (!string.IsNullOrEmpty(filter.BookName))
+            if (!string.IsNullOrEmpty(filter.Search))
             {
-                result = result.Where(r => r.Name.Contains(filter.BookName));
+                result = result.Where(r => r.Name.Contains(filter.Search));
             }
 
             #endregion

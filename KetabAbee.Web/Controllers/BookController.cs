@@ -29,7 +29,7 @@ namespace KetabAbee.Web.Controllers
 
         #region Books & Filter
 
-        [HttpGet("Book")]
+        [HttpGet("Books")]
         public IActionResult Index(FilterBookListViewModel filter)
         {
             ViewBag.Groups = _productService.GetGroups().ToList();
