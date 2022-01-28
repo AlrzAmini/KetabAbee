@@ -158,5 +158,10 @@ namespace KetabAbee.Data.Repository
             return _context.FavoriteBooks.Where(f => f.UserId == userId)
                 .Select(f => f.BookId).ToList();
         }
+
+        public int GetUserIdByUserName(string userName)
+        {
+            return _context.Users.SingleOrDefault(u => u.UserName == userName).UserId;
+        }
     }
 }

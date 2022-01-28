@@ -100,7 +100,7 @@ namespace KetabAbee.Web.Controllers
         }
 
         [HttpPost("Login"), ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel login)
+        public async Task<IActionResult> Login(LoginViewModel login, string ReturnUrl = "/")
         {
             if (!await _captchaValidator.IsCaptchaPassedAsync(login.Captcha))
             {
@@ -125,9 +125,9 @@ namespace KetabAbee.Web.Controllers
 
                 var claims = new List<Claim>()
                 {
-                    new Claim(ClaimTypes.NameIdentifier,user.UserId.ToString()),
-                    new Claim(ClaimTypes.Name,user.UserName),
-                    new Claim(ClaimTypes.Email,user.Email)
+                    new(ClaimTypes.NameIdentifier,user.UserId.ToString()),
+                    new(ClaimTypes.Name,user.UserName),
+                    new(ClaimTypes.Email,user.Email)
                 };
 
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -140,6 +140,11 @@ namespace KetabAbee.Web.Controllers
 
                 // command for login user
                 await HttpContext.SignInAsync(principal, properties);
+
+                if (ReturnUrl != "/")
+                {
+                    return Redirect(ReturnUrl);
+                }
 
                 TempData["SuccessMessage"] = "خوش آمدید";
                 return Redirect("/");

@@ -62,6 +62,8 @@ namespace KetabAbee.Domain.Interfaces
 
         #endregion
 
+        int GetUserIdByUserName(string userName);
+
 
     }
 }

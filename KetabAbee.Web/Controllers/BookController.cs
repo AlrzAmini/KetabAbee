@@ -5,8 +5,10 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Book;
+using KetabAbee.Application.Interfaces.Order;
 using KetabAbee.Application.Interfaces.Product;
 using KetabAbee.Domain.Models.Products;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KetabAbee.Web.Controllers
 {
@@ -15,10 +17,12 @@ namespace KetabAbee.Web.Controllers
         #region construcor
 
         private readonly IProductService _productService;
+        private readonly IOrderService _orderService;
 
-        public BookController(IProductService productService)
+        public BookController(IProductService productService, IOrderService orderService)
         {
             _productService = productService;
+            _orderService = orderService;
         }
 
         #endregion
@@ -45,6 +49,8 @@ namespace KetabAbee.Web.Controllers
             ViewBag.PublisherBooks = _productService.PublisherBooks(model.PublisherId, model).ToList();
             if (User.Identity.IsAuthenticated)
             {
+                var reqUrl = Microsoft.AspNetCore.Http.Extensions.UriHelper.GetDisplayUrl(Request);
+                ViewBag.reqUrl = reqUrl;
                 ViewBag.FavBook = _productService.GetFavBookInfoFromBook(int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)), model.BookId);
                 var userName = User.Identity.Name;
                 ViewBag.AgeRangeBooks = _productService.GetBooksByAgeRange(userName).ToList();
@@ -58,11 +64,10 @@ namespace KetabAbee.Web.Controllers
 
         #region Add Book to Favorite
 
+        [Authorize]
         [HttpPost("AddToFavorite")]
         public IActionResult AddToFavorite(FavoriteBook favoriteBook)
         {
-            if (!User.Identity.IsAuthenticated) return Redirect("/Login");
-
             favoriteBook.UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             if (_productService.AddBookToFavorite(favoriteBook))
@@ -89,6 +94,28 @@ namespace KetabAbee.Web.Controllers
             }
             TempData["ErrorMessage"] = "حذف از علاقه مندی ها با شکست مواجه شد";
             return Redirect("/UserPanel/Dashboard");
+        }
+
+        #endregion
+
+        #region buy book
+
+        [Authorize]
+        [Route("AddToCart")]
+        public IActionResult AddToCart(int productId, string url)
+        {
+            var orderId =  _orderService.AddOrder(int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)), productId);
+            if (orderId != 0)
+            {
+                TempData["SuccessMessage"] = "به سبد خرید افزوده شد";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "به سبد خرید افزوده نشد";
+            }
+
+            // using url is just for that is a way for do this
+            return Redirect(url);
         }
 
         #endregion

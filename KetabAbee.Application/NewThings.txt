@@ -1,0 +1,5 @@
+﻿// get url from request
+var reqUrl = Microsoft.AspNetCore.Http.Extensions.UriHelper.GetDisplayUrl(this.Request);
+
+// get user ip
+historicoCookie.EnderecoIp = this.HttpContext.Connection.RemoteIpAddress.ToString();

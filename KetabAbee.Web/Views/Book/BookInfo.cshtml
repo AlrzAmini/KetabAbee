@@ -6,6 +6,7 @@
 @model KetabAbee.Domain.Models.Products.Book
 @{
     ViewData["Title"] = " مشخصلات، قیمت و خرید کتاب " + Model.Name + " اثر " + Model.Writer + " نشر " + Model.Publisher.PublisherName;
+    var reqUrl = ViewBag.reqUrl as string;
 }
 <main class="page-content" style="margin-top: 205.5px;">
     <div class="container">
@@ -138,7 +139,7 @@
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
-                                <a asp-controller="Book" asp-action="AddToFavorite" asp-route-bookId="@Model.BookId" class="add-to-cart btn-block">
+                                <a asp-controller="Book" asp-action="AddToCart" asp-route-productId="@Model.BookId" asp-route-url="@reqUrl" class="add-to-cart btn-block">
                                     افزودن به سبد خرید
                                 </a>
                             </div>
