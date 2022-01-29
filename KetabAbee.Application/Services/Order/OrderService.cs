@@ -24,54 +24,76 @@ namespace KetabAbee.Application.Services.Order
         public int AddOrder(int userId, int productId)
         {
             var order = _orderRepository.GetOrders().FirstOrDefault(o => o.UserId == userId && !o.IsFinally);
-            var productPrice = _productService.GetBookById(productId).Price;
-
-            // have not open order
-            if (order == null)
+            var product = _productService.GetBookById(productId);
+            var productInventory = product.Inventory;
+            // check inventory
+            if (productInventory != null && productInventory != 0)
             {
-                order = new Domain.Models.Order.Order
+                // have not open order
+                if (order == null)
                 {
-                    UserId = userId,
-                    IsFinally = false,
-                    CreateDate = DateTime.Now,
-                    OrderSum = productPrice,
-                    OrderDetails = new List<OrderDetail>
+                    order = new Domain.Models.Order.Order
                     {
-                        new()
+                        UserId = userId,
+                        IsFinally = false,
+                        CreateDate = DateTime.Now,
+                        OrderSum = product.Price,
+                        OrderDetails = new List<OrderDetail>
                         {
-                            ProductId = productId,
-                            Price = productPrice,
-                            Count = 1
+                            new()
+                            {
+                                ProductId = productId,
+                                Price = product.Price,
+                                Count = 1
+                            }
                         }
-                    }
-                }; 
-                _orderRepository.AddOrder(order);
-                _orderRepository.SaveChanges();
-            }
-            else //have open order
-            {
-                var detail = _orderRepository.GetOrdersDetails()
-                    .FirstOrDefault(d => d.OrderId == order.OrderId && d.ProductId == productId);
-                if (detail != null)
-                {
-                    detail.Count += 1;
-                    UpdateDetail(detail);
-                }
-                else
-                {
-                    detail = new OrderDetail
-                    {
-                        OrderId = order.OrderId,
-                        Count = 1,
-                        ProductId = productId,
-                        Price = productPrice
                     };
-                    _orderRepository.AddDetail(detail);
+                    _orderRepository.AddOrder(order);
+                    _orderRepository.SaveChanges();
                 }
-                
-                _orderRepository.UpdatePriceOrder(order.OrderId);
-            }
+                else //have open order
+                {
+                    var detail = _orderRepository.GetOrdersDetails()
+                        .FirstOrDefault(d => d.OrderId == order.OrderId && d.ProductId == productId);
+                    
+                    if (detail != null)
+                    {
+                        detail.Count += 1;
+                        //Check Inventory is enough for shopping
+                        //if (detail.Count <= productInventory)
+                        //{
+                        //    UpdateDetail(detail);
+                        //    product.Inventory -= 1;
+                        //    _productService.UpdateBook(product);
+                        //}
+                        //else
+                        //{
+                        //    return -1;
+                        //}
+                        UpdateDetail(detail);
+                        product.Inventory -= 1;
+                        _productService.UpdateBook(product);
 
+                    }
+                    else
+                    {
+                        detail = new OrderDetail
+                        {
+                            OrderId = order.OrderId,
+                            Count = 1,
+                            ProductId = productId,
+                            Price = product.Price
+                        };
+                        _orderRepository.AddDetail(detail);
+                    }
+
+                    _orderRepository.UpdatePriceOrder(order.OrderId);
+                }
+            }
+            else
+            {
+                return -1;
+            }
             return order.OrderId;
         }
 

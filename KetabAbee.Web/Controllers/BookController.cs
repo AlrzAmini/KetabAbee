@@ -104,18 +104,24 @@ namespace KetabAbee.Web.Controllers
         [Route("AddToCart")]
         public IActionResult AddToCart(int productId, string url)
         {
-            var orderId =  _orderService.AddOrder(int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)), productId);
-            if (orderId != 0)
+            var orderId = _orderService.AddOrder(int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)), productId);
+            switch (orderId)
+            {
+                case 0:
+                    TempData["ErrorMessage"] = "به سبد خرید افزوده نشد";
+                    break;
+                case -1:
+                    TempData["WarningMessage"] = "موجودی این کالا کافی نیست";
+                    break;
+            }
+            if (orderId != 0 && orderId != -1)
             {
                 TempData["SuccessMessage"] = "به سبد خرید افزوده شد";
             }
-            else
-            {
-                TempData["ErrorMessage"] = "به سبد خرید افزوده نشد";
-            }
+            //TODO : add to cart from book boxes
 
+            return Redirect(url ?? $"/BookInfo/{productId}");
             // using url is just for that is a way for do this
-            return Redirect(url);
         }
 
         #endregion

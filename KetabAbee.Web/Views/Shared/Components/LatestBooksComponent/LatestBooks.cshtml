@@ -1,7 +1,7 @@
 ﻿@model List<KetabAbee.Application.DTOs.Book.BookListViewModel>
-    <div class="swiper-wrapper">
-        @foreach (var book in Model)
-        {
+<div class="swiper-wrapper">
+    @foreach (var book in Model)
+    {
         <partial name="_BookBox" model="book" />
-        }
-    </div>
+    }
+</div>

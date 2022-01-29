@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Domain.Models.Order;
+using KetabAbee.Domain.Models.Products;
 
 namespace KetabAbee.Domain.Interfaces
 {
@@ -28,5 +29,7 @@ namespace KetabAbee.Domain.Interfaces
         Order GetOrderByIdForUpdatePrice(int orderId);
 
         void UpdatePriceOrder(int orderId);
+
+        void UpdateBook(Book book);
     }
 }

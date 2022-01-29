@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using KetabAbee.Data.Context;
 using KetabAbee.Domain.Interfaces;
 using KetabAbee.Domain.Models.Order;
+using KetabAbee.Domain.Models.Products;
 using Microsoft.EntityFrameworkCore;
 
 namespace KetabAbee.Data.Repository
@@ -13,12 +14,10 @@ namespace KetabAbee.Data.Repository
     public class OrderRepository : IOrderRepository
     {
         private readonly KetabAbeeDBContext _context;
-        private readonly IUserRepository _userRepository;
 
-        public OrderRepository(KetabAbeeDBContext context, IUserRepository userRepository)
+        public OrderRepository(KetabAbeeDBContext context)
         {
             _context = context;
-            _userRepository = userRepository;
         }
 
         public void UpdateOrder(Order order)
@@ -78,6 +77,12 @@ namespace KetabAbee.Data.Repository
             var order = GetOrderByIdForUpdatePrice(orderId);
             order.OrderSum = order.OrderDetails.Sum(detail => detail.Price * detail.Count);
             _context.Orders.Update(order);
+            _context.SaveChanges();
+        }
+
+        public void UpdateBook(Book book)
+        {
+            _context.Books.Update(book);
             _context.SaveChanges();
         }
     }

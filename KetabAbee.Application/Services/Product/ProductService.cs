@@ -472,7 +472,8 @@ namespace KetabAbee.Application.Services.Product
                 Name = b.Name,
                 Price = b.Price,
                 PublisherName = b.Publisher.PublisherName,
-                Writer = b.Writer
+                Writer = b.Writer,
+                BookInventory = b.Inventory
             }).Paging(pager).ToList();
 
 
@@ -489,7 +490,8 @@ namespace KetabAbee.Application.Services.Product
                     PublisherName = b.Publisher.PublisherName,
                     Name = b.Name,
                     Price = b.Price,
-                    Writer = b.Writer
+                    Writer = b.Writer,
+                    BookInventory = b.Inventory
                 });
 
         }
@@ -514,7 +516,8 @@ namespace KetabAbee.Application.Services.Product
                 PublisherName = b.Publisher.PublisherName,
                 Name = b.Name,
                 Price = b.Price,
-                Writer = b.Writer
+                Writer = b.Writer,
+                BookInventory = b.Inventory
             });
         }
 
@@ -614,7 +617,8 @@ namespace KetabAbee.Application.Services.Product
                 PublisherName = r.Publisher.PublisherName,
                 Name = r.Name,
                 Price = r.Price,
-                Writer = r.Writer
+                Writer = r.Writer,
+                BookInventory = r.Inventory
             }).Take(10);
         }
 

@@ -148,7 +148,7 @@
                         {
                             <div class="text-danger mt-3">
                                 <i class="fa fa-info-circle"></i>
-                                تنها @Model.Inventory عدد باقی مانده است <a href="#">همین الان بخرید</a>.
+                                تنها @Model.Inventory عدد باقی مانده است <a asp-controller="Book" asp-action="AddToCart" asp-route-productId="@Model.BookId" asp-route-url="@reqUrl">همین الان بخرید</a>.
                             </div>
                         }
                     }
@@ -186,7 +186,7 @@
             <div class="services pt-3 row mx-0">
                 <div class="col-md-3 col-sm-6 mb-md-0 mb-4">
                     <div class="service-item">
-                        <img src="./assets/images/services/delivery-person.png" alt="">
+                        <img src="/images/services/delivery-person.png" alt="">
                         <div class="service-item-body">
                             <h6>تحویل سریع و رایگان</h6>
                             <p>تحویل رایگان کالا برای کلیه سفارشات بیش از 500 هزار تومان</p>
@@ -195,7 +195,7 @@
                 </div>
                 <div class="col-md-3 col-sm-6 mb-md-0 mb-4">
                     <div class="service-item">
-                        <img src="./assets/images/services/recieve.png" alt="">
+                        <img src="/images/services/recieve.png" alt="">
                         <div class="service-item-body">
                             <h6>۷ روز ضمانت بازگشت</h6>
                             <p>در صورت نارضایتی به هر دلیلی می توانید محصول را بازگردانید</p>
@@ -204,7 +204,7 @@
                 </div>
                 <div class="col-md-3 col-sm-6 mb-md-0 mb-4">
                     <div class="service-item">
-                        <img src="./assets/images/services/headset.png" alt="">
+                        <img src="/images/services/headset.png" alt="">
                         <div class="service-item-body">
                             <h6>پشتیبانی ۲۴ ساعته</h6>
                             <p>در صورت وجود هرگونه سوال یا ابهامی، با ما در تماس باشید</p>
@@ -213,7 +213,7 @@
                 </div>
                 <div class="col-md-3 col-sm-6 mb-md-0 mb-4">
                     <div class="service-item">
-                        <img src="./assets/images/services/debit-card.png" alt="">
+                        <img src="/images/services/debit-card.png" alt="">
                         <div class="service-item-body">
                             <h6>پرداخت آنلاین ایمن</h6>
                             <p>محصولات مدنظر خود را با خیال آسوده به صورت آنلاین خریداری کنید</p>

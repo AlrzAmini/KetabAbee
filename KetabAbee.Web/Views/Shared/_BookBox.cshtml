@@ -10,24 +10,40 @@
         <div class="product-card-middle">
             <div class="ratings-container">
                 <div class="ratings">
-                    <div class="ratings-val w-65" ></div>
+                    <div class="ratings-val w-65"></div>
                 </div>
             </div>
             <h6 class="product-name">
                 <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@Model.BookId">
-                     @Model.Name اثر @Model.Writer نشر @Model.PublisherName
+                    @Model.Name اثر @Model.Writer نشر @Model.PublisherName
                 </a>
             </h6>
-            <div class="product-price product-price-clone">@Model.Price.ToToman()</div>
+            @if (Model.BookInventory != null && Model.BookInventory != 0)
+            {
+                <div class="product-price product-price-clone">@Model.Price.ToToman()</div>
+            }
+            else
+            {
+                <div class="product-price product-price-clone">نا موجود</div>
+            }
         </div>
         <div class="product-card-bottom">
-            <div class="product-price">
-                @Model.Price.ToToman()
-            </div>
-            <a href="#" class="btn-add-to-cart">
-                <i class="fad fa-cart-plus"></i>
-                افزودن به سبد خرید
-            </a>
+            @if (Model.BookInventory != null && Model.BookInventory != 0)
+            {
+                <div class="product-price">
+                    @Model.Price.ToToman()
+                </div>
+                <a asp-controller="Book" asp-action="AddToCart" asp-route-productId="@Model.BookId" target="_blank" class="btn btn-primary btn-sm">
+                    <i class="fad fa-cart-plus"></i>
+                    افزودن به سبد خرید
+                </a>
+            }
+            else
+            {
+                <div class="product-price">
+                    نا موجود
+                </div>
+            }
         </div>
     </div>
 </div>

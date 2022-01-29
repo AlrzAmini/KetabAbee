@@ -22,7 +22,7 @@
             <tbody>
                 @if (Model != null && Model.Any())
                 {
-                    foreach (var report in Model)
+                    foreach (var report in Model.OrderByDescending(i => i.Date))
                     {
                         <tr>
                             @if (report.ChangeId == 1)
