@@ -1,0 +1,142 @@
+﻿@using KetabAbee.Application.Extensions
+@model KetabAbee.Domain.Models.Order.Order
+@{
+    ViewData["Title"] = "سبد خرید";
+
+    var reqUrl = ViewBag.reqUrl as string;
+}
+
+<main class="page-content" style="margin-top: 205.5px;">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-xl-9 col-lg-8 col-md-8 mb-md-0 mb-3">
+                <div class="checkout-section shadow-around">
+                    <div class="checkout-step">
+                        <ul>
+                            <li class="active"><span>سبد خرید</span></li>
+                        </ul>
+                    </div>
+                    <hr />
+                    <div class="checkout-section-content">
+                        <div class="cart-items">
+                            @if (Model.OrderDetails != null && Model.OrderDetails.Any())
+                            {
+                                foreach (var detail in Model.OrderDetails)
+                                {
+                                    <div class="cart-item py-4 px-3">
+                                        <div class="item-thumbnail">
+                                            <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@detail.ProductId">
+                                                <img src="/images/Book/thumb/@detail.Product.ImageName" alt="@detail.Product.Name" class="rounded thumbnail">
+                                            </a>
+                                        </div>
+                                        <div class="item-info flex-grow-1">
+                                            <div class="item-title">
+                                                <h2>
+                                                    <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@detail.ProductId">
+                                                        کتاب @detail.Product.Name اثر @detail.Product.Writer نشر @detail.Product.Publisher.PublisherName
+                                                    </a>
+                                                </h2>
+                                            </div>
+                                            <div class="item-detail">
+                                                <ul>
+                                                    <li>
+                                                        <i class="far fa-book text-muted"></i>
+                                                        <span class="text-muted">@detail.Product.CoverType.GetEnumName()</span>
+                                                    </li>
+                                                    <li>
+                                                        <i class="far fa-person-sign text-muted"></i>
+                                                        <span class="text-muted">@detail.Product.AgeRange.GetEnumName()</span>
+                                                    </li>
+                                                    <li>
+                                                        <i class="far fa-store-alt text-muted"></i>
+                                                        <span class="text-muted">کتاب آبی</span>
+                                                    </li>
+                                                </ul>
+                                                <div class="item-quantity--item-price">
+                                                    <div class="item-quantity">
+                                                        <form id="countForm" asp-controller="Order" asp-action="SetProductCount" method="post">
+                                                            <input type="hidden" name="reqUrl" value="@reqUrl" />
+                                                            <input type="hidden" name="orderId" value="@detail.OrderId" />
+                                                            <input type="hidden" name="detailId" value="@detail.DetailId" />
+                                                            <div class="num-block">
+                                                                <div class="num-in">
+                                                                    <span class="plus"></span>
+                                                                    <input type="text" class="in-num" onchange="submitChange()" name="productCount" value="@detail.Count" readonly="">
+                                                                    <span class="minus dis"></span>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                        <a asp-controller="Order" asp-action="RemoveItemFromOrderDetail" asp-route-detailId="@detail.DetailId" asp-route-orderId="@detail.OrderId" class="item-remove-btn mr-3 mt-3">
+                                                            <i class="far fa-trash-alt"></i>
+                                                            حذف
+                                                        </a>
+                                                    </div>
+                                                    <div class="item-price">
+                                                        @detail.Price.ToString("#,0")<span class="text-sm mr-1">تومان</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="cart-item py-4 px-3">
+                                    <div class="col-12 mt-4">
+                                        <div class="alert alert-primary">سبد خریدتان خالی است</div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-md-4">
+                <div class="shadow-around pt-3">
+                    <div class="d-flex justify-content-between px-3 py-2">
+                        <span class="text-muted">قیمت کالاها (@Model.OrderDetails?.Count)</span>
+                        <span class="text-muted">
+                            @Model.OrderSum.ToString("#,0")
+                            <span class="text-sm">تومان</span>
+                        </span>
+                    </div>
+                    <div class="d-flex justify-content-between px-3 py-2">
+                        <span class="text-muted">تخفیف کالاها</span>
+                        <span class="text-danger">
+                            (۲٪) ۵۱۰,۰۰۰
+                            <span class="text-sm">تومان</span>
+                        </span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between px-3 py-2">
+                        <span class="font-weight-bold">جمع</span>
+                        <span class="font-weight-bold">
+                            @Model.OrderSum.ToString("#,0")
+                            <span class="text-sm">تومان</span>
+                        </span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between px-3 py-2">
+                        <span class="font-weight-bold">مبلغ قابل پرداخت</span>
+                        <span class="font-weight-bold">
+                            @Model.OrderSum.ToString("#,0")
+                            <span class="text-sm">تومان</span>
+                        </span>
+                    </div>
+                    <div class="d-flex px-3 py-4">
+                        <a href="#" class="btn btn-primary btn-block py-2">خرید نهایی</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+@section Scripts{
+
+    <script>
+        function submitChange() {
+            $("#countForm").submit();
+        }
+    </script>
+}

@@ -139,7 +139,11 @@
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
-                                <a asp-controller="Book" asp-action="AddToCart" asp-route-productId="@Model.BookId" asp-route-url="@reqUrl" class="add-to-cart btn-block">
+                                @*route url*@
+                                @*<a asp-controller="Book" asp-action="AddToCart" asp-route-productId="@Model.BookId" asp-route-url="@reqUrl" class="add-to-cart btn-block">
+                                    افزودن به سبد خرید
+                                </a>*@
+                                <a asp-controller="Book" asp-action="AddToCart" asp-route-productId="@Model.BookId" target="_blank" class="add-to-cart btn-block">
                                     افزودن به سبد خرید
                                 </a>
                             </div>

@@ -47,8 +47,8 @@ namespace KetabAbee.Data.Repository
         public Order GetOrderByIdForUpdatePrice(int orderId)
         {
             return _context.Orders
-                .Include(o=>o.OrderDetails.Where(d=>d.OrderId == orderId))
-                .SingleOrDefault(o=>o.OrderId == orderId);
+                .Include(o => o.OrderDetails.Where(d => d.OrderId == orderId))
+                .SingleOrDefault(o => o.OrderId == orderId);
         }
 
         public IEnumerable<Order> GetOrders()
@@ -84,6 +84,47 @@ namespace KetabAbee.Data.Repository
         {
             _context.Books.Update(book);
             _context.SaveChanges();
+        }
+
+        public Order GetOrderForShowInUserPanel(int userId, int orderId)
+        {
+            return _context.Orders
+                .Include(o => o.OrderDetails)
+                .ThenInclude(d => d.Product)
+                .ThenInclude(b => b.Publisher)
+                .Include(o => o.User)
+                .FirstOrDefault(o => o.UserId == userId && o.OrderId == orderId);
+        }
+
+        public IEnumerable<Order> GetUserOrders(int userId)
+        {
+            return _context.Orders.Where(o => o.UserId == userId);
+        }
+
+        public bool RemoveItemOfOrderDetail(OrderDetail detail)
+        {
+            detail.Price = 0;
+            detail.IsDelete = true;
+            UpdateDetail(detail);
+            UpdatePriceOrder(detail.OrderId);
+            return true;
+        }
+
+        public IEnumerable<Order> GetOrdersForValidationInRemoveMethod()
+        {
+            return _context.Orders
+                .Include(o => o.OrderDetails)
+                .Include(o => o.User);
+        }
+
+        public OrderDetail GetDetailById(int detailId)
+        {
+            return _context.OrderDetails.Find(detailId);
+        }
+
+        public IEnumerable<OrderDetail> GetDetailsWithIncludes()
+        {
+            return _context.OrderDetails.Include(d => d.Order);
         }
     }
 }

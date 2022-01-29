@@ -97,9 +97,60 @@ namespace KetabAbee.Application.Services.Order
             return order.OrderId;
         }
 
+        public Domain.Models.Order.Order GetOrderForShowToUser(int userId, int orderId)
+        {
+            return _orderRepository.GetOrderForShowInUserPanel(userId, orderId);
+        }
+
+        public IEnumerable<Domain.Models.Order.Order> GetUserOrders(int userId)
+        {
+            return _orderRepository.GetUserOrders(userId);
+        }
+
+        public bool RemoveItemOfOrderDetail(int userId, int orderId, int detailId)
+        {
+            var order = _orderRepository.GetOrdersForValidationInRemoveMethod().SingleOrDefault(o =>
+                !o.IsFinally && o.OrderId == orderId && o.UserId == userId);
+
+            if (order == null)
+            {
+                return false;
+            }
+
+            if (order.OrderDetails.All(d => d.DetailId != detailId))
+            {
+                return false;
+            }
+
+            var detail = _orderRepository.GetDetailById(detailId);
+            return _orderRepository.RemoveItemOfOrderDetail(detail);
+        }
+
         public void UpdateDetail(OrderDetail detail)
         {
             _orderRepository.UpdateDetail(detail);
+        }
+
+        public bool UpdateDetailCount(int userId, int orderId, int detailId, int newCount)
+        {
+            try
+            {
+                var detail = _orderRepository.GetDetailsWithIncludes()
+                    .SingleOrDefault(d => !d.Order.IsFinally && d.OrderId == orderId && d.DetailId == detailId);
+                if (detail == null)
+                {
+                    return false;
+                }
+
+                detail.Count = newCount;
+                UpdateDetail(detail);
+                _orderRepository.UpdatePriceOrder(orderId);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

@@ -28,39 +28,39 @@
     <div class="user-menu">
         <ul>
             <li>
-                <a asp-controller="UserPanel" asp-action="Dashboard">
+                <a asp-area="UserPanel" asp-controller="UserPanel" asp-action="Dashboard">
                     <i class="far fa-list"></i>
                     داشبورد
                 </a>
             </li>
             <li>
-                <a asp-controller="UserPanel" asp-action="EditProfile">
+                <a asp-area="UserPanel" asp-controller="UserPanel" asp-action="EditProfile">
                     <i class="far fa-edit"></i>
                     ویرایش حساب کاربری
                 </a>
             </li>
             <li>
-                <a asp-controller="UserPanel" asp-action="ChangePassword">
+                <a asp-area="UserPanel" asp-controller="UserPanel" asp-action="ChangePassword">
                     <i class="far fa-lock-open"></i>
                     تغییر کلمه عبور
                 </a>
             </li>
             <li>
-                <a asp-controller="Ticket" asp-action="Index">
+                <a asp-area="UserPanel" asp-controller="Ticket" asp-action="Index">
                     <i class="far fa-envelope"></i>
                     تیکت ها
                 </a>
             </li>
             <li>
-                <a asp-controller="Wallet" asp-action="ChargeWallet">
+                <a asp-area="UserPanel" asp-controller="Wallet" asp-action="ChargeWallet">
                     <i class="far fa-wallet"></i>
                     کیف پول
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a asp-area="UserPanel" asp-controller="Order" asp-action="Orders">
                     <i class="far fa-clipboard-list-check"></i>
-                    سفارشات
+                    فاکتور ها
                 </a>
             </li>
             <li>

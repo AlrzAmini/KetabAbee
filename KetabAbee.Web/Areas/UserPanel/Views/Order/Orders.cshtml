@@ -1,0 +1,167 @@
+﻿@using KetabAbee.Application.Convertors
+@model List<KetabAbee.Domain.Models.Order.Order>
+@{
+    ViewData["Title"] = "فاکتور ها";
+}
+
+<main class="page-content" style="margin-top: 205.5px; transform: none;">
+    <div class="container" style="transform: none;">
+        <div class="row mb-5" style="transform: none;">
+            <div class="col-lg-3 col-md-4 mb-md-0 mb-3 sticky-sidebar" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
+
+                <div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none;">
+                    <div class="sidebar-widget">
+                        @await Component.InvokeAsync("UserPanelSideBarComponent")
+                    </div><div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 349px; height: 599px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-8">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="section-title mb-2">
+                            فاکتور ها
+                        </div>
+                        <section class="shadow-around p-3">
+                            <div class="d-none d-sm-block">
+                                <ul class="nav nav-tabs" id="orders-tab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link active" id="wait-for-payment-tab" data-toggle="tab" href="#wait-for-payment" role="tab" aria-controls="wait-for-payment" aria-selected="true">
+                                            در انتظار پرداخت
+                                            <span class="badge badge-secondary">@Model.Count(o => !o.IsFinally)</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" id="pain-in-progress-tab" data-toggle="tab" href="#pain-in-progress" role="tab" aria-controls="pain-in-progress" aria-selected="false">
+                                            پرداخت شده
+                                            <span class="badge badge-secondary">@Model.Count(o => o.IsFinally)</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="d-sm-none tab-responsive-order-list">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle btn-block" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        لیست سفارشات بر اساس
+                                    </button>
+                                    <div class="dropdown-menu shadow-around w-100" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" data-toggle="tab" href="#wait-for-payment" role="tab" aria-controls="wait-for-payment" aria-selected="true">
+                                            در
+                                            انتظار پرداخت
+                                        </a>
+                                        <a class="dropdown-item" data-toggle="tab" href="#pain-in-progress" role="tab" aria-controls="pain-in-progress" aria-selected="false">
+                                            پرداخت شده
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-content" id="orders-tab">
+                                <div class="tab-pane fade show active" id="wait-for-payment" role="tabpanel" aria-labelledby="wait-for-payment-tab">
+                                    <section class="table--order shadow-around mt-4">
+                                        <div class="table-responsive">
+                                            @if (Model != null && Model.Any(o => !o.IsFinally))
+                                            {
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>شماره فاکتور</th>
+                                                            <th>تاریخ ثبت</th>
+                                                            <th>مبلغ کل</th>
+                                                            <th>وضعیت</th>
+                                                            <th>جزییات</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+
+                                                        @foreach (var order in Model.Where(o => !o.IsFinally))
+                                                        {
+                                                            <tr>
+                                                                <td>@order.OrderId</td>
+                                                                <td>@order.CreateDate.ToShamsi()</td>
+                                                                <td>@order.OrderSum.ToToman()</td>
+                                                                <td class="text-info">در انتظار پرداخت</td>
+                                                                <td class="order-detail-link">
+                                                                    <a asp-controller="Order" asp-action="Order" asp-route-orderId="@order.OrderId">
+                                                                        <i class="far fa-chevron-left"></i>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            }
+                                            else
+                                            {
+                                                <div class="empty-box">
+                                                    <div class="icon">
+                                                        <i class="fal fa-times-circle"></i>
+                                                    </div>
+                                                    <div class="message">
+                                                        <p>فاکتوری برای نمایش وجود ندارد!</p>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="tab-pane fade" id="pain-in-progress" role="tabpanel" aria-labelledby="pain-in-progress-tab">
+                                    <section class="table--order shadow-around mt-4">
+                                        <div class="table-responsive">
+                                            @if (Model != null && Model.Any(o => o.IsFinally))
+                                            {
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>شماره فاکتور</th>
+                                                            <th>تاریخ ثبت</th>
+                                                            <th>مبلغ کل</th>
+                                                            <th>وضعیت</th>
+                                                            <th>جزییات</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                        @foreach (var order in Model.Where(o => o.IsFinally))
+                                                        {
+                                                            <tr>
+                                                                <td>@order.OrderId</td>
+                                                                <td>@order.CreateDate.ToShamsi()</td>
+                                                                <td>@order.OrderSum.ToToman()</td>
+                                                                <td class="text-success">پرداخت شده</td>
+                                                                <td class="order-detail-link">
+                                                                    <a asp-controller="Order" asp-action="Order" asp-route-orderId="@order.OrderId">
+                                                                        <i class="far fa-chevron-left"></i>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        }
+
+                                                    </tbody>
+                                                </table>
+                                            }
+                                            else
+                                            {
+                                                <div class="empty-box">
+                                                    <div class="icon">
+                                                        <i class="fal fa-times-circle"></i>
+                                                    </div>
+                                                    <div class="message">
+                                                        <p>فاکتوری برای نمایش وجود ندارد!</p>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <partial name="_Banner" />
+    </div>
+</main>
+
+
+

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Domain.Models.Order;
@@ -31,5 +32,17 @@ namespace KetabAbee.Domain.Interfaces
         void UpdatePriceOrder(int orderId);
 
         void UpdateBook(Book book);
+
+        Order GetOrderForShowInUserPanel(int userId, int orderId);
+
+        IEnumerable<Order> GetUserOrders(int userId);
+
+        bool RemoveItemOfOrderDetail(OrderDetail detail);
+
+        IEnumerable<Order> GetOrdersForValidationInRemoveMethod();
+
+        OrderDetail GetDetailById(int detailId);
+
+        IEnumerable<OrderDetail> GetDetailsWithIncludes();
     }
 }

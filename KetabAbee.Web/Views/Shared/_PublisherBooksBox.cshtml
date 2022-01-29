@@ -33,6 +33,10 @@
                 <div class="product-price">
                     @Model.Price.ToToman()
                 </div>
+                <a asp-controller="Book" asp-action="AddToCart" asp-route-productId="@Model.BookId" target="_blank" class="btn btn-primary btn-sm">
+                    <i class="fad fa-cart-plus"></i>
+                    افزودن به سبد خرید
+                </a>
             }
             else
             {
@@ -40,10 +44,6 @@
                     نا موجود
                 </div>
             }
-            <a asp-controller="Book" asp-action="AddToCart" asp-route-productId="@Model.BookId" target="_blank" class="btn-add-to-cart">
-                <i class="fad fa-cart-plus"></i>
-                افزودن به سبد خرید
-            </a>
         </div>
     </div>
 </div>

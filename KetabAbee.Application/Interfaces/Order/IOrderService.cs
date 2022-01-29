@@ -12,5 +12,13 @@ namespace KetabAbee.Application.Interfaces.Order
         int AddOrder(int userId, int productId);
 
         void UpdateDetail(OrderDetail detail);
+
+        Domain.Models.Order.Order GetOrderForShowToUser(int userId, int orderId);
+
+        IEnumerable<Domain.Models.Order.Order> GetUserOrders(int userId);
+
+        bool RemoveItemOfOrderDetail(int userId, int orderId, int detailId);
+
+        bool UpdateDetailCount(int userId, int orderId, int detailId, int newCount);
     }
 }

@@ -102,7 +102,7 @@ namespace KetabAbee.Web.Controllers
 
         [Authorize]
         [Route("AddToCart")]
-        public IActionResult AddToCart(int productId, string url)
+        public IActionResult AddToCart(int productId/*, string url*/)
         {
             var orderId = _orderService.AddOrder(int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)), productId);
             switch (orderId)
@@ -120,8 +120,10 @@ namespace KetabAbee.Web.Controllers
             }
             //TODO : add to cart from book boxes
 
-            return Redirect(url ?? $"/BookInfo/{productId}");
             // using url is just for that is a way for do this
+            //return Redirect(url ?? $"/BookInfo/{productId}");
+
+            return Redirect($"/Cart/{orderId}");
         }
 
         #endregion

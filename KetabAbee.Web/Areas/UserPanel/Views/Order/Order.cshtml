@@ -1,0 +1,117 @@
+﻿@using KetabAbee.Application.Convertors
+@model KetabAbee.Domain.Models.Order.Order
+@{
+    ViewData["Title"] = "جزییات فاکتور " + Model.OrderId;
+}
+<main class="page-content" style="margin-top: 205.5px; transform: none;">
+    <div class="container" style="transform: none;">
+        <div class="row mb-5" style="transform: none;">
+            <div class="col-lg-3 col-md-4 mb-md-0 mb-3 sticky-sidebar" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
+
+                <div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none;">
+                    <div class="sidebar-widget">
+                        @await Component.InvokeAsync("UserPanelSideBarComponent")
+                    </div><div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 349px; height: 599px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-8">
+                <div class="section-title mb-2">
+                    <span class="ml-2">جزئیات فاکتور</span>
+                    <span class="text-muted ml-2">|</span>
+                    <span class="font-en ml-2">@Model.OrderId</span>
+                    <span class="text-muted ml-2">|</span>
+                    <span class="text-sm text-secondary">@Model.CreateDate.ToIraniDate()</span>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <section class="shadow-around p-3">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="checkout-section shadow-around p-2">
+                                        <div class="checkout-section-content">
+                                            <div class="cart-items">
+                                                <div class="mb-2">
+                                                    <span class="text-muted">خریدار:</span>
+                                                    <span class="font-weight-bold">@Model.User.UserName</span>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <span class="text-muted">شماره تماس :</span>
+                                                    <span class="font-weight-bold">@Model.User.Mobile</span>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <span class="text-muted">وضعیت :</span>
+                                                    @if (Model.IsFinally)
+                                                    {
+                                                        <span class="font-weight-bold text-success">
+                                                            پرداخت شده
+                                                        </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="font-weight-bold text-danger">
+                                                            پرداخت نشده
+                                                        </span>
+                                                    }
+                                                </div>
+                                                <div class="mb-2">
+                                                    <span class="text-muted">مبلغ کل این فاکتور :</span>
+                                                    <span class="font-weight-bold">
+                                                        @Model.OrderSum.ToString("#,0")
+                                                        <span class="text-sm text-secondary">تومان</span>
+                                                    </span>
+                                                </div>
+                                                <hr>
+                                                @if (Model.OrderDetails != null && Model.OrderDetails.Any())
+                                                {
+                                                    foreach (var detail in Model.OrderDetails)
+                                                    {
+                                                        <div class="cart-item py-4 px-3">
+                                                            <div class="item-thumbnail">
+                                                                <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@detail.ProductId" target="_blank">
+                                                                    <img src="/images/Book/thumb/@detail.Product.ImageName" alt="@detail.Product.Name" class="rounded thumbnail">
+                                                                </a>
+                                                            </div>
+                                                            <div class="item-info flex-grow-1">
+                                                                <div class="item-title">
+                                                                    <h2>
+                                                                        <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@detail.ProductId" target="_blank">
+                                                                            کتاب @detail.Product.Name اثر @detail.Product.Writer نشر @detail.Product.Publisher.PublisherName
+                                                                        </a>
+                                                                    </h2>
+                                                                </div>
+                                                                <div class="item-detail">
+                                                                    <ul>
+                                                                        <li>
+                                                                            <i class="far fa-book text-muted"></i>
+                                                                            <span>@detail.Count عدد</span>
+                                                                        </li>
+                                                                        <li>
+                                                                            <i class="far fa-store-alt text-primary"></i>
+                                                                            <span class="text-primary">کتاب آبی</span>
+                                                                        </li>
+                                                                    </ul>
+                                                                    <div class="item-quantity--item-price">
+                                                                        <div class="item-price">
+                                                                            <span class="text-muted"> قیمت :</span>
+                                                                            @detail.Price.ToString("#,0")<span class="text-sm mr-1">تومان</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <partial name="_Banner" />
+    </div>
+</main>
+
