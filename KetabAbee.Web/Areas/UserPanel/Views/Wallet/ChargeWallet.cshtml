@@ -25,22 +25,41 @@
                         </div>
                         <section class="shadow-around p-3">
                             <form asp-controller="Wallet" asp-action="ChargeWallet" method="post">
+                                <input type="hidden" name="url" value="@ViewBag.UrlFromCart"/>
                                 <div class="row">
                                     <div class="col-lg-12 mb-5">
                                         <div class="text-sm text-muted mb-3">مبلغ (تومان) :</div>
                                         <div class="text-dark font-weight-bold">
-                                            <div class="form-element-row mb-0">
-                                                <input type="number" asp-for="Amount" value="" class="input-element" placeholder="مبلغی مورد نظر خود را به تومان وارد کنید ...">
-                                            </div>
+                                            @if (ViewBag.AmountFromCart == null)
+                                            {
+                                                <div class="form-element-row mb-0">
+                                                    <input type="number" asp-for="Amount" value="" class="input-element" placeholder="مبلغی مورد نظر خود را به تومان وارد کنید ...">
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="form-element-row mb-0">
+                                                    <input type="number" asp-for="Amount" value="@ViewBag.AmountFromCart" class="input-element" placeholder="مبلغی مورد نظر خود را به تومان وارد کنید ...">
+                                                </div>
+                                            }
                                             <span asp-validation-for="Amount" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-lg-12 mb-5">
                                         <div class="text-sm text-muted mb-3">بابت :</div>
                                         <div class="text-dark font-weight-bold">
-                                            <div class="form-element-row mb-0">
-                                                <input type="text" asp-for="Behalf" class="input-element" value="شارژ حساب">
-                                            </div>
+                                            @if (ViewBag.BehalfFromCart == null)
+                                            {
+                                                <div class="form-element-row mb-0">
+                                                    <input type="text" asp-for="Behalf" class="input-element" value="شارژ حساب">
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="form-element-row mb-0">
+                                                    <input type="text" asp-for="Behalf" class="input-element" value="@ViewBag.BehalfFromcart">
+                                                </div>
+                                            }
                                             <span asp-validation-for="Behalf" class="text-danger"></span>
                                         </div>
                                     </div>

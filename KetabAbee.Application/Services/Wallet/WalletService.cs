@@ -132,5 +132,11 @@ namespace KetabAbee.Application.Services.Wallet
                 return false;
             }
         }
+
+        public bool AddWallet(Domain.Models.Wallet.Wallet wallet)
+        {
+            var walletId = _walletRepository.AddWallet(wallet);
+            return walletId != 0;
+        }
     }
 }

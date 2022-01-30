@@ -73,28 +73,28 @@ namespace KetabAbee.Data.Context
             #region query filters
 
             modelBuilder.Entity<User>()
-                .HasQueryFilter(c => !c.IsDelete);
+                .HasQueryFilter(e => !e.IsDelete);
 
             modelBuilder.Entity<Role>()
-                .HasQueryFilter(c => !c.IsDelete);
+                .HasQueryFilter(e => !e.IsDelete);
 
             modelBuilder.Entity<ProductGroup>()
-                .HasQueryFilter(c => !c.IsDelete);
+                .HasQueryFilter(e => !e.IsDelete);
 
             modelBuilder.Entity<Publisher>()
-                .HasQueryFilter(c => !c.IsDelete);
+                .HasQueryFilter(e => !e.IsDelete);
 
             modelBuilder.Entity<Book>()
-                .HasQueryFilter(c => !c.IsDelete);
+                .HasQueryFilter(e => !e.IsDelete);
 
             modelBuilder.Entity<FavoriteBook>()
-                .HasQueryFilter(c => !c.IsDelete);
+                .HasQueryFilter(e => !e.IsDelete);
 
             modelBuilder.Entity<Order>()
-                .HasQueryFilter(c => !c.IsDelete);
+                .HasQueryFilter(e => !e.IsDelete);
 
             modelBuilder.Entity<OrderDetail>()
-                .HasQueryFilter(c => !c.IsDelete);
+                .HasQueryFilter(e => !e.IsDelete);
 
             #endregion
 

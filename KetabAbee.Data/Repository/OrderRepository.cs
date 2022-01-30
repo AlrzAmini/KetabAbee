@@ -124,7 +124,16 @@ namespace KetabAbee.Data.Repository
 
         public IEnumerable<OrderDetail> GetDetailsWithIncludes()
         {
-            return _context.OrderDetails.Include(d => d.Order);
+            return _context.OrderDetails
+                .Include(d => d.Order)
+                .Include(d => d.Product);
+        }
+
+        public IEnumerable<Order> GetOrdersWithIncludes()
+        {
+            return _context.Orders
+                .Include(o => o.User)
+                .Include(o => o.OrderDetails).ThenInclude(o => o.Product);
         }
     }
 }

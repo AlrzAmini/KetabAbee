@@ -5,8 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.Interfaces.Order;
 using KetabAbee.Application.Interfaces.Product;
+using KetabAbee.Application.Interfaces.Wallet;
 using KetabAbee.Domain.Interfaces;
 using KetabAbee.Domain.Models.Order;
+using KetabAbee.Domain.Models.Wallet;
 
 namespace KetabAbee.Application.Services.Order
 {
@@ -14,11 +16,13 @@ namespace KetabAbee.Application.Services.Order
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IProductService _productService;
+        private readonly IWalletService _walletService;
 
-        public OrderService(IOrderRepository orderRepository, IProductService productService)
+        public OrderService(IOrderRepository orderRepository, IProductService productService, IWalletService walletService)
         {
             _orderRepository = orderRepository;
             _productService = productService;
+            _walletService = walletService;
         }
 
         public int AddOrder(int userId, int productId)
@@ -107,6 +111,33 @@ namespace KetabAbee.Application.Services.Order
             return _orderRepository.GetUserOrders(userId);
         }
 
+        public bool PayByOrderId(int userId, int orderId)
+        {
+            var order = _orderRepository.GetOrdersWithIncludes()
+                .FirstOrDefault(o => o.UserId == userId && o.OrderId == orderId);
+
+            if (order == null || order.IsFinally)
+            {
+                return false;
+            }
+
+            if (_walletService.BalanceUserWallet(userId) < order.OrderSum) return false;
+
+            order.IsFinally = true;
+            _walletService.AddWallet(new Domain.Models.Wallet.Wallet
+            {
+                UserId = userId,
+                Amount = order.OrderSum,
+                Behalf = $"تصویه فاکتور شماره {orderId}",
+                IsPay = true,
+                CreateDate = DateTime.Now,
+                WalletType = WalletType.Withdraw,
+            });
+            UpdateOrder(order);
+            return true;
+
+        }
+
         public bool RemoveItemOfOrderDetail(int userId, int orderId, int detailId)
         {
             var order = _orderRepository.GetOrdersForValidationInRemoveMethod().SingleOrDefault(o =>
@@ -145,6 +176,20 @@ namespace KetabAbee.Application.Services.Order
                 detail.Count = newCount;
                 UpdateDetail(detail);
                 _orderRepository.UpdatePriceOrder(orderId);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool UpdateOrder(Domain.Models.Order.Order order)
+        {
+            try
+            {
+                _orderRepository.UpdateOrder(order);
+                _orderRepository.SaveChanges();
                 return true;
             }
             catch

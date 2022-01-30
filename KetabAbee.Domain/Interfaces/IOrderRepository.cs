@@ -44,5 +44,7 @@ namespace KetabAbee.Domain.Interfaces
         OrderDetail GetDetailById(int detailId);
 
         IEnumerable<OrderDetail> GetDetailsWithIncludes();
+
+        IEnumerable<Order> GetOrdersWithIncludes();
     }
 }

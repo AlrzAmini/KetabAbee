@@ -103,5 +103,15 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         }
 
         #endregion
+
+        #region Pay
+
+        [HttpGet("Pay/{orderId}")]
+        public IActionResult Pay(int orderId)
+        {
+
+        }
+
+        #endregion
     }
 }

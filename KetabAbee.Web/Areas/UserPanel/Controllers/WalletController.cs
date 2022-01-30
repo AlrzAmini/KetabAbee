@@ -25,15 +25,20 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         #region Charge Wallet
 
         [HttpGet("Wallet/Charge")]
-        public IActionResult ChargeWallet(WalletsWithPagingViewModel walletsWithPaging)
+        public IActionResult ChargeWallet(WalletsWithPagingViewModel walletsWithPaging, string url, int amount, string behalf)
         {
             walletsWithPaging.UserId = User.GetUserId();
+
+            if (string.IsNullOrEmpty(url)) return View(_walletService.GetWalletsWithPagingByUserId(walletsWithPaging));
+            ViewBag.AmountFromCart = amount;
+            ViewBag.BehalfFromCart = behalf;
+            ViewBag.UrlFromCart = url;
 
             return View(_walletService.GetWalletsWithPagingByUserId(walletsWithPaging));
         }
 
         [HttpPost("Wallet/Charge")]
-        public IActionResult ChargeWallet(ChargeWalletViewModel charge)
+        public IActionResult ChargeWallet(ChargeWalletViewModel charge, string url)
         {
             if (!ModelState.IsValid)
             {
@@ -61,7 +66,7 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
             if (_walletService.ChargeWalletByUserId(User.GetUserId(), charge))
             {
                 TempData["SuccessMessage"] = "شارژ حساب شما با موفقیت انجام شد . لذت ببرید";
-                return Redirect("/UserPanel/Dashboard");
+                return Redirect(!string.IsNullOrEmpty(url) ? url : "/UserPanel/Dashboard");
             }
 
             TempData["ErrorMessage"] = "عملیات شارژ حساب انجام نشد";

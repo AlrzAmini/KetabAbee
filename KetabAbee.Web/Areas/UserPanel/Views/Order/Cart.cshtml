@@ -1,22 +1,21 @@
 ﻿@using KetabAbee.Application.Extensions
+@using KetabAbee.Application.Interfaces.Wallet
 @model KetabAbee.Domain.Models.Order.Order
+@inject IWalletService _walletService;
 @{
     ViewData["Title"] = "سبد خرید";
 
     var reqUrl = ViewBag.reqUrl as string;
-}
 
+    var userBalanceWallet = _walletService.BalanceUserWallet(User.GetUserId());
+
+    var moreThanWallet = Model.OrderSum - userBalanceWallet;
+}
 <main class="page-content" style="margin-top: 205.5px;">
     <div class="container">
         <div class="row mb-4">
             <div class="col-xl-9 col-lg-8 col-md-8 mb-md-0 mb-3">
                 <div class="checkout-section shadow-around">
-                    <div class="checkout-step">
-                        <ul>
-                            <li class="active"><span>سبد خرید</span></li>
-                        </ul>
-                    </div>
-                    <hr />
                     <div class="checkout-section-content">
                         <div class="cart-items">
                             @if (Model.OrderDetails != null && Model.OrderDetails.Any())
@@ -54,14 +53,14 @@
                                                 </ul>
                                                 <div class="item-quantity--item-price">
                                                     <div class="item-quantity">
-                                                        <form id="countForm" asp-controller="Order" asp-action="SetProductCount" method="post">
+                                                        <form id="form-@detail.DetailId" asp-controller="Order" asp-action="SetProductCount" method="post">
                                                             <input type="hidden" name="reqUrl" value="@reqUrl" />
                                                             <input type="hidden" name="orderId" value="@detail.OrderId" />
                                                             <input type="hidden" name="detailId" value="@detail.DetailId" />
                                                             <div class="num-block">
                                                                 <div class="num-in">
                                                                     <span class="plus"></span>
-                                                                    <input type="text" class="in-num" onchange="submitChange()" name="productCount" value="@detail.Count" readonly="">
+                                                                    <input type="text" class="in-num" onchange="submitChange(@detail.DetailId)" name="productCount" value="@detail.Count" readonly="">
                                                                     <span class="minus dis"></span>
                                                                 </div>
                                                             </div>
@@ -124,9 +123,24 @@
                             <span class="text-sm">تومان</span>
                         </span>
                     </div>
-                    <div class="d-flex px-3 py-4">
-                        <a href="#" class="btn btn-primary btn-block py-2">خرید نهایی</a>
-                    </div>
+                    @if (userBalanceWallet >= Model.OrderSum)
+                    {
+                        <div class="d-flex px-3 py-4">
+                            <a href="#" class="btn btn-primary btn-block py-2">خرید نهایی</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="d-flex px-3 py-4">
+                            <div class="alert alert-warning">موجودی کیف پول شما برای این خرید کافی نیست</div>
+                        </div>
+                        <form asp-controller="Wallet" asp-action="ChargeWallet" method="get">
+                            <input type="hidden" name="url" value="@reqUrl" />
+                            <input type="hidden" name="amount" value="@moreThanWallet"/>
+                            <input type="hidden" name="behalf" value="شارژ برای فاکتور شماره @Model.OrderId"/>
+                            <button type="submit" class="btn btn-info btn-block">شارژ کیف پول : @((Model.OrderSum - userBalanceWallet).ToTooman())</button>
+                        </form>
+                    }
                 </div>
             </div>
         </div>
@@ -135,8 +149,8 @@
 @section Scripts{
 
     <script>
-        function submitChange() {
-            $("#countForm").submit();
+        function submitChange(id) {
+            document.getElementById('form-' + id).submit();
         }
     </script>
 }
