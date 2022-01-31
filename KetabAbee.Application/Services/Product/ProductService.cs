@@ -656,7 +656,9 @@ namespace KetabAbee.Application.Services.Product
                     BookId = b.BookId,
                     ImageName = b.ImageName,
                     Name = b.Name,
-                    Price = b.Price
+                    Price = b.Price,
+                    BookInventory = b.Inventory,
+                    Writer = b.Writer
                 });
         }
 

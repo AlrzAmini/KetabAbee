@@ -37,8 +37,8 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         [HttpGet("UserPanel/Dashboard")]
         public IActionResult Dashboard()
         {
-            var userInfo = _userService.GetInfoByUserEmail(User.FindFirstValue(ClaimTypes.Email));
-            var userBookIds = _userService.GetUserFavBookIds(int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            var userInfo = _userService.GetInfoByUserEmail(User.GetUserEmail());
+            var userBookIds = _userService.GetUserFavBookIds(User.GetUserId());
             ViewBag.FavBooks = _productService.GetFavBooksByBookIds(userBookIds).ToList();
             ViewBag.Orders = _orderService.GetUserFinalOrders(User.GetUserId()).ToList();
 
@@ -117,6 +117,18 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
             if (!_userService.ChangePasswordInUserPanel(userName, change.Password)) return View(change);
             TempData["SuccessMessage"] = "کلمه عبور شما با موفقیت بروزرسانی شد ";
             return RedirectToAction("Dashboard");
+        }
+
+        #endregion
+
+        #region Favorites
+
+        [HttpGet("UserPanel/Favorites")]
+        public IActionResult FavoriteBooks()
+        {
+            var userBookIds = _userService.GetUserFavBookIds(User.GetUserId()); 
+            
+            return View(_productService.GetFavBooksByBookIds(userBookIds).ToList());
         }
 
         #endregion

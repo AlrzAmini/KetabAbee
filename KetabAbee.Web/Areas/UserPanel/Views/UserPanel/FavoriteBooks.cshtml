@@ -1,0 +1,92 @@
+﻿@using KetabAbee.Application.Convertors
+@model List<KetabAbee.Application.DTOs.Book.BookListViewModel>
+@{
+    ViewData["Title"] = "علاقه مندی ها";
+}
+
+
+<main class="page-content" style="margin-top: 207px; transform: none;">
+    <div class="container" style="transform: none;">
+        <div class="row mb-5" style="transform: none;">
+            <div class="col-lg-3 col-md-4 mb-md-0 mb-3 sticky-sidebar" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
+
+                <div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none; top: 0px; left: 1062.5px;">
+                    <div class="sidebar-widget">
+                        @await Component.InvokeAsync("UserPanelSideBarComponent")
+                    </div><div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 352px; height: 1045px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-8">
+                <div class="section-title mb-2">
+                    لیست علاقه‌مندی‌ها
+                </div>
+                <div class="shadow-around">
+                    <div class="listing-items row">
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var fav in Model)
+                            {
+                                <div class="col-lg-6 px-0">
+                                    <div class="product-card product-card-horizontal">
+                                        <div class="product-card-top">
+                                            <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@fav.BookId" class="product-image">
+                                                <img src="/images/Book/thumb/@fav.ImageName" alt="product image">
+                                            </a>
+                                            <div class="product-card-actions">
+                                                <button class="add-to-wishlist added" disabled="disabled"><i class="fas fa-heart"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="product-card-middle">
+                                            <h6 class="product-name">
+                                                <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@fav.BookId">
+                                                    @fav.Name اثر @fav.Writer
+                                                </a>
+                                            </h6>
+                                            @if (fav.BookInventory != null && fav.BookInventory != 0)
+                                            {
+                                                <div class="product-price product-price-clone">@fav.Price.ToToman()</div>
+                                            }
+                                            else
+                                            {
+                                                <div class="product-price product-price-clone">نا موجود</div>
+                                            }
+                                        </div>
+                                        <div class="product-card-bottom">
+                                            @if (fav.BookInventory != null && fav.BookInventory != 0)
+                                            {
+                                                <div class="product-price">
+                                                    @fav.Price.ToToman()
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="product-price">
+                                                    نا موجود
+                                                </div>
+                                            }
+                                            @if (fav.BookInventory != null && fav.BookInventory != 0)
+                                            {
+                                                <a asp-controller="Book" asp-action="AddToCart" asp-route-productId="@fav.BookId" class="btn btn-primary btn-sm shadow">
+                                                    <i class="fad fa-cart-plus"></i>
+                                                    افزودن به سبد خرید
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a class="btn btn-danger btn-sm shadow">
+                                                    موجودی نداریم :(
+                                                </a>
+                                            }
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <partial name="_Banner" />
+    </div>
+</main>
