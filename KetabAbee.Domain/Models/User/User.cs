@@ -85,6 +85,14 @@ namespace KetabAbee.Domain.Models.User
 
         #endregion
 
+        #region Address
+
+        [DisplayName("آدرس")]
+        [MaxLength(700)]
+        public string Address { get; set; }
+
+        #endregion
+
         #region Is email Active
 
         public bool IsEmailActive { get; set; }

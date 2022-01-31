@@ -29,5 +29,9 @@ namespace KetabAbee.Application.Interfaces.Order
         IEnumerable<Domain.Models.Order.Order> GetUserFinalOrders(int userId);
 
         OrdersForShowInAdminViewModel GetPayedOrdersForAdmin(OrdersForShowInAdminViewModel ordersViewModel);
+
+        bool ChangeIsCompleted(int orderId);
+
+        Domain.Models.Order.Order GetOrderByIdForShowInfo(int orderId);
     }
 }

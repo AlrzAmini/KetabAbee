@@ -164,5 +164,14 @@ namespace KetabAbee.Data.Repository
                 .Where(o => o.IsFinally)
                 .OrderByDescending(o=>o.CreateDate);
         }
+
+        public Order GetOrderByIdForShowInfo(int orderId)
+        {
+            return _context.Orders
+                .Include(o => o.OrderDetails)
+                .ThenInclude(d=>d.Product)
+                .Include(o=>o.User)
+                .SingleOrDefault(o => o.OrderId == orderId);
+        }
     }
 }

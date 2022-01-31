@@ -92,8 +92,8 @@
                                 }
                             </td>
                             <td>
-                                <a class="btn btn-info" asp-controller="AdminTicket" asp-action="ShowTicketDetails" asp-route-id="@order.OrderId">مشاهده</a>
-                                <a class="btn btn-success" asp-controller="AdminTicket" asp-action="TicketIsRead" onclick="return confirm('حالت < ارسال شد > این سفارش را تغییر می دهید ؟')" asp-route-id="@order.OrderId">ارسال شد</a>
+                                <a class="btn btn-info" asp-area="AdminPanel" asp-controller="AdminOrder" asp-action="OrderInfo" asp-route-orderId="@order.OrderId">مشاهده</a>
+                                <a class="btn btn-success" asp-area="AdminPanel" asp-controller="AdminOrder" asp-action="ChangeIsCompleted" asp-route-orderId="@order.OrderId" onclick="return confirm('حالت < ارسال شد > این سفارش را تغییر می دهید ؟')">ارسال شد</a>
                             </td>
                         </tr>
                     }

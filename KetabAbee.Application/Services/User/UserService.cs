@@ -111,7 +111,8 @@ namespace KetabAbee.Application.Services.User
                 Age = user.Age,
                 RegisterDate = user.RegisterDate,
                 UserName = user.UserName,
-                Wallet = _walletService.BalanceUserWallet(user.UserId)
+                Wallet = _walletService.BalanceUserWallet(user.UserId),
+                Address = user.Address
             };
 
             return userInfo;
@@ -142,7 +143,8 @@ namespace KetabAbee.Application.Services.User
                 Mobile = user.Mobile,
                 CurrentAvatar = user.AvatarName,
                 Email = user.Email,
-                BirthDay = user.BirthDay
+                BirthDay = user.BirthDay,
+                Address = user.Address
             };
 
             return infoForEdit;
@@ -200,6 +202,7 @@ namespace KetabAbee.Application.Services.User
                 user.AvatarName = edit.CurrentAvatar;
                 user.BirthDay = edit.BirthDay;
                 user.Age = edit.BirthDay.GetAgeByDateTime();
+                user.Address = edit.Address;
 
                 UpdateUser(user);
                 return true;
@@ -430,7 +433,8 @@ namespace KetabAbee.Application.Services.User
                     Email = u.Email,
                     BirthDay = u.BirthDay,
                     UserId = u.UserId,
-                    UserRoles = u.UserRoles.Select(r => r.RoleId).ToList()
+                    UserRoles = u.UserRoles.Select(r => r.RoleId).ToList(),
+                    Address = u.Address
                 }).Single();
 
         }
@@ -465,6 +469,7 @@ namespace KetabAbee.Application.Services.User
                 }
                 newUser.BirthDay = user.BirthDay?.ToString(CultureInfo.InvariantCulture).StringShamsiToMiladi();
                 newUser.UserId = user.UserId;
+                newUser.Address = user.Address;
 
                 #region Check and add Avatar
 

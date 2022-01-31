@@ -17,6 +17,8 @@ namespace KetabAbee.Application.DTOs
 
         public string Mobile { get; set; }
 
+        public string Address { get; set; }
+
         public int? Age { get; set; }
 
         public long Wallet { get; set; }
@@ -46,6 +48,10 @@ namespace KetabAbee.Application.DTOs
         public DateTime? BirthDay { get; set; }
 
         public string Email { get; set; }
+
+        [DisplayName("آدرس")]
+        [MaxLength(700, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
+        public string Address { get; set; }
 
         #region Avatar
 

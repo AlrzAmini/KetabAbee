@@ -103,6 +103,34 @@ namespace KetabAbee.Application.Services.Order
             return order.OrderId;
         }
 
+        public bool ChangeIsCompleted(int orderId)
+        {
+            try
+            {
+                var order = _orderRepository.GetOrderById(orderId);
+
+                if (order == null) return false;
+
+                if (order.SendingProcessIsCompleted)
+                {
+                    order.SendingProcessIsCompleted = false;
+                    return UpdateOrder(order);
+                }
+                order.SendingProcessIsCompleted = true;
+                return UpdateOrder(order);
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+
+        public Domain.Models.Order.Order GetOrderByIdForShowInfo(int orderId)
+        {
+            return _orderRepository.GetOrderByIdForShowInfo(orderId);
+        }
+
         public Domain.Models.Order.Order GetOrderForShowToUser(int userId, int orderId)
         {
             return _orderRepository.GetOrderForShowInUserPanel(userId, orderId);

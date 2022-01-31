@@ -1,0 +1,92 @@
+﻿@using KetabAbee.Application.Convertors
+@model KetabAbee.Domain.Models.Order.Order
+@{
+    ViewData["Title"] = " جزییات فاکتور " + Model.OrderId;
+}
+
+<!-- Page Breadcrumb -->
+<div class="page-breadcrumbs margin-bottom-20">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li>
+            <a asp-controller="AdminOrder" asp-action="Index">سفارش ها</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
+<!-- /Page Breadcrumb -->
+<div class="row col-md-12">
+    <div class="widget">
+            <div class="widget-header bordered-bottom bordered-success">
+                <i class="widget-icon fa fa-tags success"></i>
+                <span class="widget-caption success">اطلاعات سفارش</span>
+            </div><!--Widget Header-->
+            <div class="widget-body  no-padding">
+                <div class="tickets-container">
+                    <ul class="tickets-list">
+                        <li class="ticket-item">
+                            <div class="row">
+                                <div class="ticket-user col-lg-6 col-sm-12">
+                                    <img src="/Avatar/thumb/@Model.User.AvatarName" alt="profile" class="user-avatar">
+                                    <span class="user-name">@Model.User.UserName</span>
+                                </div>
+                                <div class="ticket-time  col-lg-2 col-sm-6 col-xs-12">
+                                    <div class="divider"></div>
+                                    <span class="add-address">@Model.OrderSum.ToToman()</span>
+                                </div>
+                                <div class="ticket-time  col-lg-2 col-sm-6 col-xs-12">
+                                    <div class="divider"></div>
+                                    <span class="add-address">@Model.User.Address</span>
+                                </div>
+                                <div class="ticket-type  col-lg-2 col-sm-6 col-xs-12">
+                                    <span class="divider"></span>
+                                    <span class="add-address">@Model.User.Mobile</span>
+                                </div>
+                                <div class="ticket-state bg-palegreen">
+                                    <i class="fa fa-check"></i>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+</div>
+<div class="col-md-12">
+    @if (Model.OrderDetails != null && Model.OrderDetails.Any())
+    {
+        foreach (var detail in Model.OrderDetails)
+        {
+            <div class="col-lg-4 col-sm-6 col-xs-12">
+                <div class="databox databox-xlg databox-halved radius-bordered databox-shadowed databox-vertical">
+                    <div class="databox-top bg-white padding-10">
+                        <div class="col-lg-4 col-sm-4 col-xs-4">
+                            <img src="/images/Book/thumb/@detail.Product.ImageName" alt="@detail.Product.Name image" style="width: 75px; height: 75px;" class="image-circular bordered-3 bordered-palegreen">
+                        </div>
+                        <div class="col-lg-8 col-sm-8 col-xs-8 text-align-left padding-10">
+                            <span class="databox-header carbon no-margin">@detail.Product.Name</span>
+                            <span class="databox-text lightcarbon no-margin"> @detail.Product.Writer </span>
+                        </div>
+                    </div>
+                    <div class="databox-bottom bg-white no-padding">
+                        <div class="databox-row row-12">
+                            <div class="databox-row row-6 no-padding">
+                                <div class="databox-cell cell-4 no-padding text-align-center bordered-right bordered-platinum">
+                                    <span class="databox-text sonic-silver  no-margin">تعداد</span>
+                                    <span class="databox-number lightcarbon no-margin">@detail.Count</span>
+                                </div>
+                                <div class="databox-cell cell-4 no-padding text-align-center bordered-right bordered-platinum">
+                                    <span class="databox-text sonic-silver no-margin">قیمت</span>
+                                    <span class="databox-number lightcarbon no-margin">@detail.Price.ToToman()</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
