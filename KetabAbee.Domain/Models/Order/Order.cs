@@ -23,6 +23,8 @@ namespace KetabAbee.Domain.Models.Order
 
         public bool IsFinally { get; set; }
 
+        public bool SendingProcessIsCompleted { get; set; }
+
         public bool IsDelete { get; set; }
 
         #endregion

@@ -67,7 +67,8 @@ namespace KetabAbee.Data.Repository
                 .Include(b => b.Publisher)
                 .Include(b => b.Group)
                 .Include(b => b.SubGroup)
-                .Include(b => b.SubGroup2);
+                .Include(b => b.SubGroup2)
+                .OrderByDescending(b=>b.BookId);
         }
 
         public bool AddPublisher(Publisher publisher)

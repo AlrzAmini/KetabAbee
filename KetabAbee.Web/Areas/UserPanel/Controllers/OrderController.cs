@@ -28,7 +28,7 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         [HttpGet("UserPanel/Orders")]
         public IActionResult Orders()
         {
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var userId = User.GetUserId();
             return View(_orderService.GetUserOrders(userId).ToList());
         }
 

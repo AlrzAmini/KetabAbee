@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Application.DTOs.Admin.Order;
 using KetabAbee.Application.DTOs.Admin.Products.Book;
+using KetabAbee.Application.DTOs.Paging;
 using KetabAbee.Application.Interfaces.Order;
 using KetabAbee.Application.Interfaces.Product;
 using KetabAbee.Application.Interfaces.Wallet;
@@ -104,6 +106,23 @@ namespace KetabAbee.Application.Services.Order
         public Domain.Models.Order.Order GetOrderForShowToUser(int userId, int orderId)
         {
             return _orderRepository.GetOrderForShowInUserPanel(userId, orderId);
+        }
+
+        public OrdersForShowInAdminViewModel GetPayedOrdersForAdmin(OrdersForShowInAdminViewModel ordersViewModel)
+        {
+            var result = _orderRepository.GetPayedOrdersForAdmin().AsQueryable();
+
+            // Filter By Is Completed
+            if (ordersViewModel.IsCompleted)
+            {
+                result = result.Where(r => !r.SendingProcessIsCompleted);
+            }
+
+            // paging
+            var pager = Pager.Build(ordersViewModel.PageNum, result.Count(), ordersViewModel.Take, ordersViewModel.PageCountAfterAndBefor);
+            var orders = result.Paging(pager).ToList();
+
+            return ordersViewModel.SetPaging(pager).SetOrders(orders);
         }
 
         public IEnumerable<Domain.Models.Order.Order> GetUserFinalOrders(int userId)

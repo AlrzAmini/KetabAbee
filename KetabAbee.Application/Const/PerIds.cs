@@ -19,5 +19,7 @@ namespace KetabAbee.Application.Const
         public const int AdminGroups = 5;
 
         public const int AdminBooks = 6;
+
+        public const int AdminOrders = 7;
     }
 }

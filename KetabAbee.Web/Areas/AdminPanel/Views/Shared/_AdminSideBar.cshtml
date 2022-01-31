@@ -62,6 +62,16 @@
             </a>
         </li>
     }
+    @if (_permissionService.CheckPermission(PerIds.AdminOrders, User.GetUserEmail()))
+    {
+        <!--Orders-->
+        <li>
+            <a asp-area="AdminPanel" asp-controller="AdminOrder" asp-action="Index">
+                <i class="menu-icon fa fa-book"></i>
+                <span class="menu-text"> مدیریت سفارش ها </span>
+            </a>
+        </li>
+    }
 
 </ul>
 <!-- /Sidebar Menu -->

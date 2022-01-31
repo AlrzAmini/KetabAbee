@@ -157,5 +157,12 @@ namespace KetabAbee.Data.Repository
                 .OrderByDescending(o=>o.CreateDate)
                 .Take(10);
         }
+
+        public IEnumerable<Order> GetPayedOrdersForAdmin()
+        {
+            return _context.Orders.Include(o=>o.User)
+                .Where(o => o.IsFinally)
+                .OrderByDescending(o=>o.CreateDate);
+        }
     }
 }

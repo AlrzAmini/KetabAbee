@@ -29,7 +29,7 @@ namespace KetabAbee.Data.Repository
 
         public IEnumerable<User> GetUsers()
         {
-            return _context.Users;
+            return _context.Users.OrderByDescending(u=>u.RegisterDate);
         }
 
         public bool IsEmailExist(string email)

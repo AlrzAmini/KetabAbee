@@ -37,7 +37,7 @@ namespace KetabAbee.Data.Repository
 
         public IEnumerable<Wallet> GetWalletsByUserId(int userId)
         {
-            return _context.Wallets.Where(w => w.UserId == userId);
+            return _context.Wallets.Where(w => w.UserId == userId).OrderByDescending(w=>w.CreateDate);
         }
 
         public bool UpdateWallet(Wallet wallet)

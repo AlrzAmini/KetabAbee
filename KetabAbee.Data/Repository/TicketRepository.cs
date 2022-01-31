@@ -71,7 +71,8 @@ namespace KetabAbee.Data.Repository
         public IEnumerable<Ticket> GetTicketsForFilter()
         {
             return _context.Tickets
-                .Include(t => t.Sender);
+                .Include(t => t.Sender)
+                .OrderByDescending(t=>t.TicketSendDate);
         }
 
         public IEnumerable<Ticket> GetTicketsForTicketDetailsInAdmin()

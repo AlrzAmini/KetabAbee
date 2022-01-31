@@ -80,7 +80,7 @@ namespace KetabAbee.Application.Services.Wallet
             //paging
             var pager = Pager.Build(walletsWithPagingViewModel.PageNum,
                 result.Count(),
-                25,
+                10,
                 walletsWithPagingViewModel.PageCountAfterAndBefor);
             var wallets = result.Paging(pager).ToList();
 

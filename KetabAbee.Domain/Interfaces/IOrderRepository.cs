@@ -51,6 +51,8 @@ namespace KetabAbee.Domain.Interfaces
 
         IEnumerable<Order> GetUserFinalOrders(int userId);
 
+        IEnumerable<Order> GetPayedOrdersForAdmin();
+
         #endregion
 
         void AddUserBooks(ICollection<OrderDetail> orderDetails);

@@ -1,0 +1,118 @@
+﻿@using KetabAbee.Application.Convertors
+@model KetabAbee.Application.DTOs.Admin.Order.OrdersForShowInAdminViewModel
+@{
+    ViewData["Title"] = "سفارش ها";
+}
+
+<!-- Page Breadcrumb -->
+<div class="page-breadcrumbs margin-bottom-20">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
+<!-- /Page Breadcrumb -->
+@if (Model.Orders != null && Model.Orders.Any())
+{
+    <div class="col-md-12">
+        <div class="card border bordered-success rounded col-md-4">
+            <form id="filterform" asp-area="AdminPanel" asp-controller="AdminOrder" asp-action="Index" method="get">
+                <input type="hidden" asp-for="PageNum" />
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" asp-for="IsCompleted" class="colored-success" onclick="SubmitChange()">
+                        <span class="text">فقط ارسال نشده ها</span>
+                    </label>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-12">
+        <div class="well with-header with-footer">
+            <div class="header bordered-sky">
+                <i class="fa fa-ticket"></i>
+                @ViewData["Title"]
+            </div>
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            شماره
+                        </th>
+                        <th>
+                            خریدار
+                        </th>
+                        <th>
+                            مبلغ
+                        </th>
+                        <th>
+                            تاریخ
+                        </th>
+                        <th>
+                            وضعیت
+                        </th>
+                        <th>
+                            ارسال شده
+                        </th>
+                        <th>
+                            دستورات
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model.Orders)
+                    {
+                        <tr>
+                            <td>
+                                @order.OrderId
+                            </td>
+                            <td>
+                                @order.User.UserName
+                            </td>
+                            <td>
+                                @order.OrderSum.ToToman()
+                            </td>
+                            <td>
+                                @order.CreateDate.ToShamsi() ساعت @order.CreateDate.GetHourAndMinutes()
+                            </td>
+                            <td>
+                                پرداخت شده
+                            </td>
+                            <td class="@((order.SendingProcessIsCompleted) ? "success" : "danger")">
+                                @if (order.SendingProcessIsCompleted)
+                                {
+                                    <p>بله</p>
+                                }
+                                else
+                                {
+                                    <p>خیر</p>
+                                }
+                            </td>
+                            <td>
+                                <a class="btn btn-info" asp-controller="AdminTicket" asp-action="ShowTicketDetails" asp-route-id="@order.OrderId">مشاهده</a>
+                                <a class="btn btn-success" asp-controller="AdminTicket" asp-action="TicketIsRead" onclick="return confirm('حالت < ارسال شد > این سفارش را تغییر می دهید ؟')" asp-route-id="@order.OrderId">ارسال شد</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <partial name="_AdminPaging" model="Model.GetCurrentPaging()" />
+    </div>
+}
+else
+{
+    <div class="alert alert-danger">هنوز سفارشی ثبت نشده است</div>
+}
+
+@section Scripts{
+
+    <script>
+        function SubmitChange() {
+            $("#filterform").submit();
+        }
+    </script>
+}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Application.DTOs.Admin.Order;
 using KetabAbee.Domain.Models.Order;
 
 namespace KetabAbee.Application.Interfaces.Order
@@ -26,5 +27,7 @@ namespace KetabAbee.Application.Interfaces.Order
         bool UpdateOrder(Domain.Models.Order.Order order);
 
         IEnumerable<Domain.Models.Order.Order> GetUserFinalOrders(int userId);
+
+        OrdersForShowInAdminViewModel GetPayedOrdersForAdmin(OrdersForShowInAdminViewModel ordersViewModel);
     }
 }
