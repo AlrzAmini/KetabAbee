@@ -7,6 +7,7 @@ using KetabAbee.Data.Context;
 using KetabAbee.Domain.Interfaces;
 using KetabAbee.Domain.Models.Order;
 using KetabAbee.Domain.Models.Products;
+using KetabAbee.Domain.Models.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace KetabAbee.Data.Repository
@@ -134,6 +135,27 @@ namespace KetabAbee.Data.Repository
             return _context.Orders
                 .Include(o => o.User)
                 .Include(o => o.OrderDetails).ThenInclude(o => o.Product);
+        }
+
+        public void AddUserBooks(ICollection<OrderDetail> orderDetails)
+        {
+            foreach (var detail in orderDetails)
+            {
+                _context.UserBooks.Add(new UserBook
+                {
+                    BookId = detail.ProductId,
+                    UserId = detail.Order.UserId
+                });
+            }
+
+            _context.SaveChanges();
+        }
+
+        public IEnumerable<Order> GetUserFinalOrders(int userId)
+        {
+            return _context.Orders.Where(o => o.UserId == userId && o.IsFinally)
+                .OrderByDescending(o=>o.CreateDate)
+                .Take(10);
         }
     }
 }

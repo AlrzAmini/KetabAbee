@@ -3,6 +3,7 @@
 @using KetabAbee.Application.DTOs.Book
 @using KetabAbee.Application.Extensions
 @using KetabAbee.Application.Interfaces.Product
+@using KetabAbee.Domain.Models.Order
 @model KetabAbee.Application.DTOs.UserInformationInDashboardViewmodel
 @inject IProductService _productService;
 @{
@@ -85,7 +86,7 @@
                     </div>
                     @{
                         var favBooks = ViewBag.FavBooks as List<BookListViewModel>;
-                        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                        var userId = User.GetUserId();
                     }
                     <div class="col-lg-6 mb-lg-0 mb-3">
                         <div class="section-title mb-2">
@@ -110,10 +111,19 @@
                                                             @book.Name
                                                         </a>
                                                     </div>
-                                                    <div class="text-danger">
-                                                        @book.Price.ToString("#,0")
-                                                        <span class="text-sm">تومان</span>
-                                                    </div>
+                                                    @if (book.BookInventory != null && book.BookInventory != 0)
+                                                    {
+                                                        <div class="text-danger">
+                                                            @book.Price.ToString("#,0")
+                                                            <span class="text-sm">تومان</span>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="text-danger">
+                                                            <span class="text-sm">اتمام موجودی</span>
+                                                        </div>
+                                                    }
                                                     @{
                                                         var likeId = _productService.GetFavBookIdByBookIdAndUserId(userId, book.BookId);
                                                     }
@@ -137,129 +147,56 @@
                         </section>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="section-title mb-2">
-                            آخرین سفارش‌ها
+                @{
+                    var orders = ViewBag.Orders as List<Order>;
+                }
+                @if (orders != null && orders.Any())
+                {
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section-title mb-2">
+                                آخرین سفارش‌ها
+                            </div>
+                            <section class="table--order shadow-around">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>شماره سفارش</th>
+                                                <th>تاریخ ثبت سفارش</th>
+                                                <th>مبلغ کل</th>
+                                                <th>وضعیت</th>
+                                                <th>جزییات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var order in orders.OrderByDescending(o => o.CreateDate))
+                                            {
+                                                <tr>
+                                                    <td class="order-code">KTA - @order.OrderId</td>
+                                                    <td>@order.CreateDate.ToIraniDate()</td>
+                                                    <td>@order.OrderSum.ToToman()</td>
+                                                    <td class="text-success">پرداخت شده</td>
+                                                    <td class="order-detail-link">
+                                                        <a asp-area="UserPanel" asp-controller="Order" asp-action="Order" asp-route-orderId="@order.OrderId">
+                                                            <i class="far fa-chevron-left"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="text-center py-3">
+                                    <a asp-area="UserPanel" asp-controller="Order" asp-action="Orders" class="d-flex align-items-center justify-content-center text-dark">
+                                        مشاهده لیست سفارش ها
+                                        <i class="fal fa-arrow-to-left mr-1"></i>
+                                    </a>
+                                </div>
+                            </section>
                         </div>
-                        <section class="table--order shadow-around">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>شماره سفارش</th>
-                                            <th>تاریخ ثبت سفارش</th>
-                                            <th>مبلغ قابل پرداخت</th>
-                                            <th>مبلغ کل</th>
-                                            <th>عملیات پرداخت</th>
-                                            <th>عملیات پرداخت</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>۱</td>
-                                            <td class="order-code">DKC-149404537</td>
-                                            <td>۱۴ آذر ۱۳۹۹</td>
-                                            <td>۰</td>
-                                            <td>۱۱,۶۰۰,۰۰۰ تومان</td>
-                                            <td>لغو شده</td>
-                                            <td class="order-detail-link">
-                                                <a href="#">
-                                                    <i class="far fa-chevron-left"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>۱</td>
-                                            <td class="order-code">DKC-149404537</td>
-                                            <td>۱۴ آذر ۱۳۹۹</td>
-                                            <td>۰</td>
-                                            <td>۱۱,۶۰۰,۰۰۰ تومان</td>
-                                            <td>لغو شده</td>
-                                            <td class="order-detail-link">
-                                                <a href="#">
-                                                    <i class="far fa-chevron-left"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>۱</td>
-                                            <td class="order-code">DKC-149404537</td>
-                                            <td>۱۴ آذر ۱۳۹۹</td>
-                                            <td>۰</td>
-                                            <td>۱۱,۶۰۰,۰۰۰ تومان</td>
-                                            <td>لغو شده</td>
-                                            <td class="order-detail-link">
-                                                <a href="#">
-                                                    <i class="far fa-chevron-left"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>۱</td>
-                                            <td class="order-code">DKC-149404537</td>
-                                            <td>۱۴ آذر ۱۳۹۹</td>
-                                            <td>۰</td>
-                                            <td>۱۱,۶۰۰,۰۰۰ تومان</td>
-                                            <td>لغو شده</td>
-                                            <td class="order-detail-link">
-                                                <a href="#">
-                                                    <i class="far fa-chevron-left"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>۱</td>
-                                            <td class="order-code">DKC-149404537</td>
-                                            <td>۱۴ آذر ۱۳۹۹</td>
-                                            <td>۰</td>
-                                            <td>۱۱,۶۰۰,۰۰۰ تومان</td>
-                                            <td>لغو شده</td>
-                                            <td class="order-detail-link">
-                                                <a href="#">
-                                                    <i class="far fa-chevron-left"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>۱</td>
-                                            <td class="order-code">DKC-149404537</td>
-                                            <td>۱۴ آذر ۱۳۹۹</td>
-                                            <td>۰</td>
-                                            <td>۱۱,۶۰۰,۰۰۰ تومان</td>
-                                            <td>لغو شده</td>
-                                            <td class="order-detail-link">
-                                                <a href="#">
-                                                    <i class="far fa-chevron-left"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>۱</td>
-                                            <td class="order-code">DKC-149404537</td>
-                                            <td>۱۴ آذر ۱۳۹۹</td>
-                                            <td>۰</td>
-                                            <td>۱۱,۶۰۰,۰۰۰ تومان</td>
-                                            <td>لغو شده</td>
-                                            <td class="order-detail-link">
-                                                <a href="#">
-                                                    <i class="far fa-chevron-left"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="text-center py-3">
-                                <a href="#" class="d-flex align-items-center justify-content-center text-dark">
-                                    مشاهده لیست سفارش ها
-                                    <i class="fal fa-arrow-to-left mr-1"></i>
-                                </a>
-                            </div>
-                        </section>
                     </div>
-                </div>
+                }
             </div>
         </div>
         <partial name="_Banner" />

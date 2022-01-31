@@ -260,7 +260,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
         }
 
         [HttpPost("EditBook/{bookId}")]
-        public IActionResult EditBook(Book book,IFormFile imgFile)
+        public IActionResult EditBook(Book book, IFormFile imgFile)
         {
             if (!ModelState.IsValid)
             {
@@ -299,12 +299,12 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
                 return View(book);
             }
 
-            if (_productService.EditBook(book,imgFile))
+            if (_productService.EditBook(book, imgFile))
             {
                 TempData["SuccessMessage"] = "ویرایش کتاب با موفقیت انجام شد";
                 return RedirectToAction("Index");
             }
-            
+
             TempData["ErrorMessage"] = "ویرایش کتاب با شکست مواجه شد";
             return RedirectToAction("Index");
         }

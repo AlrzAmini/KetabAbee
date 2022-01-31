@@ -1,6 +1,7 @@
 ﻿@using KetabAbee.Application.Interfaces.Permission
 @using KetabAbee.Application.Const
 @using System.Security.Claims
+@using KetabAbee.Application.Extensions
 @inject IPermissionService _permissionService;
  <!-- Sidebar Menu -->
 <ul class="nav sidebar-menu">
@@ -11,7 +12,7 @@
             <span class="menu-text"> داشبورد </span>
         </a>
     </li>
-    @if (_permissionService.CheckPermission(PerIds.AdminRoles, User.FindFirstValue(ClaimTypes.Email)))
+    @if (_permissionService.CheckPermission(PerIds.AdminRoles, User.GetUserEmail()))
     {
         <!--Roles-->
         <li>
@@ -21,7 +22,7 @@
             </a>
         </li>
     }
-    @if (_permissionService.CheckPermission(PerIds.AdminUsers, User.FindFirstValue(ClaimTypes.Email)))
+    @if (_permissionService.CheckPermission(PerIds.AdminUsers, User.GetUserEmail()))
     {
         <!--Users-->
         <li>
@@ -31,7 +32,7 @@
             </a>
         </li>
     }
-    @if (_permissionService.CheckPermission(PerIds.AdminTickets, User.FindFirstValue(ClaimTypes.Email)))
+    @if (_permissionService.CheckPermission(PerIds.AdminTickets, User.GetUserEmail()))
     {
         <!--Tickets-->
         <li>
@@ -41,7 +42,7 @@
             </a>
         </li>
     }
-    @if (_permissionService.CheckPermission(PerIds.AdminGroups, User.FindFirstValue(ClaimTypes.Email)))
+    @if (_permissionService.CheckPermission(PerIds.AdminGroups, User.GetUserEmail()))
     {
         <!--Groups-->
         <li>
@@ -51,12 +52,16 @@
             </a>
         </li>
     }
-    <!--Books-->
-    <li>
-        <a asp-area="AdminPanel" asp-controller="AdminBook" asp-action="Index">
-            <i class="menu-icon fa fa-book"></i>
-            <span class="menu-text"> مدیریت کتاب ها </span>
-        </a>
-    </li>
+    @if (_permissionService.CheckPermission(PerIds.AdminBooks, User.GetUserEmail()))
+    {
+        <!--Books-->
+        <li>
+            <a asp-area="AdminPanel" asp-controller="AdminBook" asp-action="Index">
+                <i class="menu-icon fa fa-book"></i>
+                <span class="menu-text"> مدیریت کتاب ها </span>
+            </a>
+        </li>
+    }
+
 </ul>
 <!-- /Sidebar Menu -->

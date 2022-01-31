@@ -27,6 +27,11 @@ namespace KetabAbee.Domain.Models.Products
 
         public DateTime Date { get; set; }
 
-        
+        #region relations
+
+        public Book Book { get; set; }
+
+        #endregion
+
     }
 }

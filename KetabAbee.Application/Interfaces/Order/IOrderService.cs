@@ -19,10 +19,12 @@ namespace KetabAbee.Application.Interfaces.Order
 
         bool RemoveItemOfOrderDetail(int userId, int orderId, int detailId);
 
-        bool UpdateDetailCount(int userId, int orderId, int detailId, int newCount);
+        string UpdateDetailCount(int userId, int orderId, int detailId, int newCount);
 
         bool PayByOrderId(int userId, int orderId);
 
         bool UpdateOrder(Domain.Models.Order.Order order);
+
+        IEnumerable<Domain.Models.Order.Order> GetUserFinalOrders(int userId);
     }
 }

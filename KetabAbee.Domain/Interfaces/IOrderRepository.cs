@@ -11,6 +11,8 @@ namespace KetabAbee.Domain.Interfaces
 {
     public interface IOrderRepository
     {
+        #region order
+
         IEnumerable<Order> GetOrders();
 
         IEnumerable<OrderDetail> GetOrdersDetails();
@@ -46,5 +48,11 @@ namespace KetabAbee.Domain.Interfaces
         IEnumerable<OrderDetail> GetDetailsWithIncludes();
 
         IEnumerable<Order> GetOrdersWithIncludes();
+
+        IEnumerable<Order> GetUserFinalOrders(int userId);
+
+        #endregion
+
+        void AddUserBooks(ICollection<OrderDetail> orderDetails);
     }
 }

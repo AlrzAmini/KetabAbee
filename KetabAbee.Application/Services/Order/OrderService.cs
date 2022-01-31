@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Application.DTOs.Admin.Products.Book;
 using KetabAbee.Application.Interfaces.Order;
 using KetabAbee.Application.Interfaces.Product;
 using KetabAbee.Application.Interfaces.Wallet;
@@ -75,8 +76,7 @@ namespace KetabAbee.Application.Services.Order
                         //    return -1;
                         //}
                         UpdateDetail(detail);
-                        product.Inventory -= 1;
-                        _productService.UpdateBook(product);
+                        _orderRepository.SaveChanges();
 
                     }
                     else
@@ -104,6 +104,11 @@ namespace KetabAbee.Application.Services.Order
         public Domain.Models.Order.Order GetOrderForShowToUser(int userId, int orderId)
         {
             return _orderRepository.GetOrderForShowInUserPanel(userId, orderId);
+        }
+
+        public IEnumerable<Domain.Models.Order.Order> GetUserFinalOrders(int userId)
+        {
+            return _orderRepository.GetUserFinalOrders(userId);
         }
 
         public IEnumerable<Domain.Models.Order.Order> GetUserOrders(int userId)
@@ -134,6 +139,22 @@ namespace KetabAbee.Application.Services.Order
                 WalletType = WalletType.Withdraw,
             });
             UpdateOrder(order);
+
+            foreach (var detail in order.OrderDetails)
+            {
+               var book = _productService.GetBookById(detail.ProductId);
+               _productService.DecreaseInventory(new ChangeInventoryViewModel
+               {
+                   BookId = book.BookId,
+                   BookName = book.Name,
+                   DecNumber = detail.Count
+               });
+                _productService.UpdateBook(book);
+            }
+
+            
+            _orderRepository.AddUserBooks(order.OrderDetails);
+
             return true;
 
         }
@@ -162,7 +183,7 @@ namespace KetabAbee.Application.Services.Order
             _orderRepository.UpdateDetail(detail);
         }
 
-        public bool UpdateDetailCount(int userId, int orderId, int detailId, int newCount)
+        public string UpdateDetailCount(int userId, int orderId, int detailId, int newCount)
         {
             try
             {
@@ -170,17 +191,21 @@ namespace KetabAbee.Application.Services.Order
                     .SingleOrDefault(d => !d.Order.IsFinally && d.OrderId == orderId && d.DetailId == detailId);
                 if (detail == null)
                 {
-                    return false;
+                    return "Null";
                 }
 
+                if (newCount > detail.Product.Inventory)
+                {
+                    return "OutOfRange";
+                }
                 detail.Count = newCount;
                 UpdateDetail(detail);
                 _orderRepository.UpdatePriceOrder(orderId);
-                return true;
+                return "Success";
             }
             catch
             {
-                return false;
+                return "Exception";
             }
         }
 

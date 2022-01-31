@@ -551,7 +551,7 @@ namespace KetabAbee.Application.Services.Product
         {
             var book = GetBookById(inventory.BookId);
 
-            // if book.inv == null -> book.inv = 0
+            // if book.inv == null - book.inv = 0
             book.Inventory ??= 0;
 
             // sum

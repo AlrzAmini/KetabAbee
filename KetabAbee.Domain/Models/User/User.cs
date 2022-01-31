@@ -133,6 +133,8 @@ namespace KetabAbee.Domain.Models.User
 
         public ICollection<Order.Order> Orders { get; set; }
 
+        public ICollection<UserBook> UserBooks { get; set; }
+
         #endregion
     }
 }

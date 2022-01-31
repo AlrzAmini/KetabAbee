@@ -7,6 +7,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs;
+using KetabAbee.Application.Extensions;
+using KetabAbee.Application.Interfaces.Order;
 using KetabAbee.Application.Interfaces.Product;
 using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Security;
@@ -19,11 +21,13 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
 
         private readonly IUserService _userService;
         private readonly IProductService _productService;
+        private readonly IOrderService _orderService;
 
-        public UserPanelController(IUserService userService, IProductService productService)
+        public UserPanelController(IUserService userService, IProductService productService, IOrderService orderService)
         {
             _userService = userService;
             _productService = productService;
+            _orderService = orderService;
         }
 
         #endregion
@@ -36,6 +40,8 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
             var userInfo = _userService.GetInfoByUserEmail(User.FindFirstValue(ClaimTypes.Email));
             var userBookIds = _userService.GetUserFavBookIds(int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
             ViewBag.FavBooks = _productService.GetFavBooksByBookIds(userBookIds).ToList();
+            ViewBag.Orders = _orderService.GetUserFinalOrders(User.GetUserId()).ToList();
+
             return View(userInfo);
         }
 

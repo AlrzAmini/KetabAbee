@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Domain.Models.Order;
+using KetabAbee.Domain.Models.User;
 
 namespace KetabAbee.Domain.Models.Products
 {
@@ -86,6 +87,10 @@ namespace KetabAbee.Domain.Models.Products
         public ICollection<FavoriteBook> FavoriteBook { get; set; }
 
         public ICollection<OrderDetail> OrderDetails { get; set; }
+
+        public ICollection<InventoryReport> InventoryReports { get; set; }
+
+        public ICollection<UserBook> UserBooks { get; set; }
 
 
         #endregion

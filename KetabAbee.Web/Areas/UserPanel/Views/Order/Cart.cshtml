@@ -126,7 +126,7 @@
                     @if (userBalanceWallet >= Model.OrderSum)
                     {
                         <div class="d-flex px-3 py-4">
-                            <a href="#" class="btn btn-primary btn-block py-2">خرید نهایی</a>
+                            <a asp-controller="Order" asp-action="Pay" asp-route-orderId="@Model.OrderId" class="btn btn-primary btn-block py-2">خرید نهایی</a>
                         </div>
                     }
                     else
@@ -134,7 +134,7 @@
                         <div class="d-flex px-3 py-4">
                             <div class="alert alert-warning">موجودی کیف پول شما برای این خرید کافی نیست</div>
                         </div>
-                        <form asp-controller="Wallet" asp-action="ChargeWallet" method="get">
+                        <form asp-area="UserPanel" asp-controller="Wallet" asp-action="ChargeWallet" method="get">
                             <input type="hidden" name="url" value="@reqUrl" />
                             <input type="hidden" name="amount" value="@moreThanWallet"/>
                             <input type="hidden" name="behalf" value="شارژ برای فاکتور شماره @Model.OrderId"/>

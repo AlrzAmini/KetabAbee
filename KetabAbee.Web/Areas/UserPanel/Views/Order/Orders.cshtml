@@ -76,7 +76,7 @@
                                                         @foreach (var order in Model.Where(o => !o.IsFinally))
                                                         {
                                                             <tr>
-                                                                <td>@order.OrderId</td>
+                                                                <td>KTA - @order.OrderId</td>
                                                                 <td>@order.CreateDate.ToShamsi()</td>
                                                                 <td>@order.OrderSum.ToToman()</td>
                                                                 <td class="text-info">در انتظار پرداخت</td>
@@ -121,11 +121,11 @@
                                                     </thead>
                                                     <tbody>
 
-                                                        @foreach (var order in Model.Where(o => o.IsFinally))
+                                                        @foreach (var order in Model.Where(o => o.IsFinally).OrderByDescending(o=>o.CreateDate))
                                                         {
                                                             <tr>
-                                                                <td>@order.OrderId</td>
-                                                                <td>@order.CreateDate.ToShamsi()</td>
+                                                                <td>KTA - @order.OrderId</td>
+                                                                <td>@order.CreateDate.ToIraniDate()</td>
                                                                 <td>@order.OrderSum.ToToman()</td>
                                                                 <td class="text-success">پرداخت شده</td>
                                                                 <td class="order-detail-link">
