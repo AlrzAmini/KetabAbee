@@ -33,5 +33,11 @@ namespace KetabAbee.Application.Interfaces.Order
         bool ChangeIsCompleted(int orderId);
 
         Domain.Models.Order.Order GetOrderByIdForShowInfo(int orderId);
+
+        bool AddOrderAddress(int orderId, int userId, string address);
+
+        Domain.Models.Order.Order GetOrderById(int orderId);
+
+        Domain.Models.Order.Order GetUserUnFinalOrder(int userId);
     }
 }

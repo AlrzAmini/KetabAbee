@@ -21,6 +21,14 @@
                     <span class="font-en ml-2">@Model.OrderId</span>
                     <span class="text-muted ml-2">|</span>
                     <span class="text-sm text-secondary">@Model.CreateDate.ToIraniDate()</span>
+                    @if (!Model.IsFinally)
+                    {
+                        <div class="col-md-6 text-left ml-5">
+                            <a asp-area="UserPanel" asp-controller="Order" asp-action="Cart" asp-route-orderId="@Model.OrderId" class="btn btn-info btn-sm">
+                                سبد خرید و پرداخت
+                            </a>
+                        </div>
+                    }
                 </div>
                 <div class="row mb-4">
                     <div class="col-12">
@@ -33,6 +41,10 @@
                                                 <div class="mb-2">
                                                     <span class="text-muted">خریدار:</span>
                                                     <span class="font-weight-bold">@Model.User.UserName</span>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <span class="text-muted">آدرس:</span>
+                                                    <span class="font-weight-bold">@Model.Address</span>
                                                 </div>
                                                 <div class="mb-2">
                                                     <span class="text-muted">شماره تماس :</span>

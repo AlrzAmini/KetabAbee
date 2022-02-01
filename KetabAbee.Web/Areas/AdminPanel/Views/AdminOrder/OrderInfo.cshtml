@@ -29,9 +29,17 @@
                     <ul class="tickets-list">
                         <li class="ticket-item">
                             <div class="row">
-                                <div class="ticket-user col-lg-6 col-sm-12">
+                                <div class="ticket-user col-lg-3 col-sm-12">
                                     <img src="/Avatar/thumb/@Model.User.AvatarName" alt="profile" class="user-avatar">
                                     <span class="user-name">@Model.User.UserName</span>
+                                </div>
+                                <div class="ticket-time  col-lg-3 col-sm-6 col-xs-12">
+                                    <div class="divider"></div>
+                                    <span class="add-address">@Model.Address</span>
+                                </div>
+                                <div class="ticket-type  col-lg-2 col-sm-6 col-xs-12">
+                                    <span class="divider"></span>
+                                    <span class="add-address">@Model.User.Mobile</span>
                                 </div>
                                 <div class="ticket-time  col-lg-2 col-sm-6 col-xs-12">
                                     <div class="divider"></div>
@@ -39,11 +47,7 @@
                                 </div>
                                 <div class="ticket-time  col-lg-2 col-sm-6 col-xs-12">
                                     <div class="divider"></div>
-                                    <span class="add-address">@Model.User.Address</span>
-                                </div>
-                                <div class="ticket-type  col-lg-2 col-sm-6 col-xs-12">
-                                    <span class="divider"></span>
-                                    <span class="add-address">@Model.User.Mobile</span>
+                                    <span class="add-address">@Model.CreateDate.ToIraniDate()</span>
                                 </div>
                                 <div class="ticket-state bg-palegreen">
                                     <i class="fa fa-check"></i>

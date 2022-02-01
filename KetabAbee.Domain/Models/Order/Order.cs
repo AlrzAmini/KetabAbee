@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace KetabAbee.Domain.Models.Order
@@ -19,7 +20,11 @@ namespace KetabAbee.Domain.Models.Order
         public int OrderSum { get; set; }
 
         [Required]
-        public DateTime CreateDate { get; set; } 
+        public DateTime CreateDate { get; set; }
+
+        [DisplayName("آدرس")]
+        [MaxLength(700, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
+        public string Address { get; set; }
 
         public bool IsFinally { get; set; }
 

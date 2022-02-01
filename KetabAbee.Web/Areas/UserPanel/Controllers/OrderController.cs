@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Order;
+using KetabAbee.Application.Interfaces.User;
 using Microsoft.AspNetCore.Http.Extensions;
 
 namespace KetabAbee.Web.Areas.UserPanel.Controllers
@@ -15,10 +16,12 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         #region cunstroctor
 
         private readonly IOrderService _orderService;
+        private readonly IUserService _userService;
 
-        public OrderController(IOrderService orderService)
+        public OrderController(IOrderService orderService, IUserService userService)
         {
             _orderService = orderService;
+            _userService = userService;
         }
 
         #endregion
@@ -39,7 +42,7 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         [HttpGet("UserPanel/Order/{orderId}")]
         public IActionResult Order(int orderId)
         {
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var userId = User.GetUserId();
             var order = _orderService.GetOrderForShowToUser(userId, orderId);
 
             if (order == null)
@@ -57,7 +60,7 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         [HttpGet("Cart/{orderId}")]
         public IActionResult Cart(int orderId)
         {
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var userId = User.GetUserId();
             var order = _orderService.GetOrderForShowToUser(userId, orderId);
 
             if (order == null)
@@ -65,8 +68,12 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
                 return NotFound();
             }
 
-            var reqUrl = Microsoft.AspNetCore.Http.Extensions.UriHelper.GetDisplayUrl(this.Request);
+            var reqUrl = UriHelper.GetDisplayUrl(Request);
             ViewBag.reqUrl = reqUrl;
+
+            var userAddress = _userService.GetUserAddressByUserId(User.GetUserId());
+            ViewBag.userAddress = userAddress;
+
             return View(order);
         }
 
@@ -120,16 +127,55 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         #region Pay
 
         [HttpGet("Pay/{orderId}")]
-        public IActionResult Pay(int orderId)
+        public IActionResult Pay(int orderId, string address)
         {
-            if (_orderService.PayByOrderId(User.GetUserId(),orderId))
+            var userAddress = _userService.GetUserAddressByUserId(User.GetUserId());
+            if (string.IsNullOrEmpty(userAddress))
             {
+                if (!string.IsNullOrEmpty(address))
+                {
+                    if (_orderService.PayByOrderId(User.GetUserId(), orderId))
+                    {
+                        TempData["SuccessMessage"] = "پرداخت با موفقیت انجام شد";
+                        return Redirect("/UserPanel/Dashboard");
+                    }
+
+                    TempData["ErrorMessage"] = "پرداخت با شکست مواجه شد";
+                    return Redirect($"/Cart/{orderId}");
+                }
+
+                TempData["ErrorMessage"] = "برای ثبت سفارش می بایست آدرس ارسال را تعیین کنید";
+                return Redirect($"/Cart/{orderId}");
+            }
+
+            if (_orderService.PayByOrderId(User.GetUserId(), orderId))
+            {
+                _orderService.AddOrderAddress(orderId, User.GetUserId(), userAddress);
                 TempData["SuccessMessage"] = "پرداخت با موفقیت انجام شد";
                 return Redirect("/UserPanel/Dashboard");
             }
 
             TempData["ErrorMessage"] = "پرداخت با شکست مواجه شد";
-            return Redirect($"Cart/{orderId}");
+            return Redirect($"/Cart/{orderId}");
+        }
+
+        [HttpPost]
+        public IActionResult AddAddress(int orderId, string address)
+        {
+            if (!string.IsNullOrEmpty(address))
+            {
+                if (_orderService.AddOrderAddress(orderId, User.GetUserId(), address))
+                {
+                    TempData["SuccessMessage"] = "آدرس برای سفارش شما ثبت شد";
+                    return Redirect($"/Cart/{orderId}");
+                }
+
+                TempData["ErrorMessage"] = "مشکلی هنگام ثبت آدرس رخ داد";
+                return Redirect($"/Cart/{orderId}");
+            }
+
+            TempData["ErrorMessage"] = "برای ثبت سفارش باید آدرس را ثبت کنید";
+            return Redirect($"/Cart/{orderId}");
         }
 
         #endregion

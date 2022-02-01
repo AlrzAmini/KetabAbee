@@ -44,6 +44,8 @@ namespace KetabAbee.Domain.Interfaces
 
         List<int> GetUserFavBookIds(int userId);
 
+        string GetUserAddressByUserId(int userId);
+
         #endregion
 
         #region Admin Panel

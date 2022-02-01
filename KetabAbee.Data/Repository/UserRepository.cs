@@ -163,5 +163,10 @@ namespace KetabAbee.Data.Repository
         {
             return _context.Users.SingleOrDefault(u => u.UserName == userName).UserId;
         }
+
+        public string GetUserAddressByUserId(int userId)
+        {
+            return GetUserById(userId).Address;
+        }
     }
 }

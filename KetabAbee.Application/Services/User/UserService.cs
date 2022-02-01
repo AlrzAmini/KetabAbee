@@ -542,5 +542,10 @@ namespace KetabAbee.Application.Services.User
         {
             return _userRepository.GetUserFavBookIds(userId);
         }
+
+        public string GetUserAddressByUserId(int userId)
+        {
+            return _userRepository.GetUserAddressByUserId(userId);
+        }
     }
 }

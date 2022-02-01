@@ -173,5 +173,14 @@ namespace KetabAbee.Data.Repository
                 .Include(o=>o.User)
                 .SingleOrDefault(o => o.OrderId == orderId);
         }
+
+        public Order GetUserUnFinalOrder(int userId)
+        {
+            return _context.Orders
+                .Include(o=>o.OrderDetails)
+                .ThenInclude(d=>d.Product)
+                .ThenInclude(p=>p.Publisher)
+                .SingleOrDefault(o =>o.UserId == userId && !o.IsFinally);
+        }
     }
 }

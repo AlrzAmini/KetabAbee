@@ -55,6 +55,8 @@ namespace KetabAbee.Domain.Interfaces
 
         Order GetOrderByIdForShowInfo(int orderId);
 
+        Order GetUserUnFinalOrder(int userId);
+
 
         #endregion
 

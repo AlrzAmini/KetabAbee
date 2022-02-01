@@ -1,4 +1,5 @@
 ﻿@using KetabAbee.Application.Extensions
+@using KetabAbee.Application.Interfaces.User
 @using KetabAbee.Application.Interfaces.Wallet
 @model KetabAbee.Domain.Models.Order.Order
 @inject IWalletService _walletService;
@@ -10,6 +11,10 @@
     var userBalanceWallet = _walletService.BalanceUserWallet(User.GetUserId());
 
     var moreThanWallet = Model.OrderSum - userBalanceWallet;
+
+    var userAddress = ViewBag.userAddress;
+
+    //todo : check user address in controller if have address orderaddress==useraddress
 }
 <main class="page-content" style="margin-top: 205.5px;">
     <div class="container">
@@ -126,7 +131,7 @@
                     @if (userBalanceWallet >= Model.OrderSum)
                     {
                         <div class="d-flex px-3 py-4">
-                            <a asp-controller="Order" asp-action="Pay" asp-route-orderId="@Model.OrderId" class="btn btn-primary btn-block py-2">خرید نهایی</a>
+                            <a asp-controller="Order" asp-action="Pay" asp-route-orderId="@Model.OrderId" asp-route-address="@Model.Address" class="btn btn-primary btn-block py-2">خرید نهایی</a>
                         </div>
                     }
                     else
@@ -136,10 +141,32 @@
                         </div>
                         <form asp-area="UserPanel" asp-controller="Wallet" asp-action="ChargeWallet" method="get">
                             <input type="hidden" name="url" value="@reqUrl" />
-                            <input type="hidden" name="amount" value="@moreThanWallet"/>
-                            <input type="hidden" name="behalf" value="شارژ برای فاکتور شماره @Model.OrderId"/>
+                            <input type="hidden" name="amount" value="@moreThanWallet" />
+                            <input type="hidden" name="behalf" value="شارژ برای فاکتور شماره @Model.OrderId" />
                             <button type="submit" class="btn btn-info btn-block">شارژ کیف پول : @((Model.OrderSum - userBalanceWallet).ToTooman())</button>
                         </form>
+                    }
+                    @if (string.IsNullOrEmpty(userAddress))
+                    {
+                        <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                            <form asp-area="UserPanel" asp-controller="Order" asp-action="AddAddress" method="post">
+                                <input type="hidden" name="orderId" value="@Model.OrderId"/>
+                                <div class="shadow-around pt-3">
+                                    <div class="col-lg-12 mb-1">
+                                        <div class="text-sm text-muted mb-3">آدرس:</div>
+                                        <div class="text-dark font-weight-bold">
+                                            <div class="form-element-row mb-0">
+                                                <textarea class="input-element" asp-for="Address" rows="5"></textarea>
+                                            </div>
+                                            <span asp-validation-for="Address" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex px-3 py-4">
+                                        <button type="submit" class="btn btn-info btn-block py-2">ثبت آدرس</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     }
                 </div>
             </div>

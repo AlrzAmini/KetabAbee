@@ -55,7 +55,7 @@ namespace KetabAbee.Application.Interfaces.User
 
         List<int> GetUserFavBookIds(int userId);
 
-        
+        string GetUserAddressByUserId(int userId);
 
         #endregion
 

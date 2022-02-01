@@ -103,6 +103,19 @@ namespace KetabAbee.Application.Services.Order
             return order.OrderId;
         }
 
+        public bool AddOrderAddress(int orderId, int userId, string address)
+        {
+            var order = GetOrderById(orderId);
+
+            if (order.UserId != userId) return false;
+            if (string.IsNullOrEmpty(address)) return false;
+
+            order.Address = address;
+            UpdateOrder(order);
+            return true;
+
+        }
+
         public bool ChangeIsCompleted(int orderId)
         {
             try
@@ -124,6 +137,11 @@ namespace KetabAbee.Application.Services.Order
                 return false;
             }
 
+        }
+
+        public Domain.Models.Order.Order GetOrderById(int orderId)
+        {
+            return _orderRepository.GetOrderById(orderId);
         }
 
         public Domain.Models.Order.Order GetOrderByIdForShowInfo(int orderId)
@@ -163,6 +181,11 @@ namespace KetabAbee.Application.Services.Order
             return _orderRepository.GetUserOrders(userId);
         }
 
+        public Domain.Models.Order.Order GetUserUnFinalOrder(int userId)
+        {
+            return _orderRepository.GetUserUnFinalOrder(userId);
+        }
+
         public bool PayByOrderId(int userId, int orderId)
         {
             var order = _orderRepository.GetOrdersWithIncludes()
@@ -185,6 +208,7 @@ namespace KetabAbee.Application.Services.Order
                 CreateDate = DateTime.Now,
                 WalletType = WalletType.Withdraw,
             });
+            //TODO Add Address for order
             UpdateOrder(order);
 
             foreach (var detail in order.OrderDetails)
@@ -199,7 +223,6 @@ namespace KetabAbee.Application.Services.Order
                 _productService.UpdateBook(book);
             }
 
-            
             _orderRepository.AddUserBooks(order.OrderDetails);
 
             return true;
