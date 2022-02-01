@@ -24,7 +24,7 @@
             }
             else
             {
-                <div class="product-price product-price-clone">نا موجود</div>
+                <div class="product-price product-price-clone text-danger">نا موجود</div>
             }
         </div>
         <div class="product-card-bottom">
@@ -33,17 +33,17 @@
                 <div class="product-price">
                     @Model.Price.ToToman()
                 </div>
-                <a asp-controller="Book" asp-action="AddToCart" asp-route-productId="@Model.BookId" target="_blank" class="btn btn-primary btn-sm">
+                <a asp-controller="Book" asp-action="AddToCart" asp-route-productId="@Model.BookId" target="_blank" class="btn-add-to-cart">
                     <i class="fad fa-cart-plus"></i>
                     افزودن به سبد خرید
                 </a>
             }
             else
             {
-                <div class="product-price">
+                <div class="product-price text-danger">
                     نا موجود
                 </div>
-                <a class="btn btn-danger btn-sm">
+                <a class="btn-add-to-cart bg-danger">
                     موجودی نداریم :(
                 </a>
             }
