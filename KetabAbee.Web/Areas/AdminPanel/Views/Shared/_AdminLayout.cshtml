@@ -7,6 +7,7 @@
     <title>پنل ادمین | @ViewData["Title"]</title>
     <partial name="_AdminMetas" />
     <partial name="_AdminStyles" />
+    @await RenderSectionAsync("Styles",false)
 </head>
 
 <body>
@@ -42,7 +43,7 @@
 
     <partial name="_AdminScripts" />
     <partial name="_SiteMessages" />
-    @await RenderSectionAsync("Scripts", false)
+    @await RenderSectionAsync("Scripts",false)
 </body>
 
 </html>

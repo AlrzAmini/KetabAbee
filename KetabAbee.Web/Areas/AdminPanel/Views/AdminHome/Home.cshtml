@@ -1,15 +1,17 @@
 ﻿@using KetabAbee.Application.DTOs
-@using KetabAbee.Domain.Models.User
-
 @{
     ViewData["Title"] = "صفحه اصلی";
 
+    // profile
     var profile = ViewBag.Profile as UserInformationInDashboardViewmodel;
 
-    var lastMonthUsers = ViewBag.LastMonthUsers;
-    var lastWeekUsers = ViewBag.LastWeekUsers;
-    var lastDayUsers = ViewBag.LastDayUsers;
-
+    // last users
+    var lstLastUsers = new List<int>
+{
+        ViewBag.LastDayUsers,
+        ViewBag.LastWeekUsers,
+        ViewBag.LastMonthUsers
+    };
 }
 
 <!-- Page Breadcrumb -->
@@ -27,40 +29,122 @@
     <partial name="_AdminProfileHeader" model="profile" />
 </div>
 <div class="row">
-    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-        <div class="databox databox-xxlg databox-vertical databox-shadowed bg-white radius-bordered padding-5 text-center">
-            <div class="databox-top">
-                <div class="databox-row row-12">
-                    <div class="databox-cell cell-3 text-center">
-                        <div class="databox-number number-xxlg sonic-silver"> @lastMonthUsers</div>
-                        <div class="databox-text storm-cloud">کاربر جدید در یک ماه اخیر </div>
-                    </div>
-                    <div class="databox-cell cell-9 text-align-center">
-                        
-                    </div>
-                </div>
-            </div>
-            <div class="databox-bottom">
-                <div class="databox-row row-12">
-                    <div class="databox-cell cell-5 text-center no-padding-left padding-bottom-30">
-                        <div class="databox-row row-2 bordered-bottom bordered-ivory padding-10">
-                            <span class="databox-text sonic-silver pull-left no-margin">بازه زمانی</span>
-                            <span class="databox-text sonic-silver pull-right no-margin uppercase">تعداد</span>
+    <partial name="_AdminLastUsersBox" model="lstLastUsers" />
+    <div class="col-xs-12 col-md-8">
+        <div class="dashboard-box">
+            <div class="box-tabbs">
+                <div class="tabbable">
+                    <ul class="nav nav-tabs tabs-flat  nav-justified" id="myTab11">
+                        <li class="">
+                            <a data-toggle="tab" href="#realtime" aria-expanded="false">
+                                بازدید لحظه ای
+                            </a>
+                        </li>
+                        <li class="">
+                            <a data-toggle="tab" href="#visits" aria-expanded="false">
+                                بازدیدها
+                            </a>
+                        </li>
+                        <li class="">
+                            <a data-toggle="tab" id="contacttab" href="#bandwidth" aria-expanded="false">
+                                پهنای باند
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a data-toggle="tab" href="#sales" aria-expanded="true">
+                                آمار فروش
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content tabs-flat no-padding">
+                        <div id="realtime" class="tab-pane padding-5 animated fadeInUp">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div id="dashboard-chart-realtime" class="chart chart-lg" style="padding: 0px; position: relative;"><canvas class="flot-base" width="789" height="250" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 789px; height: 250px;"></canvas><canvas class="flot-overlay" width="789" height="250" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 789px; height: 250px;"></canvas></div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="databox-row row-2 bordered-bottom bordered-ivory padding-10">
-                            <span class="badge badge-blue badge-empty pull-left margin-5"></span>
-                            <span class="databox-text darkgray pull-left no-margin hidden-xs">یک روز اخیر</span>
-                            <span class="databox-text darkgray pull-right no-margin uppercase">@lastDayUsers نفر</span>
+                        <div id="visits" class="tab-pane  animated fadeInUp">
+                            <div class="row">
+                                <div class="col-lg-12 chart-container">
+                                    <div id="dashboard-chart-visits" class="chart chart-lg" style="width: 100%; padding: 0px; position: relative;"><canvas class="flot-base" width="809" height="250" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 809px; height: 250px;"></canvas><div class="flot-text" style="position: absolute; inset: 0px; font-size: smaller; color: rgb(84, 84, 84);"><div class="flot-x-axis flot-x1-axis xAxis x1Axis" style="position: absolute; inset: 0px; display: block;"><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 89px; top: 235px; left: 61px; text-align: center;">4</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 89px; top: 235px; left: 171px; text-align: center;">6</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 89px; top: 235px; left: 281px; text-align: center;">8</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 20px; top: 235px; left: 393px; text-align: center;">10</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 89px; top: 235px; left: 498px; text-align: center;">12</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 89px; top: 235px; left: 608px; text-align: center;">14</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 89px; top: 235px; left: 718px; text-align: center;">16</div></div></div><canvas class="flot-overlay" width="809" height="250" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 809px; height: 250px;"></canvas></div>
+                                </div>
+                            </div>
+
                         </div>
-                        <div class="databox-row row-2 bordered-bottom bordered-ivory padding-10">
-                            <span class="badge badge-orange badge-empty pull-left margin-5"></span>
-                            <span class="databox-text darkgray pull-left no-margin hidden-xs">یک هفته اخیر</span>
-                            <span class="databox-text darkgray pull-right no-margin uppercase">@lastWeekUsers نفر</span>
+                        <div id="bandwidth" class="tab-pane padding-10 animated fadeInUp">
+                            <div class="databox-sparkline bg-themeprimary">
+                                <span id="dashboard-bandwidth-chart" data-sparkline="compositeline" data-height="250px" data-width="100%" data-linecolor="#fff" data-secondlinecolor="#eee" data-fillcolor="rgba(255,255,255,.1)" data-secondfillcolor="rgba(255,255,255,.25)" data-spotradius="0" data-spotcolor="#fafafa" data-minspotcolor="#fafafa" data-maxspotcolor="#ffce55" data-highlightspotcolor="#fff" data-highlightlinecolor="#fff" data-linewidth="2" data-secondlinewidth="2" data-composite="500, 400, 100, 450, 300, 200, 100, 200"><canvas width="1202" height="250" style="display: inline-block; width: 1202px; height: 250px; vertical-align: top;"></canvas></span>
+                            </div>
                         </div>
-                        <div class="databox-row row-2 bordered-bottom bordered-ivory padding-10">
-                            <span class="badge badge-pink badge-empty pull-left margin-5"></span>
-                            <span class="databox-text darkgray pull-left no-margin hidden-xs">یک ماه اخیر</span>
-                            <span class="databox-text darkgray pull-right no-margin uppercase">@lastMonthUsers نفر</span>
+                        <div id="sales" class="tab-pane animated fadeInUp no-padding-bottom active" style="padding:20px 20px 0 20px;">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <div class="databox databox-xlg databox-vertical databox-inverted databox-shadowed">
+                                        <div class="databox-top">
+                                            <div class="databox-sparkline">
+                                                <span data-sparkline="line" data-height="125px" data-width="100%" data-fillcolor="false" data-linecolor="themesecondary" data-spotcolor="#fafafa" data-minspotcolor="#fafafa" data-maxspotcolor="#ffce55" data-highlightspotcolor="#ffce55" data-highlightlinecolor="#ffce55" data-linewidth="1.5" data-spotradius="2"><canvas width="100" height="125" style="display: inline-block; width: 100px; height: 125px; vertical-align: top;"></canvas></span>
+                                            </div>
+                                        </div>
+                                        <div class="databox-bottom no-padding text-align-center">
+                                            <span class="databox-number lightcarbon no-margin">224</span>
+                                            <span class="databox-text lightcarbon no-margin">فروش / ساعت</span>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <div class="databox databox-xlg databox-vertical databox-inverted databox-shadowed">
+                                        <div class="databox-top">
+                                            <div class="databox-sparkline">
+                                                <span data-sparkline="line" data-height="125px" data-width="100%" data-fillcolor="false" data-linecolor="themefourthcolor" data-spotcolor="#fafafa" data-minspotcolor="#fafafa" data-maxspotcolor="#8cc474" data-highlightspotcolor="#8cc474" data-highlightlinecolor="#8cc474" data-linewidth="1.5" data-spotradius="2"><canvas width="100" height="125" style="display: inline-block; width: 100px; height: 125px; vertical-align: top;"></canvas></span>
+                                            </div>
+                                        </div>
+                                        <div class="databox-bottom no-padding text-align-center">
+                                            <span class="databox-number lightcarbon no-margin">7063$</span>
+                                            <span class="databox-text lightcarbon no-margin">درآمد / ساعت</span>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <div class="databox databox-xlg databox-vertical databox-inverted databox-shadowed">
+                                        <div class="databox-top">
+                                            <div class="databox-piechart">
+                                                <div data-toggle="easypiechart" class="easyPieChart block-center" data-barcolor="themeprimary" data-linecap="butt" data-percent="80" data-animate="500" data-linewidth="8" data-size="125" data-trackcolor="#eee" style="width: 125px; height: 125px; line-height: 125px;">
+                                                    <span class="font-200"><i class="fa fa-gift themeprimary"></i></span>
+                                                    <canvas width="125" height="125"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="databox-bottom no-padding text-align-center">
+                                            <span class="databox-number lightcarbon no-margin">9</span>
+                                            <span class="databox-text lightcarbon no-margin">سفارش جدید</span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <div class="databox databox-xlg databox-vertical databox-inverted  databox-shadowed">
+                                        <div class="databox-top">
+                                            <div class="databox-piechart">
+                                                <div data-toggle="easypiechart" class="easyPieChart block-center" data-barcolor="themethirdcolor" data-linecap="butt" data-percent="40" data-animate="500" data-linewidth="8" data-size="125" data-trackcolor="#eee" style="width: 125px; height: 125px; line-height: 125px;">
+                                                    <span class="white font-200"><i class="fa fa-tags themethirdcolor"></i></span>
+                                                    <canvas width="125" height="125"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="databox-bottom no-padding text-align-center">
+                                            <span class="databox-number lightcarbon no-margin">11</span>
+                                            <span class="databox-text lightcarbon no-margin">تیکت جدید</span>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -68,3 +152,4 @@
         </div>
     </div>
 </div>
+
