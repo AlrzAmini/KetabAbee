@@ -1,21 +1,70 @@
-﻿
+﻿@using KetabAbee.Application.DTOs
+@using KetabAbee.Domain.Models.User
+
 @{
     ViewData["Title"] = "صفحه اصلی";
+
+    var profile = ViewBag.Profile as UserInformationInDashboardViewmodel;
+
+    var lastMonthUsers = ViewBag.LastMonthUsers;
+    var lastWeekUsers = ViewBag.LastWeekUsers;
+    var lastDayUsers = ViewBag.LastDayUsers;
+
 }
 
-
-<!-- Page Content -->
-
-    <!-- Page Breadcrumb -->
-    <div class="page-breadcrumbs">
-        <ul class="breadcrumb">
-            <li>
-                <i class="fa fa-home"></i>
-                <a asp-controller="AdminHome" asp-action="Home">خانه</a>
-            </li>
-            <li class="active">@ViewData["Title"]</li>
-        </ul>
+<!-- Page Breadcrumb -->
+<div class="page-breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
+<!-- /Page Breadcrumb -->
+<div class="row margin-bottom-20">
+    <partial name="_AdminProfileHeader" model="profile" />
+</div>
+<div class="row">
+    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+        <div class="databox databox-xxlg databox-vertical databox-shadowed bg-white radius-bordered padding-5 text-center">
+            <div class="databox-top">
+                <div class="databox-row row-12">
+                    <div class="databox-cell cell-3 text-center">
+                        <div class="databox-number number-xxlg sonic-silver"> @lastMonthUsers</div>
+                        <div class="databox-text storm-cloud">کاربر جدید در یک ماه اخیر </div>
+                    </div>
+                    <div class="databox-cell cell-9 text-align-center">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="databox-bottom">
+                <div class="databox-row row-12">
+                    <div class="databox-cell cell-5 text-center no-padding-left padding-bottom-30">
+                        <div class="databox-row row-2 bordered-bottom bordered-ivory padding-10">
+                            <span class="databox-text sonic-silver pull-left no-margin">بازه زمانی</span>
+                            <span class="databox-text sonic-silver pull-right no-margin uppercase">تعداد</span>
+                        </div>
+                        <div class="databox-row row-2 bordered-bottom bordered-ivory padding-10">
+                            <span class="badge badge-blue badge-empty pull-left margin-5"></span>
+                            <span class="databox-text darkgray pull-left no-margin hidden-xs">یک روز اخیر</span>
+                            <span class="databox-text darkgray pull-right no-margin uppercase">@lastDayUsers نفر</span>
+                        </div>
+                        <div class="databox-row row-2 bordered-bottom bordered-ivory padding-10">
+                            <span class="badge badge-orange badge-empty pull-left margin-5"></span>
+                            <span class="databox-text darkgray pull-left no-margin hidden-xs">یک هفته اخیر</span>
+                            <span class="databox-text darkgray pull-right no-margin uppercase">@lastWeekUsers نفر</span>
+                        </div>
+                        <div class="databox-row row-2 bordered-bottom bordered-ivory padding-10">
+                            <span class="badge badge-pink badge-empty pull-left margin-5"></span>
+                            <span class="databox-text darkgray pull-left no-margin hidden-xs">یک ماه اخیر</span>
+                            <span class="databox-text darkgray pull-right no-margin uppercase">@lastMonthUsers نفر</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /Page Breadcrumb -->
-
-<!-- /Page Content -->
+</div>

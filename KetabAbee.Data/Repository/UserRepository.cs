@@ -168,5 +168,10 @@ namespace KetabAbee.Data.Repository
         {
             return GetUserById(userId).Address;
         }
+
+        public IEnumerable<User> GetLastNDaysUsers(int n)
+        {
+            return _context.Users.Where(u => u.RegisterDate > DateTime.Now.AddDays(-n));
+        }
     }
 }

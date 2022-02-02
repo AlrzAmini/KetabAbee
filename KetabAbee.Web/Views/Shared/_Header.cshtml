@@ -1,7 +1,9 @@
 ﻿@using System.Security.Claims
+@using KetabAbee.Application.Const
 @using KetabAbee.Application.Convertors
 @using KetabAbee.Application.Extensions
 @using KetabAbee.Application.Interfaces.Order
+@using KetabAbee.Application.Interfaces.Permission
 @using KetabAbee.Application.Interfaces.Product
 @using KetabAbee.Application.Interfaces.User
 @using KetabAbee.Application.Interfaces.Wallet
@@ -9,6 +11,7 @@
 @inject IWalletService _walletService;
 @inject IOrderService _orderService;
 @inject IProductService _productService;
+@inject IPermissionService _permissionService;
 <!-- Page Header -->
 <header class="page-header">
     <div class="top-page-header">
@@ -24,10 +27,13 @@
                 </div>
                 <div class="top-header-menu">
                     <ul>
-                        <li><a asp-area="AdminPanel" asp-controller="AdminHome" asp-action="Home">پنل ادمین</a></li>
-                        <li><a href="#">خانه</a></li>
-                        <li><a href="#">پیگیری سفارش</a></li>
-                        <li><a href="#">فروشگاه</a></li>
+                        @if (User.Identity.IsAuthenticated && _permissionService.CheckPermission(PerIds.AdminPanel, User.GetUserEmail()))
+                        {
+                            <li><a asp-area="AdminPanel" asp-controller="AdminHome" asp-action="Home">پنل ادمین</a></li>
+                            <li><a asp-area="UserPanel" asp-controller="Order" asp-action="Orders"> سفارش ها</a></li>
+                        }
+                        <li><a asp-controller="Book" asp-action="Index">فروشگاه</a></li>
+                        <li><a asp-controller="Home" asp-action="Index">خانه</a></li>
                     </ul>
                 </div>
             </div>
@@ -38,7 +44,7 @@
             <div class="d-flex align-items-center">
                 <div class="site-logo">
                     <a href="/">
-                        <img src="/images/logo.png" alt="logo">
+                        <img src="/images/book.png" alt="logo">
                     </a>
                 </div>
                 <div class="search-box">
@@ -64,93 +70,96 @@
                         </div>*@
                 </div>
             </div>
-            @{
-                var userBookIds = _userService.GetUserFavBookIds(User.GetUserId());
-                var favBooksCount = _productService.GetFavBooksByBookIds(userBookIds).ToList().Count;
-            }
+
+
             <div class="user-items">
-                <div class="user-item">
-                    <a asp-area="UserPanel" asp-controller="UserPanel" asp-action="FavoriteBooks">
-                        <i class="fal fa-heart"></i>
-                        <span class="bag-items-number">@favBooksCount</span>
-                    </a>
-                </div>
-                @{
-                    var userCurrentOrder = _orderService.GetUserUnFinalOrder(User.GetUserId());
-                }
-                @if (userCurrentOrder != null && userCurrentOrder.OrderDetails.Any())
+                @if (User.Identity.IsAuthenticated)
                 {
-                    <div class="user-item cart-list">
-                        <a asp-area="UserPanel" asp-controller="Order" asp-action="Cart" asp-route-orderId="@userCurrentOrder.OrderId">
-                            <i class="fal fa-shopping-basket"></i>
-                            <span class="bag-items-number">@userCurrentOrder.OrderDetails.Count</span>
+                    <div class="user-item">
+                        <a asp-area="UserPanel" asp-controller="UserPanel" asp-action="FavoriteBooks">
+                            @{
+                                var userBookIds = _userService.GetUserFavBookIds(User.GetUserId());
+                            }
+                            <i class="fal fa-heart"></i>
+                            <span class="bag-items-number">@_productService.GetFavBooksByBookIds(userBookIds).Count()</span>
                         </a>
-                        <ul>
-                            <li class="cart-items">
-                                <ul class="do-nice-scroll">
-                                    @foreach (var detail in userCurrentOrder.OrderDetails)
-                                    {
-                                        <li class="cart-item">
-                                            <span class="d-flex align-items-center mb-2">
-                                                <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@detail.ProductId">
-                                                    <img src="/images/Book/thumb/@detail.Product.ImageName" alt="">
-                                                </a>
-                                                <span>
+                    </div>
+
+                    var userCurrentOrder = _orderService.GetUserUnFinalOrder(User.GetUserId());
+                    if (userCurrentOrder != null && userCurrentOrder.OrderDetails.Any())
+                    {
+                        <div class="user-item cart-list">
+                            <a asp-area="UserPanel" asp-controller="Order" asp-action="Cart" asp-route-orderId="@userCurrentOrder.OrderId">
+                                <i class="fal fa-shopping-basket"></i>
+                                <span class="bag-items-number">@userCurrentOrder.OrderDetails.Count</span>
+                            </a>
+                            <ul>
+                                <li class="cart-items">
+                                    <ul class="do-nice-scroll">
+                                        @foreach (var detail in userCurrentOrder.OrderDetails)
+                                        {
+                                            <li class="cart-item">
+                                                <span class="d-flex align-items-center mb-2">
                                                     <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@detail.ProductId">
-                                                        <span class="title-item">
-                                                            @detail.Product.Name اثر @detail.Product.Writer
-                                                        </span>
+                                                        <img src="/images/Book/thumb/@detail.Product.ImageName" alt="">
                                                     </a>
-                                                    <span class="color d-flex align-items-center">
-                                                        نشر:
-                                                        @detail.Product.Publisher.PublisherName
+                                                    <span>
+                                                        <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@detail.ProductId">
+                                                            <span class="title-item">
+                                                                @detail.Product.Name اثر @detail.Product.Writer
+                                                            </span>
+                                                        </a>
+                                                        <span class="color d-flex align-items-center">
+                                                            نشر:
+                                                            @detail.Product.Publisher.PublisherName
+                                                        </span>
                                                     </span>
                                                 </span>
-                                            </span>
-                                            @if (detail.Product.Inventory != null && detail.Product.Inventory != 0)
-                                            {
-                                                <span class="price">@detail.Price.ToToman()</span>
-                                            }
-                                            else
-                                            {
-                                                <span class="price">نا موجود</span>
-                                            }
-                                            <button class="remove-item">
-                                                @detail.Count
-                                            </button>
-                                        </li>
-                                    }
-                                </ul>
-                            </li>
-                            <li class="cart-footer d-flex align-items-center justify-content-between">
-                                <span class="d-flex flex-column">
-                                    <span>مبلغ کل:</span>
-                                    <span class="total">@userCurrentOrder.OrderSum.ToToman()</span>
-                                </span>
-                                <span class="d-block text-center px-2">
-                                    <a asp-area="UserPanel" asp-controller="Order" asp-action="Cart" asp-route-orderId="@userCurrentOrder.OrderId" class="btn-cart">
-                                        ثبت سفارش
-                                    </a>
-                                </span>
-                            </li>
-                        </ul>
-                    </div>
-                }
-                else
-                {
-                    <div class="user-item cart-list">
-                        <a>
-                            <i class="fal fa-shopping-basket"></i>
-                            <span class="bag-items-number">0</span>
-                        </a>
-                        <ul>
-                            <li class="cart-items">
-                                <div class="alert alert-danger m-1">
-                                    سبد خرید شما خالی است
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+                                                @if (detail.Product.Inventory != null && detail.Product.Inventory != 0)
+                                                {
+                                                    <span class="price">@detail.Price.ToToman()</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="price">نا موجود</span>
+                                                }
+                                                <button class="remove-item">
+                                                    @detail.Count
+                                                </button>
+                                            </li>
+                                        }
+                                    </ul>
+                                </li>
+                                <li class="cart-footer d-flex align-items-center justify-content-between">
+                                    <span class="d-flex flex-column">
+                                        <span>مبلغ کل:</span>
+                                        <span class="total">@userCurrentOrder.OrderSum.ToToman()</span>
+                                    </span>
+                                    <span class="d-block text-center px-2">
+                                        <a asp-area="UserPanel" asp-controller="Order" asp-action="Cart" asp-route-orderId="@userCurrentOrder.OrderId" class="btn-cart">
+                                            ثبت سفارش
+                                        </a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="user-item cart-list">
+                            <a>
+                                <i class="fal fa-shopping-basket"></i>
+                                <span class="bag-items-number">0</span>
+                            </a>
+                            <ul>
+                                <li class="cart-items">
+                                    <div class="alert alert-danger m-1">
+                                        سبد خرید شما خالی است
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    }
                 }
                 <div class="user-item account">
                     @if (User.Identity.IsAuthenticated)
@@ -246,6 +255,7 @@
                     }
                 </div>
             </div>
+
         </div>
         <partial name="_NavBar" />
     </div>
@@ -258,7 +268,7 @@
             <div class="side-navigation">
                 <div class="site-logo">
                     <a href="#">
-                        <img src="images/logo.png" alt="logo">
+                        <img src="/images/book.png" alt="logo">
                     </a>
                 </div>
                 <div class="divider"></div>

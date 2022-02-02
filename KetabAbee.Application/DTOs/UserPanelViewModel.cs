@@ -19,11 +19,14 @@ namespace KetabAbee.Application.DTOs
 
         public string Address { get; set; }
 
+        public string ImageName { get; set; }
+
         public int? Age { get; set; }
 
         public long Wallet { get; set; }
 
         public DateTime RegisterDate { get; set; }
+        public DateTime? BirthDate { get; set; }
     }
 
     public class UserPanelSideBarViewmodel

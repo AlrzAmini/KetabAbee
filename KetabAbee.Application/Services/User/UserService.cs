@@ -112,7 +112,9 @@ namespace KetabAbee.Application.Services.User
                 RegisterDate = user.RegisterDate,
                 UserName = user.UserName,
                 Wallet = _walletService.BalanceUserWallet(user.UserId),
-                Address = user.Address
+                Address = user.Address,
+                ImageName = user.AvatarName,
+                BirthDate = user.BirthDay
             };
 
             return userInfo;
@@ -546,6 +548,11 @@ namespace KetabAbee.Application.Services.User
         public string GetUserAddressByUserId(int userId)
         {
             return _userRepository.GetUserAddressByUserId(userId);
+        }
+
+        public IEnumerable<Domain.Models.User.User> GetLastNDaysUsers(int n)
+        {
+            return _userRepository.GetLastNDaysUsers(n);
         }
     }
 }

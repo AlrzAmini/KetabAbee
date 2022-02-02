@@ -62,6 +62,8 @@ namespace KetabAbee.Domain.Interfaces
 
         string GetMobileByUserId(int userId);
 
+        IEnumerable<User> GetLastNDaysUsers(int n);
+
         #endregion
 
         int GetUserIdByUserName(string userName);

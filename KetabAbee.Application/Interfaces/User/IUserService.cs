@@ -83,6 +83,8 @@ namespace KetabAbee.Application.Interfaces.User
 
         ChargeWalletFromAdminViewModel GetChargeInfoForAdmin(int userId);
 
+        IEnumerable<Domain.Models.User.User> GetLastNDaysUsers(int n);
+
         #endregion
     }
 }
