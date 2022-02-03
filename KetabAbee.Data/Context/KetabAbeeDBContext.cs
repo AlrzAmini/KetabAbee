@@ -72,6 +72,8 @@ namespace KetabAbee.Data.Context
 
         public DbSet<NewsEmail> NewsEmails { get; set; }
 
+        public DbSet<ContactUs> ContactUses { get; set; }
+
         #endregion
 
 
@@ -107,6 +109,12 @@ namespace KetabAbee.Data.Context
                 .HasQueryFilter(e => !e.IsDelete);
 
             modelBuilder.Entity<OrderDetail>()
+                .HasQueryFilter(e => !e.IsDelete);
+
+            modelBuilder.Entity<NewsEmail>()
+                .HasQueryFilter(e => !e.IsDelete);
+
+            modelBuilder.Entity<ContactUs>()
                 .HasQueryFilter(e => !e.IsDelete);
 
             #endregion

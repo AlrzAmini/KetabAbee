@@ -10,6 +10,9 @@ namespace KetabAbee.Domain.Models.ContactUs
 
         public int? UserId { get; set; }
 
+        [DisplayName("Ip")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
+        [MaxLength(100, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
         public string UserIp { get; set; }
 
         #region Props
@@ -33,6 +36,8 @@ namespace KetabAbee.Domain.Models.ContactUs
         [DisplayName("متن پیام")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
         public string Body { get; set; }
+
+        public bool IsDelete { get; set; }
 
         #endregion
 

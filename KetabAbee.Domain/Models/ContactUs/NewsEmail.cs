@@ -17,5 +17,7 @@ namespace KetabAbee.Domain.Models.ContactUs
         [MaxLength(256, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
         [EmailAddress(ErrorMessage = "ایمیل وارد شده معتبر نیست . دقت کنید !")]
         public string EmailAddress { get; set; }
+
+        public bool IsDelete { get; set; }
     }
 }
