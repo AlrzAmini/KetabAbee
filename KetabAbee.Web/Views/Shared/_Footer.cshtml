@@ -81,44 +81,44 @@
                     <h2 class="widget-title">دسته بندی کالاها</h2>
                     <ul class="widget-list">
                         <li class="widget-list-item">
-                            <a href="#" class="widget-list-link">کالای دیجیتال</a>
+                            <a href="/Books?SearchCategory=1" class="widget-list-link">کتاب بزرگسال</a>
                         </li>
                         <li class="widget-list-item">
-                            <a href="#" class="widget-list-link">آرایشی،بهداشتی و سلامت</a>
+                            <a href="/Books?SearchCategory=2" class="widget-list-link">کتاب کودک و نوجوان</a>
                         </li>
                         <li class="widget-list-item">
-                            <a href="#" class="widget-list-link">خودرو،ابزار و اداری</a>
+                            <a href="/Books?SearchCategory=6" class="widget-list-link">هنر</a>
                         </li>
                         <li class="widget-list-item">
-                            <a href="#" class="widget-list-link">مد و پوشاک</a>
+                            <a href="/Books?SearchCategory=7" class="widget-list-link">فلسفه</a>
                         </li>
                         <li class="widget-list-item">
-                            <a href="#" class="widget-list-link">خانه و آشپزخانه</a>
+                            <a href="/Books?SearchCategory=8" class="widget-list-link">رشد شخصی</a>
                         </li>
                         <li class="widget-list-item">
-                            <a href="#" class="widget-list-link">کتاب،لوازم تحریر و هنر</a>
+                            <a href="/Books?SearchCategory=25" class="widget-list-link">رمان</a>
                         </li>
                         <li class="widget-list-item">
-                            <a href="#" class="widget-list-link">اسباب بازی،کودک و نوزاد</a>
+                            <a href="/Books?SearchCategory=29" class="widget-list-link">مذهبی</a>
                         </li>
                         <li class="widget-list-item">
-                            <a href="#" class="widget-list-link">ورزش و سفر</a>
+                            <a href="/Books?SearchCategory=30" class="widget-list-link">ادیان</a>
                         </li>
                         <li class="widget-list-item">
-                            <a href="#" class="widget-list-link">خوردنی و آشامیدنی</a>
+                            <a href="/Books?SearchCategory=38" class="widget-list-link">علمی</a>
                         </li>
                     </ul>
                 </div>
             </div>
             <div class="col-md-4 col-sm-6">
                 <div class="widget widget-links">
-                    <h2 class="widget-title">راهنمای خرید از همتا</h2>
+                    <h2 class="widget-title">راهنمای خرید از کتاب آبی</h2>
                     <ul class="widget-list">
                         <li class="widget-list-item">
-                            <a href="#" class="widget-list-link">نحوه ثبت سفارش</a>
+                            <a asp-controller="Home" asp-action="HowToShop" class="widget-list-link">نحوه ثبت سفارش</a>
                         </li>
                         <li class="widget-list-item">
-                            <a href="#" class="widget-list-link">رویه ارسال سفارش</a>
+                            <a href="#" onclick="sendMsg()" class="widget-list-link link-send-order">رویه ارسال سفارش</a>
                         </li>
                         <li class="widget-list-item">
                             <a href="#" class="widget-list-link">شیوه‌های پرداخت</a>
@@ -128,9 +128,6 @@
                 <div class="widget widget-links">
                     <h2 class="widget-title">خدمات مشتریان</h2>
                     <ul class="widget-list">
-                        <li class="widget-list-item">
-                            <a href="#" class="widget-list-link">پاسخ به پرسش‌های متداول</a>
-                        </li>
                         <li class="widget-list-item">
                             <a href="#" class="widget-list-link">رویه‌های بازگرداندن کالا</a>
                         </li>
@@ -147,20 +144,10 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="widget widget-newsletter">
-                    <h2 class="widget-title">خبرنامه:</h2>
-                    <div class="newsletter">
-                        <form action="#" class="newsletterform">
-                            <div class="form-group">
-                                <input type="email" placeholder="آدرس ایمیل خود را وارد نمایید">
-                                <button type="submit">ارسال</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                <partial name="_Newsletters"/>
                 <div class="widget">
                     <h2 class="widget-title">
-                        من را در شبکه‌های اجتماعی دنبال کنید:
+                        ما را در شبکه‌های اجتماعی دنبال کنید:
                     </h2>
                     <div class="social">
                         <ul>
@@ -187,19 +174,10 @@
                 <div class="widget widget-links mb-2">
                     <ul class="widget-list d-flex flex-wrap justify-content-center justify-content-md-start">
                         <li class="widget-list-item ml-4">
-                            <a href="#" class="widget-list-link">درباره همتا</a>
+                            <a asp-controller="Home" asp-action="AboutUs" class="widget-list-link">درباره کتاب آبی</a>
                         </li>
                         <li class="widget-list-item ml-4">
-                            <a href="#" class="widget-list-link">فروش در همتا</a>
-                        </li>
-                        <li class="widget-list-item ml-4">
-                            <a href="#" class="widget-list-link">فرصت های شغلی</a>
-                        </li>
-                        <li class="widget-list-item ml-4">
-                            <a href="#" class="widget-list-link">تماس با همتا</a>
-                        </li>
-                        <li class="widget-list-item ml-4">
-                            <a href="#" class="widget-list-link">حریم خصوصی</a>
+                            <a asp-controller="Home" asp-action="ContactUs" class="widget-list-link">تماس با ما</a>
                         </li>
                     </ul>
                 </div>
@@ -208,10 +186,24 @@
         <div class="row text-center">
             <div class="col-12">
                 <div class="copy-right">
-                    <p>© تمامی حقوق این وب سایت متعلق به " فروشگاه کتاب آنلاین آبی" می باشد. تولید و توسعه توسط : <a href="https://www.linkedin.com/in/alirezamininasab" target="_blank">علیرضا امینی</a></p>
+                    <p>© تمامی حقوق این وب سایت متعلق به " فروشگاه کتاب آنلاین آبی" می باشد. تولید و توسعه توسط : <a href="https://www.linkedin.com/in/alirezamininasab" target="_blank">علیرضا امینی نسب</a></p>
                 </div>
             </div>
         </div>
     </div>
 </footer>
+@section Scripts
+{
+    <script>
+        function sendMsg() {
+            Swal.fire({
+                text: "پس از ثبت سفارش محصولات شما بین 4 تا 6 روز آینده به دستتان می رسد",
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'بله'
+            });
+        };
+    </script>
+}
 <!-- end Page Footer -->

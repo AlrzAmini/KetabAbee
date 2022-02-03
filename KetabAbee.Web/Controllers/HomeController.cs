@@ -9,9 +9,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs;
 using KetabAbee.Application.DTOs.Book;
+using KetabAbee.Application.Interfaces.Contact;
 using KetabAbee.Application.Interfaces.Product;
 using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Interfaces.Wallet;
+using KetabAbee.Domain.Models.ContactUs;
 using Microsoft.AspNetCore.Http;
 
 namespace KetabAbee.Web.Controllers
@@ -21,10 +23,12 @@ namespace KetabAbee.Web.Controllers
         #region constructor
 
         private readonly IProductService _productService;
+        private readonly IContactService _contactService;
 
-        public HomeController(IProductService productService)
+        public HomeController(IProductService productService, IContactService contactService)
         {
             _productService = productService;
+            _contactService = contactService;
         }
 
         #endregion
@@ -60,6 +64,62 @@ namespace KetabAbee.Web.Controllers
 
         //    return View();
         //}
+
+        #endregion
+
+        #region how to shop
+
+        [HttpGet("Purchase/Guide")]
+        public IActionResult HowToShop()
+        {
+            return View();
+        }
+
+        #endregion
+
+        #region add email to news letter
+
+        [HttpPost("AddToNLE")]
+        public IActionResult AddEmailToNewsLetterEmails(string email, string url)
+        {
+            if (!string.IsNullOrEmpty(email))
+            {
+                if (_contactService.EmailInNewsEmailsIsUnique(email))
+                {
+                    if (_contactService.AddEmailToNewsEmails(email))
+                    {
+                        TempData["SuccessMessage"] = "با موفقیت به خبرنامه افزوده شد";
+                        return Redirect(url);
+                    }
+                    TempData["ErrorMessage"] = "عملیات افزودن به خبرنامه با مشکل مواجه شد";
+                    return Redirect(url);
+                }
+                TempData["InfoMessage"] = "این ایمیل قبلا ثبت شده است";
+                return Redirect(url);
+            }
+            TempData["ErrorMessage"] = "ایمیل را وارد کنید";
+            return Redirect(url);
+        }
+
+        #endregion
+
+        #region About us
+
+        [HttpGet("Page/About")]
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
+
+        #endregion
+
+        #region About us
+
+        [HttpGet("Page/Contact")]
+        public IActionResult ContactUs()
+        {
+            return View();
+        }
 
         #endregion
 

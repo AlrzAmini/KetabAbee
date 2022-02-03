@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using KetabAbee.Domain.Models.ContactUs;
 using KetabAbee.Domain.Models.Order;
 using KetabAbee.Domain.Models.Permission;
 using KetabAbee.Domain.Models.Products;
@@ -64,6 +65,12 @@ namespace KetabAbee.Data.Context
         public DbSet<Order> Orders { get; set; }
 
         public DbSet<OrderDetail> OrderDetails  { get; set; }
+
+        #endregion
+
+        #region Contact
+
+        public DbSet<NewsEmail> NewsEmails { get; set; }
 
         #endregion
 

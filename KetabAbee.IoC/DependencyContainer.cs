@@ -6,12 +6,14 @@ using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using System.Threading.Tasks;
 using KetabAbee.Application.Convertors;
+using KetabAbee.Application.Interfaces.Contact;
 using KetabAbee.Application.Interfaces.Order;
 using KetabAbee.Application.Interfaces.Permission;
 using KetabAbee.Application.Interfaces.Product;
 using KetabAbee.Application.Interfaces.Ticket;
 using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Interfaces.Wallet;
+using KetabAbee.Application.Services.Contact;
 using KetabAbee.Application.Services.Order;
 using KetabAbee.Application.Services.Permission;
 using KetabAbee.Application.Services.Product;
@@ -36,6 +38,7 @@ namespace KetabAbee.IoC
             service.AddScoped<IPermissionService, PermissionService>();
             service.AddScoped<IProductService, ProductService>();
             service.AddScoped<IOrderService, OrderService>();
+            service.AddScoped<IContactService, ContactService>();
 
             //Cums From Data Layer
             service.AddScoped<IUserRepository, UserRepository>();
@@ -44,6 +47,7 @@ namespace KetabAbee.IoC
             service.AddScoped<IPermissionRepository, PermissionRepository>();
             service.AddScoped<IProductRepository, ProductRepository>();
             service.AddScoped<IOrderRepository, OrderRepository>();
+            service.AddScoped<IContactRepository,  ContactRepository>();
 
 
             #region html encode

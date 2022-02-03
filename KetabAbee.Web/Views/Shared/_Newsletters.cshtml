@@ -1,0 +1,20 @@
+﻿
+@{
+    var url = $"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}{Context.Request.QueryString}";
+}
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
+<div class="widget widget-newsletter">
+    <h2 class="widget-title">خبرنامه:</h2>
+    <div class="newsletter">
+        <form action="/AddToNLE" class="newsletterform" method="post">
+            <input type="hidden" name="url" value="@url" />
+            <div class="form-group">
+                <input type="email" name="email" placeholder="آدرس ایمیل خود را وارد نمایید">
+                <button type="submit">عضویت</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,22 +1,12 @@
 ﻿/*====== SweetAlert ======*/
 HAMTA.SweetAlert = function () {
-    $('.user-item.cart-list > ul li.cart-items ul .cart-item .remove-item').on('click', function () {
+    $('.link-send-order').on('click', function () {
         Swal.fire({
-            text: "از سبد خریدتان حذف شود؟",
-            icon: 'warning',
+            text: "پس از ثبت سفارش محصولات شما بین 4 تا 6 روز آینده به دستتان می رسد",
+            icon: 'success',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'بله',
-            cancelButtonText: 'خیر'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                    title: 'حذف شد!',
-                    confirmButtonText: 'باشه',
-                    icon: 'success'
-                })
-            }
+            confirmButtonText: 'بله'
         })
     });
     $('.product-card .product-card-bottom .btn-add-to-cart').on('click', function (event) {
