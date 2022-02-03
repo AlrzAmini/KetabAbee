@@ -143,6 +143,8 @@ namespace KetabAbee.Domain.Models.User
 
         public ICollection<UserBook> UserBooks { get; set; }
 
+        public ICollection<ContactUs.ContactUs> ContactUsCollection { get; set; }
+
         #endregion
     }
 }
