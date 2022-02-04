@@ -118,7 +118,7 @@
                             <a asp-controller="Home" asp-action="HowToShop" class="widget-list-link">نحوه ثبت سفارش</a>
                         </li>
                         <li class="widget-list-item">
-                            <a href="#" onclick="sendMsg()" class="widget-list-link link-send-order">رویه ارسال سفارش</a>
+                            <a href="" id="Send-Order-Guid" class="Send-Order-Guid widget-list-link">رویه ارسال سفارش</a>
                         </li>
                         <li class="widget-list-item">
                             <a href="#" class="widget-list-link">شیوه‌های پرداخت</a>
@@ -192,18 +192,3 @@
         </div>
     </div>
 </footer>
-@section Scripts
-{
-    <script>
-        function sendMsg() {
-            Swal.fire({
-                text: "پس از ثبت سفارش محصولات شما بین 4 تا 6 روز آینده به دستتان می رسد",
-                icon: 'success',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'بله'
-            });
-        };
-    </script>
-}
-<!-- end Page Footer -->
