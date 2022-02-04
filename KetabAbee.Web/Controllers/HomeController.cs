@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using GoogleReCaptcha.V3.Interface;
+using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs;
 using KetabAbee.Application.DTOs.Book;
 using KetabAbee.Application.DTOs.Contact;
@@ -16,6 +17,7 @@ using KetabAbee.Application.Interfaces.Contact;
 using KetabAbee.Application.Interfaces.Product;
 using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Interfaces.Wallet;
+using KetabAbee.Application.Senders;
 using KetabAbee.Domain.Models.ContactUs;
 using Microsoft.AspNetCore.Http;
 
@@ -25,15 +27,15 @@ namespace KetabAbee.Web.Controllers
     {
         #region constructor
 
-        private readonly IProductService _productService;
         private readonly IContactService _contactService;
         private readonly ICaptchaValidator _captchaValidator;
+        private readonly IViewRenderService _renderService;
 
-        public HomeController(IProductService productService, IContactService contactService, ICaptchaValidator captchaValidator)
+        public HomeController(IContactService contactService, ICaptchaValidator captchaValidator, IViewRenderService renderService)
         {
-            _productService = productService;
             _contactService = contactService;
             _captchaValidator = captchaValidator;
+            _renderService = renderService;
         }
 
         #endregion
@@ -93,20 +95,26 @@ namespace KetabAbee.Web.Controllers
         {
             if (!string.IsNullOrEmpty(email))
             {
+                email = FixText.EmailFixer(email);
                 if (_contactService.EmailInNewsEmailsIsUnique(email))
                 {
                     if (_contactService.AddEmailToNewsEmails(email))
                     {
-                        TempData["SuccessMessage"] = "با موفقیت به خبرنامه افزوده شد";
+                        TempData["SuccessSwal"] = "با موفقیت به خبرنامه افزوده شد";
+
+                        //send email
+                        string body = _renderService.RenderToStringAsync("_JoinToNews",email);
+                        SendEmail.Send(email, "عضویت در خبرنامه کتاب آبی", body);
+
                         return Redirect(url);
                     }
-                    TempData["ErrorMessage"] = "عملیات افزودن به خبرنامه با مشکل مواجه شد";
+                    TempData["ErrorSwal"] = "عملیات افزودن به خبرنامه با مشکل مواجه شد";
                     return Redirect(url);
                 }
-                TempData["InfoMessage"] = "این ایمیل قبلا ثبت شده است";
+                TempData["WarningSwal"] = "این ایمیل قبلا ثبت شده است";
                 return Redirect(url);
             }
-            TempData["ErrorMessage"] = "ایمیل را وارد کنید";
+            TempData["ErrorSwal"] = "ایمیل را وارد کنید";
             return Redirect(url);
         }
 
@@ -122,7 +130,7 @@ namespace KetabAbee.Web.Controllers
 
         #endregion
 
-        #region About us
+        #region Contact us
 
         [HttpGet("Page/Contact")]
         public IActionResult ContactUs()
@@ -135,7 +143,7 @@ namespace KetabAbee.Web.Controllers
         {
             if (!await _captchaValidator.IsCaptchaPassedAsync(contactUs.Captcha))
             {
-                TempData["ErrorMessage"] = "احراز هویت کپچا انجام نشد چند لحظه دیگر تلاش کنید";
+                TempData["ErrorSwal"] = "احراز هویت کپچا انجام نشد چند لحظه دیگر تلاش کنید";
                 return View(contactUs);
             }
             if (!ModelState.IsValid)
@@ -147,19 +155,19 @@ namespace KetabAbee.Web.Controllers
             {
                 if (_contactService.CreateContactUs(contactUs, HttpContext.GetUserIp(), User.GetUserId()))
                 {
-                    TempData["SuccessMessage"] = "پیام شما با موفقیت ارسال شد";
+                    TempData["SuccessSwal"] = "پیام شما با موفقیت ارسال شد";
                     return RedirectToAction("Index");
                 }
-                TempData["ErrorMessage"] = "خطایی در ارسال پیام رخ داده است";
+                TempData["ErrorSwal"] = "خطایی در ارسال پیام رخ داده است";
                 return RedirectToAction("Index");
             }
 
             if (_contactService.CreateContactUs(contactUs, HttpContext.GetUserIp(), null))
             {
-                TempData["SuccessMessage"] = "پیام شما با موفقیت ارسال شد";
+                TempData["SuccessSwal"] = "پیام شما با موفقیت ارسال شد";
                 return RedirectToAction("Index");
             }
-            TempData["ErrorMessage"] = "خطایی در ارسال پیام رخ داده است";
+            TempData["ErrorSwal"] = "خطایی در ارسال پیام رخ داده است";
             return RedirectToAction("Index");
         }
 

@@ -10,6 +10,16 @@
         message: decodeURI(text)
     });
 }
+
+function ShowSwal(title, text, icon) {
+    swal.fire({
+        title: title,
+        text: text,
+        icon: icon,
+        confirmButtonText: 'باشه'
+    });
+}
+
 $("#Send-Order-Guid").on("click", function () {
     swal.fire({
         title: '',

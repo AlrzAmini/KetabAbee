@@ -2,11 +2,14 @@
 @{
     ViewData["Title"] = "تماس با ما";
 }
-
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <partial name="_CaptchaScripts" />
+}
 <main class="page-content" style="margin-top: 205.5px;">
     <div class="container">
         <form asp-controller="Home" asp-action="ContactUs" method="post">
-            <partial name="_CaptchaInput"/>
+            <partial name="_CaptchaInput" />
             <div class="row">
                 <div class="col-12">
                     <div class="section-title mb-2">
@@ -78,7 +81,3 @@
         </div>
     </div>
 </main>
-@section Scripts{
-    <partial name="_ValidationScriptsPartial" />
-    <partial name="_CaptchaScripts" />
-}

@@ -32,4 +32,38 @@
             });
         </script>
     }
+
+
+    if (TempData["SuccessSwal"] != null)
+    {
+        <script>
+            $(document).ready(function () {
+                ShowSwal(' موفق ', '@TempData["SuccessSwal"]', 'success');
+            });
+        </script>
+    }
+    if (TempData["InfoSwal"] != null)
+    {
+        <script>
+            $(document).ready(function () {
+                ShowSwal('اطلاعیه', '@TempData["InfoSwal"]', 'info');
+            });
+        </script>
+    }
+    if (TempData["ErrorSwal"] != null)
+    {
+        <script>
+            $(document).ready(function () {
+                ShowSwal('خطا', '@TempData["ErrorSwal"]', 'error');
+            });
+        </script>
+    }
+    if (TempData["WarningSwal"] != null)
+    {
+        <script>
+            $(document).ready(function () {
+                ShowSwal('توجه', '@TempData["WarningSwal"]', 'warning');
+            });
+        </script>
+    }
 }
