@@ -21,12 +21,12 @@ namespace KetabAbee.Application.Extensions
 
         public static int GetUserId(this ClaimsPrincipal claim)
         {
-            return int.Parse(claim.FindFirst(ClaimTypes.NameIdentifier).Value);
+            return claim != null ? int.Parse(claim.FindFirst(ClaimTypes.NameIdentifier).Value) : default;
         }
 
         public static string GetUserEmail(this ClaimsPrincipal claim)
         {
-            return claim.FindFirst(ClaimTypes.Email).Value;
+            return claim?.FindFirst(ClaimTypes.Email).Value;
         }
 
         public static string ToTooman(this long price)

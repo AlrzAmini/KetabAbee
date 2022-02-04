@@ -11,5 +11,11 @@ namespace KetabAbee.Domain.Interfaces
         bool EmailIsUnique(string email);
 
         #endregion
+
+        #region Contact us
+
+        bool AddContactUs(ContactUs contactUs);
+
+        #endregion
     }
 }

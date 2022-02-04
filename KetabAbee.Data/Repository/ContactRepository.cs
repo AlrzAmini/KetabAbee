@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using KetabAbee.Data.Context;
 using KetabAbee.Domain.Interfaces;
 using KetabAbee.Domain.Models.ContactUs;
@@ -14,11 +15,32 @@ namespace KetabAbee.Data.Repository
             _context = context;
         }
 
+        public bool AddContactUs(ContactUs contactUs)
+        {
+            try
+            {
+                _context.ContactUses.Add(contactUs);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public bool AddEmailToNewsEmails(NewsEmail email)
         {
-            _context.NewsEmails.Add(email);
-            _context.SaveChanges();
-            return true;
+            try
+            {
+                _context.NewsEmails.Add(email);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public bool EmailIsUnique(string email)

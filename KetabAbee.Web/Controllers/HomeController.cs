@@ -7,8 +7,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using GoogleReCaptcha.V3.Interface;
 using KetabAbee.Application.DTOs;
 using KetabAbee.Application.DTOs.Book;
+using KetabAbee.Application.DTOs.Contact;
+using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Contact;
 using KetabAbee.Application.Interfaces.Product;
 using KetabAbee.Application.Interfaces.User;
@@ -24,19 +27,25 @@ namespace KetabAbee.Web.Controllers
 
         private readonly IProductService _productService;
         private readonly IContactService _contactService;
+        private readonly ICaptchaValidator _captchaValidator;
 
-        public HomeController(IProductService productService, IContactService contactService)
+        public HomeController(IProductService productService, IContactService contactService, ICaptchaValidator captchaValidator)
         {
             _productService = productService;
             _contactService = contactService;
+            _captchaValidator = captchaValidator;
         }
 
         #endregion
+
+        #region index
 
         public IActionResult Index()
         {
             return View();
         }
+
+        #endregion
 
         #region Online Pament
 
@@ -119,6 +128,39 @@ namespace KetabAbee.Web.Controllers
         public IActionResult ContactUs()
         {
             return View();
+        }
+
+        [HttpPost("Page/Contact"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> ContactUs(CreateContactUsViewModel contactUs)
+        {
+            if (!await _captchaValidator.IsCaptchaPassedAsync(contactUs.Captcha))
+            {
+                TempData["ErrorMessage"] = "احراز هویت کپچا انجام نشد چند لحظه دیگر تلاش کنید";
+                return View(contactUs);
+            }
+            if (!ModelState.IsValid)
+            {
+                return View(contactUs);
+            }
+
+            if (User.Identity.IsAuthenticated)
+            {
+                if (_contactService.CreateContactUs(contactUs, HttpContext.GetUserIp(), User.GetUserId()))
+                {
+                    TempData["SuccessMessage"] = "پیام شما با موفقیت ارسال شد";
+                    return RedirectToAction("Index");
+                }
+                TempData["ErrorMessage"] = "خطایی در ارسال پیام رخ داده است";
+                return RedirectToAction("Index");
+            }
+
+            if (_contactService.CreateContactUs(contactUs, HttpContext.GetUserIp(), null))
+            {
+                TempData["SuccessMessage"] = "پیام شما با موفقیت ارسال شد";
+                return RedirectToAction("Index");
+            }
+            TempData["ErrorMessage"] = "خطایی در ارسال پیام رخ داده است";
+            return RedirectToAction("Index");
         }
 
         #endregion
