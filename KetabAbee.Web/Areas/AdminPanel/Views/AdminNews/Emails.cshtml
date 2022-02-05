@@ -1,0 +1,56 @@
+﻿@model List<KetabAbee.Domain.Models.ContactUs.NewsEmail>
+@{
+    ViewData["Title"] = "ایمیل های ثبت شده در خبر نامه";
+}
+
+<!-- Page Breadcrumb -->
+<div class="page-breadcrumbs margin-bottom-20">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminNews" asp-action="Index">خبرنامه ها</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
+<!-- /Page Breadcrumb -->
+<div class="col-xs-12 col-md-12">
+    <div class="well with-header with-footer">
+        <div class="header bordered-pink">
+            @ViewData["Title"]
+        </div>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        شماره
+                    </th>
+                    <th>
+                        ایمیل
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @item.Id
+                            </td>
+                            <td>
+                                @item.EmailAddress
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

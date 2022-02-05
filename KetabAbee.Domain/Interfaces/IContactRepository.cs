@@ -15,6 +15,8 @@ namespace KetabAbee.Domain.Interfaces
 
         IEnumerable<NewsLetter> GetNewsLetters();
 
+        IEnumerable<NewsEmail> GetNewsLetterEmails();
+
         bool AddNewsLetter(NewsLetter letter);
 
         NewsLetter GetNewsLetterById(int newsId);

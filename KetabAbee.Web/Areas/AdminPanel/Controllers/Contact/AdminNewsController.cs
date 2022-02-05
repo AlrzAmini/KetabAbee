@@ -40,7 +40,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Contact
             return View();
         }
 
-        [HttpPost("Add/NewsLetter")]
+        [HttpPost("Add/NewsLetter"),ValidateAntiForgeryToken]
         public IActionResult AddNewsLetter(CreateNewsLetterViewModel news)
         {
             if (!ModelState.IsValid)
@@ -81,7 +81,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Contact
         [HttpGet("Submit/Done/Emails")]
         public IActionResult Emails()
         {
-            return View();
+            return View(_contactService.GetNewsLetterEmails().ToList());
         }
 
         #endregion

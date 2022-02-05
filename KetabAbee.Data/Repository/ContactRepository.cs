@@ -73,6 +73,11 @@ namespace KetabAbee.Data.Repository
             return _context.NewsLetters.Find(newsId);
         }
 
+        public IEnumerable<NewsEmail> GetNewsLetterEmails()
+        {
+            return _context.NewsEmails;
+        }
+
         public IEnumerable<NewsLetter> GetNewsLetters()
         {
             return _context.NewsLetters;

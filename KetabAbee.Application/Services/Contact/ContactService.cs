@@ -59,6 +59,11 @@ namespace KetabAbee.Application.Services.Contact
             return _contactRepository.EmailIsUnique(FixText.EmailFixer(email));
         }
 
+        public IEnumerable<NewsEmail> GetNewsLetterEmails()
+        {
+            return _contactRepository.GetNewsLetterEmails();
+        }
+
         public IEnumerable<NewsLetter> GetNewsLetters()
         {
             return _contactRepository.GetNewsLetters();

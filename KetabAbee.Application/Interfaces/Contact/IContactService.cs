@@ -23,6 +23,8 @@ namespace KetabAbee.Application.Interfaces.Contact
 
         bool SendNewsLetterToAll(int newsId);
 
+        IEnumerable<NewsEmail> GetNewsLetterEmails();
+
         #endregion
 
         #region Contact us
