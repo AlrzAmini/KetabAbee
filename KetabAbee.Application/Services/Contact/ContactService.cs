@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs.Admin;
+using KetabAbee.Application.DTOs.Admin.Contact;
 using KetabAbee.Application.DTOs.Contact;
+using KetabAbee.Application.DTOs.Paging;
 using KetabAbee.Application.Interfaces.Contact;
 using KetabAbee.Application.Senders;
 using KetabAbee.Domain.Interfaces;
@@ -59,6 +61,22 @@ namespace KetabAbee.Application.Services.Contact
             return _contactRepository.EmailIsUnique(FixText.EmailFixer(email));
         }
 
+        public IEnumerable<ContactUs> GetContactUses()
+        {
+            return _contactRepository.GetContactUses();
+        }
+
+        public ContactUsesForAdminViewModel GetContactUsesForShowInAdmin(ContactUsesForAdminViewModel model)
+        {
+            var result = GetContactUses().AsQueryable();
+
+            //paging
+            var pager = Pager.Build(model.PageNum, result.Count(), model.Take, model.PageCountAfterAndBefor);
+            var contactUses = result.Paging(pager).ToList();
+
+            return model.SetPaging(pager).SetContactUses(contactUses);
+        }
+
         public IEnumerable<NewsEmail> GetNewsLetterEmails()
         {
             return _contactRepository.GetNewsLetterEmails();
@@ -67,6 +85,24 @@ namespace KetabAbee.Application.Services.Contact
         public IEnumerable<NewsLetter> GetNewsLetters()
         {
             return _contactRepository.GetNewsLetters();
+        }
+
+        public bool SendAnswerForContactUs(int contactId, string subject, string body)
+        {
+            try
+            {
+                var contact = _contactRepository.GetContactUsById(contactId);
+                if (contact == null)
+                {
+                    return false;
+                }
+                SendEmail.Send(contact.Email, subject, body);
+                return true;
+            }
+            catch 
+            {
+                return false;
+            }
         }
 
         public bool SendNewsLetterToAll(int newsId)

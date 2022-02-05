@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Admin;
+using KetabAbee.Application.DTOs.Admin.Contact;
 using KetabAbee.Application.DTOs.Contact;
 using KetabAbee.Domain.Models.ContactUs;
 
@@ -30,6 +31,12 @@ namespace KetabAbee.Application.Interfaces.Contact
         #region Contact us
 
         bool CreateContactUs(CreateContactUsViewModel contactUs, string userIp, int? userId);
+
+        IEnumerable<ContactUs> GetContactUses();
+
+        ContactUsesForAdminViewModel GetContactUsesForShowInAdmin(ContactUsesForAdminViewModel model);
+
+        bool SendAnswerForContactUs(int contactId, string subject, string body);
 
         #endregion
     }

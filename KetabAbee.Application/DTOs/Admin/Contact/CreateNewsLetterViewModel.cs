@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KetabAbee.Application.DTOs.Admin
+namespace KetabAbee.Application.DTOs.Admin.Contact
 {
     public class CreateNewsLetterViewModel
     {

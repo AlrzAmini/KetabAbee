@@ -63,6 +63,16 @@ namespace KetabAbee.Data.Repository
             return !_context.NewsEmails.Any(e => e.EmailAddress == email);
         }
 
+        public ContactUs GetContactUsById(int contactId)
+        {
+            return _context.ContactUses.Find(contactId);
+        }
+
+        public IEnumerable<ContactUs> GetContactUses()
+        {
+            return _context.ContactUses.OrderByDescending(c=>c.SendDate);
+        }
+
         public IEnumerable<string> GetNewsEmailEmails()
         {
             return _context.NewsEmails.Select(e => e.EmailAddress);

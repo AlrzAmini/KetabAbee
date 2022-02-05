@@ -29,6 +29,10 @@ namespace KetabAbee.Domain.Interfaces
 
         bool AddContactUs(ContactUs contactUs);
 
+        IEnumerable<ContactUs> GetContactUses();
+
+        ContactUs GetContactUsById(int contactId);
+
         #endregion
     }
 }

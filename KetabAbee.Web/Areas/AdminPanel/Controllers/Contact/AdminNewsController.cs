@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Admin;
+using KetabAbee.Application.DTOs.Admin.Contact;
 using KetabAbee.Application.Interfaces.Contact;
 
 namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Contact

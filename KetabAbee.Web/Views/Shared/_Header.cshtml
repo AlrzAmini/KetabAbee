@@ -101,7 +101,7 @@
                                             <li class="cart-item">
                                                 <span class="d-flex align-items-center mb-2">
                                                     <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@detail.ProductId">
-                                                        <img src="/images/Book/thumb/@detail.Product.ImageName" alt="">
+                                                        <img src="/images/Book/thumb/@detail.Product.ImageName" alt="@detail.Product.Name تصویر">
                                                     </a>
                                                     <span>
                                                         <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@detail.ProductId">
@@ -123,7 +123,7 @@
                                                 {
                                                     <span class="price">نا موجود</span>
                                                 }
-                                                <button class="remove-item">
+                                                <button class="remove-item" disabled="disabled">
                                                     @detail.Count
                                                 </button>
                                             </li>

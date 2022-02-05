@@ -82,6 +82,16 @@
             </a>
         </li>
     }
+    @if (_permissionService.CheckPermission(PerIds.AdminContactUses, User.GetUserEmail()))
+    {
+        <!--news letter-->
+        <li>
+            <a asp-area="AdminPanel" asp-controller="AdminContactUs" asp-action="Index">
+                <i class="menu-icon fa fa-hand-paper"></i>
+                <span class="menu-text"> مدیریت تماس با ما </span>
+            </a>
+        </li>
+    }
 
 </ul>
 <!-- /Sidebar Menu -->
