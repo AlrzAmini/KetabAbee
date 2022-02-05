@@ -93,6 +93,20 @@ namespace KetabAbee.Data.Repository
             return _context.NewsLetters;
         }
 
+        public bool UpdateContactUs(ContactUs contactUs)
+        {
+            try
+            {
+                _context.ContactUses.Update(contactUs);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public bool UpdateNewsLetter(NewsLetter letter)
         {
             try

@@ -97,7 +97,8 @@ namespace KetabAbee.Application.Services.Contact
                     return false;
                 }
                 SendEmail.Send(contact.Email, subject, body);
-                return true;
+                contact.IsAnswered = true;
+                return _contactRepository.UpdateContactUs(contact);
             }
             catch 
             {

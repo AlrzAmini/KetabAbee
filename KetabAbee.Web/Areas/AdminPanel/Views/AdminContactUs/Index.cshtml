@@ -92,13 +92,13 @@
                             @if (!item.IsAnswered)
                             {
                                 <td class="text-danger">
-                                    خوانده نشد
+                                    پاسخ داده نشد
                                 </td>
                             }
                             else
                             {
                                 <td class="text-success">
-                                    خوانده شد
+                                    پاسخ داده شد
                                 </td>
                             }
 
@@ -106,7 +106,7 @@
                                 <form asp-controller="AdminContactUs" asp-action="Answer" method="post">
                                     <input type="hidden" name="contactId" value="@item.Id" />
                                     <input type="hidden" name="subject" value="پاسخ به فرم ارسالی توسط @item.UserName با موضوع @item.Subject در وبسایت کتاب آبی" />
-                                    <input type="text" class="form-control" name="body" />
+                                    <input type="text" class="form-control rounded" name="body" />
                                     <button class="btn btn-success btn-sm" type="submit">ارسال</button>
                                 </form>
                             </td>

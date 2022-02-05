@@ -33,6 +33,8 @@ namespace KetabAbee.Domain.Interfaces
 
         ContactUs GetContactUsById(int contactId);
 
+        bool UpdateContactUs(ContactUs contactUs);
+
         #endregion
     }
 }
