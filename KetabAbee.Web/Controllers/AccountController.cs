@@ -7,6 +7,7 @@ using GoogleReCaptcha.V3.Interface;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs;
 using KetabAbee.Application.DTOs.ActiveAccount;
+using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Security;
 using KetabAbee.Application.Senders;
@@ -43,7 +44,7 @@ namespace KetabAbee.Web.Controllers
         {
             if (!await _captchaValidator.IsCaptchaPassedAsync(register.Captcha))
             {
-                TempData["ErrorMessage"] = "احراز هویت کپچا انجام نشد چند لحظه دیگر تلاش کنید";
+                TempData["ErrorSwal"] = "احراز هویت کپچا انجام نشد چند لحظه دیگر تلاش کنید";
                 return View(register);
             }
 
@@ -55,21 +56,21 @@ namespace KetabAbee.Web.Controllers
             // Check User Name
             if (_userService.IsUserNameExist(register.UserName))
             {
-                TempData["ErrorMessage"] = "کاش میشد قبول کنم ولی این اسم رو قبلا یکی گذاشته برا خودش";
+                TempData["ErrorSwal"] = "خودمم دوس داشتم قبول کنم ولی این اسم رو قبلا یکی گذاشته برا خودش";
                 return View(register);
             }
 
             // Check Email
             if (_userService.IsEmailExist(FixText.EmailFixer(register.Email)))
             {
-                TempData["ErrorMessage"] = "شرمنده بخدا ولی یکی این ایمیل رو زودتر وارد کرده";
+                TempData["ErrorSwal"] = "شرمنده بخدا ولی یکی این ایمیل رو زودتر وارد کرده";
                 return View(register);
             }
 
             // check password strength
             if (PasswordStrengthChecker.CheckStrength(register.Password) == PasswordScore.VeryWeak)
             {
-                TempData["ErrorMessage"] = "همه جا همینجوری رمز وارد میکنی ستون ؟";
+                TempData["ErrorSwal"] = "همه جا همینجوری رمز وارد میکنی ستون ؟";
                 TempData["InfoMessage"] = "کلمه عبور می بایست حداقل 6 کاراکتر داشته باشد";
                 return View(register);
             }
@@ -77,7 +78,7 @@ namespace KetabAbee.Web.Controllers
             //register user
             var user = _userService.RegisterUser(register);
             if (user == null) return RedirectToAction("Register");
-            TempData["SuccessMessage"] = "ثبت نام شما با موفقیت انجام شد";
+            TempData["SuccessSwal"] = "ثبت نام شما با موفقیت انجام شد";
             TempData["InfoMessage"] = "لطفا با استفاده از کد ارسال شده حساب خود را فعالسازی کنید";
             TempData["WarningMessage"] = "ممکن است عملیات ارسال ایمیل فعال سازی دقایقی طول بکشد";
 
@@ -93,18 +94,20 @@ namespace KetabAbee.Web.Controllers
         #region Login
 
         [HttpGet("Login")]
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl)
         {
             if (User.Identity.IsAuthenticated) return Redirect("/");
+
+            ViewData["returnUrl"] = returnUrl;
             return View();
         }
 
         [HttpPost("Login"), ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel login, string ReturnUrl = "/")
+        public async Task<IActionResult> Login(LoginViewModel login, string returnUrl = "")
         {
             if (!await _captchaValidator.IsCaptchaPassedAsync(login.Captcha))
             {
-                TempData["ErrorMessage"] = "احراز هویت کپچا انجام نشد . دوباره تلاش کنید";
+                TempData["ErrorSwal"] = "احراز هویت کپچا انجام نشد . دوباره تلاش کنید";
                 return View(login);
             }
 
@@ -119,7 +122,7 @@ namespace KetabAbee.Web.Controllers
             {
                 if (!user.IsEmailActive)
                 {
-                    TempData["WarningMessage"] = "حساب کاربری شما فعال نشده است";
+                    TempData["WarningSwal"] = "حساب کاربری شما فعال نشده است";
                     return View(login);
                 }
 
@@ -141,16 +144,16 @@ namespace KetabAbee.Web.Controllers
                 // command for login user
                 await HttpContext.SignInAsync(principal, properties);
 
-                if (ReturnUrl != "/")
+                if (returnUrl != null)
                 {
-                    return Redirect(ReturnUrl);
+                    return Redirect(returnUrl);
                 }
 
                 TempData["SuccessMessage"] = "خوش آمدید";
                 return Redirect("/");
             }
 
-            TempData["ErrorMessage"] = "نام کاربری یا کلمه عبور اشتباه است";
+            TempData["ErrorSwal"] = "نام کاربری یا کلمه عبور اشتباه است";
             return View(login);
 
         }
@@ -160,10 +163,10 @@ namespace KetabAbee.Web.Controllers
         #region Logout
 
         [HttpGet("Logout")]
-        public IActionResult Logout()
+        public IActionResult Logout(string url)
         {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return Redirect("/");
+            return Redirect(url);
         }
 
         #endregion
@@ -192,11 +195,11 @@ namespace KetabAbee.Web.Controllers
         {
             if (_userService.EmailActivatorBy5ThCode(actCode.ActiveCode))
             {
-                TempData["SuccessMessage"] = "حساب شما با موفقیت فعالسازی شد";
+                TempData["SuccessSwal"] = "حساب شما با موفقیت فعالسازی شد";
                 return RedirectToAction("Login");
             }
 
-            TempData["ErrorMessage"] = "مشکلی در فعالسازی حساب رخ داده است کد فعالسازی را بررسی کنید";
+            TempData["ErrorSwal"] = "مشکلی در فعالسازی حساب رخ داده است کد فعالسازی را بررسی کنید";
             TempData["WarningMessage"] = "ممکن است حساب کاربری شما از قبل فعالسازی شده باشد بررسی کنید";
             return View(actCode);
         }
@@ -216,7 +219,7 @@ namespace KetabAbee.Web.Controllers
         {
             if (!await _captchaValidator.IsCaptchaPassedAsync(forgot.Captcha))
             {
-                TempData["ErrorMessage"] = "احراز هویت کپچا انجام نشد . دوباره تلاش کنید";
+                TempData["ErrorSwal"] = "احراز هویت کپچا انجام نشد . دوباره تلاش کنید";
                 return View(forgot);
             }
 
@@ -230,13 +233,13 @@ namespace KetabAbee.Web.Controllers
             // check user exist
             if (user == null)
             {
-                TempData["ErrorMessage"] = "کاربری با این ایمیل ثبت نشده است";
+                TempData["ErrorSwal"] = "کاربری با این ایمیل ثبت نشده است";
                 return View(forgot);
             }
 
             string body = _renderService.RenderToStringAsync("_ForgotPasswordEmail", user);
             SendEmail.Send(user.Email, "بازیابی رمز عبور", body);
-            TempData["SuccessMessage"] = "ایمیل بازیابی رمز عبور برای شما ارسال گردید";
+            TempData["SuccessSwal"] = "ایمیل بازیابی رمز عبور برای شما ارسال گردید";
 
             return View();
         }
