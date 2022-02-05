@@ -43,6 +43,7 @@ namespace KetabAbee.Domain.Models.ContactUs
         public DateTime SendDate { get; set; }
 
         public bool IsDelete { get; set; }
+        public bool IsAnswered { get; set; }
 
         #endregion
 
