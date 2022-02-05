@@ -100,11 +100,10 @@ namespace KetabAbee.Web.Controllers
                 {
                     if (_contactService.AddEmailToNewsEmails(email))
                     {
-                        TempData["SuccessSwal"] = "با موفقیت به خبرنامه افزوده شد";
-
                         //send email
                         string body = _renderService.RenderToStringAsync("_JoinToNews",email);
                         SendEmail.Send(email, "عضویت در خبرنامه کتاب آبی", body);
+                        TempData["SuccessSwal"] = "با موفقیت به خبرنامه افزوده شد";
 
                         return Redirect(url);
                     }

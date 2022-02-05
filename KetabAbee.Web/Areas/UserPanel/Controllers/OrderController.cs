@@ -68,9 +68,6 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
                 return NotFound();
             }
 
-            var reqUrl = UriHelper.GetDisplayUrl(Request);
-            ViewBag.reqUrl = reqUrl;
-
             var userAddress = _userService.GetUserAddressByUserId(User.GetUserId());
             ViewBag.userAddress = userAddress;
 
@@ -86,11 +83,11 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         {
             if (_orderService.RemoveItemOfOrderDetail(User.GetUserId(), orderId, detailId))
             {
-                TempData["SuccessMessage"] = "از سبد خریدتان حذف شد";
+                TempData["SuccessSwal"] = "از سبد خریدتان حذف شد";
                 return Redirect($"/Cart/{orderId}");
             }
 
-            TempData["ErrorMessage"] = "از سبد خریدتان حذف نشد";
+            TempData["ErrorSwal"] = "از سبد خریدتان حذف نشد";
             return Redirect($"/Cart/{orderId}");
         }
 
@@ -136,26 +133,26 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
                 {
                     if (_orderService.PayByOrderId(User.GetUserId(), orderId))
                     {
-                        TempData["SuccessMessage"] = "پرداخت با موفقیت انجام شد";
+                        TempData["SuccessSwal"] = "پرداخت با موفقیت انجام شد";
                         return Redirect("/UserPanel/Dashboard");
                     }
 
-                    TempData["ErrorMessage"] = "پرداخت با شکست مواجه شد";
+                    TempData["ErrorSwal"] = "پرداخت با شکست مواجه شد";
                     return Redirect($"/Cart/{orderId}");
                 }
 
-                TempData["ErrorMessage"] = "برای ثبت سفارش می بایست آدرس ارسال را تعیین کنید";
+                TempData["ErrorSwal"] = "برای ثبت سفارش می بایست آدرس ارسال را تعیین کنید";
                 return Redirect($"/Cart/{orderId}");
             }
 
             if (_orderService.PayByOrderId(User.GetUserId(), orderId))
             {
                 _orderService.AddOrderAddress(orderId, User.GetUserId(), userAddress);
-                TempData["SuccessMessage"] = "پرداخت با موفقیت انجام شد";
+                TempData["SuccessSwal"] = "پرداخت با موفقیت انجام شد";
                 return Redirect("/UserPanel/Dashboard");
             }
 
-            TempData["ErrorMessage"] = "پرداخت با شکست مواجه شد";
+            TempData["ErrorSwal"] = "پرداخت با شکست مواجه شد";
             return Redirect($"/Cart/{orderId}");
         }
 

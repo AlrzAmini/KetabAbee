@@ -1,12 +1,11 @@
 ﻿@using KetabAbee.Application.Extensions
-@using KetabAbee.Application.Interfaces.User
 @using KetabAbee.Application.Interfaces.Wallet
 @model KetabAbee.Domain.Models.Order.Order
 @inject IWalletService _walletService;
 @{
     ViewData["Title"] = "سبد خرید";
 
-    var reqUrl = ViewBag.reqUrl as string;
+    var reqUrl = Context.GetCurrentUrl();
 
     var userBalanceWallet = _walletService.BalanceUserWallet(User.GetUserId());
 
@@ -156,7 +155,7 @@
                                         <div class="text-sm text-muted mb-3">آدرس:</div>
                                         <div class="text-dark font-weight-bold">
                                             <div class="form-element-row mb-0">
-                                                <textarea class="input-element" asp-for="Address" rows="5"></textarea>
+                                                <textarea class="input-element" asp-for="Address" rows="3"></textarea>
                                             </div>
                                             <span asp-validation-for="Address" class="text-danger"></span>
                                         </div>

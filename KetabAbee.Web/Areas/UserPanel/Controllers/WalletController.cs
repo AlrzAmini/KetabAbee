@@ -53,7 +53,7 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
             // check price cant be 0
             if (charge.Amount <= 0)
             {
-                TempData["ErrorMessage"] = "مبلغ وارد شده صحیح نمی باشد";
+                TempData["ErrorSwal"] = "مبلغ وارد شده صحیح نمی باشد";
                 var walletWithPaging = new WalletsWithPagingViewModel
                 {
                     UserId = User.GetUserId()
@@ -65,11 +65,11 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
             // charge wallet
             if (_walletService.ChargeWalletByUserId(User.GetUserId(), charge))
             {
-                TempData["SuccessMessage"] = "شارژ حساب شما با موفقیت انجام شد . لذت ببرید";
+                TempData["SuccessSwal"] = "شارژ حساب شما با موفقیت انجام شد . لذت ببرید";
                 return Redirect(!string.IsNullOrEmpty(url) ? url : "/UserPanel/Dashboard");
             }
 
-            TempData["ErrorMessage"] = "عملیات شارژ حساب انجام نشد";
+            TempData["ErrorSwal"] = "عملیات شارژ حساب انجام نشد";
             return Redirect("/Wallet/Charge");
 
             #region Payment
