@@ -1,0 +1,54 @@
+﻿@model KetabAbee.Application.DTOs.Admin.CreateNewsLetterViewModel
+@{
+    ViewData["Title"] = "افزودن خبرنامه";
+}
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial"/>
+}
+<!-- Page Breadcrumb -->
+<div class="page-breadcrumbs margin-bottom-20">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li>
+            <a asp-controller="AdminNews" asp-action="Index">خبرنامه ها</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
+<!-- /Page Breadcrumb -->
+
+<form asp-area="AdminPanel" asp-controller="AdminNews" asp-action="AddNewsLetter" method="post" role="form">
+    <div class="col-lg-8 col-sm-8 col-xs-12">
+        <div class="widget flat radius-bordered">
+            <div class="widget-header bg-blue">
+                <span class="widget-caption">@ViewData["Title"]</span>
+            </div>
+            <div class="widget-body">
+                <div id="registration-form">
+                    <div class="form-title">
+                        اطلاعات خبرنامه
+                    </div>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input type="text" class="form-control" asp-for="Subject" placeholder="عنوان">
+                        </span>
+                        <span asp-validation-for="Subject" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <textarea class="form-control" asp-for="Body" placeholder="متن"></textarea>
+                        </span>
+                        <span asp-validation-for="Body" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 margin-20">
+                <button class="btn btn-success btn-lg btn-block" type="submit">افزودن</button>
+            </div>
+        </div>
+    </div>
+</form>

@@ -74,6 +74,8 @@ namespace KetabAbee.Data.Context
 
         public DbSet<ContactUs> ContactUses { get; set; }
 
+        public DbSet<NewsLetter>  NewsLetters { get; set; }
+
         #endregion
 
 

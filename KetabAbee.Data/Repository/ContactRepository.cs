@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using KetabAbee.Data.Context;
 using KetabAbee.Domain.Interfaces;
@@ -43,9 +44,52 @@ namespace KetabAbee.Data.Repository
             }
         }
 
+        public bool AddNewsLetter(NewsLetter letter)
+        {
+            try
+            {
+                _context.NewsLetters.Add(letter);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public bool EmailIsUnique(string email)
         {
             return !_context.NewsEmails.Any(e => e.EmailAddress == email);
+        }
+
+        public IEnumerable<string> GetNewsEmailEmails()
+        {
+            return _context.NewsEmails.Select(e => e.EmailAddress);
+        }
+
+        public NewsLetter GetNewsLetterById(int newsId)
+        {
+            return _context.NewsLetters.Find(newsId);
+        }
+
+        public IEnumerable<NewsLetter> GetNewsLetters()
+        {
+            return _context.NewsLetters;
+        }
+
+        public bool UpdateNewsLetter(NewsLetter letter)
+        {
+            try
+            {
+                _context.NewsLetters.Update(letter);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

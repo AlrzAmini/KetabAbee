@@ -4,14 +4,16 @@ using KetabAbee.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KetabAbee.Data.Migrations
 {
     [DbContext(typeof(KetabAbeeDBContext))]
-    partial class KetabAbeeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220205103424_addtblnewsletters")]
+    partial class addtblnewsletters
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,20 +95,13 @@ namespace KetabAbee.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Body")
-                        .IsRequired()
-                        .HasMaxLength(600)
-                        .HasColumnType("nvarchar(600)");
-
-                    b.Property<bool>("IsSend")
-                        .HasColumnType("bit");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("SendDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Subject")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

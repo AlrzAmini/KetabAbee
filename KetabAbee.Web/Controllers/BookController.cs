@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Book;
+using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Order;
 using KetabAbee.Application.Interfaces.Product;
 using KetabAbee.Domain.Models.Products;
@@ -102,26 +103,22 @@ namespace KetabAbee.Web.Controllers
 
         [Authorize]
         [Route("AddToCart")]
-        public IActionResult AddToCart(int productId/*, string url*/)
+        public IActionResult AddToCart(int productId)
         {
-            var orderId = _orderService.AddOrder(int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)), productId);
+            var orderId = _orderService.AddOrder(User.GetUserId(), productId);
             switch (orderId)
             {
                 case 0:
-                    TempData["ErrorMessage"] = "به سبد خرید افزوده نشد";
+                    TempData["ErrorSwal"] = "به سبد خرید افزوده نشد";
                     break;
                 case -1:
-                    TempData["WarningMessage"] = "موجودی این کالا کافی نیست";
+                    TempData["WarningSwal"] = "موجودی این کالا کافی نیست";
                     break;
             }
             if (orderId != 0 && orderId != -1)
             {
-                TempData["SuccessMessage"] = "به سبد خرید افزوده شد";
+                TempData["SuccessSwal"] = "به سبد خرید افزوده شد";
             }
-            //TODO : add to cart from book boxes
-
-            // using url is just for that is a way for do this
-            //return Redirect(url ?? $"/BookInfo/{productId}");
 
             return Redirect($"/Cart/{orderId}");
         }

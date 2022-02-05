@@ -72,6 +72,16 @@
             </a>
         </li>
     }
+    @if (_permissionService.CheckPermission(PerIds.AdminNews, User.GetUserEmail()))
+    {
+        <!--news letter-->
+        <li>
+            <a asp-area="AdminPanel" asp-controller="AdminNews" asp-action="Index">
+                <i class="menu-icon fa fa-paper-plane"></i>
+                <span class="menu-text"> مدیریت خبرنامه ها </span>
+            </a>
+        </li>
+    }
 
 </ul>
 <!-- /Sidebar Menu -->

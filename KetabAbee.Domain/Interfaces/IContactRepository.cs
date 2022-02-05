@@ -1,14 +1,25 @@
-﻿using KetabAbee.Domain.Models.ContactUs;
+﻿using System.Collections.Generic;
+using KetabAbee.Domain.Models.ContactUs;
 
 namespace KetabAbee.Domain.Interfaces
 {
     public interface IContactRepository
     {
-        #region newsletteremails
+        #region news letter
 
         bool AddEmailToNewsEmails(NewsEmail email);
 
         bool EmailIsUnique(string email);
+
+        IEnumerable<string> GetNewsEmailEmails();
+
+        IEnumerable<NewsLetter> GetNewsLetters();
+
+        bool AddNewsLetter(NewsLetter letter);
+
+        NewsLetter GetNewsLetterById(int newsId);
+
+        bool UpdateNewsLetter(NewsLetter letter);
 
         #endregion
 
