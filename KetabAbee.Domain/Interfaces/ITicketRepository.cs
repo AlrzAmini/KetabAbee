@@ -23,6 +23,8 @@ namespace KetabAbee.Domain.Interfaces
 
         void UpdateTicket(Ticket ticket);
 
+        bool UserHaveUnReadTicket(int userId);
+
         #region Answer
 
         bool AddAnswer(TicketAnswer answer);

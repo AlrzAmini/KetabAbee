@@ -253,5 +253,10 @@ namespace KetabAbee.Application.Services.Ticket
                 return false;
             }
         }
+
+        public bool UserHaveUnReadTicket(int userId)
+        {
+            return _ticketRepository.UserHaveUnReadTicket(userId);
+        }
     }
 }

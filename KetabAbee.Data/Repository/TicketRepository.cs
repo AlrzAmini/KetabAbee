@@ -87,5 +87,10 @@ namespace KetabAbee.Data.Repository
             _context.Tickets.Update(ticket);
             _context.SaveChanges();
         }
+
+        public bool UserHaveUnReadTicket(int userId)
+        {
+            return _context.Tickets.Any(t => t.SenderId == userId && !t.IsReadBySender);
+        }
     }
 }

@@ -23,6 +23,8 @@ namespace KetabAbee.Application.Interfaces.Ticket
 
         bool TicketIsReadBySender(int ticketId);
 
+        bool UserHaveUnReadTicket(int userId);
+
         #region Admin
 
         bool DeleteTicketById(int ticketId);

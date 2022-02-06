@@ -32,6 +32,7 @@ namespace KetabAbee.Domain.Models.Ticket
         public DateTime TicketSendDate { get; set; }
 
         public bool IsReadBySender { get; set; }
+
         public bool IsReadByAdmin { get; set; }
 
         [DisplayName("اولویت")]

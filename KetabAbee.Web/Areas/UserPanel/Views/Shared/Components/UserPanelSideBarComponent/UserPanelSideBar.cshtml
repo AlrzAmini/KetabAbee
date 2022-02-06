@@ -1,5 +1,7 @@
 ﻿@using KetabAbee.Application.Extensions
+@using KetabAbee.Application.Interfaces.Ticket
 @model KetabAbee.Application.DTOs.UserPanelSideBarViewmodel
+@inject ITicketService _ticketService;
 <div class="profile-sidebar shadow-around mt-4">
     <div class="d-flex align-items-center">
         <div class="profile-avatar">
@@ -47,10 +49,22 @@
                 </a>
             </li>
             <li>
-                <a asp-area="UserPanel" asp-controller="Ticket" asp-action="Index">
-                    <i class="far fa-envelope"></i>
-                    تیکت ها
-                </a>
+
+                @if (!_ticketService.UserHaveUnReadTicket(User.GetUserId()))
+                {
+                    <a asp-area="UserPanel" asp-controller="Ticket" asp-action="Index">
+                        <i class="far fa-envelope"></i>
+                        تیکت ها
+                    </a>
+                }
+                else
+                {
+                    <a asp-area="UserPanel" asp-controller="Ticket" asp-action="Index">
+                        <i class="far fa-envelope"></i>
+                        تیکت ها <span class="text-danger"> * </span> 
+                    </a>
+                }
+
             </li>
             <li>
                 <a asp-area="UserPanel" asp-controller="Wallet" asp-action="ChargeWallet">
