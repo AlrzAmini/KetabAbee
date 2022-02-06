@@ -163,15 +163,15 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
             {
                 if (_orderService.AddOrderAddress(orderId, User.GetUserId(), address))
                 {
-                    TempData["SuccessMessage"] = "آدرس برای سفارش شما ثبت شد";
+                    TempData["SuccessSwal"] = "آدرس برای سفارش شما ثبت شد";
                     return Redirect($"/Cart/{orderId}");
                 }
 
-                TempData["ErrorMessage"] = "مشکلی هنگام ثبت آدرس رخ داد";
+                TempData["ErrorSwal"] = "مشکلی هنگام ثبت آدرس رخ داد";
                 return Redirect($"/Cart/{orderId}");
             }
 
-            TempData["ErrorMessage"] = "برای ثبت سفارش باید آدرس را ثبت کنید";
+            TempData["ErrorSwal"] = "برای ثبت سفارش باید فیلد آدرس را پر کنید";
             return Redirect($"/Cart/{orderId}");
         }
 

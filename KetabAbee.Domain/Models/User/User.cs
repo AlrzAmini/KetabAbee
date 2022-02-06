@@ -145,6 +145,8 @@ namespace KetabAbee.Domain.Models.User
 
         public ICollection<ContactUs.ContactUs> ContactUsCollection { get; set; }
 
+        public ICollection<BookScore> BookScores { get; set; }
+
         #endregion
     }
 }

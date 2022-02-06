@@ -9,16 +9,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using GoogleReCaptcha.V3.Interface;
 using KetabAbee.Application.Convertors;
-using KetabAbee.Application.DTOs;
-using KetabAbee.Application.DTOs.Book;
 using KetabAbee.Application.DTOs.Contact;
 using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Contact;
-using KetabAbee.Application.Interfaces.Product;
-using KetabAbee.Application.Interfaces.User;
-using KetabAbee.Application.Interfaces.Wallet;
 using KetabAbee.Application.Senders;
-using KetabAbee.Domain.Models.ContactUs;
 using Microsoft.AspNetCore.Http;
 
 namespace KetabAbee.Web.Controllers
@@ -87,7 +81,7 @@ namespace KetabAbee.Web.Controllers
         }
 
         #endregion
-
+        
         #region add email to news letter
 
         [HttpPost("AddToNLE")]

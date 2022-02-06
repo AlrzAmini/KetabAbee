@@ -92,6 +92,8 @@ namespace KetabAbee.Domain.Models.Products
 
         public ICollection<UserBook> UserBooks { get; set; }
 
+        public ICollection<BookScore> BookScores { get; set; }
+
 
         #endregion
     }

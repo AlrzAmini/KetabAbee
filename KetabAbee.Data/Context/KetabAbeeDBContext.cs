@@ -58,6 +58,8 @@ namespace KetabAbee.Data.Context
 
         public DbSet<FavoriteBook> FavoriteBooks { get; set; }
 
+        public DbSet<BookScore> BookScores { get; set; }
+
         #endregion
 
         #region Order
@@ -77,8 +79,6 @@ namespace KetabAbee.Data.Context
         public DbSet<NewsLetter>  NewsLetters { get; set; }
 
         #endregion
-
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -117,6 +117,9 @@ namespace KetabAbee.Data.Context
                 .HasQueryFilter(e => !e.IsDelete);
 
             modelBuilder.Entity<ContactUs>()
+                .HasQueryFilter(e => !e.IsDelete);
+
+            modelBuilder.Entity<BookScore>()
                 .HasQueryFilter(e => !e.IsDelete);
 
             #endregion
