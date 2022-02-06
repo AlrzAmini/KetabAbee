@@ -106,5 +106,21 @@ namespace KetabAbee.Application.Interfaces.Product
 
 
         #endregion
+
+        #region Score
+
+        bool AddScore(int userId, int bookId, string userIp, int qualityScore, int contentScore);
+
+        bool IsUserBoughtBook(int userId, int bookId);
+
+        bool ScoreSentByUser(int userId, int bookId);
+
+        int AllBookSentScoresCount(int bookId);
+
+        float GetBookAverageScore(int bookId);
+
+        int SatisfiedBookBuyersPercent(int bookId);
+
+        #endregion
     }
 }

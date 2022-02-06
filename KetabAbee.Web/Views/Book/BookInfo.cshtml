@@ -1,12 +1,13 @@
 ﻿@using KetabAbee.Application.Extensions
-@using KetabAbee.Application.Convertors
 @using KetabAbee.Application.DTOs.Book
-@using System.Collections
+@using KetabAbee.Application.Interfaces.Product
 @using KetabAbee.Domain.Models.Products
 @model KetabAbee.Domain.Models.Products.Book
+@inject IProductService _productService;
 @{
     ViewData["Title"] = " مشخصلات، قیمت و خرید کتاب " + Model.Name + " اثر " + Model.Writer + " نشر " + Model.Publisher.PublisherName;
-    var reqUrl = ViewBag.reqUrl as string;
+    var userId = User.GetUserId();
+    var bookScoresCount = _productService.AllBookSentScoresCount(Model.BookId);
 }
 <main class="page-content" style="margin-top: 205.5px;">
     <div class="container">
@@ -63,19 +64,39 @@
                             @Model.Name اثر @Model.Writer نشر @Model.Publisher.PublisherName
                         </h1>
                     </div>
-                    <div class="help-block text-muted mb-4">
-                        <p>
-                            <i class="fa fa-heart text-danger"></i>
-                            90% از خریداران، این کالا را پسندیده اند.
-                        </p>
-                        <p>
-                            <i class="fa fa-star" style="color: #FFD700"></i>
-                            4
-                            <span class="text-black-50">(200)</span>
-                            <span> ° </span>
-                            <a href="#" class="text-info">960 دیدگاه کاربران</a>
-                        </p>
-                    </div>
+                    @if (bookScoresCount != 0)
+                    {
+                        <div class="help-block text-muted mb-4">
+                            <p>
+                                <i class="fa fa-heart text-danger"></i>
+                                @_productService.SatisfiedBookBuyersPercent(Model.BookId)% از خریداران، از این کالا راضی بوده اند.
+                            </p>
+                            <p>
+                                <i class="fa fa-star" style="color: #FFD700"></i>
+                                @_productService.GetBookAverageScore(Model.BookId)
+                                <span class="text-black-50">(@bookScoresCount)</span>
+                                <span> ° </span>
+                                <a href="#" class="text-info">960 دیدگاه کاربران</a>
+                            </p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="help-block text-muted mb-4">
+                            <p>
+                                <i class="fa fa-heart text-danger"></i>
+                                هنوز امتیازی ثبت نشده
+                            </p>
+                            <p>
+                                <i class="fa fa-star" style="color: #FFD700"></i>
+                                هنوز امتیازی ثبت نشده
+                                <span class="text-black-50">(0)</span>
+                                <span> ° </span>
+                                <a href="#" class="text-info">960 دیدگاه کاربران</a>
+                            </p>
+                        </div>
+                    }
+
                     @*<div class="d-block mb-2">
                             <span class="font-weight-bold">برند:</span>
                             <a href="#" class="link--with-border-bottom">سامسونگ</a>
@@ -141,8 +162,8 @@
                             <div class="d-flex align-items-center">
                                 @*route url*@
                                 @*<a asp-controller="Book" asp-action="AddToCart" asp-route-productId="@Model.BookId" asp-route-url="@reqUrl" class="add-to-cart btn-block">
-                                    افزودن به سبد خرید
-                                </a>*@
+                                        افزودن به سبد خرید
+                                    </a>*@
                                 <a asp-controller="Book" asp-action="AddToCart" asp-route-productId="@Model.BookId" target="_blank" class="add-to-cart btn-block">
                                     افزودن به سبد خرید
                                 </a>
@@ -152,7 +173,7 @@
                         {
                             <div class="text-danger mt-3">
                                 <i class="fa fa-info-circle"></i>
-                                تنها @Model.Inventory عدد باقی مانده است <a asp-controller="Book" asp-action="AddToCart" asp-route-productId="@Model.BookId" asp-route-url="@reqUrl">همین الان بخرید</a>.
+                                تنها @Model.Inventory عدد باقی مانده است <a asp-controller="Book" asp-action="AddToCart" asp-route-productId="@Model.BookId">همین الان بخرید</a>.
                             </div>
                         }
                     }
@@ -171,7 +192,7 @@
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
-                                <a class="add-to-cart bg-danger btn-block" disabled="">
+                                <a class="add-to-cart bg-danger btn-block disabled">
                                     افزودن به سبد خرید
                                 </a>
                             </div>
@@ -226,6 +247,50 @@
                 </div>
             </div>
         </div>
+
+        @if (User.Identity.IsAuthenticated && _productService.IsUserBoughtBook(userId, Model.BookId) && !_productService.ScoreSentByUser(userId, Model.BookId))
+        {
+            <section class="product-carousel mb-5 border bordered-success">
+                <form asp-controller="Book" asp-action="AddScore" method="post">
+                    <input type="hidden" name="bookId" value="@Model.BookId" />
+                    <div class="section-title">
+                        <i class="fad fa-vote-yea text-success"></i>
+                        امتیاز شما به این محصول
+                    </div>
+                    <div class="col-md-12 row">
+                        <div class="col-md-6">
+                            <div class="form-element-row">
+                                <label class="label-element">امتیاز به کیفیت کالا</label>
+                                <select name="qualityScore" class="select2 select2-hidden-accessible" data-select2-id="select1-data-1-aho7" tabindex="-1" aria-hidden="true">
+                                    <option value="" data-select2-id="select2-data-3-munx">--انتخاب امتیاز--</option>
+                                    <option value="5">بسیار عالی</option>
+                                    <option value="4">عالی</option>
+                                    <option value="3">خوب</option>
+                                    <option value="2">متوسط</option>
+                                    <option value="1">ضعیف</option>
+                                    <option value="0">بسیار ضعیف</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-element-row">
+                                <label class="label-element">امتیاز به محتوای کالا</label>
+                                <select name="contentScore" class="select2 select2-hidden-accessible" data-select2-id="select2-data-1-aho7" tabindex="-1" aria-hidden="true">
+                                    <option value="" data-select2-id="select2-data-3-munx">--انتخاب امتیاز--</option>
+                                    <option value="5">بسیار عالی</option>
+                                    <option value="4">عالی</option>
+                                    <option value="3">خوب</option>
+                                    <option value="2">متوسط</option>
+                                    <option value="1">ضعیف</option>
+                                    <option value="0">بسیار ضعیف</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block">ثبت امتیاز</button>
+                    </div>
+                </form>
+            </section>
+        }
         @{
             var ageRangeBooks = ViewBag.AgeRangeBooks as List<BookListViewModel>;
             var age = ViewBag.UserAge;
@@ -396,23 +461,7 @@
                                                 <input type="text" class="input-element">
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>امتیاز شما:</label>
-                                                <div class="add-rating">
-                                                    <input type="radio" name="rating" id="rating-1">
-                                                    <label for="rating-1"></label>
-                                                    <input type="radio" name="rating" id="rating-2">
-                                                    <label for="rating-2"></label>
-                                                    <input type="radio" name="rating" id="rating-3">
-                                                    <label for="rating-3"></label>
-                                                    <input type="radio" name="rating" id="rating-4">
-                                                    <label for="rating-4"></label>
-                                                    <input type="radio" name="rating" id="rating-5">
-                                                    <label for="rating-5"></label>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
                                         <div class="col-lg-6">
                                             <div class="form-element-row">
                                                 <label for="phone-number" class="label-element">

@@ -68,7 +68,7 @@ namespace KetabAbee.Data.Repository
                 .Include(b => b.Group)
                 .Include(b => b.SubGroup)
                 .Include(b => b.SubGroup2)
-                .OrderByDescending(b=>b.BookId);
+                .OrderByDescending(b => b.BookId);
         }
 
         public bool AddPublisher(Publisher publisher)
@@ -195,6 +195,62 @@ namespace KetabAbee.Data.Repository
         public FavoriteBook GetFavById(int likeId)
         {
             return _context.FavoriteBooks.Find(likeId);
+        }
+
+        public bool AddScore(BookScore score)
+        {
+            try
+            {
+                _context.BookScores.Add(score);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool IsUserBoughtBook(int userId, int bookId)
+        {
+            return _context.UserBooks.Any(s => s.UserId == userId && s.BookId == bookId);
+        }
+
+        public bool ScoreSentByUser(int userId, int bookId)
+        {
+            return _context.BookScores.Any(s => s.UserId == userId && s.BookId == bookId && s.IsScored);
+        }
+
+        public int AllBookSentScoresCount(int bookId)
+        {
+            return _context.BookScores.Count(s => s.BookId == bookId);
+        }
+
+        public float GetBookAverageScore(int bookId)
+        {
+            return (float)Math.Round(SumBookAverageScores(bookId) / AllBookSentScoresCount(bookId), 2);
+        }
+
+        public int SumBookQualityScores(int bookId)
+        {
+            return _context.BookScores.Where(s => s.BookId == bookId).Sum(s => s.QualityScore);
+        }
+
+        public int SumBookContentScores(int bookId)
+        {
+            return _context.BookScores.Where(s => s.BookId == bookId).Sum(s => s.ContentScore);
+        }
+
+        public int SatisfiedBookBuyersPercent(int bookId)
+        {
+            var allBookScoresCount = _context.BookScores.Count(s => s.BookId == bookId);
+            var satisfiedBookScoresCount = _context.BookScores.Count(s => s.BookId == bookId && s.AverageScores >= 3);
+            return satisfiedBookScoresCount * 100 / allBookScoresCount;
+        }
+
+        public float SumBookAverageScores(int bookId)
+        {
+            return _context.BookScores.Where(s => s.BookId == bookId).Sum(s => s.AverageScores);
         }
     }
 }

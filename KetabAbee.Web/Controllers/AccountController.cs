@@ -103,7 +103,7 @@ namespace KetabAbee.Web.Controllers
         }
 
         [HttpPost("Login"), ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel login, string returnUrl = "")
+        public async Task<IActionResult> Login(LoginViewModel login, string returnUrl = "/")
         {
             if (!await _captchaValidator.IsCaptchaPassedAsync(login.Captcha))
             {
@@ -144,7 +144,7 @@ namespace KetabAbee.Web.Controllers
                 // command for login user
                 await HttpContext.SignInAsync(principal, properties);
 
-                if (returnUrl != null)
+                if (returnUrl != "/")
                 {
                     return Redirect(returnUrl);
                 }
@@ -166,7 +166,7 @@ namespace KetabAbee.Web.Controllers
         public IActionResult Logout(string url)
         {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return Redirect(url);
+            return Redirect(url ?? "/");
         }
 
         #endregion

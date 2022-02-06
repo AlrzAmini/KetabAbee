@@ -130,5 +130,15 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         }
 
         #endregion
+
+        #region User Books
+
+        [HttpGet("UserPanel/Books")]
+        public IActionResult UserBooks()
+        {
+            return View();
+        }
+
+        #endregion
     }
 }

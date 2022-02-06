@@ -19,9 +19,10 @@ namespace KetabAbee.Application.Extensions
             return enumName != null ? enumName.GetCustomAttribute<DisplayAttribute>()?.GetName() : "";
         }
 
-        public static int GetUserId(this ClaimsPrincipal claim)
+        public static int GetUserId(this ClaimsPrincipal claimsPrincipal)
         {
-            return claim != null ? int.Parse(claim.FindFirst(ClaimTypes.NameIdentifier).Value) : default;
+            var data = claimsPrincipal?.Claims.SingleOrDefault(s => s.Type == ClaimTypes.NameIdentifier);
+            return data != null ? Convert.ToInt32(data.Value) : default;
         }
 
         public static string GetUserEmail(this ClaimsPrincipal claim)

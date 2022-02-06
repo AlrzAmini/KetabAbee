@@ -21,10 +21,20 @@ namespace KetabAbee.Domain.Models.Products
 
         #region props
 
-        [DisplayName("امتیاز")]
+        [DisplayName("امتیاز به کیفیت کالا")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
         [Range(0, 5, ErrorMessage = "{0} باید بین {1} و {2} باشد")]
-        public int Score { get; set; }
+        public int QualityScore { get; set; }
+
+        [DisplayName("امتیاز به محتوای کالا")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
+        [Range(0, 5, ErrorMessage = "{0} باید بین {1} و {2} باشد")]
+        public int ContentScore { get; set; }
+
+        [DisplayName("میانگین امتیاز")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
+        [Range(0, 5, ErrorMessage = "{0} باید بین {1} و {2} باشد")]
+        public float AverageScores { get; set; }
 
         [DisplayName("آی پی")]
         [Required]
@@ -33,9 +43,6 @@ namespace KetabAbee.Domain.Models.Products
         [DisplayName("تاریخ ثبت امتیاز")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
         public DateTime ScoreDate { get; set; }
-
-        [DisplayName("تاریخ بروزرسانی امتیاز")]
-        public DateTime? UpdateScoreDate { get; set; }
 
         public bool IsScored { get; set; }
 

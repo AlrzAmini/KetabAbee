@@ -679,5 +679,53 @@ namespace KetabAbee.Application.Services.Product
         {
             return _productRepository.GetFavById(likeId);
         }
+
+        public bool AddScore(int userId, int bookId, string userIp, int qualityScore, int contentScore)
+        {
+            try
+            {
+                var score = new BookScore
+                {
+                    UserId = userId,
+                    BookId = bookId,
+                    UserIp = userIp,
+                    QualityScore = qualityScore,
+                    ContentScore = contentScore,
+                    ScoreDate = DateTime.Now,
+                    AverageScores = (float)(qualityScore + contentScore) / 2,
+                    IsScored = true
+                };
+                return _productRepository.AddScore(score);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool IsUserBoughtBook(int userId, int bookId)
+        {
+            return _productRepository.IsUserBoughtBook(userId, bookId);
+        }
+
+        public bool ScoreSentByUser(int userId, int bookId)
+        {
+            return _productRepository.ScoreSentByUser(userId, bookId);
+        }
+
+        public int AllBookSentScoresCount(int bookId)
+        {
+            return _productRepository.AllBookSentScoresCount(bookId);
+        }
+
+        public float GetBookAverageScore(int bookId)
+        {
+            return _productRepository.GetBookAverageScore(bookId);
+        }
+
+        public int SatisfiedBookBuyersPercent(int bookId)
+        {
+            return _productRepository.SatisfiedBookBuyersPercent(bookId);
+        }
     }
 }

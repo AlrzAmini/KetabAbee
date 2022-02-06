@@ -50,9 +50,7 @@ namespace KetabAbee.Web.Controllers
             ViewBag.PublisherBooks = _productService.PublisherBooks(model.PublisherId, model).ToList();
             if (User.Identity.IsAuthenticated)
             {
-                var reqUrl = Microsoft.AspNetCore.Http.Extensions.UriHelper.GetDisplayUrl(Request);
-                ViewBag.reqUrl = reqUrl;
-                ViewBag.FavBook = _productService.GetFavBookInfoFromBook(int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)), model.BookId);
+                ViewBag.FavBook = _productService.GetFavBookInfoFromBook(User.GetUserId(), model.BookId);
                 var userName = User.Identity.Name;
                 ViewBag.AgeRangeBooks = _productService.GetBooksByAgeRange(userName).ToList();
                 ViewBag.UserAge = _productService.GetAgeByUserName(userName);
@@ -69,15 +67,15 @@ namespace KetabAbee.Web.Controllers
         [HttpPost("AddToFavorite")]
         public IActionResult AddToFavorite(FavoriteBook favoriteBook)
         {
-            favoriteBook.UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            favoriteBook.UserId = User.GetUserId();
 
             if (_productService.AddBookToFavorite(favoriteBook))
             {
-                TempData["SuccessMessage"] = "به لیست علاقه مندی ها اضافه شد";
+                TempData["SuccessSwal"] = "به لیست علاقه مندی ها اضافه شد";
                 return Redirect($"/BookInfo/{favoriteBook.BookId}");
             }
 
-            TempData["ErrorMessage"] = "به لیست علاقه مندی ها اضافه نشد";
+            TempData["ErrorSwal"] = "به لیست علاقه مندی ها اضافه نشد";
             return Redirect($"/BookInfo/{favoriteBook.BookId}");
         }
 
@@ -90,10 +88,10 @@ namespace KetabAbee.Web.Controllers
         {
             if (_productService.RemoveFromFav(likeId))
             {
-                TempData["SuccessMessage"] = "حذف از علاقه مندی ها با موفقیت انجام شد";
+                TempData["SuccessSwal"] = "حذف از علاقه مندی ها با موفقیت انجام شد";
                 return Redirect("/UserPanel/Dashboard");
             }
-            TempData["ErrorMessage"] = "حذف از علاقه مندی ها با شکست مواجه شد";
+            TempData["ErrorSwal"] = "حذف از علاقه مندی ها با شکست مواجه شد";
             return Redirect("/UserPanel/Dashboard");
         }
 
@@ -125,5 +123,25 @@ namespace KetabAbee.Web.Controllers
 
         #endregion
 
+        #region add score
+
+        [Authorize]
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult AddScore(int bookId, int qualityScore, int contentScore)
+        {
+            var userId = User.GetUserId();
+
+            if (!_productService.IsUserBoughtBook(userId, bookId)) return BadRequest();
+
+            if (_productService.AddScore(userId, bookId, HttpContext.GetUserIp(), qualityScore, contentScore))
+            {
+                TempData["SuccessSwal"] = "امتیاز شما برای این محصول ثبت شد";
+                return Redirect($"/BookInfo/{bookId}");
+            }
+            TempData["ErrorSwal"] = "امتیاز شما ثبت نشد";
+            return Redirect($"/BookInfo/{bookId}");
+        }
+
+        #endregion
     }
 }

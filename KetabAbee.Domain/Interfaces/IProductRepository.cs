@@ -81,5 +81,27 @@ namespace KetabAbee.Domain.Interfaces
 
 
         #endregion
+
+        #region Score
+
+        bool AddScore(BookScore score);
+
+        bool IsUserBoughtBook(int userId, int bookId);
+
+        bool ScoreSentByUser(int userId, int bookId);
+
+        int AllBookSentScoresCount(int bookId);
+
+        float GetBookAverageScore(int bookId);
+
+        int SumBookQualityScores(int bookId);
+
+        int SumBookContentScores(int bookId);
+
+        int SatisfiedBookBuyersPercent(int bookId);
+
+        float SumBookAverageScores(int bookId);
+
+        #endregion
     }
 }
