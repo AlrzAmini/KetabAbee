@@ -91,6 +91,7 @@ namespace KetabAbee.Application.Interfaces.Product
 
         FavoriteBook GetFavById(int likeId);
 
+        IEnumerable<BookListViewModel> GetUserBooksForShowInUserPanel(int userId);
 
         #endregion
 

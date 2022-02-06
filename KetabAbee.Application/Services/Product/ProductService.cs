@@ -727,5 +727,16 @@ namespace KetabAbee.Application.Services.Product
         {
             return _productRepository.SatisfiedBookBuyersPercent(bookId);
         }
+
+        public IEnumerable<BookListViewModel> GetUserBooksForShowInUserPanel(int userId)
+        {
+            return _productRepository.GetUserBooks(userId).Select(b => new BookListViewModel
+            {
+                BookId = b.BookId,
+                ImageName = b.ImageName,
+                Name = b.Name,
+                Writer = b.Writer
+            });
+        }
     }
 }

@@ -19,15 +19,16 @@ namespace KetabAbee.Application.Extensions
             return enumName != null ? enumName.GetCustomAttribute<DisplayAttribute>()?.GetName() : "";
         }
 
-        public static int GetUserId(this ClaimsPrincipal claimsPrincipal)
+        public static int GetUserId(this ClaimsPrincipal claim)
         {
-            var data = claimsPrincipal?.Claims.SingleOrDefault(s => s.Type == ClaimTypes.NameIdentifier);
+            var data = claim?.Claims.SingleOrDefault(s => s.Type == ClaimTypes.NameIdentifier);
             return data != null ? Convert.ToInt32(data.Value) : default;
         }
 
         public static string GetUserEmail(this ClaimsPrincipal claim)
         {
-            return claim?.FindFirst(ClaimTypes.Email).Value;
+            var data = claim?.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Email);
+            return data != null ? Convert.ToString(data.Value) : default;
         }
 
         public static string ToTooman(this long price)

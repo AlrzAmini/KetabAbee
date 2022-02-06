@@ -136,7 +136,7 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         [HttpGet("UserPanel/Books")]
         public IActionResult UserBooks()
         {
-            return View();
+            return View(_productService.GetUserBooksForShowInUserPanel(User.GetUserId()).ToList());
         }
 
         #endregion

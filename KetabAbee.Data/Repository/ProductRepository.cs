@@ -252,5 +252,13 @@ namespace KetabAbee.Data.Repository
         {
             return _context.BookScores.Where(s => s.BookId == bookId).Sum(s => s.AverageScores);
         }
+
+        public IEnumerable<Book> GetUserBooks(int userId)
+        {
+            return _context.UserBooks.Include(u=>u.Book)
+                .Where(u => u.UserId == userId)
+                .Select(s => s.Book)
+                .Distinct();
+        }
     }
 }

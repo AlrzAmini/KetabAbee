@@ -61,6 +61,8 @@ namespace KetabAbee.Domain.Interfaces
 
         FavoriteBook GetFavById(int likeId);
 
+        IEnumerable<Book> GetUserBooks(int userId);
+
         #endregion
 
         #region Report

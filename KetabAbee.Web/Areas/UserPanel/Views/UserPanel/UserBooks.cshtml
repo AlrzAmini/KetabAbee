@@ -1,7 +1,52 @@
-﻿
+﻿@model List<KetabAbee.Application.DTOs.Book.BookListViewModel>
 @{
-    ViewData["Title"] = "UserBooks";
+    ViewData["Title"] = "محصولات خریداری شده";
 }
 
-<h2>UserBooks</h2>
 
+<main class="page-content" style="margin-top: 207px; transform: none;">
+    <div class="container" style="transform: none;">
+        <div class="row mb-5" style="transform: none;">
+            <div class="col-lg-3 col-md-4 mb-md-0 mb-3 sticky-sidebar" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
+                <div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none; top: 0px; left: 1062.5px;">
+                    <div class="sidebar-widget">
+                        @await Component.InvokeAsync("UserPanelSideBarComponent")
+                    </div><div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 352px; height: 1045px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-8">
+                <div class="section-title mb-2">
+                    محصولات خریداری شده شما
+                </div>
+                <div class="checkout-section shadow-around">
+                    <div class="checkout-section-content">
+                        <div class="row mx-0">
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (var book in Model)
+                                {
+                                    <div class="col-xl-3 col-lg-4 col-sm-6 mb-3">
+                                        <div class="custom-control custom-radio">
+                                            <label class="custom-control-label address-select">
+                                                <span class="head-address-select">@book.Name اثر @book.Writer</span>
+                                                <span>
+                                                    <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@book.BookId">
+                                                        <img src="/images/Book/thumb/@book.ImageName" class="thumbnail rounded img-fluid" alt="@book.Name" />
+                                                    </a>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="alert alert-warning">هنوز محصولی خریداری نکرده اید</div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
