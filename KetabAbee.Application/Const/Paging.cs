@@ -9,5 +9,6 @@ namespace KetabAbee.Application.Const
     public class Paging
     {
         public const int ItemPerPage = 10;
+        public const int CommentPerPage = 6;
     }
 }

@@ -8,6 +8,7 @@
     ViewData["Title"] = " مشخصلات، قیمت و خرید کتاب " + Model.Name + " اثر " + Model.Writer + " نشر " + Model.Publisher.PublisherName;
     var userId = User.GetUserId();
     var bookScoresCount = _productService.AllBookSentScoresCount(Model.BookId);
+    var userBoughtCourse = User.Identity.IsAuthenticated && _productService.IsUserBoughtBook(userId, Model.BookId);
 }
 <main class="page-content" style="margin-top: 205.5px;">
     <div class="container">
@@ -76,7 +77,7 @@
                                 @_productService.GetBookAverageScore(Model.BookId)
                                 <span class="text-black-50">(@bookScoresCount)</span>
                                 <span> ° </span>
-                                <a href="#" class="text-info">960 دیدگاه کاربران</a>
+                                <a class="text-info">@ViewBag.CommentCount دیدگاه کاربران</a>
                             </p>
                         </div>
                     }
@@ -92,15 +93,11 @@
                                 هنوز امتیازی ثبت نشده
                                 <span class="text-black-50">(0)</span>
                                 <span> ° </span>
-                                <a href="#" class="text-info">960 دیدگاه کاربران</a>
+                                <a class="text-info">@ViewBag.CommentCount دیدگاه کاربران</a>
                             </p>
                         </div>
                     }
 
-                    @*<div class="d-block mb-2">
-                            <span class="font-weight-bold">برند:</span>
-                            <a href="#" class="link--with-border-bottom">سامسونگ</a>
-                        </div>*@
                     <div class="product-params-special">
                         <ul data-title="ویژگی‌های محصول">
                             <li>
@@ -135,14 +132,6 @@
                             </li>
                         </ul>
                     </div>
-                    @*<div class="alert alert-warning">
-                            <div class="alert-body">
-                                <p class="d-flex align-items-center">
-                                    <i class="fad fa-history ml-2"></i>
-                                    حداکثر تا 3 روز تحویل داده می شود.
-                                </p>
-                            </div>
-                        </div>*@
                 </div>
                 <div class="col-xl-3 col-lg-4 col-md-6 mx-lg-0 mx-auto">
                     @if (Model.Inventory != null && Model.Inventory != 0)
@@ -248,7 +237,7 @@
             </div>
         </div>
 
-        @if (User.Identity.IsAuthenticated && _productService.IsUserBoughtBook(userId, Model.BookId) && !_productService.ScoreSentByUser(userId, Model.BookId))
+        @if (userBoughtCourse && !_productService.ScoreSentByUser(userId, Model.BookId))
         {
             <section class="product-carousel mb-5 border bordered-success">
                 <form asp-controller="Book" asp-action="AddScore" method="post">
@@ -336,7 +325,7 @@
                             <a class="nav-link" id="productParams-tab" data-toggle="tab" href="#productParams" role="tab" aria-controls="productParams" aria-selected="false">مشخصات </a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="productComments-tab" data-toggle="tab" href="#productComments" role="tab" aria-controls="productComments" aria-selected="false">نظرات</a>
+                            <a class="nav-link" id="productComments-tab" data-toggle="tab" href="#productComments" role="tab" aria-controls="productComments" aria-selected="false">دیدگاه ها</a>
                         </li>
                     </ul>
                     <div class="tab-content" id="product-tab">
@@ -450,31 +439,38 @@
                         <div class="tab-pane fade" id="productComments" role="tabpanel" aria-labelledby="productComments-tab">
                             <!-- product-review -->
                             <div class="product-review-form mb-3">
-                                <form action="#">
+                                <form asp-controller="Book" asp-action="AddComment"
+                                      data-ajax="true"
+                                      data-ajax-method="post"
+                                      data-ajax-mode="replace"
+                                      data-ajax-update="#CommentList"
+                                      data-ajax-success="Success">
+                                    <input type="hidden" name="comment.ProductId" value="@Model.BookId" />
                                     <div class="row align-items-center">
-                                        <div class="col-lg-6">
-                                            <div class="form-element-row">
-                                                <label for="phone-number" class="label-element">
-                                                    عنوان نظر شما
-                                                    (اجباری)
-                                                </label>
-                                                <input type="text" class="input-element">
+                                        @if (!User.Identity.IsAuthenticated)
+                                        {
+                                            <div class="col-lg-6">
+                                                <div class="form-element-row">
+                                                    <label class="label-element">
+                                                        نام شما
+                                                    </label>
+                                                    <input type="text" id="userName" name="comment.UserName" class="input-element" required="">
+                                                </div>
                                             </div>
-                                        </div>
-                                        
-                                        <div class="col-lg-6">
-                                            <div class="form-element-row">
-                                                <label for="phone-number" class="label-element">
-                                                    ایمیل
-                                                    شما
-                                                </label>
-                                                <input type="text" class="input-element">
+                                            <div class="col-lg-6">
+                                                <div class="form-element-row">
+                                                    <label class="label-element">
+                                                        ایمیل
+                                                        شما
+                                                    </label>
+                                                    <input type="email" id="userEmail" name="comment.Email" class="input-element" required="">
+                                                </div>
                                             </div>
-                                        </div>
+                                        }
                                         <div class="col-12">
                                             <div class="form-element-row">
                                                 <label for="phone-number" class="label-element">نظر شما</label>
-                                                <textarea name="comment" id="comment" cols="30" rows="10" class="input-element"></textarea>
+                                                <textarea name="comment.Body" id="comment-body" cols="30" rows="10" class="input-element"></textarea>
                                             </div>
                                         </div>
                                         <div class="col-12">
@@ -485,412 +481,12 @@
                                     </div>
                                 </form>
                                 <div class="section-title mb-1 mt-4">
-                                    نظرات کاربران (۵)
+                                    دیدگاه کاربران (@ViewBag.CommentCount)
                                 </div>
                                 <hr>
                             </div>
-                            <div class="comments-list">
-                                <div class="row">
-                                    <div class="col-md-3 aside">
-                                        <ul class="comments-user-shopping">
-                                            <li>
-                                                <div class="cell cell-name">
-                                                    کاربر اینجانب
-                                                </div>
-                                                <div class="comments-buyer-badge">خریدار</div>
-                                            </li>
-                                            <li>
-                                                <div class="cell">
-                                                    در تاریخ ۷ فروردین ۱۳۹۹
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <div class="alert alert-info">
-                                            <i class="fas fa-thumbs-up"></i> خرید این محصول را توصیه می‌کنم
-                                        </div>
-                                        <ul class="comments-user-shopping">
-                                            <li>
-                                                <div class="cell cell-title">رنگ:</div>
-                                                <div class="cell color-cell">
-                                                    <span class="shopping-color-value" style="background-color: #FFFFFF;"></span>سفید
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="cell cell-title">فروشنده:</div>
-                                                <div class="cell seller-cell">
-                                                    <a href="#" class="border-bottom-dt">زندگیِ مدرن</a>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-9 article">
-                                        <div class="header">
-                                            <div>راضیم</div>
-                                        </div>
-                                        <p>
-                                            من ۳روز که خریدم و راضی هستم دوربینش خوبه فقط به نظرم باتری
-                                            زود تموم میشه البته دائما هم باهاش کار میکنم ولی هر روز
-                                            شارژش می‌کنم گوشیه خوش دستیه
-                                        </p>
-                                        <div class="footer">
-                                            <div class="comments-likes">
-                                                آیا این نظر برایتان مفید بود؟
-                                                <button class="btn-like" data-counter="۰">بله</button>
-                                                <button class="btn-like" data-counter="۰">خیر</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3 aside">
-                                        <ul class="comments-user-shopping">
-                                            <li>
-                                                <div class="cell cell-name">
-                                                    کاربر اینجانب
-                                                </div>
-                                                <div class="comments-buyer-badge">خریدار</div>
-                                            </li>
-                                            <li>
-                                                <div class="cell">
-                                                    در تاریخ ۷ فروردین ۱۳۹۹
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <div class="alert alert-info">
-                                            <i class="fas fa-thumbs-up"></i> خرید این محصول را توصیه می‌کنم
-                                        </div>
-                                        <ul class="comments-user-shopping">
-                                            <li>
-                                                <div class="cell cell-title">رنگ:</div>
-                                                <div class="cell color-cell">
-                                                    <span class="shopping-color-value" style="background-color: #000000;"></span>مشکی
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="cell cell-title">فروشنده:</div>
-                                                <div class="cell seller-cell">
-                                                    <a href="#" class="border-bottom-dt">زندگیِ مدرن</a>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-9 article">
-                                        <div class="header">
-                                            <div>مدل 128 گیگ با رام 4 پیشنهاد میشه</div>
-                                        </div>
-                                        <p>
-                                            سلام بعد از چند روز استفاده ازش راضی هستم و فکرشو نمیکردم به
-                                            عنوان یه گوشی تقریبا میان رده راضیم کنه و تصورم یه گوشیه
-                                            ضعیف بود.به عنوان کسی که زیاد با کامپیوتر و گوشی سر و کار
-                                            داره و سرعت و امکانات براش مهمه کاملا توقعاتمو برآروده
-                                            کرد.طراحی به روز و جذابی هم داره.رنگ مشکی 128 گیگ با رام 4
-                                            رو گرفتم که زیبایی خاصی داره.از دیجیکالا هم تشکر میکنم که
-                                            محصولو به موقع در تعطیلات به دستم رسوند و گارانتی و برگه
-                                            نحوه رجستر کردن گوشی همراهش بود و بسته بندی خوبی
-                                            داشت.دوستانی هم که میگفتن مشکل هنگ داره بنده مشاهده نکردم و
-                                            قبل استفاده کاملا بروزرسانیش کردم اول.نکته آخر اینکه برای
-                                            اینکه عمر باتری بیشتر باشه تو تنظیمات از حالت فست شارژ خارج
-                                            کنید و استاندارد شارژ کنید بهتره و مواقع اضطراری از فست
-                                            استفاده کنید و برای اولین بار بگذارید شارژ گوشی به پانزده
-                                            درصد برسه و خالی بشه بعد بزنید به شارژ و ازش استفاده نکنید
-                                            تا فول بشه و بعد استفاده کنید.گوشی های هوشمند نیازی به شارژ
-                                            طولانی مدت ندارند.
-                                        </p>
-                                        <div class="comments-evaluation">
-                                            <div class="comments-evaluation-positive">
-                                                <span>نقاط قوت</span>
-                                                <ul>
-                                                    <li>
-                                                        فینگر تاچ عالی نیست ولی رضایت بخشه.تاچ قوی داره
-                                                    </li>
-                                                    <li>
-                                                        نور صفحه نمایش زیاد و کیفت صفحه نمایش قابل قبوله
-                                                    </li>
-                                                    <li>
-                                                        سخت افزار مناسب و سرعت خوب
-                                                    </li>
-                                                    <li>
-                                                        داشتن کاور ژله ای شفاف همراه گوشی و صدای واضح و
-                                                        بلند
-                                                    </li>
-                                                    <li>میزان شارژ دهی مناسب و دوربین سلفی خوب</li>
-                                                </ul>
-                                            </div>
+                            <div class="comments-list" id="CommentList">
 
-                                            <div class="comments-evaluation-negative">
-                                                <span>نقاط ضعف</span>
-                                                <ul>
-                                                    <li>
-                                                        نداشتن گلاس صفحه
-                                                    </li>
-                                                    <li>سیم شارژر خیلی کوتاهه</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="footer">
-                                            <div class="comments-likes">
-                                                آیا این نظر برایتان مفید بود؟
-                                                <button class="btn-like" data-counter="۰">بله</button>
-                                                <button class="btn-like" data-counter="۰">خیر</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3 aside">
-                                        <ul class="comments-user-shopping">
-                                            <li>
-                                                <div class="cell cell-name">
-                                                    کاربر اینجانب
-                                                </div>
-                                                <div class="comments-buyer-badge">خریدار</div>
-                                            </li>
-                                            <li>
-                                                <div class="cell">
-                                                    در تاریخ ۷ فروردین ۱۳۹۹
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <div class="alert alert-info">
-                                            <i class="fas fa-thumbs-up"></i> خرید این محصول را توصیه می‌کنم
-                                        </div>
-                                        <ul class="comments-user-shopping">
-                                            <li>
-                                                <div class="cell cell-title">رنگ:</div>
-                                                <div class="cell color-cell">
-                                                    <span class="shopping-color-value" style="background-color: #FFFFFF;"></span>سفید
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="cell cell-title">فروشنده:</div>
-                                                <div class="cell seller-cell">
-                                                    <a href="#" class="border-bottom-dt">زندگیِ مدرن</a>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-9 article">
-                                        <div class="header">
-                                            <div>راضیم</div>
-                                        </div>
-                                        <p>
-                                            من ۳روز که خریدم و راضی هستم دوربینش خوبه فقط به نظرم باتری
-                                            زود تموم میشه البته دائما هم باهاش کار میکنم ولی هر روز
-                                            شارژش می‌کنم گوشیه خوش دستیه
-                                        </p>
-                                        <div class="footer">
-                                            <div class="comments-likes">
-                                                آیا این نظر برایتان مفید بود؟
-                                                <button class="btn-like" data-counter="۰">بله</button>
-                                                <button class="btn-like" data-counter="۰">خیر</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3 aside">
-                                        <ul class="comments-user-shopping">
-                                            <li>
-                                                <div class="cell cell-name">
-                                                    کاربر اینجانب
-                                                </div>
-                                                <div class="comments-buyer-badge">خریدار</div>
-                                            </li>
-                                            <li>
-                                                <div class="cell">
-                                                    در تاریخ ۷ فروردین ۱۳۹۹
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <div class="alert alert-info">
-                                            <i class="fas fa-thumbs-up"></i> خرید این محصول را توصیه می‌کنم
-                                        </div>
-                                        <ul class="comments-user-shopping">
-                                            <li>
-                                                <div class="cell cell-title">رنگ:</div>
-                                                <div class="cell color-cell">
-                                                    <span class="shopping-color-value" style="background-color: #FFFFFF;"></span>سفید
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="cell cell-title">فروشنده:</div>
-                                                <div class="cell seller-cell">
-                                                    <a href="#" class="border-bottom-dt">زندگیِ مدرن</a>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-9 article">
-                                        <div class="header">
-                                            <div>راضیم</div>
-                                        </div>
-                                        <p>
-                                            من ۳روز که خریدم و راضی هستم دوربینش خوبه فقط به نظرم باتری
-                                            زود تموم میشه البته دائما هم باهاش کار میکنم ولی هر روز
-                                            شارژش می‌کنم گوشیه خوش دستیه
-                                        </p>
-                                        <div class="footer">
-                                            <div class="comments-likes">
-                                                آیا این نظر برایتان مفید بود؟
-                                                <button class="btn-like" data-counter="۰">بله</button>
-                                                <button class="btn-like" data-counter="۰">خیر</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3 aside">
-                                        <ul class="comments-user-shopping">
-                                            <li>
-                                                <div class="cell cell-name">
-                                                    کاربر اینجانب
-                                                </div>
-                                                <div class="comments-buyer-badge">خریدار</div>
-                                            </li>
-                                            <li>
-                                                <div class="cell">
-                                                    در تاریخ ۷ فروردین ۱۳۹۹
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <div class="alert alert-info">
-                                            <i class="fas fa-thumbs-up"></i> خرید این محصول را توصیه می‌کنم
-                                        </div>
-                                        <ul class="comments-user-shopping">
-                                            <li>
-                                                <div class="cell cell-title">رنگ:</div>
-                                                <div class="cell color-cell">
-                                                    <span class="shopping-color-value" style="background-color: #FFFFFF;"></span>سفید
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="cell cell-title">فروشنده:</div>
-                                                <div class="cell seller-cell">
-                                                    <a href="#" class="border-bottom-dt">زندگیِ مدرن</a>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-9 article">
-                                        <div class="header">
-                                            <div>راضیم</div>
-                                        </div>
-                                        <p>
-                                            من ۳روز که خریدم و راضی هستم دوربینش خوبه فقط به نظرم باتری
-                                            زود تموم میشه البته دائما هم باهاش کار میکنم ولی هر روز
-                                            شارژش می‌کنم گوشیه خوش دستیه
-                                        </p>
-                                        <div class="footer">
-                                            <div class="comments-likes">
-                                                آیا این نظر برایتان مفید بود؟
-                                                <button class="btn-like" data-counter="۰">بله</button>
-                                                <button class="btn-like" data-counter="۰">خیر</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3 aside">
-                                        <ul class="comments-user-shopping">
-                                            <li>
-                                                <div class="cell cell-name">
-                                                    کاربر اینجانب
-                                                </div>
-                                                <div class="comments-buyer-badge">خریدار</div>
-                                            </li>
-                                            <li>
-                                                <div class="cell">
-                                                    در تاریخ ۷ فروردین ۱۳۹۹
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <div class="alert alert-danger">
-                                            <i class="fas fa-thumbs-down"></i> خرید این محصول را توصیه نمی‌کنم
-                                        </div>
-                                        <ul class="comments-user-shopping">
-                                            <li>
-                                                <div class="cell cell-title">رنگ:</div>
-                                                <div class="cell color-cell">
-                                                    <span class="shopping-color-value" style="background-color: #FFFFFF;"></span>سفید
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="cell cell-title">فروشنده:</div>
-                                                <div class="cell seller-cell">
-                                                    <a href="#" class="border-bottom-dt">زندگیِ مدرن</a>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-9 article">
-                                        <div class="header">
-                                            <div>راضیم</div>
-                                        </div>
-                                        <p>
-                                            من ۳روز که خریدم و راضی هستم دوربینش خوبه فقط به نظرم باتری
-                                            زود تموم میشه البته دائما هم باهاش کار میکنم ولی هر روز
-                                            شارژش می‌کنم گوشیه خوش دستیه
-                                        </p>
-                                        <div class="footer">
-                                            <div class="comments-likes">
-                                                آیا این نظر برایتان مفید بود؟
-                                                <button class="btn-like" data-counter="۰">بله</button>
-                                                <button class="btn-like" data-counter="۰">خیر</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3 aside">
-                                        <ul class="comments-user-shopping">
-                                            <li>
-                                                <div class="cell cell-name">
-                                                    کاربر اینجانب
-                                                </div>
-                                                <div class="comments-buyer-badge">خریدار</div>
-                                            </li>
-                                            <li>
-                                                <div class="cell">
-                                                    در تاریخ ۷ فروردین ۱۳۹۹
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <div class="alert alert-info">
-                                            <i class="fas fa-thumbs-up"></i> خرید این محصول را توصیه می‌کنم
-                                        </div>
-                                        <ul class="comments-user-shopping">
-                                            <li>
-                                                <div class="cell cell-title">رنگ:</div>
-                                                <div class="cell color-cell">
-                                                    <span class="shopping-color-value" style="background-color: #FFFFFF;"></span>سفید
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="cell cell-title">فروشنده:</div>
-                                                <div class="cell seller-cell">
-                                                    <a href="#" class="border-bottom-dt">زندگیِ مدرن</a>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-9 article">
-                                        <div class="header">
-                                            <div>راضیم</div>
-                                        </div>
-                                        <p>
-                                            من ۳روز که خریدم و راضی هستم دوربینش خوبه فقط به نظرم باتری
-                                            زود تموم میشه البته دائما هم باهاش کار میکنم ولی هر روز
-                                            شارژش می‌کنم گوشیه خوش دستیه
-                                        </p>
-                                        <div class="footer">
-                                            <div class="comments-likes">
-                                                آیا این نظر برایتان مفید بود؟
-                                                <button class="btn-like" data-counter="۰">بله</button>
-                                                <button class="btn-like" data-counter="۰">خیر</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <!-- end product-review -->
                         </div>
@@ -930,3 +526,27 @@
     </div>
 </main>
 
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script src="/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        $(function() {
+            $("#CommentList").load("/Book/ShowComments/" + @Model.BookId);
+        });
+        function pageComment(pageNum) {
+            $("#CommentList").load("/Book/ShowComments/" + @Model.BookId + "?pageNum="+pageNum);
+        }
+        function Success() {
+            $("#userName").val("");
+            $("#userEmail").val("");
+            $("#comment-body").val("");
+            swal.fire({
+                title: "موفق",
+                text: "کامنت با موفقیت ثبت شد",
+                icon: "success",
+                confirmButtonText: 'باشه'
+            });
+        }
+        
+    </script>
+}

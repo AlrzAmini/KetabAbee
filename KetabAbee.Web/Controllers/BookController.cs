@@ -6,8 +6,10 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Book;
 using KetabAbee.Application.Extensions;
+using KetabAbee.Application.Interfaces.Comment;
 using KetabAbee.Application.Interfaces.Order;
 using KetabAbee.Application.Interfaces.Product;
+using KetabAbee.Domain.Models.Comment.ProductComment;
 using KetabAbee.Domain.Models.Products;
 using Microsoft.AspNetCore.Authorization;
 
@@ -19,11 +21,13 @@ namespace KetabAbee.Web.Controllers
 
         private readonly IProductService _productService;
         private readonly IOrderService _orderService;
+        private readonly ICommentService _commentService;
 
-        public BookController(IProductService productService, IOrderService orderService)
+        public BookController(IProductService productService, IOrderService orderService, ICommentService commentService)
         {
             _productService = productService;
             _orderService = orderService;
+            _commentService = commentService;
         }
 
         #endregion
@@ -48,6 +52,7 @@ namespace KetabAbee.Web.Controllers
         {
             var model = _productService.GetBookForShowByBookId(bookId);
             ViewBag.PublisherBooks = _productService.PublisherBooks(model.PublisherId, model).ToList();
+            ViewBag.CommentCount = _commentService.ProductCommentCount(bookId);
             if (User.Identity.IsAuthenticated)
             {
                 ViewBag.FavBook = _productService.GetFavBookInfoFromBook(User.GetUserId(), model.BookId);
@@ -119,6 +124,38 @@ namespace KetabAbee.Web.Controllers
             }
 
             return Redirect($"/Cart/{orderId}");
+        }
+
+        #endregion
+
+        #region add comment
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult AddComment(ProductComment comment)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                comment.UserId = User.GetUserId();
+                comment.UserName = User.Identity.Name;
+                comment.Email = User.GetUserEmail();
+            }
+            comment.UserIp = HttpContext.GetUserIp();
+            if (_commentService.AddComment(comment))
+            {
+                return View("ShowComments",_commentService.GetProductCommentWithPaging(comment.ProductId));
+            }
+            TempData["ErrorSwal"] = "کامنت شما ثبت نشد";
+            return Redirect($"/BookInfo/{comment.ProductId}");
+        }
+
+        #endregion
+
+        #region comments
+
+        [Route("Book/ShowComments/{bookId}")]
+        public IActionResult ShowComments(int bookId, int pageNum = 1)
+        {
+            return View(_commentService.GetProductCommentWithPaging(bookId, pageNum));
         }
 
         #endregion

@@ -4,14 +4,16 @@ using KetabAbee.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KetabAbee.Data.Migrations
 {
     [DbContext(typeof(KetabAbeeDBContext))]
-    partial class KetabAbeeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220207145503_changetablecomment")]
+    partial class changetablecomment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,7 +96,7 @@ namespace KetabAbee.Data.Migrations
                     b.Property<DateTime>("SendDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserIp")
@@ -818,8 +820,7 @@ namespace KetabAbee.Data.Migrations
                     b.HasOne("KetabAbee.Domain.Models.User.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Comment");
 

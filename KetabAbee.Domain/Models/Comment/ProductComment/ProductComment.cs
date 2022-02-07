@@ -36,6 +36,10 @@ namespace KetabAbee.Domain.Models.Comment.ProductComment
         [EmailAddress(ErrorMessage = "ایمیل وارد شده معتبر نیست . دقت کنید !")]
         public string Email { get; set; }
 
+        [DisplayName("متن کامنت")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
+        public string Body { get; set; }
+
         [DisplayName("تاریخ ارسال")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
         public DateTime SendDate { get; set; }
@@ -52,6 +56,9 @@ namespace KetabAbee.Domain.Models.Comment.ProductComment
         public User.User User { get; set; }
 
         public Book Product { get; set; }
+
+        public ICollection<ProductCommentAnswer> Answers { get; set; }
+
 
         #endregion
     }

@@ -1,0 +1,99 @@
+﻿@using KetabAbee.Application.Convertors
+@using KetabAbee.Application.Extensions
+@using KetabAbee.Application.Interfaces.Product
+@model Tuple<List<KetabAbee.Domain.Models.Comment.ProductComment.ProductComment>, int>
+@inject IProductService _productService;
+@{
+    Layout = null;
+}
+@if (Model.Item1 != null && Model.Item1.Any())
+{
+    @foreach (var comment in Model.Item1)
+    {
+        <div class="row">
+            <div class="col-md-3 aside">
+                <ul class="comments-user-shopping">
+                    <li>
+                        <div class="cell cell-name">
+                            @comment.UserName
+                        </div>
+                        @if (User.Identity.IsAuthenticated && _productService.IsUserBoughtBook(comment.UserId ?? 0, comment.ProductId))
+                        {
+                            <div class="comments-buyer-badge">خریدار</div>
+                        }
+                    </li>
+                    <li>
+                        <div class="cell">
+                            @comment.SendDate.ToIraniDate()
+                        </div>
+                    </li>
+                </ul>
+                <ul class="comments-user-shopping">
+                    <li>
+                        <div class="cell cell-title">فروشنده:</div>
+                        <div class="cell seller-cell">
+                            <a class="border-bottom-dt">کتاب آبی</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-9 article">
+                <p>
+                    @comment.Body
+                </p>
+                <div class="footer">
+                    <div class="comments-likes">
+                        <button class="btn-like">پاسخ</button>
+                    </div>
+                </div>
+            </div>
+            @if (comment.Answers != null && comment.Answers.Any())
+            {
+                foreach (var answer in comment.Answers.OrderByDescending(a=>a.SendDate))
+                {
+                    <div class="col-md-3"></div>
+                    <div class="row col-md-9 border bordered-gray rounded mt-1 mb-1">
+                        <div class="col-md-3 aside">
+                            <ul class="comments-user-shopping">
+                                <li>
+                                    <div class="cell cell-name">
+                                        @answer.UserName
+                                    </div>
+                                    @if (User.Identity.IsAuthenticated && _productService.IsUserBoughtBook(answer.UserId , comment.ProductId))
+                                    {
+                                        <div class="comments-buyer-badge">خریدار</div>
+                                    }
+                                </li>
+                                <li>
+                                    <div class="cell">
+                                        @answer.SendDate.ToIraniDate()
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-9 article">
+                            <p>
+                                @answer.AnswerBody
+                            </p>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+    }
+    <div class="pagination">
+        @for (int i = 1; i <= Model.Item2; i++)
+        {
+            <a class="btn btn-outline-success" onclick="pageComment(@i)">@i</a>
+        }
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="alert alert-info">
+            هنوز دیدگاهی ثبت نشده است
+        </div>
+    </div>
+}

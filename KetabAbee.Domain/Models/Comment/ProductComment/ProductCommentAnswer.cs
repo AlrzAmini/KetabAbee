@@ -10,7 +10,8 @@ namespace KetabAbee.Domain.Models.Comment.ProductComment
         [Key]
         public int Id { get; set; }
 
-        public int? UserId { get; set; }
+        [Required]
+        public int UserId { get; set; }
 
         [Required]
         public int CommentId { get; set; }
@@ -32,9 +33,9 @@ namespace KetabAbee.Domain.Models.Comment.ProductComment
         [EmailAddress(ErrorMessage = "ایمیل وارد شده معتبر نیست . دقت کنید !")]
         public string Email { get; set; }
 
-        [DisplayName("متن کامنت")]
+        [DisplayName("متن پاسخ")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
-        public string Body { get; set; }
+        public string AnswerBody { get; set; }
 
         [DisplayName("تاریخ ارسال")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
