@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Domain.Models.Comment.ProductComment;
 using KetabAbee.Domain.Models.Order;
 using KetabAbee.Domain.Models.User;
 
@@ -93,6 +94,8 @@ namespace KetabAbee.Domain.Models.Products
         public ICollection<UserBook> UserBooks { get; set; }
 
         public ICollection<BookScore> BookScores { get; set; }
+
+        public ICollection<ProductComment> ProductComments { get; set; }
 
 
         #endregion

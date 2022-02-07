@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using KetabAbee.Domain.Models.Comment.ProductComment;
 using KetabAbee.Domain.Models.ContactUs;
 using KetabAbee.Domain.Models.Order;
 using KetabAbee.Domain.Models.Permission;
@@ -80,6 +81,14 @@ namespace KetabAbee.Data.Context
 
         #endregion
 
+        #region Comment
+
+        public DbSet<ProductComment> ProductComments { get; set; }
+
+        public DbSet<ProductCommentAnswer> ProductCommentAnswers { get; set; }
+
+        #endregion
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach (var rel in modelBuilder.Model.GetEntityTypes().SelectMany(s => s.GetForeignKeys()))
@@ -120,6 +129,12 @@ namespace KetabAbee.Data.Context
                 .HasQueryFilter(e => !e.IsDelete);
 
             modelBuilder.Entity<BookScore>()
+                .HasQueryFilter(e => !e.IsDelete);
+
+            modelBuilder.Entity<ProductComment>()
+                .HasQueryFilter(e => !e.IsDelete);
+
+            modelBuilder.Entity<ProductCommentAnswer>()
                 .HasQueryFilter(e => !e.IsDelete);
 
             #endregion
