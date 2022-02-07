@@ -21,6 +21,7 @@ namespace KetabAbee.Application.Services.Comment
 
         public bool AddAnswer(ProductCommentAnswer answer)
         {
+            answer.SendDate = DateTime.Now;
             return _commentRepository.AddAnswer(answer);
         }
 

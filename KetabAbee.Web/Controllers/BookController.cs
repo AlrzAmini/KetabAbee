@@ -160,6 +160,27 @@ namespace KetabAbee.Web.Controllers
 
         #endregion
 
+        #region add answer
+
+        [Authorize]
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult AddAnswer(ProductCommentAnswer answer, int productId)
+        {
+            answer.Email = User.GetUserEmail();
+            answer.UserId = User.GetUserId();
+            answer.UserIp = HttpContext.GetUserIp();
+            answer.UserName = User.Identity.Name;
+
+            if (_commentService.AddAnswer(answer))
+            {
+                return View("ShowComments", _commentService.GetProductCommentWithPaging(productId));
+            }
+            TempData["ErrorSwal"] = "پاسخ شما ثبت نشد";
+            return Redirect($"/BookInfo/{productId}");
+        }
+
+        #endregion
+
         #region add score
 
         [Authorize]

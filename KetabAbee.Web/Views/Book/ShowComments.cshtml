@@ -37,21 +37,39 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-md-9 article">
+            <div class="col-md-6 article">
                 <p>
                     @comment.Body
                 </p>
-                <div class="footer">
-                    <div class="comments-likes">
-                        <button class="btn-like">پاسخ</button>
+            </div>
+            @if (User.Identity.IsAuthenticated)
+            {
+
+                <div class="col-md-3">
+                    <div class="col-12">
+                        <form asp-controller="Book" asp-action="AddAnswer"
+                              data-ajax="true"
+                              data-ajax-method="post"
+                              data-ajax-mode="replace"
+                              data-ajax-update="#CommentList"
+                              data-ajax-success="SuccessAnswer">
+                            <input type="hidden" name="productId" value="@comment.ProductId" />
+                            <input type="hidden" name="answer.CommentId" value="@comment.CommentId" />
+                            <div class="form-element-row">
+                                <textarea name="answer.AnswerBody" id="answer-body" cols="10" rows="5" class="input-element" placeholder="متن پاسخ خود را وارد کنید"></textarea>
+                                <div class="comments-likes">
+                                    <button class="btn-like">پاسخ</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
-            </div>
+
+            }
             @if (comment.Answers != null && comment.Answers.Any())
             {
-                foreach (var answer in comment.Answers.OrderByDescending(a=>a.SendDate))
+                foreach (var answer in comment.Answers.OrderByDescending(a => a.SendDate))
                 {
-                    <div class="col-md-3"></div>
                     <div class="row col-md-9 border bordered-gray rounded mt-1 mb-1">
                         <div class="col-md-3 aside">
                             <ul class="comments-user-shopping">
@@ -59,7 +77,7 @@
                                     <div class="cell cell-name">
                                         @answer.UserName
                                     </div>
-                                    @if (User.Identity.IsAuthenticated && _productService.IsUserBoughtBook(answer.UserId , comment.ProductId))
+                                    @if (User.Identity.IsAuthenticated && _productService.IsUserBoughtBook(answer.UserId, comment.ProductId))
                                     {
                                         <div class="comments-buyer-badge">خریدار</div>
                                     }
@@ -79,13 +97,18 @@
                     </div>
                 }
             }
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-1">
+                <a class="btn btn-outline-danger" style="float: left; bottom: 0; position: absolute"><i class="fa fa-trash"></i></a>
+            </div>
         </div>
 
     }
     <div class="pagination">
         @for (int i = 1; i <= Model.Item2; i++)
         {
-            <a class="btn btn-outline-success" onclick="pageComment(@i)">@i</a>
+            <a class="btn btn-outline-success ml-1" onclick="pageComment(@i)">@i</a>
         }
     </div>
 }
