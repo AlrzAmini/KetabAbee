@@ -19,6 +19,11 @@ namespace KetabAbee.Application.Services.Comment
             _commentRepository = commentRepository;
         }
 
+        public bool IsUserSendComment(int userId, int commentId)
+        {
+            return _commentRepository.IsUserSendComment(userId, commentId);
+        }
+
         public bool AddAnswer(ProductCommentAnswer answer)
         {
             answer.SendDate = DateTime.Now;
@@ -67,6 +72,31 @@ namespace KetabAbee.Application.Services.Comment
         public bool UpdateComment(ProductComment comment)
         {
             return _commentRepository.UpdateComment(comment);
+        }
+
+        public bool IsUserSendComment(string userIp, int commentId)
+        {
+            return _commentRepository.IsUserSendComment(userIp, commentId);
+        }
+
+        public bool IsUserSendAnswer(int userId, int answerId)
+        {
+            return _commentRepository.IsUserSendAnswer(userId, answerId);
+        }
+
+        public bool DeleteAnswer(int answerId)
+        {
+            return _commentRepository.DeleteAnswer(answerId);
+        }
+
+        public bool UpdateAnswer(ProductCommentAnswer answer)
+        {
+            return _commentRepository.AddAnswer(answer);
+        }
+
+        public ProductCommentAnswer GetAnswerById(int answerId)
+        {
+            return _commentRepository.GetAnswerById(answerId);
         }
     }
 }

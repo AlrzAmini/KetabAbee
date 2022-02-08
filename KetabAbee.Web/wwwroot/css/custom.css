@@ -16,3 +16,8 @@
 #Privecy--User {
     cursor: pointer;
 }
+.btn--remove--comment {
+    float: left;
+    bottom: 0;
+    position: absolute;
+}

@@ -23,11 +23,24 @@ namespace KetabAbee.Domain.Interfaces
 
         int ProductCommentCount(int productId);
 
+        bool IsUserSendComment(int userId, int commentId);
+
+        bool IsUserSendComment(string userIp, int commentId);
+
+        bool IsUserSendAnswer(int userId, int answerId);
+
+
         #endregion
 
         #region answer
 
         bool AddAnswer(ProductCommentAnswer answer);
+
+        bool DeleteAnswer(int answerId);
+
+        bool UpdateAnswer(ProductCommentAnswer answer);
+
+        ProductCommentAnswer GetAnswerById(int answerId);
 
         #endregion
     }

@@ -19,6 +19,11 @@ namespace KetabAbee.Data.Repository
             _context = context;
         }
 
+        public bool IsUserSendComment(string userIp, int commentId)
+        {
+            return _context.ProductComments.Any(c => c.UserIp == userIp && c.CommentId == commentId);
+        }
+
         public bool AddAnswer(ProductCommentAnswer answer)
         {
             try
@@ -71,7 +76,12 @@ namespace KetabAbee.Data.Repository
             return _context.ProductComments.Include(c => c.User)
                 .Include(c => c.Answers)
                 .Where(c => c.ProductId == productId)
-                .OrderByDescending(c=>c.SendDate);
+                .OrderByDescending(c => c.SendDate);
+        }
+
+        public bool IsUserSendComment(int userId, int commentId)
+        {
+            return _context.ProductComments.Any(c => c.UserId == userId && c.CommentId == commentId);
         }
 
         public int ProductCommentCount(int productId)
@@ -91,6 +101,44 @@ namespace KetabAbee.Data.Repository
             {
                 return false;
             }
+        }
+
+        public bool IsUserSendAnswer(int userId, int answerId)
+        {
+            return _context.ProductCommentAnswers.Any(a => a.UserId == userId && a.Id == answerId);
+        }
+
+        public bool DeleteAnswer(int answerId)
+        {
+            try
+            {
+                var answer = GetAnswerById(answerId);
+                answer.IsDelete = true;
+                return UpdateAnswer(answer);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool UpdateAnswer(ProductCommentAnswer answer)
+        {
+            try
+            {
+                _context.ProductCommentAnswers.Update(answer);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public ProductCommentAnswer GetAnswerById(int answerId)
+        {
+            return _context.ProductCommentAnswers.Find(answerId);
         }
     }
 }

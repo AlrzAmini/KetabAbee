@@ -1,8 +1,10 @@
 ﻿@using KetabAbee.Application.Convertors
 @using KetabAbee.Application.Extensions
+@using KetabAbee.Application.Interfaces.Comment
 @using KetabAbee.Application.Interfaces.Product
 @model Tuple<List<KetabAbee.Domain.Models.Comment.ProductComment.ProductComment>, int>
 @inject IProductService _productService;
+@inject ICommentService _commentService;
 @{
     Layout = null;
 }
@@ -89,18 +91,51 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-md-9 article">
+                        <div class="col-md-8 article">
                             <p>
                                 @answer.AnswerBody
                             </p>
                         </div>
+                        <div class="col-md-1">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                if (_commentService.IsUserSendAnswer(User.GetUserId(), answer.Id))
+                                {
+                                    <a asp-controller="Book" asp-action="RemoveAnswer"
+                                       asp-route-answerId="@answer.Id" asp-route-bookId="@comment.ProductId"
+                                       class="btn btn-danger btn--remove--comment btn-sm mt-3 mr-3"><i class="fa fa-trash"></i></a>
+                                }
+                            }
+                        </div>
                     </div>
                 }
+            }
+            else
+            {
+                <div class="row col-md-9">
+                </div>
             }
             <div class="col-md-2">
             </div>
             <div class="col-md-1">
-                <a class="btn btn-outline-danger" style="float: left; bottom: 0; position: absolute"><i class="fa fa-trash"></i></a>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (_commentService.IsUserSendComment(User.GetUserId(), comment.CommentId))
+                    {
+                        <a asp-controller="Book" asp-action="RemoveComment"
+                           asp-route-commentId="@comment.CommentId" asp-route-bookId="@comment.ProductId"
+                           class="btn btn-outline-danger btn--remove--comment"><i class="fa fa-trash"></i></a>
+                    }
+                }
+                else
+                {
+                    if (_commentService.IsUserSendComment(Context.GetUserIp(), comment.CommentId))
+                    {
+                        <a asp-controller="Book" asp-action="RemoveComment"
+                           asp-route-commentId="@comment.CommentId" asp-route-bookId="@comment.ProductId"
+                           class="btn btn-outline-danger btn--remove--comment"><i class="fa fa-trash"></i></a>
+                    }
+                }
             </div>
         </div>
 

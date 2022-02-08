@@ -19,7 +19,7 @@
                     <nav>
                         <a asp-controller="Home" asp-action="Index">کتاب آبی</a>
                         <a asp-controller="Book" asp-action="Index">کتاب ها</a>
-                        <a href="#" class="active">@Model.Name</a>
+                        <a class="active">@Model.Name</a>
                     </nav>
                 </div>
                 <!-- end breadcrumb -->
@@ -32,12 +32,9 @@
                         <div class="swiper-container gallery-slider pb-md-0 pb-3 swiper-container-initialized swiper-container-horizontal swiper-container-rtl">
                             <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
                                 <div class="swiper-slide" style="width: 415px;">
-                                    <img src="/images/Book/image/@Model.ImageName" data-large="/images/Book/image/@Model.ImageName" class="zoom-image thumbnail rounded" alt="gallery item" style="visibility: visible;">
+                                    <img src="/images/Book/image/@Model.ImageName" data-large="/images/Book/image/@Model.ImageName" class="zoom-image thumbnail rounded" alt="@Model.Name" style="visibility: visible;">
                                 </div>
                             </div>
-                            <!-- Add Pagination -->
-                            <div class="swiper-pagination d-md-none swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-bullets-dynamic" style="width: 40px;"><span class="swiper-pagination-bullet swiper-pagination-bullet-active swiper-pagination-bullet-active-main" tabindex="0" role="button" aria-label="Go to slide 1" style="right: 16px;"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active-next" tabindex="0" role="button" aria-label="Go to slide 2" style="right: 16px;"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active-next-next" tabindex="0" role="button" aria-label="Go to slide 3" style="right: 16px;"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 4" style="right: 16px;"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 5" style="right: 16px;"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 6" style="right: 16px;"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 7" style="right: 16px;"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 8" style="right: 16px;"></span></div>
-                            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
                         </div>
                         @if (User.Identity.IsAuthenticated)
                         {
@@ -275,7 +272,11 @@
                                 </select>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-success btn-block">ثبت امتیاز</button>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success px-3">ثبت امتیاز <i class="fad fa-star"></i></button>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </section>

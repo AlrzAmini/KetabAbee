@@ -142,7 +142,7 @@ namespace KetabAbee.Web.Controllers
             comment.UserIp = HttpContext.GetUserIp();
             if (_commentService.AddComment(comment))
             {
-                return View("ShowComments",_commentService.GetProductCommentWithPaging(comment.ProductId));
+                return View("ShowComments", _commentService.GetProductCommentWithPaging(comment.ProductId));
             }
             TempData["ErrorSwal"] = "کامنت شما ثبت نشد";
             return Redirect($"/BookInfo/{comment.ProductId}");
@@ -197,6 +197,55 @@ namespace KetabAbee.Web.Controllers
                 return Redirect($"/BookInfo/{bookId}");
             }
             TempData["ErrorSwal"] = "امتیاز شما ثبت نشد";
+            return Redirect($"/BookInfo/{bookId}");
+        }
+
+        #endregion
+
+        #region remove comment
+
+        [HttpGet("Book/RemoveComment/{commentId}")]
+        public IActionResult RemoveComment(int commentId, int bookId)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                if (!_commentService.IsUserSendComment(User.GetUserId(), commentId)) return Forbid();
+                if (_commentService.DeleteComment(commentId))
+                {
+                    TempData["SuccessSwal"] = "دیدگاه با موفقیت حذف شد";
+                    return Redirect($"/BookInfo/{bookId}");
+                }
+                TempData["ErrorSwal"] = "مشکلی در حذف دیدگاه رخ داد";
+                return Redirect($"/BookInfo/{bookId}");
+
+            }
+
+            if (!_commentService.IsUserSendComment(HttpContext.GetUserIp(), commentId)) return Forbid();
+            if (_commentService.DeleteComment(commentId))
+            {
+                TempData["SuccessSwal"] = "دیدگاه با موفقیت حذف شد";
+                return Redirect($"/BookInfo/{bookId}");
+            }
+            TempData["ErrorSwal"] = "مشکلی در حذف دیدگاه رخ داد";
+            return Redirect($"/BookInfo/{bookId}");
+
+        }
+
+        #endregion
+
+        #region remove answer
+
+        [Authorize]
+        [HttpGet("Book/RemoveAnswer/{answerId}")]
+        public IActionResult RemoveAnswer(int answerId, int bookId)
+        {
+            if (!_commentService.IsUserSendAnswer(User.GetUserId(), answerId)) return Forbid();
+            if (_commentService.DeleteAnswer(answerId))
+            {
+                TempData["SuccessSwal"] = "پاسخ با موفقیت حذف شد";
+                return Redirect($"/BookInfo/{bookId}");
+            }
+            TempData["ErrorSwal"] = "مشکلی در حذف دیدگاه رخ داد";
             return Redirect($"/BookInfo/{bookId}");
         }
 
