@@ -24,6 +24,9 @@ namespace KetabAbee.Domain.Models.Products
         public int Percent { get; set; }
 
         [Required]
+        public DateTime StartDate { get; set; }
+
+        [Required]
         public DateTime ExpiredDate { get; set; }
 
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]

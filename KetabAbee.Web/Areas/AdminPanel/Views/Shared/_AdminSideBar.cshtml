@@ -87,8 +87,18 @@
         <!--news letter-->
         <li>
             <a asp-area="AdminPanel" asp-controller="AdminContactUs" asp-action="Index">
-                <i class="menu-icon fa fa-hand-paper"></i>
+                <i class="menu-icon fa fa-users"></i>
                 <span class="menu-text"> مدیریت تماس با ما </span>
+            </a>
+        </li>
+    }
+    @if (_permissionService.CheckPermission(PerIds.AdminDiscounts, User.GetUserEmail()))
+    {
+        <!--news letter-->
+        <li>
+            <a asp-area="AdminPanel" asp-controller="AdminDiscount" asp-action="Index">
+                <i class="menu-icon fa fa-money"></i>
+                <span class="menu-text"> مدیریت تخفیف ها </span>
             </a>
         </li>
     }

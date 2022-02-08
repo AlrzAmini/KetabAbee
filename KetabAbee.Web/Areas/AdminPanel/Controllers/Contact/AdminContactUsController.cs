@@ -3,11 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KetabAbee.Application.Const;
 using KetabAbee.Application.DTOs.Admin.Contact;
 using KetabAbee.Application.Interfaces.Contact;
+using KetabAbee.Application.Security;
 
 namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Contact
 {
+    [PermissionChecker(PerIds.AdminContactUses)]
     public class AdminContactUsController : AdminBaseController
     {
         #region constructor
