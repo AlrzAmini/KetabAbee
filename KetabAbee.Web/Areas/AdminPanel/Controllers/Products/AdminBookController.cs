@@ -392,5 +392,16 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
         }
 
         #endregion
+
+        #region return books json
+
+        [HttpGet("Get/Products-autocomplete-Json")]
+        public IActionResult GetProductsJson(string bookName)
+        {
+            var data = _productService.GetBooksByName(bookName).ToList();
+            return new JsonResult(data);
+        }
+
+        #endregion
     }
 }

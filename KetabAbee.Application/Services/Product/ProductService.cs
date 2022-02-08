@@ -738,5 +738,10 @@ namespace KetabAbee.Application.Services.Product
                 Writer = b.Writer
             });
         }
+
+        public IEnumerable<Book> GetBooksByName(string bookName)
+        {
+            return _productRepository.GetBooksByName(bookName);
+        }
     }
 }

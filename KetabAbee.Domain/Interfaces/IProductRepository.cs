@@ -63,6 +63,8 @@ namespace KetabAbee.Domain.Interfaces
 
         IEnumerable<Book> GetUserBooks(int userId);
 
+        IEnumerable<Book> GetBooksByName(string bookName);
+
         #endregion
 
         #region Report

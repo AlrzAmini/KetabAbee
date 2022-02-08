@@ -1,0 +1,109 @@
+﻿@model KetabAbee.Application.DTOs.Discount.CreateDiscountViewModel
+@{
+    ViewData["Title"] = "افزودن تخفیف";
+}
+@section Styles
+{
+    <link rel="stylesheet" href="/lib/EasyAutocomplete/easy-autocomplete.min.css" />
+    <link rel="stylesheet" href="/lib/EasyAutocomplete/easy-autocomplete.themes.min.css" />
+    <link rel="stylesheet" href="/lib/EasyAutocomplete/maps/easy-autocomplete.min.css.map" />
+    <link rel="stylesheet" href="/lib/EasyAutocomplete/maps/easy-autocomplete.themes.min.css.map" />
+}
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+    <script src="/lib/EasyAutocomplete/jquery.easy-autocomplete.min.js"></script>
+    <script>
+        var options = {
+            url: function (phrase) {
+                return "/Admin/Books/Get/Products-autocomplete-Json?bookName=" + phrase;
+            },
+            getValue: function (element) {
+                return element.name;
+            },
+            list: {
+                match: {
+                    enabled: true
+                },
+                onSelectItemEvent: function () {
+                    var value = $("#Product--Name").getSelectedItemData().bookId;
+
+                    $("#productId").val(value).trigger("change");
+                }
+            },
+            theme: "round"
+        };
+
+        $("#Product--Name").easyAutocomplete(options);
+    </script>
+    <script type="text/javascript" src="/js/JalaliDataPicker-min.js"></script>
+    <script>
+        jalaliDatepicker.startWatch();
+    </script>
+
+}
+<!-- Page Breadcrumb -->
+<div class="page-breadcrumbs margin-bottom-20">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li>
+            <a asp-controller="AdminDiscount" asp-action="Index">تخفیف ها</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
+<!-- /Page Breadcrumb -->
+
+
+<form asp-area="AdminPanel" asp-controller="AdminDiscount" asp-action="CreateDiscount" method="post" role="form">
+    <div class="col-lg-8 col-sm-8 col-xs-12">
+        <div class="widget flat radius-bordered">
+            <div class="widget-header bg-blue">
+                <span class="widget-caption">@ViewData["Title"]</span>
+            </div>
+            <div class="widget-body">
+                <div id="registration-form">
+                    <div class="form-title">
+                        اطلاعات تخفیف
+                    </div>
+
+                    <input type="hidden" asp-for="productId" />
+                    <div class="form-group">
+                        <input type="text" id="Product--Name">
+                    </div>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input type="number" class="form-control" asp-for="Percent" placeholder="درصد تخفیف">
+                        </span>
+                        <span asp-validation-for="Percent" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input type="number" class="form-control" asp-for="DiscountNumber" placeholder="تعداد">
+                        </span>
+                        <span asp-validation-for="DiscountNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input data-jdp type="text" class="form-control" asp-for="ExpiredDate" placeholder="تاریخ انقضا">
+                        </span>
+                        <span asp-validation-for="DiscountNumber" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <button type="submit" class="btn btn-success btn-lg btn-block">ثبت تخفیف</button>
+    </div>
+</form>
+
+
+
+
+
+
+

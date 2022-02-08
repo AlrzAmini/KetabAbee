@@ -255,10 +255,15 @@ namespace KetabAbee.Data.Repository
 
         public IEnumerable<Book> GetUserBooks(int userId)
         {
-            return _context.UserBooks.Include(u=>u.Book)
+            return _context.UserBooks.Include(u => u.Book)
                 .Where(u => u.UserId == userId)
                 .Select(s => s.Book)
                 .Distinct();
+        }
+
+        public IEnumerable<Book> GetBooksByName(string bookName)
+        {
+            return _context.Books.Where(b => EF.Functions.Like(b.Name,$"%{bookName}%"));
         }
     }
 }

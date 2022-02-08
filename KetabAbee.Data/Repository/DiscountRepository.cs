@@ -19,9 +19,23 @@ namespace KetabAbee.Data.Repository
             _context = context;
         }
 
+        public bool AddDiscount(ProductDiscount discount)
+        {
+            try
+            {
+                _context.ProductDiscounts.Add(discount);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public IEnumerable<ProductDiscount> GetDiscounts()
         {
-            return _context.ProductDiscounts.Include(d=>d.Product);
+            return _context.ProductDiscounts.Include(d => d.Product);
         }
     }
 }

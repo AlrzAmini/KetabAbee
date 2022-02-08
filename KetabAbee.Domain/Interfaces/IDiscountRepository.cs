@@ -10,5 +10,7 @@ namespace KetabAbee.Domain.Interfaces
     public interface IDiscountRepository
     {
         IEnumerable<ProductDiscount> GetDiscounts();
+
+        bool AddDiscount(ProductDiscount discount);
     }
 }

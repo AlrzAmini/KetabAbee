@@ -93,6 +93,8 @@ namespace KetabAbee.Application.Interfaces.Product
 
         IEnumerable<BookListViewModel> GetUserBooksForShowInUserPanel(int userId);
 
+        IEnumerable<Book> GetBooksByName(string bookName);
+
         #endregion
 
         #region Publisher
