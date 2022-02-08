@@ -35,7 +35,7 @@ namespace KetabAbee.Data.Repository
 
         public IEnumerable<ProductDiscount> GetDiscounts()
         {
-            return _context.ProductDiscounts.Include(d => d.Product);
+            return _context.ProductDiscounts.Include(d => d.Product).OrderByDescending(d=>d.DiscountId);
         }
     }
 }

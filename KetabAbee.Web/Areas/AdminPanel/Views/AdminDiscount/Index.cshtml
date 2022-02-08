@@ -18,6 +18,9 @@
 <div class="col-12 col-md-12 row margin-bottom-10">
     <a asp-area="AdminPanel" asp-controller="AdminDiscount" asp-action="CreateDiscount" class="btn btn-success col-md-4 margin-10">افزودن تخفیف جدید <i class="glyphicon glyphicon-plus"></i> </a>
 </div>
+<form id="filterform" asp-controller="AdminDiscount" asp-action="Index">
+    <input type="hidden" asp-for="PageNum"/>
+</form>
 <div class="col-xs-12 col-md-12">
     <div class="well with-header with-footer">
         <div class="header bordered-pink">
@@ -25,61 +28,63 @@
         </div>
         <table class="table table-striped table-bordered table-hover">
             <thead>
-                <tr>
-                    <th>
-                        شماره
-                    </th>
-                    <th>
-                        درصد
-                    </th>
-                    <th>
-                        تعداد
-                    </th>
-                    <th>
-                        تاریخ شروع
-                    </th>
-                    <th>
-                        تاریخ انقضا
-                    </th>
-                    <th>
-                        دستورات
-                    </th>
-                </tr>
+            <tr>
+                <th>
+                    شماره
+                </th>
+                <th>
+                    درصد
+                </th>
+                <th>
+                    تعداد
+                </th>
+                <th>
+                    تاریخ شروع
+                </th>
+                <th>
+                    تاریخ انقضا
+                </th>
+                <th>
+                    دستورات
+                </th>
+            </tr>
             </thead>
             <tbody>
-                @if (Model.ProductDiscounts != null && Model.ProductDiscounts.Any())
-                {
-                    foreach (var discount in Model.ProductDiscounts)
-                    {
-                        <tr>
-                            <td>
-                                @discount.DiscountId
-                            </td>
-                            <td>
-                                <p> @discount.Percent <span>٪</span></p>
-                            </td>
-                            <td>
-                                @discount.DiscountNumber
-                            </td>
-                            <td>
-                                @discount.StartDate.ToShamsi()
-                            </td>
-                            <td>
-                                @discount.ExpiredDate.ToShamsi()
-                            </td>
-                            <td>
-                                <a class="btn btn-success" asp-controller="AdminNews" asp-action="SendToAll" asp-route-newsId="1">ارسال به همه</a>
-                            </td>
-                        </tr>
-                    }
-                }
-                else
+            @if (Model.ProductDiscounts != null && Model.ProductDiscounts.Any())
+            {
+                foreach (var discount in Model.ProductDiscounts)
                 {
                     <tr>
-                        <td colspan="6" class="alert alert-info">هنوز تخفیفی ثبت نشده است</td>
+                        <td>
+                            @discount.DiscountId
+                        </td>
+                        <td>
+                            <p> @discount.Percent <span>٪</span></p>
+                        </td>
+                        <td>
+                            @discount.DiscountNumber
+                        </td>
+                        <td>
+                            @discount.StartDate.ToShamsi()
+                        </td>
+                        <td>
+                            @discount.ExpiredDate.ToShamsi()
+                        </td>
+                        <td>
+                            <a class="btn btn-success" asp-controller="AdminNews" asp-action="SendToAll" asp-route-newsId="1">ویرایش</a>
+                            <a class="btn btn-success" asp-controller="AdminNews" asp-action="SendToAll" asp-route-newsId="1">حذف</a>
+                        </td>
                     </tr>
                 }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" class="alert alert-info">هنوز تخفیفی ثبت نشده است</td>
+                </tr>
+            }
             </tbody>
         </table>
     </div>
+    <partial name="_AdminPaging" model="@Model.GetCurrentPaging()"/>
 </div>

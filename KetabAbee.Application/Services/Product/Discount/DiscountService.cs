@@ -33,12 +33,12 @@ namespace KetabAbee.Application.Services.Product.Discount
                 if (product == null)
                     return CreateDiscountResult.NotFound;
 
-                var newDiscount = new ProductDiscount()
+                var newDiscount = new ProductDiscount
                 {
                     ProductId = discount.productId,
                     DiscountNumber = discount.DiscountNumber,
                     Percent = discount.Percent,
-                    ExpiredDate = discount.ExpiredDate.StringShamsiToMiladi(),
+                    ExpiredDate = discount.ExpiredDate.ToMiladiDateTime(),
                     StartDate = DateTime.Now
                 };
 
