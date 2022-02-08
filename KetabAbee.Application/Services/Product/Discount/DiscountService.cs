@@ -65,5 +65,20 @@ namespace KetabAbee.Application.Services.Product.Discount
 
             return filter.SetPaging(pager).SetDiscounts(discounts);
         }
+
+        public ProductDiscount GetDiscountById(int discountId)
+        {
+            return _discountRepository.GetDiscountById(discountId);
+        }
+
+        public bool RemoveDiscount(int discountId)
+        {
+            return _discountRepository.RemoveDiscount(GetDiscountById(discountId));
+        }
+
+        public bool UpdateDiscount(int discountId)
+        {
+            return _discountRepository.UpdateDiscount(GetDiscountById(discountId));
+        }
     }
 }

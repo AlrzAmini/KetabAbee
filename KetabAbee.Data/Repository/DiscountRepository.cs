@@ -33,9 +33,43 @@ namespace KetabAbee.Data.Repository
             }
         }
 
+        public ProductDiscount GetDiscountById(int discountId)
+        {
+            return _context.ProductDiscounts.Find(discountId);
+        }
+
         public IEnumerable<ProductDiscount> GetDiscounts()
         {
-            return _context.ProductDiscounts.Include(d => d.Product).OrderByDescending(d=>d.DiscountId);
+            return _context.ProductDiscounts
+                .Include(d => d.Product)
+                .OrderByDescending(d=>d.DiscountId);
+        }
+
+        public bool RemoveDiscount(ProductDiscount discount)
+        {
+            try
+            {
+                discount.IsDelete = true;
+                return UpdateDiscount(discount);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool UpdateDiscount(ProductDiscount discount)
+        {
+            try
+            {
+                _context.ProductDiscounts.Update(discount);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

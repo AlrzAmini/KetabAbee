@@ -12,5 +12,11 @@ namespace KetabAbee.Domain.Interfaces
         IEnumerable<ProductDiscount> GetDiscounts();
 
         bool AddDiscount(ProductDiscount discount);
+
+        ProductDiscount GetDiscountById(int discountId);
+
+        bool UpdateDiscount(ProductDiscount discount);
+
+        bool RemoveDiscount(ProductDiscount discount);
     }
 }

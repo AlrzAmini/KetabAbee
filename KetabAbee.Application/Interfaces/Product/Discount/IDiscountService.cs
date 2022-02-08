@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs;
 using KetabAbee.Application.DTOs.Discount;
+using KetabAbee.Domain.Models.Products;
 
 namespace KetabAbee.Application.Interfaces.Product.Discount
 {
@@ -13,5 +14,11 @@ namespace KetabAbee.Application.Interfaces.Product.Discount
         FilterDiscountViewModel FilterDiscount(FilterDiscountViewModel filter);
 
         CreateDiscountResult Create(CreateDiscountViewModel discount);
+
+        ProductDiscount GetDiscountById(int discountId);
+
+        bool UpdateDiscount(int discountId);
+
+        bool RemoveDiscount(int discountId);
     }
 }

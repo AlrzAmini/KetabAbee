@@ -32,6 +32,8 @@ namespace KetabAbee.Domain.Models.Products
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
         public int DiscountNumber { get; set; }
 
+        public bool IsDelete { get; set; }
+
         #endregion
 
         #region relations

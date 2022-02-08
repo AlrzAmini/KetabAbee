@@ -73,6 +73,20 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Discount
 
         #endregion
 
-        
+        #region remove discount
+
+        [HttpGet("Remove/{discountId}")]
+        public IActionResult RemoveDiscount(int discountId)
+        {
+            if (_discountService.RemoveDiscount(discountId))
+            {
+                TempData["SuccessMessage"] = "تخفیف با موفقیت حذف شد";
+                return RedirectToAction("Index");
+            }
+            TempData["ErrorMessage"] = "تخفیف حذف نشد";
+            return RedirectToAction("Index");
+        }
+
+        #endregion
     }
 }

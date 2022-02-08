@@ -141,6 +141,9 @@ namespace KetabAbee.Data.Context
             modelBuilder.Entity<ProductCommentAnswer>()
                 .HasQueryFilter(e => !e.IsDelete);
 
+            modelBuilder.Entity<ProductDiscount>()
+                .HasQueryFilter(e => !e.IsDelete);
+
             #endregion
 
             base.OnModelCreating(modelBuilder);
