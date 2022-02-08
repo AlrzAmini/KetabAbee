@@ -80,7 +80,7 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         {
             var ticketWithAnswers = _ticketService.GetTicketForShowTicketInAdmin(id);
 
-            if (ticketWithAnswers == null)
+            if (ticketWithAnswers == null || ticketWithAnswers.Ticket.SenderId != User.GetUserId())
             {
                 return NotFound();
             }
@@ -89,6 +89,8 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         }
 
         #endregion
+
+        #region is read
 
         [HttpGet("Ticket/IsReadBySender/{id}")]
         public IActionResult TicketIsReadBySender(int id) //id = ticketId
@@ -101,7 +103,9 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
             TempData["ErrorMessage"] = "عملیات با شکست مواجه شد";
             return RedirectToAction("Index");
         }
-        
+
+
+        #endregion
 
         #region Answer Ticket
 
