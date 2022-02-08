@@ -61,6 +61,10 @@ namespace KetabAbee.Data.Context
 
         public DbSet<BookScore> BookScores { get; set; }
 
+        public DbSet<ProductDiscount> ProductDiscounts { get; set; }
+
+        public DbSet<ProductDiscountUsage> ProductDiscountUsages { get; set; }
+
         #endregion
 
         #region Order

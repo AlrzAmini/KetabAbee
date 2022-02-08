@@ -97,6 +97,8 @@ namespace KetabAbee.Domain.Models.Products
 
         public ICollection<ProductComment> ProductComments { get; set; }
 
+        public ICollection<ProductDiscount> ProductDiscounts { get; set; }
+
 
         #endregion
     }

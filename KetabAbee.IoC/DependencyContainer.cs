@@ -11,6 +11,7 @@ using KetabAbee.Application.Interfaces.Contact;
 using KetabAbee.Application.Interfaces.Order;
 using KetabAbee.Application.Interfaces.Permission;
 using KetabAbee.Application.Interfaces.Product;
+using KetabAbee.Application.Interfaces.Product.Discount;
 using KetabAbee.Application.Interfaces.Ticket;
 using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Interfaces.Wallet;
@@ -19,6 +20,7 @@ using KetabAbee.Application.Services.Contact;
 using KetabAbee.Application.Services.Order;
 using KetabAbee.Application.Services.Permission;
 using KetabAbee.Application.Services.Product;
+using KetabAbee.Application.Services.Product.Discount;
 using KetabAbee.Application.Services.Ticket;
 using KetabAbee.Application.Services.User;
 using KetabAbee.Application.Services.Wallet;
@@ -42,6 +44,7 @@ namespace KetabAbee.IoC
             service.AddScoped<IOrderService, OrderService>();
             service.AddScoped<IContactService, ContactService>();
             service.AddScoped<ICommentService, CommentService>();
+            service.AddScoped<IDiscountService, DiscountService>();
 
             //Cums From Data Layer
             service.AddScoped<IUserRepository, UserRepository>();
@@ -50,8 +53,9 @@ namespace KetabAbee.IoC
             service.AddScoped<IPermissionRepository, PermissionRepository>();
             service.AddScoped<IProductRepository, ProductRepository>();
             service.AddScoped<IOrderRepository, OrderRepository>();
-            service.AddScoped<IContactRepository,  ContactRepository>();
-            service.AddScoped<ICommentRepository,  CommentRepository>();
+            service.AddScoped<IContactRepository, ContactRepository>();
+            service.AddScoped<ICommentRepository, CommentRepository>();
+            service.AddScoped<IDiscountRepository, DiscountRepository>();
 
 
             #region html encode
