@@ -6,6 +6,7 @@ using System.Linq;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs;
 using KetabAbee.Application.Extensions;
+using KetabAbee.Application.Interfaces.Comment;
 using KetabAbee.Application.Interfaces.Order;
 using KetabAbee.Application.Interfaces.Product;
 using KetabAbee.Application.Interfaces.Ticket;
@@ -21,14 +22,14 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         private readonly IUserService _userService;
         private readonly IProductService _productService;
         private readonly IOrderService _orderService;
-        private readonly ITicketService _ticketService;
+        private readonly ICommentService _commentService;
 
-        public UserPanelController(IUserService userService, IProductService productService, IOrderService orderService, ITicketService ticketService)
+        public UserPanelController(IUserService userService, IProductService productService, IOrderService orderService, ICommentService commentService)
         {
             _userService = userService;
             _productService = productService;
             _orderService = orderService;
-            _ticketService = ticketService;
+            _commentService = commentService;
         }
 
         #endregion
@@ -143,6 +144,16 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         public IActionResult UserBooks()
         {
             return View(_productService.GetUserBooksForShowInUserPanel(User.GetUserId()).ToList());
+        }
+
+        #endregion
+
+        #region user comment
+
+        [HttpGet("UserPanel/Comments")]
+        public IActionResult UserComments()
+        {
+            return View(_commentService.GetUserCommentsInUserPanel(User.GetUserId()).ToList());
         }
 
         #endregion

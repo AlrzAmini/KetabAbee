@@ -24,6 +24,11 @@ namespace KetabAbee.Data.Repository
             return _context.ProductComments.Any(c => c.UserIp == userIp && c.CommentId == commentId);
         }
 
+        public IEnumerable<ProductComment> GetUserComments(int userId)
+        {
+            return _context.ProductComments.Where(c => c.UserId == userId);
+        }
+
         public bool AddAnswer(ProductCommentAnswer answer)
         {
             try

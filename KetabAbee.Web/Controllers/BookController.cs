@@ -205,7 +205,7 @@ namespace KetabAbee.Web.Controllers
         #region remove comment
 
         [HttpGet("Book/RemoveComment/{commentId}")]
-        public IActionResult RemoveComment(int commentId, int bookId)
+        public IActionResult RemoveComment(int commentId, int? bookId)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -213,11 +213,10 @@ namespace KetabAbee.Web.Controllers
                 if (_commentService.DeleteComment(commentId))
                 {
                     TempData["SuccessSwal"] = "دیدگاه با موفقیت حذف شد";
-                    return Redirect($"/BookInfo/{bookId}");
+                    return Redirect(bookId == null ? "/UserPanel/Comments" : $"/BookInfo/{bookId}");
                 }
                 TempData["ErrorSwal"] = "مشکلی در حذف دیدگاه رخ داد";
-                return Redirect($"/BookInfo/{bookId}");
-
+                return Redirect(bookId == null ? "/UserPanel/Comments" : $"/BookInfo/{bookId}");
             }
 
             if (!_commentService.IsUserSendComment(HttpContext.GetUserIp(), commentId)) return Forbid();

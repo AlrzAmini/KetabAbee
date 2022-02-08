@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Application.DTOs.Comment;
 using KetabAbee.Domain.Models.Comment.ProductComment;
 
 namespace KetabAbee.Application.Interfaces.Comment
@@ -31,6 +32,8 @@ namespace KetabAbee.Application.Interfaces.Comment
 
         bool IsUserSendAnswer(int userId, int answerId);
 
+        IEnumerable<ShowCommentInUserPanel> GetUserCommentsInUserPanel(int userId);
+
         #endregion
 
         #region answer
@@ -42,6 +45,7 @@ namespace KetabAbee.Application.Interfaces.Comment
         bool UpdateAnswer(ProductCommentAnswer answer);
 
         ProductCommentAnswer GetAnswerById(int answerId);
+
 
         #endregion
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.Const;
+using KetabAbee.Application.DTOs.Comment;
 using KetabAbee.Application.Interfaces.Comment;
 using KetabAbee.Domain.Interfaces;
 using KetabAbee.Domain.Models.Comment.ProductComment;
@@ -97,6 +98,17 @@ namespace KetabAbee.Application.Services.Comment
         public ProductCommentAnswer GetAnswerById(int answerId)
         {
             return _commentRepository.GetAnswerById(answerId);
+        }
+
+        public IEnumerable<ShowCommentInUserPanel> GetUserCommentsInUserPanel(int userId)
+        {
+            return _commentRepository.GetUserComments(userId).Select(c => new ShowCommentInUserPanel
+            {
+                Body = c.Body,
+                Id = c.CommentId,
+                SendDate = c.SendDate,
+                UserName = c.UserName
+            });
         }
     }
 }

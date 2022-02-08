@@ -29,6 +29,8 @@ namespace KetabAbee.Domain.Interfaces
 
         bool IsUserSendAnswer(int userId, int answerId);
 
+        IEnumerable<ProductComment> GetUserComments(int userId);
+
 
         #endregion
 
