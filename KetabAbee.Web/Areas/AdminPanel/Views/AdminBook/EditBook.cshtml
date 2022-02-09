@@ -107,6 +107,14 @@
                         <span asp-validation-for="AgeRange" class="text-danger"></span>
                     </div>
                     <div class="form-group">
+                        <label>توضیحات صفحه</label>
+                        <span class="input-icon icon-right">
+                            <textarea class="form-control" asp-for="PageDescription" placeholder="توضیحات صفحه ای برای این کتاب ...">@Html.Raw(Model.PageDescription)</textarea>
+                            <i class="fa fa-newspaper circular"></i>
+                        </span>
+                        <span asp-validation-for="PageDescription" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
                         <label>خلاصه کتاب</label>
                         <span class="input-icon icon-right">
                             <textarea class="form-control" asp-for="Abstract" placeholder="خلاصه ای برای این کتاب ...">@Html.Raw(Model.Abstract)</textarea>

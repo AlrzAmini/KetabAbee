@@ -282,8 +282,9 @@ namespace KetabAbee.Data.Repository
 
         public IEnumerable<Book> GetBestSellingBooks()
         {
-            return _context.Books.Include(b=>b.Publisher)
+            return _context.Books.Include(b => b.Publisher)
                 .Include(b => b.OrderDetails)
+                .Where(b => b.OrderDetails.Any() && b.OrderDetails.Count > 3)
                 .OrderByDescending(d => d.OrderDetails.Count)
                 .Take(12);
         }

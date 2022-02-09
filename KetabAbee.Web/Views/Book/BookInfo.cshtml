@@ -10,6 +10,23 @@
     var bookScoresCount = _productService.AllBookSentScoresCount(Model.BookId);
     var userBoughtCourse = User.Identity.IsAuthenticated && _productService.IsUserBoughtBook(userId, Model.BookId);
 }
+
+@section MetaTag
+{
+    <meta name="googlebot" content="index,follow" />
+    <meta name="robots" content="noodp,noydir" />
+    <meta name="description" content="@Model.PageDescription" />
+    <meta property=og:site_name value="کتابفروشی کتاب آبی">
+    <meta property=og:title content="@Model.Name">
+    <meta property=og:url content="https://haamechitamoom.ir/BookInfo/@Model.BookId" />
+    <meta property=og:image content="/images/Book/image/@Model.ImageName">
+    <meta property=og:image:url content="/images/Book/image/@Model.ImageName" />
+    <meta property=og:image:width content="700">
+    <meta property=og:image:type content="image/jpg">
+    <meta property=og:description content="">
+    <meta property=og:price:currency content="IRR">
+    <meta property=og:locale content="ir_FA">
+}
 <main class="page-content" style="margin-top: 205.5px;">
     <div class="container">
         <div class="row mb-1">
@@ -558,6 +575,6 @@
                 confirmButtonText: 'باشه'
             });
         }
-        
+
     </script>
 }

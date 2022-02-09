@@ -39,6 +39,10 @@ namespace KetabAbee.Domain.Models.Products
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
         public CoverType CoverType { get; set; }
 
+        [MinLength(200, ErrorMessage = "{0} نمیتواند کمتر از {1} کاراکتر داشته باشد")]
+        [MaxLength(300,ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
+        public string PageDescription { get; set; }
+
 
         #region Props
 
