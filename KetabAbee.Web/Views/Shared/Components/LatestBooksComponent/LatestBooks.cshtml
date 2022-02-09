@@ -1,7 +1,14 @@
 ﻿@model List<KetabAbee.Application.DTOs.Book.BookListViewModel>
 <div class="swiper-wrapper">
-    @foreach (var book in Model)
+    @if (Model != null && Model.Any())
     {
-        <partial name="_BookBox" model="book" />
+        @foreach (var book in Model)
+        {
+            <partial name="_BookBox" model="book" />
+        }
+    }
+    else
+    {
+        <div class="alert alert-info">کالایی برای نمایش وجود ندارد</div>
     }
 </div>
