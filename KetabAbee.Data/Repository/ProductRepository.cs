@@ -87,7 +87,8 @@ namespace KetabAbee.Data.Repository
 
         public Book GetBookById(int bookId)
         {
-            return _context.Books.Find(bookId);
+            return _context.Books.Include(b => b.ProductDiscounts)
+                .FirstOrDefault(b => b.BookId == bookId);
         }
 
         public IEnumerable<Book> GetLatestBook(int take)
@@ -228,7 +229,20 @@ namespace KetabAbee.Data.Repository
 
         public float GetBookAverageScore(int bookId)
         {
-            return (float)Math.Round(SumBookAverageScores(bookId) / AllBookSentScoresCount(bookId), 2);
+            try
+            {
+                var bookScoresCount = AllBookSentScoresCount(bookId);
+                if (bookScoresCount != 0)
+                {
+                    return (float)Math.Round(SumBookAverageScores(bookId) / AllBookSentScoresCount(bookId), 2);
+                }
+
+                return 0;
+            }
+            catch
+            {
+                return 0;
+            }
         }
 
         public int SumBookQualityScores(int bookId)
@@ -263,7 +277,15 @@ namespace KetabAbee.Data.Repository
 
         public IEnumerable<Book> GetBooksByName(string bookName)
         {
-            return _context.Books.Where(b => EF.Functions.Like(b.Name,$"%{bookName}%"));
+            return _context.Books.Where(b => EF.Functions.Like(b.Name, $"%{bookName}%"));
+        }
+
+        public IEnumerable<Book> GetBestSellingBooks()
+        {
+            return _context.Books.Include(b=>b.Publisher)
+                .Include(b => b.OrderDetails)
+                .OrderByDescending(d => d.OrderDetails.Count)
+                .Take(12);
         }
     }
 }

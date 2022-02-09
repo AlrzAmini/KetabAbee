@@ -12,8 +12,6 @@
     var moreThanWallet = Model.OrderSum - userBalanceWallet;
 
     var userAddress = ViewBag.userAddress;
-
-    //todo : check user address in controller if have address orderaddress==useraddress
 }
 <main class="page-content" style="margin-top: 205.5px;">
     <div class="container">
@@ -104,13 +102,6 @@
                             <span class="text-sm">تومان</span>
                         </span>
                     </div>
-                    <div class="d-flex justify-content-between px-3 py-2">
-                        <span class="text-muted">تخفیف کالاها</span>
-                        <span class="text-danger">
-                            (۲٪) ۵۱۰,۰۰۰
-                            <span class="text-sm">تومان</span>
-                        </span>
-                    </div>
                     <hr>
                     <div class="d-flex justify-content-between px-3 py-2">
                         <span class="font-weight-bold">جمع</span>
@@ -121,8 +112,8 @@
                     </div>
                     <hr>
                     <div class="d-flex justify-content-between px-3 py-2">
-                        <span class="font-weight-bold">مبلغ قابل پرداخت</span>
-                        <span class="font-weight-bold">
+                        <span class="font-weight-bold text-success">مبلغ قابل پرداخت</span>
+                        <span class="font-weight-bold text-success">
                             @Model.OrderSum.ToString("#,0")
                             <span class="text-sm">تومان</span>
                         </span>

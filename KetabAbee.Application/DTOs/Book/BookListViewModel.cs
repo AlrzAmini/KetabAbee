@@ -21,5 +21,7 @@ namespace KetabAbee.Application.DTOs.Book
         public int BookId { get; set; }
 
         public int? BookInventory { get; set; }
+
+        public int BookRate { get; set; }
     }
 }

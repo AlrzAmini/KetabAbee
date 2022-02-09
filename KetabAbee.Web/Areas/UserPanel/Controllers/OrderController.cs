@@ -67,7 +67,6 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
             {
                 return NotFound();
             }
-
             var userAddress = _userService.GetUserAddressByUserId(User.GetUserId());
             ViewBag.userAddress = userAddress;
 

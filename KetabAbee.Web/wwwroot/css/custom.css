@@ -21,3 +21,9 @@
     bottom: 0;
     position: absolute;
 }
+.line-throught {
+    text-decoration: line-through;
+}
+.w-(element) {
+        width: element;
+}

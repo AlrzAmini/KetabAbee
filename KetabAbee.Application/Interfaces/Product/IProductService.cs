@@ -37,6 +37,8 @@ namespace KetabAbee.Application.Interfaces.Product
 
         List<SelectListItem> GetSubGroupsForAddBook(int groupId);
 
+        IEnumerable<BookListViewModel> GetBestSellingBooks();
+
         bool AddBook(Book book, IFormFile imgFile);
 
         IEnumerable<Book> GetBooksForAdmin();

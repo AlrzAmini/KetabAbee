@@ -473,7 +473,8 @@ namespace KetabAbee.Application.Services.Product
                 Price = b.Price,
                 PublisherName = b.Publisher.PublisherName,
                 Writer = b.Writer,
-                BookInventory = b.Inventory
+                BookInventory = b.Inventory,
+                BookRate = (int)(_productRepository.GetBookAverageScore(b.BookId) * 20)
             }).Paging(pager).ToList();
 
 
@@ -491,7 +492,8 @@ namespace KetabAbee.Application.Services.Product
                     Name = b.Name,
                     Price = b.Price,
                     Writer = b.Writer,
-                    BookInventory = b.Inventory
+                    BookInventory = b.Inventory,
+                    BookRate = (int)(_productRepository.GetBookAverageScore(b.BookId) * 20)
                 });
 
         }
@@ -517,7 +519,8 @@ namespace KetabAbee.Application.Services.Product
                 Name = b.Name,
                 Price = b.Price,
                 Writer = b.Writer,
-                BookInventory = b.Inventory
+                BookInventory = b.Inventory,
+                BookRate = (int)(_productRepository.GetBookAverageScore(b.BookId) * 20)
             });
         }
 
@@ -618,7 +621,8 @@ namespace KetabAbee.Application.Services.Product
                 Name = r.Name,
                 Price = r.Price,
                 Writer = r.Writer,
-                BookInventory = r.Inventory
+                BookInventory = r.Inventory,
+                BookRate = (int)(_productRepository.GetBookAverageScore(r.BookId) * 20)
             }).Take(10);
         }
 
@@ -742,6 +746,22 @@ namespace KetabAbee.Application.Services.Product
         public IEnumerable<Book> GetBooksByName(string bookName)
         {
             return _productRepository.GetBooksByName(bookName);
+        }
+
+        public IEnumerable<BookListViewModel> GetBestSellingBooks()
+        {
+            return _productRepository.GetBestSellingBooks()
+                .Select(b => new BookListViewModel
+                {
+                    BookId = b.BookId,
+                    BookInventory = b.Inventory,
+                    ImageName = b.ImageName,
+                    Name = b.Name,
+                    PublisherName = b.Publisher.PublisherName,
+                    Price = b.Price,
+                    Writer = b.Writer,
+                    BookRate = (int)(_productRepository.GetBookAverageScore(b.BookId) * 20)
+                });
         }
     }
 }

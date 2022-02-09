@@ -2,88 +2,19 @@
     <ul>
         @await Component.InvokeAsync("ProductGroupComponent")
         <li>
-            <a href="#"><i class="fal fa-apple-crate text-warning"></i>سوپرمارکت</a>
-        </li>
-        <li class="mega-menu mega-menu-3-columns">
-            <a href="#"><i class="fal fa-badge-percent text-danger"></i>تخفیف ها و پیشنهادها</a>
-            <ul class="row">
-                <li class="col-7">
-                    <a href="#">مشاهده همه تخفیف ها و پیشنهادها <i class="fad fa-chevron-left"></i></a>
-                    <ul class="row">
-                        <li class="col-6">
-                            <ul>
-                                <li>
-                                    <a href="#">
-                                        کالاهای شگفت انگیز <i class="fad fa-chevron-left"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        شگفت انگیز سوپرمارکتی <i class="fad fa-chevron-left"></i>
-                                    </a>
-                                </li>
-                                <li><a href="#">فروش ویژه <i class="fad fa-chevron-left"></i></a></li>
-                                <li><a href="#">کالای دیجیتال</a></li>
-                                <li><a href="#">مد و پوشاک</a></li>
-                                <li><a href="#">زیبایی و سلامت</a></li>
-                                <li><a href="#">خانه و آشپزخانه</a></li>
-                                <li><a href="#">ورزش و سفر</a></li>
-                                <li><a href="#">خوردنی و آشامیدنی</a></li>
-                            </ul>
-                        </li>
-                        <li class="col-6">
-                            <ul>
-                                <li>
-                                    <a href="#" class="text-sm text-muted">
-                                        <i class="fad fa-chart-line"></i>
-                                        پرفروش ترین کالاها
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="text-sm text-muted">
-                                        <i class="fad fa-gift"></i>
-                                        با هر
-                                        خرید هدیه بگیرید!
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="text-sm text-muted">
-                                        <i class="fad fa-badge-percent"></i>
-                                        تخفیف پایان فصل
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="text-sm text-muted">
-                                        <i class="fad fa-gift-card"></i> کارت
-                                        هدیه خرید از همتا
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="text-sm text-muted">
-                                        <i class="fad fa-box-alt"></i> تازه
-                                        های فروشنده های جدید
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li class="col-5">
-                    <a href="#">
-                        <img src="images/mega-menu/amazing-offer.jpg" class="rounded"
-                             alt="amazing-offer">
-                    </a>
-                </li>
-            </ul>
+            <a href="/"><i class="fal fa-home text-warning"></i>خانه</a>
         </li>
         <li>
-            <a href="#"><i class="fal fa-shield-check text-success"></i>همتای من</a>
+            <a href="/"><i class="fal fa-blog text-primary"></i>مجله آبی</a>
         </li>
         <li>
-            <a asp-controller="Home" asp-action="AboutUs"><i class="fal fa-file text-primary"></i>درباره ما</a>
+            <a href="#"><i class="fal fa-store text-info"></i>درخواست شعبه</a>
         </li>
         <li>
             <a asp-controller="Home" asp-action="ContactUs"><i class="fal fa-send-back text-primary"></i>ارتباط با ما</a>
+        </li>
+        <li>
+            <a asp-controller="Home" asp-action="AboutUs"><i class="fal fa-file text-primary"></i>درباره ما</a>
         </li>
         <li>
             <a href="#"><i></i>سوال دارید؟</a>

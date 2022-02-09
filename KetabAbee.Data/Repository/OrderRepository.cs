@@ -93,6 +93,9 @@ namespace KetabAbee.Data.Repository
                 .Include(o => o.OrderDetails)
                 .ThenInclude(d => d.Product)
                 .ThenInclude(b => b.Publisher)
+                .Include(o=>o.OrderDetails)
+                .ThenInclude(o=>o.Product)
+                .ThenInclude(b=>b.ProductDiscounts)
                 .Include(o => o.User)
                 .FirstOrDefault(o => o.UserId == userId && o.OrderId == orderId);
         }

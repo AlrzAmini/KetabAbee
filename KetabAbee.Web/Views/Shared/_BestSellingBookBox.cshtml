@@ -1,10 +1,10 @@
 ﻿@using KetabAbee.Application.Convertors
 @model KetabAbee.Application.DTOs.Book.BookListViewModel
-<div class="swiper-slide">
-    <div class="product-card">
+<div class="col-md-4 col-12">
+    <div class="product-card product-card-horizontal">
         <div class="product-card-top">
             <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@Model.BookId" class="product-image">
-                <img src="/images/Book/thumb/@Model.ImageName" alt="product image">
+                <img src="/images/Book/thumb/@Model.ImageName" alt="@Model.Name">
             </a>
         </div>
         <div class="product-card-middle">
@@ -50,3 +50,9 @@
         </div>
     </div>
 </div>
+@section Scripts
+{
+    <script>
+        document.getElementById().width = 100;
+    </script>
+}

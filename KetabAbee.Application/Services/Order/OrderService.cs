@@ -30,6 +30,7 @@ namespace KetabAbee.Application.Services.Order
 
         public int AddOrder(int userId, int productId)
         {
+            // include discount toye product va gereftanesh toye sabt detail
             var order = _orderRepository.GetOrders().FirstOrDefault(o => o.UserId == userId && !o.IsFinally);
             var product = _productService.GetBookById(productId);
             var productInventory = product.Inventory;
@@ -66,20 +67,8 @@ namespace KetabAbee.Application.Services.Order
                     if (detail != null)
                     {
                         detail.Count += 1;
-                        //Check Inventory is enough for shopping
-                        //if (detail.Count <= productInventory)
-                        //{
-                        //    UpdateDetail(detail);
-                        //    product.Inventory -= 1;
-                        //    _productService.UpdateBook(product);
-                        //}
-                        //else
-                        //{
-                        //    return -1;
-                        //}
                         UpdateDetail(detail);
                         _orderRepository.SaveChanges();
-
                     }
                     else
                     {

@@ -29,6 +29,8 @@ namespace KetabAbee.Domain.Interfaces
 
         IEnumerable<Book> GetBooksForAdmin();
 
+        IEnumerable<Book> GetBestSellingBooks();
+
         bool AddBook(Book book);
 
         bool UpdateBook(Book book);
