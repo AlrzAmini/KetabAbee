@@ -16,6 +16,7 @@ using KetabAbee.Domain.Interfaces;
 using KetabAbee.Domain.Models.Products;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace KetabAbee.Application.Services.Product
 {
@@ -390,7 +391,7 @@ namespace KetabAbee.Application.Services.Product
 
             if (!string.IsNullOrEmpty(filter.Search))
             {
-                result = result.Where(r => r.Name.Contains(filter.Search));
+                result = result.Where(r => EF.Functions.Like(r.Name, $"%{filter.Search}%"));
             }
 
             #endregion
@@ -400,7 +401,7 @@ namespace KetabAbee.Application.Services.Product
 
             if (!string.IsNullOrEmpty(filter.PublisherName))
             {
-                result = result.Where(r => r.Publisher.PublisherName.Contains(filter.PublisherName));
+                result = result.Where(r => EF.Functions.Like(r.Publisher.PublisherName, $"%{filter.PublisherName}%"));
             }
 
             #endregion
@@ -410,7 +411,7 @@ namespace KetabAbee.Application.Services.Product
 
             if (!string.IsNullOrEmpty(filter.Writer))
             {
-                result = result.Where(r => r.Writer.Contains(filter.Writer));
+                result = result.Where(r => EF.Functions.Like(r.Writer, $"%{filter.Writer}%"));
             }
 
             #endregion
@@ -461,8 +462,9 @@ namespace KetabAbee.Application.Services.Product
 
             #endregion
 
-
             //paging
+            #region paging
+
             filter.Take = 16;
             var pager = Pager.Build(filter.PageNum, result.Count(), filter.Take, filter.PageCountAfterAndBefor);
             var books = result.Select(b => new BookListViewModel
@@ -476,6 +478,8 @@ namespace KetabAbee.Application.Services.Product
                 BookInventory = b.Inventory,
                 BookRate = (int)(_productRepository.GetBookAverageScore(b.BookId) * 20)
             }).Paging(pager).ToList();
+
+            #endregion
 
 
             return filter.SetPaging(pager).SetBooks(books);
@@ -762,6 +766,11 @@ namespace KetabAbee.Application.Services.Product
                     Writer = b.Writer,
                     BookRate = (int)(_productRepository.GetBookAverageScore(b.BookId) * 20)
                 });
+        }
+
+        public IEnumerable<string> GetBookNamesForAutoCompleteSearch(string search)
+        {
+            return _productRepository.GetBookNamesForAutoCompleteSearch(search);
         }
     }
 }

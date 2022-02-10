@@ -1,29 +1,51 @@
+@font-face {
+    font-family: Shabnam;
+    src: url("../fonts/shabnam/Shabnam.eot");
+    src: url("../fonts/shabnam/Shabnam.eot?#iefix") format("embedded-opentype"), url("../fonts/shabnam/Shabnam.woff2") format("woff2"), url("../fonts/shabnam/Shabnam.woff") format("woff"), url("../fonts/shabnam/Shabnam.ttf") format("truetype");
+    font-weight: normal;
+}
+
 .rounded2x {
     border-radius: 10px;
 }
+
 .w-65 {
-   width: 65%;
+    width: 65%;
 }
+
 #Send-Order-Guid {
     cursor: pointer;
 }
+
 #Pay-Order-Way {
     cursor: pointer;
 }
+
 #Return-Product-Way {
     cursor: pointer;
 }
+
 #Privecy--User {
     cursor: pointer;
 }
+
 .btn--remove--comment {
     float: left;
     bottom: 0;
     position: absolute;
 }
+
 .line-throught {
     text-decoration: line-through;
 }
-.w-(element) {
-        width: element;
+
+.ui-menu .ui-menu-item {
+    font-family: 'Shabnam';
+    border-radius: 3px;
+    border: 1px solid #FAF9F6;
+}
+
+.ui-menu {
+    border-radius: 6px;
+    border: 1px solid #E5E4E2;
 }

@@ -288,5 +288,12 @@ namespace KetabAbee.Data.Repository
                 .OrderByDescending(d => d.OrderDetails.Count)
                 .Take(12);
         }
+
+        public IEnumerable<string> GetBookNamesForAutoCompleteSearch(string search)
+        {
+            return _context.Books
+                .Where(b => EF.Functions.Like(b.Name, $"%{search}%"))
+                .Select(b=>b.Name);
+        }
     }
 }

@@ -19,9 +19,9 @@
             <div class="d-flex align-items-center justify-content-between">
                 <div class="contact-list">
                     <ul>
-                        <li><i class="fas fa-phone-rotary"></i><a href="tel: 02100000000">021-00000000</a></li>
+                        <li><i class="fas fa-phone-rotary"></i><a href="tel: 02100000000">0930-0804882</a></li>
                         <li>
-                            <i class="fas fa-envelope"></i><a href="mailto: site@example.com">site@example.com</a>
+                            <i class="fas fa-envelope"></i><a href="mailto: mranotmillion@gmail.com">mranotmillion@gmail.com</a>
                         </li>
                     </ul>
                 </div>
@@ -48,8 +48,8 @@
                     </a>
                 </div>
                 <div class="search-box">
-                    <form action="/Books">
-                        <input type="text" name="Search" placeholder="نام محصول را جستجو کنید...">
+                    <form asp-controller="Book" asp-action="Index" method="get">
+                        <input type="text" name="Search" id="book--name--auto" placeholder="نام محصول را جستجو کنید...">
                         <i class="far fa-search"></i>
                     </form>
                     @*<div class="search-result">

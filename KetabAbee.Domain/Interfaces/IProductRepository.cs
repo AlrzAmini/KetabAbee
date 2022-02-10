@@ -67,6 +67,8 @@ namespace KetabAbee.Domain.Interfaces
 
         IEnumerable<Book> GetBooksByName(string bookName);
 
+        IEnumerable<string> GetBookNamesForAutoCompleteSearch(string search);
+
         #endregion
 
         #region Report
