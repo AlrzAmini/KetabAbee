@@ -34,13 +34,13 @@
                     <div class="tickets-container">
                         @{
                             var listsAgeRange = new List<SelectListItem>
-                                                                                                                                                                                                        {
+                                                                                                                                                                                                                                        {
                                         new(){Text = "همه موارد",Value = ""}
                                     };
                             listsAgeRange.AddRange(Html.GetEnumSelectList<AgeRange>());
 
                             var listCoverTypes = new List<SelectListItem>
-                                                                                                                                                                                                        {
+                                                                                                                                                                                                                                        {
                                         new(){Text = "همه موارد",Value = ""}
                                     };
                             listCoverTypes.AddRange(Html.GetEnumSelectList<CoverType>());
@@ -145,60 +145,63 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var book in Model.Books)
+                @if (Model.Books != null && Model.Books.Any())
                 {
-                    <tr>
-                        <td>
-                            @book.BookId
-                        </td>
-                        <td>
-                            @book.Name
-                        </td>
-                        <td>
-                            @book.Publisher.PublisherName
-                        </td>
-                        <td>
-                            @book.Group.GroupTitle
-                            <a class="text-info">( @book.SubGroup.GroupTitle )</a>
-                            @if (book.SubGroup2Id != null)
-                            {
-                                <a class="text-primary">( @book.SubGroup2.GroupTitle )</a>
-                            }
-                        </td>
-                        <td>
-                            @book.Price.ToToman()
-                        </td>
-                        <td>
-                            @book.Writer
-                        </td>
-                        <td>
-                            @book.PagesCount
-                        </td>
-                        <td>
-                            @book.AgeRange.GetEnumName()
-                        </td>
-                        <th>
-                            @book.CoverType.GetEnumName()
-                        </th>
-                        <th>
-                            @if (book.Inventory != null && book.Inventory != 0)
-                            {
-                                <p class="text-success">موجود</p>
-                            }
-                            else
-                            {
-                                <p class="text-danger">نا موجود</p>
-                            }
-                        </th>
-                        <td class="text-align-center">
-                            <img alt="@book.Name" src="/images/Book/thumb/@book.ImageName" class="img-fluid width-50" />
-                        </td>
-                        <td>
-                            <a class="btn btn-success" asp-controller="AdminBook" asp-action="ChangeInventory" asp-route-bookId="@book.BookId"> تغییر موجودی</a>
-                            <a class="btn btn-info" asp-controller="AdminBook" asp-action="EditBook" asp-route-bookId="@book.BookId">ویرایش</a>
-                            <a class="btn btn-danger" asp-controller="AdminBook" asp-action="DeleteBook" onclick="return confirm('از حذف این کتاب اطمینان دارید ؟')" asp-route-bookId="@book.BookId">حذف</a>
-                        </td>
-                    </tr>
+                    foreach (var book in Model.Books)
+                    {
+                        <tr>
+                            <td>
+                                @book.BookId
+                            </td>
+                            <td>
+                                @book.Name
+                            </td>
+                            <td>
+                                @book.Publisher.PublisherName
+                            </td>
+                            <td>
+                                @book.Group.GroupTitle
+                                <a class="text-info">( @book.SubGroup.GroupTitle )</a>
+                                @if (book.SubGroup2Id != null)
+                                {
+                                    <a class="text-primary">( @book.SubGroup2.GroupTitle )</a>
+                                }
+                            </td>
+                            <td>
+                                @book.Price.ToToman()
+                            </td>
+                            <td>
+                                @book.Writer
+                            </td>
+                            <td>
+                                @book.PagesCount
+                            </td>
+                            <td>
+                                @book.AgeRange.GetEnumName()
+                            </td>
+                            <th>
+                                @book.CoverType.GetEnumName()
+                            </th>
+                            <th>
+                                @if (book.Inventory != null && book.Inventory != 0)
+                                {
+                                    <p class="text-success">موجود</p>
+                                }
+                                else
+                                {
+                                    <p class="text-danger">نا موجود</p>
+                                }
+                            </th>
+                            <td class="text-align-center">
+                                <img alt="@book.Name" src="/images/Book/thumb/@book.ImageName" class="img-fluid width-50" />
+                            </td>
+                            <td>
+                                <a class="btn btn-success" asp-controller="AdminBook" asp-action="ChangeInventory" asp-route-bookId="@book.BookId"> تغییر موجودی</a>
+                                <a class="btn btn-info" asp-controller="AdminBook" asp-action="EditBook" asp-route-bookId="@book.BookId">ویرایش</a>
+                                <a class="btn btn-danger" asp-controller="AdminBook" asp-action="DeleteBook" onclick="return confirm('از حذف این کتاب اطمینان دارید ؟')" asp-route-bookId="@book.BookId">حذف</a>
+                            </td>
+                        </tr>
+                    }
                 }
             </tbody>
         </table>

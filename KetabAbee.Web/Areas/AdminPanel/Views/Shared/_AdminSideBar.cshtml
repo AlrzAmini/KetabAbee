@@ -102,6 +102,16 @@
             </a>
         </li>
     }
+    @if (_permissionService.CheckPermission(PerIds.AdminBlogs, User.GetUserEmail()))
+    {
+        <!--news letter-->
+        <li>
+            <a asp-area="AdminPanel" asp-controller="AdminBlog" asp-action="Index">
+                <i class="menu-icon fa fa-paperclip"></i>
+                <span class="menu-text"> مدیریت بلاگ ها </span>
+            </a>
+        </li>
+    }
 
 </ul>
 <!-- /Sidebar Menu -->

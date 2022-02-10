@@ -1,0 +1,92 @@
+﻿@using KetabAbee.Application.Convertors
+@model KetabAbee.Application.DTOs.Admin.Blog.FilterBlogsViewModel
+@{
+    ViewData["Title"] = "بلاگ ها";
+}
+
+
+<!-- Page Content -->
+<!-- Page Breadcrumb -->
+<div class="page-breadcrumbs margin-bottom-20">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
+<!-- /Page Breadcrumb -->
+<div class="col-12 col-md-12 row margin-bottom-10">
+    <a asp-area="AdminPanel" asp-controller="AdminBook" asp-action="AddBook" class="btn btn-success col-md-4 margin-left-10">افزودن کتاب جدید </a>
+    <a asp-area="AdminPanel" asp-controller="AdminBook" asp-action="AllInventoryReports" class="btn btn-info col-md-4 margin-left-10">لیست تغییر موجودی کتاب ها </a>
+</div>
+<div class="col-xs-12 col-md-9">
+    <div class="well with-header with-footer">
+        <div class="header bordered-sky">
+            <i class="fa fa-book"></i>
+            @ViewData["Title"]
+        </div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        شماره
+                    </th>
+                    <th>
+                        عنوان بلاگ
+                    </th>
+                    <th>
+                        نویسنده
+                    </th>
+                    <th>
+                        تاریخ ثبت
+                    </th>
+                    <th>
+                        تصویر
+                    </th>
+                    <th>
+                        دستورات
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Blogs != null && Model.Blogs.Any())
+                {
+                    foreach (var blog in Model.Blogs)
+                    {
+                        <tr>
+                            <td>
+                                @blog.BlogId
+                            </td>
+                            <td>
+                                @blog.BlogTitle
+                            </td>
+                            <td>
+                                @blog.Writer
+                            </td>
+                            <td>
+                                @blog.CreateDate.ToShamsi()
+                            </td>
+                            <td class="text-align-center">
+                                <img alt="@blog.BlogTitle" src="/images/Book/thumb/@blog.ImageName" class="img-fluid width-50" />
+                            </td>
+                            <td>
+                                <a class="btn btn-success" asp-controller="AdminBook" asp-action="ChangeInventory" asp-route-bookId="@blog.BlogId"> تغییر موجودی</a>
+                                <a class="btn btn-info" asp-controller="AdminBook" asp-action="EditBook" asp-route-bookId="@blog.BlogId">ویرایش</a>
+                                <a class="btn btn-danger" asp-controller="AdminBook" asp-action="DeleteBook" onclick="return confirm('از حذف این بلاگ اطمینان دارید ؟')" asp-route-bookId="@blog.BlogId">حذف</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="alert alert-info">بلاگی ثبت نشده است</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <partial name="_AdminPaging" model="Model.GetCurrentPaging()" />
+    </div>
+</div>
