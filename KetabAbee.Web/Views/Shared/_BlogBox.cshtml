@@ -1,28 +1,28 @@
-﻿<div class="col-md-4 col-sm-4 col-12 mb-1">
+﻿@using KetabAbee.Application.Convertors
+@model KetabAbee.Application.DTOs.Blog.BlogInCardViewModel
+<div class="col-md-4 col-sm-6 col-12 mb-4">
     <div class="blog-card">
         <div class="blog-card-thumbnail">
             <a href="#">
-                <img src="/images/blog/samsung-galaxy-buds-pro-2-284x180.jpg" alt="سامسونگ از گلکسی بادز پرو رونمایی کرد">
+                <img src="/images/blog/image/@Model.ImageName" alt="@Model.BlogTitle">
             </a>
         </div>
         <div class="blog-card-title">
-            <h2><a href="#">سامسونگ از گلکسی بادز پرو رونمایی کرد</a></h2>
+            <h2><a href="#">@Model.BlogTitle</a></h2>
         </div>
         <div class="blog-card-excerpt">
             <p>
-                سامسونگ در مراسم امروز از گلکسی بادز پرو با قیمت ۱۹۹ دلار رونمایی
-                کرد. گلکسی
-                بادز پرو پرمیوم‌ترین ای ...
+               @Model.BlogBody
             </p>
         </div>
         <div class="blog-card-footer">
             <div class="author">
-                <img src="/images/avatar/avatar.png" alt="بهرامی راد">
-                <a href="#">جلال بهرامی راد</a>
+                <img src="/Avatar/thumb/@Model.WriterAvatarName" alt="@Model.Writer">
+                <a>@Model.Writer</a>
             </div>
             <div class="date">
                 <i class="fad fa-clock"></i>
-                ۱۲ ساعت قبل
+                @Model.CreateDate.ToShamsi()
             </div>
         </div>
     </div>

@@ -1,0 +1,12 @@
+﻿@model List<KetabAbee.Application.DTOs.Blog.BlogInCardViewModel>
+@if (Model != null && Model.Any())
+{
+    @foreach (var blog in Model)
+    {
+        <partial name="_BlogBox" model="blog" />
+    }
+}
+else
+{
+    <div class="alert alert-info">مقاله ای برای نمایش وجود ندارد</div>
+}

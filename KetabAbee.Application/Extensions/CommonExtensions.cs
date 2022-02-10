@@ -46,5 +46,10 @@ namespace KetabAbee.Application.Extensions
 
             return age;
         }
+
+        public static string TruncateLongString(this string str, int maxLength)
+        {
+            return str?[..Math.Min(str.Length, maxLength)];
+        }
     }
 }

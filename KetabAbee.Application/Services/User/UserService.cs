@@ -102,9 +102,9 @@ namespace KetabAbee.Application.Services.User
 
         public UserInformationInDashboardViewmodel GetInfoByUserEmail(string email)
         {
-            var user =  _userRepository.GetUserByEmail(email);
+            var user = _userRepository.GetUserByEmail(email);
 
-            var userInfo =  new UserInformationInDashboardViewmodel
+            var userInfo = new UserInformationInDashboardViewmodel
             {
                 Email = user.Email,
                 Mobile = user.Mobile,
@@ -182,10 +182,10 @@ namespace KetabAbee.Application.Services.User
                     }
 
                     // generate new image path and name
-                    edit.CurrentAvatar = CodeGenerator.GenerateUniqCode()+Path.GetExtension(edit.UserAvatar.FileName);
+                    edit.CurrentAvatar = CodeGenerator.GenerateUniqCode() + Path.GetExtension(edit.UserAvatar.FileName);
 
                     imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar", edit.CurrentAvatar);
-                
+
                     // save file in file
                     using (var stream = new FileStream(imgPath, FileMode.Create))
                     {
@@ -240,7 +240,7 @@ namespace KetabAbee.Application.Services.User
         public IEnumerable<UserForShowInUserListAdminViewModel> GetAllUsersForAdmin()
         {
             return _userRepository.GetUsers()
-                .Select(u=>new UserForShowInUserListAdminViewModel()
+                .Select(u => new UserForShowInUserListAdminViewModel()
                 {
                     Email = u.Email,
                     Mobile = u.Mobile,
@@ -347,10 +347,10 @@ namespace KetabAbee.Application.Services.User
             return _userRepository.GetAvatarNameByUserId(userId);
         }
 
-        public int AddUser(AddUserFromAdminViewModel user , IFormFile imgFile)
+        public int AddUser(AddUserFromAdminViewModel user, IFormFile imgFile)
         {
             Domain.Models.User.User newUser = new();
-                
+
             if (user == null) return 0;
 
             #region Check and add Avatar
@@ -553,6 +553,15 @@ namespace KetabAbee.Application.Services.User
         public IEnumerable<Domain.Models.User.User> GetLastNDaysUsers(int n)
         {
             return _userRepository.GetLastNDaysUsers(n);
+        }
+
+        public IEnumerable<UserForAutoCompleteViewModel> GetUsersForAutoComplete()
+        {
+            return _userRepository.GetUsers().Select(u => new UserForAutoCompleteViewModel
+            {
+                UserId = u.UserId,
+                UserName = u.UserName
+            });
         }
     }
 }

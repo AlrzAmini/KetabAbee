@@ -85,6 +85,8 @@ namespace KetabAbee.Application.Interfaces.User
 
         IEnumerable<Domain.Models.User.User> GetLastNDaysUsers(int n);
 
+        IEnumerable<UserForAutoCompleteViewModel> GetUsersForAutoComplete();
+
         #endregion
     }
 }

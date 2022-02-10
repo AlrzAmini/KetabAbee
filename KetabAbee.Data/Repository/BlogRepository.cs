@@ -22,7 +22,53 @@ namespace KetabAbee.Data.Repository
 
         public IEnumerable<Blog> GetBlogs()
         {
-            return _context.Blogs.Include(b=>b.User).OrderByDescending(b=>b.CreateDate);
+            return _context.Blogs.Include(b => b.User).OrderByDescending(b => b.CreateDate);
+        }
+
+        public bool AddBlog(Blog blog)
+        {
+            try
+            {
+                _context.Blogs.Add(blog);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteBlog(Blog blog)
+        {
+            try
+            {
+                blog.IsDelete = true;
+                return UpdateBlog(blog);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool UpdateBlog(Blog blog)
+        {
+            try
+            {
+                _context.Blogs.Update(blog);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public Blog GetBlogById(int blogId)
+        {
+            return _context.Blogs.Find(blogId);
         }
     }
 }

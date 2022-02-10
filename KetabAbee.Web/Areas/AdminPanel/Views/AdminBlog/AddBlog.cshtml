@@ -1,0 +1,145 @@
+﻿@model KetabAbee.Application.DTOs.Admin.Blog.CreateBlogViewModel
+@{
+    ViewData["Title"] = "افزودن بلاگ";
+}
+@section Styles
+{
+    <link rel="stylesheet" href="/lib/EasyAutocomplete/easy-autocomplete.min.css" />
+    <link rel="stylesheet" href="/lib/EasyAutocomplete/easy-autocomplete.themes.min.css" />
+    <link rel="stylesheet" href="/lib/EasyAutocomplete/maps/easy-autocomplete.min.css.map" />
+    <link rel="stylesheet" href="/lib/EasyAutocomplete/maps/easy-autocomplete.themes.min.css.map" />
+}
+<!-- Page Content -->
+<!-- Page Breadcrumb -->
+<div class="page-breadcrumbs margin-bottom-20">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li>
+            <a asp-controller="AdminBlog" asp-action="Index">بلاگ ها</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
+<!-- /Page Breadcrumb -->
+<form asp-area="AdminPanel" asp-controller="AdminBlog" asp-action="AddBlog" method="post" role="form" enctype="multipart/form-data">
+    <input type="hidden" asp-for="UserId" />
+    <div class="col-lg-8 col-sm-8 col-xs-12">
+        <div class="widget flat radius-bordered">
+            <div class="widget-header bg-blue">
+                <span class="widget-caption">@ViewData["Title"]</span>
+            </div>
+            <div class="widget-body">
+                <div id="registration-form">
+                    <div class="form-title">
+                        مشخصات بلاگ
+                    </div>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input type="text" class="form-control" asp-for="BlogTitle" placeholder="عنوان بلاگ">
+                            <i class="glyphicon glyphicon-book circular"></i>
+                        </span>
+                        <span asp-validation-for="BlogTitle" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input type="text" class="form-control" asp-for="Writer" placeholder="نویسنده">
+                            <i class="fa fa-user circular"></i>
+                        </span>
+                        <span asp-validation-for="Writer" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input type="text" class="form-control" asp-for="Tags" placeholder="تگ ها">
+                        </span>
+                        <span asp-validation-for="Tags" class="text-danger"></span>
+                        <p class="help-block">تگ ها را با - جدا کنید</p>
+                    </div>
+                    <div class="form-group">
+                        <label>توضیحات صفحه</label>
+                        <span class="input-icon icon-right">
+                            <textarea class="form-control" asp-for="PageDescription" placeholder="توضیحات صفحه برای این بلاگ ..."></textarea>
+                        </span>
+                        <span asp-validation-for="PageDescription" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>متن بلاگ</label>
+                        <span class="input-icon icon-right">
+                            <textarea class="form-control" asp-for="BlogBody" placeholder="متن برای این بلاگ ..."></textarea>
+                        </span>
+                        <span asp-validation-for="BlogBody" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-4 col-xs-12">
+        <div class="widget flat radius-bordered">
+            <div class="widget-header bg-azure">
+                <span class="widget-caption">تصویر بلاگ</span>
+            </div>
+            <div class="widget-body">
+                <div id="registration-form">
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input type="file" asp-for="Image" class="form-control">
+                            <i class="fa fa-image circular"></i>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <img class="thumbnail img-fluid max-width100" id="imageUp" src="/images/Defualt.jpg" alt="book" />
+                    </div>
+                    <p class="help-block">اندازه تصویر باید 284 * 180 باشد </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <button type="submit" class="btn btn-success btn-lg btn-block">ثبت بلاگ</button>
+    </div>
+</form>
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+    <script src="/lib/EasyAutocomplete/jquery.easy-autocomplete.min.js"></script>
+    <script>
+        var options = {
+            url: function (phrase) {
+                return "/Admin/Blogs/get-auto-users?writer=" + phrase;
+            },
+            getValue: function (element) {
+                return element.userName;
+            },
+            list: {
+                match: {
+                    enabled: true
+                },
+                onSelectItemEvent: function () {
+                    var value = $("#Writer").getSelectedItemData().userId;
+
+                    $("#UserId").val(value).trigger("change");
+                }
+            },
+            theme: "round"
+        };
+
+        $("#Writer").easyAutocomplete(options);
+    </script>
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imageUp').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#Image").change(function () {
+            readURL(this);
+        });
+    </script>
+}
