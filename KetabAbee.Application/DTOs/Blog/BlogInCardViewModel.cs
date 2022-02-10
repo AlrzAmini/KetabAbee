@@ -24,6 +24,8 @@ namespace KetabAbee.Application.DTOs.Blog
 
         public string WriterAvatarName { get; set; }
 
+        public string Tags { get; set; }
+
         #endregion
     }
 }

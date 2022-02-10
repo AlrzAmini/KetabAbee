@@ -131,7 +131,8 @@ namespace KetabAbee.Application.Services.Blog
                 BlogTitle = b.BlogTitle,
                 Writer = b.User.UserName,
                 BlogBody = b.BlogBody.TruncateLongString(50),
-                WriterAvatarName = b.User.AvatarName
+                WriterAvatarName = b.User.AvatarName,
+                Tags = b.Tags
             });
         }
 
@@ -275,6 +276,39 @@ namespace KetabAbee.Application.Services.Blog
                 imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/blog/thumb", blog.ImageName);
                 imgResizer.Image_resize(imgPath, imgThumbPath, 200);
             }
+        }
+
+        public FilterBlogsIndexViewModel FilterBlogsInIndex(FilterBlogsIndexViewModel filter)
+        {
+            var result = GetBlogsCardInfo().AsQueryable();
+
+            #region filter by title
+
+            if (!string.IsNullOrEmpty(filter.BlogTitle))
+            {
+                result = result.Where(r => r.BlogTitle.Contains(filter.BlogTitle));
+            }
+
+            #endregion
+
+            #region filter by tags
+
+            if (!string.IsNullOrEmpty(filter.Tag))
+            {
+                result = result.Where(r => r.Tags.Contains(filter.Tag));
+            }
+
+            #endregion
+
+            #region paging
+
+            //paging
+            var pager = Pager.Build(filter.PageNum, result.Count(), filter.Take, filter.PageCountAfterAndBefor);
+            var blogs = result.Paging(pager).ToList();
+
+            return filter.SetPaging(pager).SetBlogs(blogs);
+
+            #endregion
         }
     }
 }
