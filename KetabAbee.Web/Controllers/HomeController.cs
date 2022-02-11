@@ -166,6 +166,17 @@ namespace KetabAbee.Web.Controllers
 
         #endregion
 
+        #region 404 not found
+
+        [HttpGet("404Error")]
+        public IActionResult NotFoundedPage()
+        {
+            return View();
+        }
+
+
+        #endregion
+
         #region CKEditor Images
 
         [HttpPost]

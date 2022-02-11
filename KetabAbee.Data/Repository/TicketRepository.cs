@@ -56,6 +56,16 @@ namespace KetabAbee.Data.Repository
                 .Include(a => a.Sender);
         }
 
+        public int GetClosedTicketsCount()
+        {
+            return _context.Tickets.Count(t => t.TicketState == TicketState.Closed);
+        }
+
+        public int GetIsReadTicketsCount()
+        {
+            return _context.Tickets.Count(t => t.IsReadByAdmin);
+        }
+
         public Ticket GetTicketById(int ticketId)
         {
             return _context.Tickets
@@ -66,6 +76,11 @@ namespace KetabAbee.Data.Repository
         public IEnumerable<Ticket> GetTickets()
         {
             return _context.Tickets;
+        }
+
+        public int GetTicketsCount()
+        {
+            return _context.Tickets.Count();
         }
 
         public IEnumerable<Ticket> GetTicketsForFilter()
@@ -80,6 +95,16 @@ namespace KetabAbee.Data.Repository
             return _context.Tickets
                   .Include(t => t.Sender)
                   .Include(t => t.Answers);
+        }
+
+        public int GetUnReadImportantTicketsCount()
+        {
+            return _context.Tickets.Count(t => !t.IsReadByAdmin && t.TicketPriority == TicketPriority.High);
+        }
+
+        public int GetUnReadTicketsCount()
+        {
+            return _context.Tickets.Count(t => !t.IsReadByAdmin);
         }
 
         public void UpdateTicket(Ticket ticket)

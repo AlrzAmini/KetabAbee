@@ -29,7 +29,9 @@ namespace KetabAbee.Data.Repository
 
         public IEnumerable<User> GetUsers()
         {
-            return _context.Users.OrderByDescending(u=>u.RegisterDate);
+            return _context.Users
+                .Include(u => u.UserRoles)
+                .OrderByDescending(u => u.RegisterDate);
         }
 
         public bool IsEmailExist(string email)
@@ -105,7 +107,7 @@ namespace KetabAbee.Data.Repository
             return _context.Users.SingleOrDefault(u => u.UserName == userName);
         }
 
-        public bool IsOldPasswordCorrect(string username, string oldPass) 
+        public bool IsOldPasswordCorrect(string username, string oldPass)
         {
             return _context.Users.Any(u => u.UserName == username && u.Password == oldPass);
         }
@@ -159,6 +161,11 @@ namespace KetabAbee.Data.Repository
                 .Select(f => f.BookId).ToList();
         }
 
+        public int AllUsersCount()
+        {
+            return _context.Users.Count();
+        }
+
         public int GetUserIdByUserName(string userName)
         {
             return _context.Users.SingleOrDefault(u => u.UserName == userName).UserId;
@@ -171,7 +178,24 @@ namespace KetabAbee.Data.Repository
 
         public IEnumerable<User> GetLastNDaysUsers(int n)
         {
-            return _context.Users.Where(u => u.RegisterDate > DateTime.Now.AddDays(-n));
+            return _context.Users.Where(u => u.RegisterDate > DateTime.Today.AddDays(-n));
+        }
+
+        public int ValidUsersCount()
+        {
+            return _context.Users.Count(u => u.IsEmailActive);
+        }
+
+        public int AdminsCount()
+        {
+            return _context.UserRoles
+                .Select(r => r.UserId)
+                .Distinct().Count();
+        }
+
+        public int OnlineUsersCount()
+        {
+            return _context.Users.Count(u => u.IsOnline);
         }
     }
 }

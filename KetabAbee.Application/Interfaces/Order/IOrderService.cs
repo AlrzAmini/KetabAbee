@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Application.DTOs.Admin.Home;
 using KetabAbee.Application.DTOs.Admin.Order;
 using KetabAbee.Domain.Models.Order;
 
@@ -39,5 +40,15 @@ namespace KetabAbee.Application.Interfaces.Order
         Domain.Models.Order.Order GetOrderById(int orderId);
 
         Domain.Models.Order.Order GetUserUnFinalOrder(int userId);
+
+        #region Admin
+
+        SellStaticsViewModel GetSellInfo();
+
+        int GetIsSendOrdersPercent();
+
+        int GetIsNotSendOrdersPercent();
+
+        #endregion
     }
 }

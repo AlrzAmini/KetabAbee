@@ -25,6 +25,16 @@ namespace KetabAbee.Domain.Interfaces
 
         bool UserHaveUnReadTicket(int userId);
 
+        int GetTicketsCount();
+
+        int GetIsReadTicketsCount();
+
+        int GetUnReadTicketsCount();
+
+        int GetUnReadImportantTicketsCount();
+
+        int GetClosedTicketsCount();
+
         #region Answer
 
         bool AddAnswer(TicketAnswer answer);

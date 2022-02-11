@@ -144,6 +144,9 @@ namespace KetabAbee.Web.Controllers
                 // command for login user
                 await HttpContext.SignInAsync(principal, properties);
 
+                user.IsOnline = true;
+                _userService.UpdateUser(user);
+
                 if (returnUrl != "/")
                 {
                     return Redirect(returnUrl);
@@ -165,6 +168,10 @@ namespace KetabAbee.Web.Controllers
         [HttpGet("Logout")]
         public IActionResult Logout(string url)
         {
+            var user = _userService.GetUserByEmail(User.GetUserEmail());
+            user.IsOnline = false;
+            _userService.UpdateUser(user);
+
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Redirect(url ?? "/");
         }

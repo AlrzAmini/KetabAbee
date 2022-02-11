@@ -60,6 +60,24 @@ namespace KetabAbee.Domain.Interfaces
 
         #endregion
 
+        #region admin
+
+        int GetLastNDaysOrdersCount(int n);
+
+        float GetLastNDaysOrdersIncome(int n);
+
+        IEnumerable<string> GetMostSellingBooks();
+
+        IEnumerable<string> GetMostSellingBookCategories();
+
+        int AllOrdersCount();
+
+        int IsSendOrdersCount();
+
+        int IsNotSendOrderPercentCount();
+
+        #endregion
+
         void AddUserBooks(ICollection<OrderDetail> orderDetails);
     }
 }

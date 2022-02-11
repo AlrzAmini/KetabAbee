@@ -1,4 +1,7 @@
 ﻿@using KetabAbee.Application.DTOs
+@using KetabAbee.Application.DTOs.Admin.Home
+@using KetabAbee.Application.DTOs.Ticket
+@using KetabAbee.Application.Extensions
 @{
     ViewData["Title"] = "صفحه اصلی";
 
@@ -14,7 +17,6 @@
     };
 }
 
-<!-- Page Breadcrumb -->
 <div class="page-breadcrumbs">
     <ul class="breadcrumb">
         <li>
@@ -28,128 +30,239 @@
 <div class="row margin-bottom-20">
     <partial name="_AdminProfileHeader" model="profile" />
 </div>
-<div class="row">
+<div class="row margin-bottom-20">
     <partial name="_AdminLastUsersBox" model="lstLastUsers" />
-    <div class="col-xs-12 col-md-8">
-        <div class="dashboard-box">
-            <div class="box-tabbs">
-                <div class="tabbable">
-                    <ul class="nav nav-tabs tabs-flat  nav-justified" id="myTab11">
-                        <li class="">
-                            <a data-toggle="tab" href="#realtime" aria-expanded="false">
-                                بازدید لحظه ای
-                            </a>
-                        </li>
-                        <li class="">
-                            <a data-toggle="tab" href="#visits" aria-expanded="false">
-                                بازدیدها
-                            </a>
-                        </li>
-                        <li class="">
-                            <a data-toggle="tab" id="contacttab" href="#bandwidth" aria-expanded="false">
-                                پهنای باند
-                            </a>
-                        </li>
-                        <li class="active">
-                            <a data-toggle="tab" href="#sales" aria-expanded="true">
-                                آمار فروش
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="tab-content tabs-flat no-padding">
-                        <div id="realtime" class="tab-pane padding-5 animated fadeInUp">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div id="dashboard-chart-realtime" class="chart chart-lg" style="padding: 0px; position: relative;"><canvas class="flot-base" width="789" height="250" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 789px; height: 250px;"></canvas><canvas class="flot-overlay" width="789" height="250" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 789px; height: 250px;"></canvas></div>
+    @{
+        var userStatics = ViewBag.UserStatics as UsersStatisticsViewModel;
+    }
+    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+        <div class="orders-container">
+            <div class="orders-header">
+                <h6>آمار کاربران</h6>
+            </div>
+            @if (userStatics != null)
+            {
+                <ul class="orders-list">
+                    <li class="order-item">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 item-right">
+                                <div class="item-booker">تعداد کاربران</div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 item-left">
+                                <div class="item-price">
+                                    <span class="currency">نفر</span>
+                                    <span class="price">@userStatics.AllUsersCount</span>
                                 </div>
                             </div>
                         </div>
-                        <div id="visits" class="tab-pane  animated fadeInUp">
-                            <div class="row">
-                                <div class="col-lg-12 chart-container">
-                                    <div id="dashboard-chart-visits" class="chart chart-lg" style="width: 100%; padding: 0px; position: relative;"><canvas class="flot-base" width="809" height="250" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 809px; height: 250px;"></canvas><div class="flot-text" style="position: absolute; inset: 0px; font-size: smaller; color: rgb(84, 84, 84);"><div class="flot-x-axis flot-x1-axis xAxis x1Axis" style="position: absolute; inset: 0px; display: block;"><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 89px; top: 235px; left: 61px; text-align: center;">4</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 89px; top: 235px; left: 171px; text-align: center;">6</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 89px; top: 235px; left: 281px; text-align: center;">8</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 20px; top: 235px; left: 393px; text-align: center;">10</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 89px; top: 235px; left: 498px; text-align: center;">12</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 89px; top: 235px; left: 608px; text-align: center;">14</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 89px; top: 235px; left: 718px; text-align: center;">16</div></div></div><canvas class="flot-overlay" width="809" height="250" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 809px; height: 250px;"></canvas></div>
+                        <a class="item-more" asp-area="AdminPanel" asp-controller="AdminUser" asp-action="Index">
+                            <i></i>
+                        </a>
+                    </li>
+                    <li class="order-item top">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 item-right">
+                                <div class="item-booker">کاربران احراز هویت شده</div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 item-left">
+                                <div class="item-price">
+                                    <span class="currency">نفر</span>
+                                    <span class="price">@userStatics.ValidUsersCount</span>
                                 </div>
                             </div>
-
                         </div>
-                        <div id="bandwidth" class="tab-pane padding-10 animated fadeInUp">
-                            <div class="databox-sparkline bg-themeprimary">
-                                <span id="dashboard-bandwidth-chart" data-sparkline="compositeline" data-height="250px" data-width="100%" data-linecolor="#fff" data-secondlinecolor="#eee" data-fillcolor="rgba(255,255,255,.1)" data-secondfillcolor="rgba(255,255,255,.25)" data-spotradius="0" data-spotcolor="#fafafa" data-minspotcolor="#fafafa" data-maxspotcolor="#ffce55" data-highlightspotcolor="#fff" data-highlightlinecolor="#fff" data-linewidth="2" data-secondlinewidth="2" data-composite="500, 400, 100, 450, 300, 200, 100, 200"><canvas width="1202" height="250" style="display: inline-block; width: 1202px; height: 250px; vertical-align: top;"></canvas></span>
+                        <a class="item-more" asp-area="AdminPanel" asp-controller="AdminUser" asp-action="Index">
+                            <i></i>
+                        </a>
+                    </li>
+                    <li class="order-item">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 item-right">
+                                <div class="item-booker">کاربران آنلاین</div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 item-left">
+                                <div class="item-price">
+                                    <span class="currency">نفر</span>
+                                    <span class="price">@userStatics.OnlineUsersCount</span>
+                                </div>
                             </div>
                         </div>
-                        <div id="sales" class="tab-pane animated fadeInUp no-padding-bottom active" style="padding:20px 20px 0 20px;">
-                            <div class="row">
-                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                    <div class="databox databox-xlg databox-vertical databox-inverted databox-shadowed">
-                                        <div class="databox-top">
-                                            <div class="databox-sparkline">
-                                                <span data-sparkline="line" data-height="125px" data-width="100%" data-fillcolor="false" data-linecolor="themesecondary" data-spotcolor="#fafafa" data-minspotcolor="#fafafa" data-maxspotcolor="#ffce55" data-highlightspotcolor="#ffce55" data-highlightlinecolor="#ffce55" data-linewidth="1.5" data-spotradius="2"><canvas width="100" height="125" style="display: inline-block; width: 100px; height: 125px; vertical-align: top;"></canvas></span>
-                                            </div>
-                                        </div>
-                                        <div class="databox-bottom no-padding text-align-center">
-                                            <span class="databox-number lightcarbon no-margin">224</span>
-                                            <span class="databox-text lightcarbon no-margin">فروش / ساعت</span>
-
-                                        </div>
-                                    </div>
-
+                        <a class="item-more" asp-area="AdminPanel" asp-controller="AdminUser" asp-action="Index">
+                            <i></i>
+                        </a>
+                    </li>
+                    <li class="order-item top">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 item-right">
+                                <div class="item-booker">ادمین ها</div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 item-left">
+                                <div class="item-price">
+                                    <span class="currency">نفر</span>
+                                    <span class="price">@userStatics.AdminsCount</span>
                                 </div>
-                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                    <div class="databox databox-xlg databox-vertical databox-inverted databox-shadowed">
-                                        <div class="databox-top">
-                                            <div class="databox-sparkline">
-                                                <span data-sparkline="line" data-height="125px" data-width="100%" data-fillcolor="false" data-linecolor="themefourthcolor" data-spotcolor="#fafafa" data-minspotcolor="#fafafa" data-maxspotcolor="#8cc474" data-highlightspotcolor="#8cc474" data-highlightlinecolor="#8cc474" data-linewidth="1.5" data-spotradius="2"><canvas width="100" height="125" style="display: inline-block; width: 100px; height: 125px; vertical-align: top;"></canvas></span>
-                                            </div>
-                                        </div>
-                                        <div class="databox-bottom no-padding text-align-center">
-                                            <span class="databox-number lightcarbon no-margin">7063$</span>
-                                            <span class="databox-text lightcarbon no-margin">درآمد / ساعت</span>
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                    <div class="databox databox-xlg databox-vertical databox-inverted databox-shadowed">
-                                        <div class="databox-top">
-                                            <div class="databox-piechart">
-                                                <div data-toggle="easypiechart" class="easyPieChart block-center" data-barcolor="themeprimary" data-linecap="butt" data-percent="80" data-animate="500" data-linewidth="8" data-size="125" data-trackcolor="#eee" style="width: 125px; height: 125px; line-height: 125px;">
-                                                    <span class="font-200"><i class="fa fa-gift themeprimary"></i></span>
-                                                    <canvas width="125" height="125"></canvas>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="databox-bottom no-padding text-align-center">
-                                            <span class="databox-number lightcarbon no-margin">9</span>
-                                            <span class="databox-text lightcarbon no-margin">سفارش جدید</span>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                    <div class="databox databox-xlg databox-vertical databox-inverted  databox-shadowed">
-                                        <div class="databox-top">
-                                            <div class="databox-piechart">
-                                                <div data-toggle="easypiechart" class="easyPieChart block-center" data-barcolor="themethirdcolor" data-linecap="butt" data-percent="40" data-animate="500" data-linewidth="8" data-size="125" data-trackcolor="#eee" style="width: 125px; height: 125px; line-height: 125px;">
-                                                    <span class="white font-200"><i class="fa fa-tags themethirdcolor"></i></span>
-                                                    <canvas width="125" height="125"></canvas>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="databox-bottom no-padding text-align-center">
-                                            <span class="databox-number lightcarbon no-margin">11</span>
-                                            <span class="databox-text lightcarbon no-margin">تیکت جدید</span>
-
-                                        </div>
-                                    </div>
-                                </div>
-
                             </div>
                         </div>
-                    </div>
+                        <a class="item-more" asp-area="AdminPanel" asp-controller="AdminUser" asp-action="Index">
+                            <i></i>
+                        </a>
+                    </li>
+                </ul>
+            }
+            <div class="orders-footer">
+                <a class="show-all" asp-area="AdminPanel" asp-controller="AdminUser" asp-action="Index"><i class="fa fa-angle-down"></i> نمایش همه</a>
+                <div class="help">
+                    <a href=""><i class="fa fa-users"></i></a>
                 </div>
+            </div>
+        </div>
+    </div>
+    @{
+        var ticketStatics = ViewBag.TicketStatics as TicketStaticsViewModel;
+    }
+    <div class="col-md-5 col-sm-6 col-xs-12">
+        <div class="widget">
+            <div class="widget-header bg-palegreen">
+                <i class="widget-icon fa fa-arrow-down"></i>
+                <span class="widget-caption">آمار تیکت ها</span>
+                <div class="widget-buttons">
+                    <a href="#" data-toggle="collapse">
+                        <i class="fa fa-minus"></i>
+                    </a>
+                </div><!--Widget Buttons-->
+            </div><!--Widget Header-->
+            @if (ticketStatics != null)
+            {
+                <div class="widget-body">
+                    <span>کل تیکت ها : </span>
+                    <span>@ticketStatics.AllTicketsCount </span>
+                </div>
+                <div class="widget-body bg-gray">
+                    <span>تیکت های بسته شده : </span>
+                    <span>@ticketStatics.IsClosedTicketsCount </span>
+                </div>
+                <div class="widget-body bg-green">
+                    <span>تیکت های خوانده شده : </span>
+                    <span>@ticketStatics.IsReadTicketsCount </span>
+                </div>
+                <div class="widget-body bg-danger">
+                    <span>تیکت های خوانده نشده : </span>
+                    <span>@ticketStatics.UnReadTicketsCount </span>
+                </div>
+                <div class="widget-body bg-red">
+                    <span>تیکت های مهم خوانده نشده : </span>
+                    <span>@ticketStatics.ImportantUnReadTicketsCount </span>
+                </div>
+            }
+        </div><!--Widget-->
+    </div>
+</div>
+<!-- buy -->
+@{
+    var sellStatics = ViewBag.SellStatics as SellStaticsViewModel;
+    var counter = 1;
+    var counterCats = 1;
+}
+<div class="row margin-bottom-20">
+    <h5 class="row-title before-themeprimary">آمار فروش</h5>
+    <div class="row pricing-container">
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="plan">
+                <div class="header bordered-yellow">بر اساس درآمد</div>
+                @if (sellStatics != null)
+                {
+                    <div class="price yellow">@sellStatics.LastYearOrdersIncome.ToTooman()</div>
+                    <div class="monthly">یک سال گذشته</div>
+                    <ul>
+                        <li><b>@sellStatics.LastDayOrdersIncome.ToTooman()</b> یک روز گذشته</li>
+                        <li><b>@sellStatics.LastWeekOrdersIncome.ToTooman()</b> هفته گذشته</li>
+                        <li><b>@sellStatics.LastMonthOrdersIncome.ToTooman()</b> ماه گذشته</li>
+                    </ul>
+                }
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="plan popular-plan animated bounce">
+                <div class="header bordered-palegreen">بر اساس کتاب</div>
+
+                @if (sellStatics != null)
+                {
+                    <div class="price palegreen">@sellStatics.MostSellingBook.FirstOrDefault()</div>
+                    <div class="monthly">پرفروش ترین</div>
+                    <ul>
+                        @foreach (var item in sellStatics.MostSellingBook)
+                        {
+                            <li><b> @(counter++) .</b> @item</li>
+                        }
+                    </ul>
+                }
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="plan">
+                <div class="header bordered-orange">بر اساس دسته بندی کتاب</div>
+                @if (sellStatics != null)
+                {
+                    <div class="price orange">@sellStatics.MostSellingBookCategories.FirstOrDefault()</div>
+                    <div class="monthly">پرفروش ترین</div>
+                    <ul>
+                        @foreach (var cat in sellStatics.MostSellingBookCategories)
+                        {
+                            <li><b> @(counterCats++) .</b> @cat</li>
+                        }
+                    </ul>
+                }
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="plan popular-plan animated bounce">
+                <div class="header bordered-azure">بر اساس سفارشات</div>
+                @if (sellStatics != null)
+                {
+                    <div class="price azure">@sellStatics.LastYearOrdersCount عدد سفارش</div>
+                    <div class="monthly">یک سال گذشته</div>
+                    <ul>
+                        <li><b>@sellStatics.LastDayOrdersCount عدد</b> یک روز گذشته</li>
+                        <li><b>@sellStatics.LastWeekOrdersCount عدد</b> هفته گذشته</li>
+                        <li><b>@sellStatics.LastMonthOrdersCount عدد</b> ماه گذشته</li>
+                    </ul>
+                }
             </div>
         </div>
     </div>
 </div>
 
+<div class="row">
+    <div class="col-lg-6 col-sm-6 col-xs-12">
+        <div class="well with-header">
+            <div class="header bordered-danger">آمار سفارشات</div>
+            <h6>پردازش نشده</h6>
+            <div class="progress progress-striped active">
+                @if (sellStatics != null)
+                {
+                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="@sellStatics.IsNotSendPercent" aria-valuemin="0" aria-valuemax="100" style="width: @sellStatics.IsNotSendPercent%">
+                        <span class="sr-only">
+                            @sellStatics.IsNotSendPercent% Complete (danger)
+                        </span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-xs-12">
+        <div class="well with-header">
+            <div class="header bordered-success">آمار سفارشات</div>
+            <h6>پردازش شده</h6>
+            @if (sellStatics != null)
+            {
+                <div class="progress progress-striped active">
+                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="@sellStatics.IsSendPercent" aria-valuemin="0" aria-valuemax="100" style="width: @sellStatics.IsSendPercent%">
+                        <span class="sr-only">
+                            @sellStatics.IsSendPercent% Complete (success)
+                        </span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

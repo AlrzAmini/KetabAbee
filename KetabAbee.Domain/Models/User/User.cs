@@ -122,6 +122,12 @@ namespace KetabAbee.Domain.Models.User
 
         #endregion
 
+        #region is online ?
+
+        public bool IsOnline { get; set; }
+
+        #endregion
+
         #region Is delete ?
 
         public bool IsDelete { get; set; }

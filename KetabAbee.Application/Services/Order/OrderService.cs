@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Application.DTOs.Admin.Home;
 using KetabAbee.Application.DTOs.Admin.Order;
 using KetabAbee.Application.DTOs.Admin.Products.Book;
 using KetabAbee.Application.DTOs.Paging;
@@ -63,7 +64,7 @@ namespace KetabAbee.Application.Services.Order
                 {
                     var detail = _orderRepository.GetOrdersDetails()
                         .FirstOrDefault(d => d.OrderId == order.OrderId && d.ProductId == productId);
-                    
+
                     if (detail != null)
                     {
                         detail.Count += 1;
@@ -128,6 +129,30 @@ namespace KetabAbee.Application.Services.Order
 
         }
 
+        public int GetIsNotSendOrdersPercent()
+        {
+            var allOrdersCount = _orderRepository.AllOrdersCount();
+            var isNotSendOrdersCount = _orderRepository.IsNotSendOrderPercentCount();
+            if (isNotSendOrdersCount == 0)
+            {
+                return 0;
+            }
+
+            return (isNotSendOrdersCount * 100) / allOrdersCount;
+        }
+
+        public int GetIsSendOrdersPercent()
+        {
+            var allOrdersCount = _orderRepository.AllOrdersCount();
+            var isSendOrdersCount = _orderRepository.IsSendOrdersCount();
+            if (isSendOrdersCount == 0)
+            {
+                return 0;
+            }
+
+            return (isSendOrdersCount * 100) / allOrdersCount;
+        }
+
         public Domain.Models.Order.Order GetOrderById(int orderId)
         {
             return _orderRepository.GetOrderById(orderId);
@@ -158,6 +183,25 @@ namespace KetabAbee.Application.Services.Order
             var orders = result.Paging(pager).ToList();
 
             return ordersViewModel.SetPaging(pager).SetOrders(orders);
+        }
+
+        public SellStaticsViewModel GetSellInfo()
+        {
+            return new SellStaticsViewModel
+            {
+                LastDayOrdersCount = _orderRepository.GetLastNDaysOrdersCount(1),
+                LastWeekOrdersCount = _orderRepository.GetLastNDaysOrdersCount(7),
+                LastMonthOrdersCount = _orderRepository.GetLastNDaysOrdersCount(30),
+                LastYearOrdersCount = _orderRepository.GetLastNDaysOrdersCount(365),
+                LastDayOrdersIncome = _orderRepository.GetLastNDaysOrdersIncome(1),
+                LastWeekOrdersIncome = _orderRepository.GetLastNDaysOrdersIncome(7),
+                LastMonthOrdersIncome = _orderRepository.GetLastNDaysOrdersIncome(30),
+                LastYearOrdersIncome = _orderRepository.GetLastNDaysOrdersIncome(365),
+                MostSellingBook = _orderRepository.GetMostSellingBooks().ToList(),
+                MostSellingBookCategories = _orderRepository.GetMostSellingBookCategories().ToList(),
+                IsSendPercent = GetIsSendOrdersPercent(),
+                IsNotSendPercent = GetIsNotSendOrdersPercent()
+            };
         }
 
         public IEnumerable<Domain.Models.Order.Order> GetUserFinalOrders(int userId)
@@ -202,13 +246,13 @@ namespace KetabAbee.Application.Services.Order
 
             foreach (var detail in order.OrderDetails)
             {
-               var book = _productService.GetBookById(detail.ProductId);
-               _productService.DecreaseInventory(new ChangeInventoryViewModel
-               {
-                   BookId = book.BookId,
-                   BookName = book.Name,
-                   DecNumber = detail.Count
-               });
+                var book = _productService.GetBookById(detail.ProductId);
+                _productService.DecreaseInventory(new ChangeInventoryViewModel
+                {
+                    BookId = book.BookId,
+                    BookName = book.Name,
+                    DecNumber = detail.Count
+                });
                 _productService.UpdateBook(book);
             }
 

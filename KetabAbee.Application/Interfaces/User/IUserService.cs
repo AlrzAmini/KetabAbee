@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs;
+using KetabAbee.Application.DTOs.Admin.Home;
 using KetabAbee.Application.DTOs.Admin.User;
 using KetabAbee.Application.DTOs.Admin.Wallet;
 using KetabAbee.Application.DTOs.Book;
@@ -86,6 +87,8 @@ namespace KetabAbee.Application.Interfaces.User
         IEnumerable<Domain.Models.User.User> GetLastNDaysUsers(int n);
 
         IEnumerable<UserForAutoCompleteViewModel> GetUsersForAutoComplete();
+
+        UsersStatisticsViewModel GetUsersStaticsForAdmin();
 
         #endregion
     }

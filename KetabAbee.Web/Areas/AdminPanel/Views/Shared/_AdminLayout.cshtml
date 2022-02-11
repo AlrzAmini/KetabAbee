@@ -6,8 +6,9 @@
     <meta charset="utf-8" />
     <title>پنل ادمین | @ViewData["Title"]</title>
     <partial name="_AdminMetas" />
+    @await RenderSectionAsync("Styles", false)
     <partial name="_AdminStyles" />
-    @await RenderSectionAsync("Styles",false)
+
 </head>
 
 <body>

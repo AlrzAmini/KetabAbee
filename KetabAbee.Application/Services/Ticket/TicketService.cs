@@ -143,7 +143,7 @@ namespace KetabAbee.Application.Services.Ticket
                     .SingleOrDefault(t => t.TicketId == ticketId),
                 Answers = _ticketRepository.GetAnswers()
                     .Where(a => a.TicketId == ticketId)
-                    .OrderByDescending(a=>a.SendDate)
+                    .OrderByDescending(a => a.SendDate)
                     .ToList()
             };
 
@@ -257,6 +257,18 @@ namespace KetabAbee.Application.Services.Ticket
         public bool UserHaveUnReadTicket(int userId)
         {
             return _ticketRepository.UserHaveUnReadTicket(userId);
+        }
+
+        public TicketStaticsViewModel GetTicketStaticInfo()
+        {
+            return new TicketStaticsViewModel
+            {
+                AllTicketsCount = _ticketRepository.GetTicketsCount(),
+                IsReadTicketsCount = _ticketRepository.GetIsReadTicketsCount(),
+                ImportantUnReadTicketsCount = _ticketRepository.GetUnReadImportantTicketsCount(),
+                UnReadTicketsCount = _ticketRepository.GetUnReadTicketsCount(),
+                IsClosedTicketsCount = _ticketRepository.GetClosedTicketsCount()
+            };
         }
     }
 }

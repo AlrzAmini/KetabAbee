@@ -1,5 +1,6 @@
 ﻿using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs;
+using KetabAbee.Application.DTOs.Admin.Home;
 using KetabAbee.Application.DTOs.Admin.User;
 using KetabAbee.Application.DTOs.Admin.Wallet;
 using KetabAbee.Application.DTOs.Paging;
@@ -15,6 +16,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using KetabAbee.Application.Interfaces.Permission;
 
 namespace KetabAbee.Application.Services.User
 {
@@ -563,5 +565,18 @@ namespace KetabAbee.Application.Services.User
                 UserName = u.UserName
             });
         }
+
+        public UsersStatisticsViewModel GetUsersStaticsForAdmin()
+        {
+            return new UsersStatisticsViewModel
+            {
+                AllUsersCount = _userRepository.AllUsersCount(),
+                ValidUsersCount = _userRepository.ValidUsersCount(),
+                OnlineUsersCount = _userRepository.OnlineUsersCount(),
+                AdminsCount = _userRepository.AdminsCount(),
+            };
+        }
+
+        
     }
 }

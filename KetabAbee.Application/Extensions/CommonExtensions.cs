@@ -36,6 +36,11 @@ namespace KetabAbee.Application.Extensions
             return price.ToString("#,0") + " تومان ";
         }
 
+        public static string ToTooman(this float price)
+        {
+            return price.ToString("#,0") + " تومان ";
+        }
+
         public static int? GetAgeByDateTime(this DateTime? birthDate)
         {
             var dateNow = DateTime.Now;

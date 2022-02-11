@@ -93,9 +93,9 @@ namespace KetabAbee.Data.Repository
                 .Include(o => o.OrderDetails)
                 .ThenInclude(d => d.Product)
                 .ThenInclude(b => b.Publisher)
-                .Include(o=>o.OrderDetails)
-                .ThenInclude(o=>o.Product)
-                .ThenInclude(b=>b.ProductDiscounts)
+                .Include(o => o.OrderDetails)
+                .ThenInclude(o => o.Product)
+                .ThenInclude(b => b.ProductDiscounts)
                 .Include(o => o.User)
                 .FirstOrDefault(o => o.UserId == userId && o.OrderId == orderId);
         }
@@ -157,33 +157,81 @@ namespace KetabAbee.Data.Repository
         public IEnumerable<Order> GetUserFinalOrders(int userId)
         {
             return _context.Orders.Where(o => o.UserId == userId && o.IsFinally)
-                .OrderByDescending(o=>o.CreateDate)
+                .OrderByDescending(o => o.CreateDate)
                 .Take(10);
         }
 
         public IEnumerable<Order> GetPayedOrdersForAdmin()
         {
-            return _context.Orders.Include(o=>o.User)
+            return _context.Orders.Include(o => o.User)
                 .Where(o => o.IsFinally)
-                .OrderByDescending(o=>o.CreateDate);
+                .OrderByDescending(o => o.CreateDate);
         }
 
         public Order GetOrderByIdForShowInfo(int orderId)
         {
             return _context.Orders
                 .Include(o => o.OrderDetails)
-                .ThenInclude(d=>d.Product)
-                .Include(o=>o.User)
+                .ThenInclude(d => d.Product)
+                .Include(o => o.User)
                 .SingleOrDefault(o => o.OrderId == orderId);
         }
 
         public Order GetUserUnFinalOrder(int userId)
         {
             return _context.Orders
-                .Include(o=>o.OrderDetails)
-                .ThenInclude(d=>d.Product)
-                .ThenInclude(p=>p.Publisher)
-                .SingleOrDefault(o =>o.UserId == userId && !o.IsFinally);
+                .Include(o => o.OrderDetails)
+                .ThenInclude(d => d.Product)
+                .ThenInclude(p => p.Publisher)
+                .SingleOrDefault(o => o.UserId == userId && !o.IsFinally);
+        }
+
+        public int GetLastNDaysOrdersCount(int n)
+        {
+            return _context.Orders.Count(o => o.IsFinally && o.CreateDate >= DateTime.Today.AddDays(-n));
+        }
+
+        public float GetLastNDaysOrdersIncome(int n)
+        {
+            return _context.Orders
+                .Where(o => o.IsFinally && o.CreateDate >= DateTime.Today.AddDays(-n))
+                .Sum(o => o.OrderSum);
+        }
+
+        public IEnumerable<string> GetMostSellingBooks()
+        {
+            return _context.Books
+                .Include(b => b.OrderDetails)
+                .ThenInclude(d => d.Order)
+                .Where(b => b.OrderDetails.Any())
+                .OrderByDescending(d => d.OrderDetails.Count)
+                .Select(b => b.Name).Take(4);
+        }
+
+        public IEnumerable<string> GetMostSellingBookCategories()
+        {
+            return _context.Books
+                .Include(b=>b.SubGroup)
+                .Include(b => b.OrderDetails)
+                .ThenInclude(d => d.Order)
+                .Where(b => b.OrderDetails.Any())
+                .OrderByDescending(d => d.OrderDetails.Count)
+                .Select(b => b.SubGroup.GroupTitle).Distinct().Take(4);
+        }
+
+        public int IsSendOrdersCount()
+        {
+            return _context.Orders.Count(o => o.SendingProcessIsCompleted);
+        }
+
+        public int IsNotSendOrderPercentCount()
+        {
+            return _context.Orders.Count(o => !o.SendingProcessIsCompleted);
+        }
+
+        public int AllOrdersCount()
+        {
+            return _context.Orders.Count();
         }
     }
 }

@@ -64,10 +64,17 @@ namespace KetabAbee.Domain.Interfaces
 
         IEnumerable<User> GetLastNDaysUsers(int n);
 
+        int AllUsersCount();
+
+        int ValidUsersCount();
+
+        int AdminsCount();
+
+        int OnlineUsersCount();
+
         #endregion
 
         int GetUserIdByUserName(string userName);
-
 
     }
 }
