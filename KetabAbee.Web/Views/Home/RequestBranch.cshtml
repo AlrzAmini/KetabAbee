@@ -1,0 +1,60 @@
+﻿@model KetabAbee.Application.DTOs.Contact.CreateRequestBranchViewModel
+
+@{
+    ViewData["Title"] = "درخواست شعبه";
+}
+
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <partial name="_CaptchaScripts" />
+}
+<main class="page-content" style="margin-top: 205.5px;">
+    <div class="container">
+        <form asp-controller="Home" asp-action="RequestBranch" method="post">
+            <partial name="_CaptchaInput" />
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title mb-2">
+                        @ViewData["Title"]
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="shadow-around p-3 mb-5">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-element-row">
+                                    <label class="label-element">نام و نام خانوادگی</label>
+                                    <input type="text" asp-for="Name" class="input-element">
+                                </div>
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-element-row">
+                                    <label class="label-element">شماره تلفن</label>
+                                    <input type="number" asp-for="Phone" class="input-element">
+                                </div>
+                                <span asp-validation-for="Phone" class="text-danger"></span>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-element-row">
+                                    <label class="label-element">آدرس</label>
+                                    <textarea asp-for="Address" cols="30" rows="10" class="input-element" placeholder="توجه کنید که این آدرس مکان شعبه کتاب آبی در شهر شما خواهد بود و طبق این آدرس بررسی انجام می شود"></textarea>
+                                </div>
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-element-row text-left">
+                                    <button class="btn-element btn-success-element">
+                                         ارسال
+                                        <i class="fad fa-address-card mr-2"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>

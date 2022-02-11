@@ -36,5 +36,11 @@ namespace KetabAbee.Domain.Interfaces
         bool UpdateContactUs(ContactUs contactUs);
 
         #endregion
+
+        #region req branch
+
+        bool AddReqBranch(RequestBranch request);
+
+        #endregion
     }
 }

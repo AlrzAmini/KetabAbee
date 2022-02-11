@@ -84,6 +84,8 @@ namespace KetabAbee.Data.Context
 
         public DbSet<NewsLetter>  NewsLetters { get; set; }
 
+        public DbSet<RequestBranch>  RequestBranches { get; set; }
+
         #endregion
 
         #region Comment

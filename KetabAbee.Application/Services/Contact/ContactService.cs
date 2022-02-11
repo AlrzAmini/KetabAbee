@@ -8,6 +8,7 @@ using KetabAbee.Application.DTOs.Admin;
 using KetabAbee.Application.DTOs.Admin.Contact;
 using KetabAbee.Application.DTOs.Contact;
 using KetabAbee.Application.DTOs.Paging;
+using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Contact;
 using KetabAbee.Application.Senders;
 using KetabAbee.Domain.Interfaces;
@@ -18,7 +19,7 @@ namespace KetabAbee.Application.Services.Contact
     public class ContactService : IContactService
     {
         private readonly IContactRepository _contactRepository;
-        
+
         public ContactService(IContactRepository contactRepository)
         {
             _contactRepository = contactRepository;
@@ -39,6 +40,24 @@ namespace KetabAbee.Application.Services.Contact
                 Subject = letter.Subject,
             };
             return _contactRepository.AddNewsLetter(newNewsLetter);
+        }
+
+        public bool AddRequestBranch(CreateRequestBranchViewModel model)
+        {
+            try
+            {
+                var reqBranch = new RequestBranch
+                {
+                    Name = model.Name.Sanitizer(),
+                    Address = model.Address.Sanitizer(),
+                    Phone = model.Phone.Sanitizer()
+                };
+                return _contactRepository.AddReqBranch(reqBranch);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public bool CreateContactUs(CreateContactUsViewModel contactUs, string userIp, int? userId)
@@ -100,7 +119,7 @@ namespace KetabAbee.Application.Services.Contact
                 contact.IsAnswered = true;
                 return _contactRepository.UpdateContactUs(contact);
             }
-            catch 
+            catch
             {
                 return false;
             }

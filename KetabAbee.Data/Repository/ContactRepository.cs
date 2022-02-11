@@ -58,6 +58,20 @@ namespace KetabAbee.Data.Repository
             }
         }
 
+        public bool AddReqBranch(RequestBranch request)
+        {
+            try
+            {
+                _context.RequestBranches.Add(request);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public bool EmailIsUnique(string email)
         {
             return !_context.NewsEmails.Any(e => e.EmailAddress == email);

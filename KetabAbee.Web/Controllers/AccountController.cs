@@ -115,7 +115,7 @@ namespace KetabAbee.Web.Controllers
             {
                 return View(login);
             }
-
+            
             var user = _userService.GetUserForLogin(login);
 
             if (user != null)
@@ -140,13 +140,13 @@ namespace KetabAbee.Web.Controllers
                 {
                     IsPersistent = login.RememberMe
                 };
-
+                
                 // command for login user
                 await HttpContext.SignInAsync(principal, properties);
 
                 user.IsOnline = true;
                 _userService.UpdateUser(user);
-
+                
                 if (returnUrl != "/")
                 {
                     return Redirect(returnUrl);

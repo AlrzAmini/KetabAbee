@@ -166,6 +166,38 @@ namespace KetabAbee.Web.Controllers
 
         #endregion
 
+        #region Request a branch
+
+        [HttpGet("Form/Req/Branch")]
+        public IActionResult RequestBranch()
+        {
+            return View();
+        }
+
+        [HttpPost("Form/Req/Branch"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> RequestBranch(CreateRequestBranchViewModel model)
+        {
+            if (!await _captchaValidator.IsCaptchaPassedAsync(model.Captcha))
+            {
+                TempData["ErrorSwal"] = "احراز هویت کپچا انجام نشد چند لحظه دیگر تلاش کنید";
+                return View(model);
+            }
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            if (_contactService.AddRequestBranch(model))
+            {
+                TempData["SuccessSwal"] = "درخواست شعبه با موفقیت ارسال شد";
+                return RedirectToAction("Index");
+            }
+            TempData["ErrorSwal"] = "خطایی در ارسال درخواست رخ داده است";
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
         #region 404 not found
 
         [HttpGet("404Error")]

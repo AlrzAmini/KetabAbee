@@ -52,4 +52,12 @@ $("#Privecy--User").on("click", function () {
         confirmButtonText: 'باشه'
     });
 });
+$("#go--search").on("click", function () {
+    swal.fire({
+        title: '',
+        text: "گوگل کنید :)))",
+        icon: 'success',
+        confirmButtonText: 'الله اکبر'
+    });
+});
 
