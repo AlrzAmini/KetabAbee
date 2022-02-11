@@ -91,7 +91,6 @@
                     <div class="form-group">
                         <img class="thumbnail img-fluid max-width100" id="imageUp" src="/images/Defualt.jpg" alt="book" />
                     </div>
-                    <p class="help-block">اندازه تصویر باید 284 * 180 باشد </p>
                 </div>
             </div>
         </div>
@@ -140,6 +139,12 @@
 
         $("#Image").change(function () {
             readURL(this);
+        });
+    </script>
+    <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('BlogBody', {
+            customConfig: '/js/Config.js'
         });
     </script>
 }

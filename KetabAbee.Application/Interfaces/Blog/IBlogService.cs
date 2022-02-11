@@ -29,5 +29,9 @@ namespace KetabAbee.Application.Interfaces.Blog
         BlogEditResult EditBlog(EditBlogViewModel blog);
 
         FilterBlogsIndexViewModel FilterBlogsInIndex(FilterBlogsIndexViewModel filter);
+
+        ShowBlogInfoViewModel GetBlogForShowInBlogInfo(int blogId);
+
+        List<BlogInCardViewModel> GetWriterBlogs(int userId);
     }
 }

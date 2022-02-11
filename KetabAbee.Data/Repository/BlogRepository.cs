@@ -70,5 +70,13 @@ namespace KetabAbee.Data.Repository
         {
             return _context.Blogs.Find(blogId);
         }
+
+        public List<Blog> GetWriterBlogs(int userId)
+        {
+            return _context.Blogs.Include(b=>b.User)
+                .Where(b => b.UserId == userId)
+                .Take(6)
+                .ToList();
+        }
     }
 }

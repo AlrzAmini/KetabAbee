@@ -23,10 +23,34 @@ namespace KetabAbee.Web.Controllers
 
         #endregion
 
+        #region index
+
         [HttpGet]
         public IActionResult Index(FilterBlogsIndexViewModel filter)
         {
             return View(_blogService.FilterBlogsInIndex(filter));
         }
+
+        #endregion
+
+        #region blog info
+
+        [HttpGet("Blog/{blogId}")]
+        public IActionResult BlogInfo(int blogId)
+        {
+            var model = _blogService.GetBlogForShowInBlogInfo(blogId);
+
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.Tags = model.Tags.Split('-')
+                .Where(t=>t.Length > 1).ToArray();
+            
+            return View(model);
+        }
+
+        #endregion
     }
 }

@@ -1,0 +1,174 @@
+﻿@using KetabAbee.Application.Convertors
+@model KetabAbee.Application.DTOs.Blog.ShowBlogInfoViewModel
+@{
+    ViewData["Title"] = " بلاگ " + Model.BlogTitle;
+}
+
+@section MetaTag
+{
+    <meta name="googlebot" content="index,follow" />
+    <meta name="robots" content="noodp,noydir" />
+    <meta name="description" content="@Model.PageDescription" />
+    <meta property=og:site_name value="کتابفروشی کتاب آبی">
+    <meta property=og:title content="@Model.BlogTitle">
+    <meta property=og:url content="https://haamechitamoom.ir/Blogs/Blog/@Model.BlogId" />
+    <meta property=og:image content="/images/blog/image/@Model.ImageName">
+    <meta property=og:image:url content="/images/blog/image/@Model.ImageName" />
+    <meta property=og:image:width content="700">
+    <meta property=og:image:type content="image/jpg">
+    <meta property=og:description content="">
+    <meta property=og:price:currency content="IRR">
+    <meta property=og:locale content="ir_FA">
+}
+<main class="page-content" style="margin-top: 205.5px; transform: none;">
+    <div class="container" style="transform: none;">
+        <div class="row mb-5" style="transform: none;">
+            <div class="col-lg-3 col-md-4 sticky-sidebar order-2 order-md-1" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
+
+                <div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none; left: 1308px; top: 0px;">
+
+                    <div class="sidebar-widget">
+                        <div class="widget widget-category shadow-around">
+                            <div class="widget-title">دسته بندی کالاها</div>
+                            <div class="widget-content">
+                                <ul>
+                                    <li>
+                                        <a href="/Books?SearchCategory=1" class="parent">کتاب بزرگسال</a>
+                                    </li>
+                                    <li>
+                                        <a href="/Books?SearchCategory=2" class="parent">کتاب کودک و نوجوان</a>
+                                    </li>
+                                    <li>
+                                        <a href="/Books?SearchCategory=8" class="parent">رشد شخصی</a>
+                                    </li>
+                                    <li>
+                                        <a href="/Books?SearchCategory=25" class="parent">رمان</a>
+                                    </li>
+                                    <li>
+                                        <a href="/Books?SearchCategory=6" class="parent">هنر</a>
+                                    </li>
+                                    <li>
+                                        <a href="/Books?SearchCategory=7" class="parent">فلسفه</a>
+                                    </li>
+                                    <li>
+                                        <a href="/Books?SearchCategory=38" class="parent">علمی</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        @{
+                            var tags = ViewBag.Tags as string[];
+                        }
+                        @if (tags != null && tags.Any())
+                        {
+                            <div class="widget widget-tags shadow-around">
+                                <div class="widget-title">برچسب ها</div>
+                                <div class="widget-content">
+                                    @foreach (var tag in tags)
+                                    {
+                                        <a class="btn btn-outline-secondary btn-sm" href="/Blogs?Tag=@tag">@tag</a>
+                                    }
+                                </div>
+                            </div>
+                        }
+                        <div class="widget widget-tags shadow-around">
+                            <div class="widget-title">لینک اشتراک گذاری</div>
+                            <div class="widget-content">
+                                <span id="page-Link" class="text-center mr-2">https://haamechitamoom.ir/blogs/blog/@Model.BlogId</span>
+                                <button onclick="copyToClipboard('#page-Link')" class="btn btn-outline-primary btn-block"><i class="fa fa-copy"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;">
+                        <div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;">
+                            <div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 302px; height: 3835px;"></div>
+                        </div>
+                        <div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;">
+                            <div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-8 order-1 order-md-2">
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <div class="shadow-around">
+                            <div class="px-3">
+                                <!-- breadcrumb -->
+                                <div class="breadcrumb py-2">
+                                    <nav>
+                                        <a href="/">کتاب آبی</a>
+                                        <a asp-controller="Blog" asp-action="Index">مقالات</a>
+                                        <a href="#">@Model.BlogTitle</a>
+                                    </nav>
+                                </div>
+                                <!-- end breadcrumb -->
+                                <div class="blog-card single-blog">
+                                    <div class="blog-card-title mb-3">
+                                        <h2 class="text-right">
+                                            <a href="#">
+                                                @Model.BlogTitle
+                                            </a>
+                                        </h2>
+                                    </div>
+                                    <div class="blog-card-footer mb-3">
+                                        <div class="author">
+                                            <img src="/Avatar/thumb/@Model.UserImageName" alt="@Model.UserName">
+                                            <a>@Model.UserName</a>
+                                        </div>
+                                        <div class="date">
+                                            <i class="fad fa-clock"></i>
+                                            @Model.CreateDate.ToIraniDate()
+                                        </div>
+                                    </div>
+                                    <div class="blog-card-thumbnail">
+                                        <a href="#">
+                                            <img src="/images/blog/image/@Model.ImageName" alt="@Model.BlogTitle">
+                                        </a>
+                                    </div>
+                                    <div class="blog-card-body">
+                                        @Html.Raw(Model.BlogBody)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row border bordered-gray rounded p-3">
+            @if (Model.WriterBlogs != null && Model.WriterBlogs.Any())
+            {
+                <div class="col-12 mb-4">
+                    <div class="section-title">
+                        <i class="fad fa-blog text-primary"></i>
+                        دیگر مقالات این نویسنده
+                    </div>
+                </div>
+                foreach (var blog in Model.WriterBlogs)
+                {
+                    <partial name="_BlogBox" model="blog" />
+                }
+            }
+        </div>
+    </div>
+</main>
+@section Scripts
+{
+    <script>
+        function copyToClipboard(element) {
+            var $temp = $("<input>");
+            $("body").append($temp);
+            $temp.val($(element).text()).select();
+            document.execCommand("copy");
+            $temp.remove();
+            Swal.fire({
+                text: "لینک کپی شد",
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'بله'
+            });
+        }
+        
+    </script>
+}

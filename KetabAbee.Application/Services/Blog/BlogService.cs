@@ -72,7 +72,7 @@ namespace KetabAbee.Application.Services.Blog
 
             var imgResizer = new ImageConvertor();
             var imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/blog/thumb", newBlog.ImageName);
-            imgResizer.Image_resize(imgPath, imgThumbPath, 150);
+            imgResizer.Image_resize(imgPath, imgThumbPath, 400);
         }
 
         public FilterBlogsViewModel FilterBlogs(FilterBlogsViewModel filter)
@@ -130,7 +130,7 @@ namespace KetabAbee.Application.Services.Blog
                 BlogId = b.BlogId,
                 BlogTitle = b.BlogTitle,
                 Writer = b.User.UserName,
-                BlogBody = b.BlogBody.TruncateLongString(50),
+                BlogDescription = b.PageDescription.TruncateLongString(50),
                 WriterAvatarName = b.User.AvatarName,
                 Tags = b.Tags
             });
@@ -274,7 +274,7 @@ namespace KetabAbee.Application.Services.Blog
 
                 var imgResizer = new ImageConvertor();
                 imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/blog/thumb", blog.ImageName);
-                imgResizer.Image_resize(imgPath, imgThumbPath, 200);
+                imgResizer.Image_resize(imgPath, imgThumbPath, 400);
             }
         }
 
@@ -309,6 +309,42 @@ namespace KetabAbee.Application.Services.Blog
             return filter.SetPaging(pager).SetBlogs(blogs);
 
             #endregion
+        }
+
+        public ShowBlogInfoViewModel GetBlogForShowInBlogInfo(int blogId)
+        {
+            return _blogRepository.GetBlogs()
+                .Where(b => b.BlogId == blogId)
+                .Select(b => new ShowBlogInfoViewModel
+                {
+                    UserId = b.UserId,
+                    CreateDate = b.CreateDate,
+                    UserName = b.User.UserName,
+                    PageDescription = b.PageDescription,
+                    BlogTitle = b.BlogTitle,
+                    BlogBody = b.BlogBody,
+                    BlogId = b.BlogId,
+                    Tags = b.Tags,
+                    UserImageName = b.User.AvatarName,
+                    WriterBlogs = GetWriterBlogs(b.UserId),
+                    ImageName = b.ImageName
+                }).Single();
+        }
+
+        public List<BlogInCardViewModel> GetWriterBlogs(int userId)
+        {
+            return _blogRepository.GetWriterBlogs(userId)
+                .Select(b => new BlogInCardViewModel
+                {
+                    ImageName = b.ImageName,
+                    Writer = b.User.UserName,
+                    CreateDate = b.CreateDate,
+                    BlogDescription = b.PageDescription.TruncateLongString(50),
+                    BlogId = b.BlogId,
+                    BlogTitle = b.BlogTitle,
+                    Tags = b.Tags,
+                    WriterAvatarName = b.User.AvatarName
+                }).ToList();
         }
     }
 }

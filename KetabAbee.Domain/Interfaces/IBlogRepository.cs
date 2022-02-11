@@ -18,5 +18,7 @@ namespace KetabAbee.Domain.Interfaces
         bool UpdateBlog(Blog blog);
 
         Blog GetBlogById(int blogId);
+
+        List<Blog> GetWriterBlogs(int userId);
     }
 }

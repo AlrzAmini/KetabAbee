@@ -14,7 +14,7 @@ namespace KetabAbee.Application.DTOs.Blog
 
         public string BlogTitle { get; set; }
 
-        public string BlogBody { get; set; }
+        public string BlogDescription { get; set; }
 
         public string Writer { get; set; }
 
