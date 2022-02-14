@@ -1,0 +1,81 @@
+﻿@using KetabAbee.Application.Convertors
+@model KetabAbee.Application.DTOs.Admin.Contact.ShowBranchRequestsToAdminViewModel
+@{
+    ViewData["Title"] = "درخواست های شعبه";
+}
+
+<!-- Page Breadcrumb -->
+<div class="page-breadcrumbs margin-bottom-20">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
+<!-- /Page Breadcrumb -->
+<div class="col-xs-12 col-md-12">
+    <div class="well with-header with-footer">
+        <div class="header bordered-pink">
+            @ViewData["Title"]
+        </div>
+        <form id="filterform" asp-controller="AdminRequestBranch" asp-action="Index" method="get">
+            <input type="hidden" asp-for="PageNum" />
+        </form>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        شماره
+                    </th>
+                    <th>
+                        فرستنده
+                    </th>
+                    <th>
+                        تلفن
+                    </th>
+                    <th>
+                        آدرس
+                    </th>
+                    <th>
+                        تاریخ ارسال
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Requests != null && Model.Requests.Any())
+                {
+                    foreach (var request in Model.Requests)
+                    {
+                        <tr>
+                            <td>
+                                @request.ReqId
+                            </td>
+                            <td>
+                                @request.Name
+                            </td>
+                            <td>
+                                @request.Phone
+                            </td>
+                            <td>
+                                @request.Address
+                            </td>
+                            <td>
+                                @request.CreateDate.ToIraniDate()
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="alert alert-info">درخواستی ثبت نشده است</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <partial name="_AdminPaging" model="@Model.GetCurrentPaging()" />
+    </div>
+</div>

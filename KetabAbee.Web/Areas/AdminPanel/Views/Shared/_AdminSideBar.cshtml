@@ -91,6 +91,12 @@
                 <span class="menu-text"> مدیریت تماس با ما </span>
             </a>
         </li>
+        <li>
+            <a asp-area="AdminPanel" asp-controller="AdminRequestBranch" asp-action="Index">
+                <i class="menu-icon fa fa-home"></i>
+                <span class="menu-text"> مدیریت درخواست های شعبه </span>
+            </a>
+        </li>
     }
     @if (_permissionService.CheckPermission(PerIds.AdminDiscounts, User.GetUserEmail()))
     {

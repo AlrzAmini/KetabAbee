@@ -41,6 +41,8 @@ namespace KetabAbee.Domain.Interfaces
 
         bool AddReqBranch(RequestBranch request);
 
+        IEnumerable<RequestBranch> GetRequests();
+
         #endregion
     }
 }

@@ -50,7 +50,8 @@ namespace KetabAbee.Application.Services.Contact
                 {
                     Name = model.Name.Sanitizer(),
                     Address = model.Address.Sanitizer(),
-                    Phone = model.Phone.Sanitizer()
+                    Phone = model.Phone.Sanitizer(),
+                    CreateDate = DateTime.Now
                 };
                 return _contactRepository.AddReqBranch(reqBranch);
             }
@@ -104,6 +105,17 @@ namespace KetabAbee.Application.Services.Contact
         public IEnumerable<NewsLetter> GetNewsLetters()
         {
             return _contactRepository.GetNewsLetters();
+        }
+
+        public ShowBranchRequestsToAdminViewModel GetRequestsForShowAdmin(ShowBranchRequestsToAdminViewModel model)
+        {
+            var result = _contactRepository.GetRequests().AsQueryable();
+
+            //paging
+            var pager = Pager.Build(model.PageNum, result.Count(), model.Take, model.PageCountAfterAndBefor);
+            var requests = result.Paging(pager).ToList();
+
+            return model.SetPaging(pager).SetRequests(requests);
         }
 
         public bool SendAnswerForContactUs(int contactId, string subject, string body)

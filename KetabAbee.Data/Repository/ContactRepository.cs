@@ -107,6 +107,11 @@ namespace KetabAbee.Data.Repository
             return _context.NewsLetters;
         }
 
+        public IEnumerable<RequestBranch> GetRequests()
+        {
+            return _context.RequestBranches;
+        }
+
         public bool UpdateContactUs(ContactUs contactUs)
         {
             try

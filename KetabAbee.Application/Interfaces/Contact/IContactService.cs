@@ -40,6 +40,8 @@ namespace KetabAbee.Application.Interfaces.Contact
 
         bool AddRequestBranch(CreateRequestBranchViewModel model);
 
+        ShowBranchRequestsToAdminViewModel GetRequestsForShowAdmin(ShowBranchRequestsToAdminViewModel model);
+
         #endregion
     }
 }

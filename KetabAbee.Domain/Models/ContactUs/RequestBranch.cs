@@ -30,6 +30,9 @@ namespace KetabAbee.Domain.Models.ContactUs
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
         public string Address { get; set; }
 
+        [Required]
+        public DateTime CreateDate { get; set; }
+
         #endregion
     }
 }
