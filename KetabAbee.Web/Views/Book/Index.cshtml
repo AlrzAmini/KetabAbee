@@ -5,11 +5,11 @@
 }
 <form id="filterform" asp-controller="Book" asp-action="Index" method="get">
     <input type="hidden" asp-for="PageNum" />
-    <main class="page-content" style="margin-top: 205.5px; transform: none;">
-        <div class="container" style="transform: none;">
-            <div class="row mb-5" style="transform: none;">
-                <div class="col-lg-3 col-md-4 sticky-sidebar filter-options-sidebar" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
-                    <div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none; top: 0px; left: 1308px;">
+    <main class="page-content mt-205 none-transform">
+        <div class="container none-transform">
+            <div class="row mb-5 none-transform">
+                <div class="col-lg-3 col-md-4 sticky-sidebar filter-options-sidebar el-position">
+                    <div class="theiaStickySidebar el-sticky-sidebar">
                         <div class="d-md-none">
                             <div class="header-filter-options">
                                 <span>جستجوی پیشرفته <i class="fad fa-sliders-h"></i></span>
@@ -119,14 +119,7 @@
                                 <button class="btn-filter-product-submit">جستجوی پیشرفته</button>
                             </div>
                         </div>
-                        <div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;">
-                            <div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;">
-                                <div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 352px; height: 1484px;"></div>
-                            </div>
-                            <div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;">
-                                <div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div>
-                            </div>
-                        </div>
+                        <partial name="_StickySideBarThirdDiv" />
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-8">
@@ -148,7 +141,7 @@
                         </div>
                     </div>
                     <div class="listing-items row">
-                        @if (Model.Books != null && Model.Books.Any())
+                        @if (Model is {Books: { } } && Model.Books.Any())
                         {
                             foreach (var book in Model.Books)
                             {
@@ -156,6 +149,9 @@
                                     <partial name="_BookBox" model="book" />
                                 </div>
                             }
+                            <div class="col-12 px-0">
+                                <partial name="_Paging" model="Model.GetCurrentPaging()" />
+                            </div>
                         }
                         else
                         {
@@ -168,9 +164,6 @@
                                 </div>
                             </div>
                         }
-                        <div class="col-12 px-0">
-                            <partial name="_Paging" model="Model.GetCurrentPaging()" />
-                        </div>
                     </div>
                 </div>
             </div>

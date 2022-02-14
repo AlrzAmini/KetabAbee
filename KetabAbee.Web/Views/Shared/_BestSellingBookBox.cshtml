@@ -3,7 +3,7 @@
 <div class="col-md-4 col-12">
     <div class="product-card product-card-horizontal">
         <div class="product-card-top">
-            <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@Model.BookId" class="product-image">
+            <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@Model.BookId" asp-route-bookName="@Model.Name" class="product-image">
                 <img src="/images/Book/thumb/@Model.ImageName" alt="@Model.Name">
             </a>
         </div>
@@ -14,7 +14,7 @@
                 </div>
             </div>
             <h6 class="product-name">
-                <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@Model.BookId">
+                <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@Model.BookId" asp-route-bookName="@Model.Name">
                     @Model.Name اثر @Model.Writer نشر @Model.PublisherName
                 </a>
             </h6>

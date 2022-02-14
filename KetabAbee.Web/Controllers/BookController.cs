@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using KetabAbee.Application.DTOs.Book;
+﻿using KetabAbee.Application.DTOs.Book;
 using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Comment;
 using KetabAbee.Application.Interfaces.Order;
@@ -12,6 +6,8 @@ using KetabAbee.Application.Interfaces.Product;
 using KetabAbee.Domain.Models.Comment.ProductComment;
 using KetabAbee.Domain.Models.Products;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace KetabAbee.Web.Controllers
 {
@@ -47,8 +43,9 @@ namespace KetabAbee.Web.Controllers
 
         #region Book Info
 
+        [HttpGet("BookInfo/{bookId}/{bookName}")]
         [HttpGet("BookInfo/{bookId}")]
-        public IActionResult BookInfo(int bookId)
+        public IActionResult BookInfo(int bookId, string bookName)
         {
             var model = _productService.GetBookForShowByBookId(bookId);
             ViewBag.PublisherBooks = _productService.PublisherBooks(model.PublisherId, model).ToList();
@@ -162,20 +159,24 @@ namespace KetabAbee.Web.Controllers
 
         #region add answer
 
-        [Authorize]
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult AddAnswer(ProductCommentAnswer answer, int productId)
         {
-            answer.Email = User.GetUserEmail();
-            answer.UserId = User.GetUserId();
-            answer.UserIp = HttpContext.GetUserIp();
-            answer.UserName = User.Identity.Name;
-
-            if (_commentService.AddAnswer(answer))
+            if (User.Identity.IsAuthenticated)
             {
-                return View("ShowComments", _commentService.GetProductCommentWithPaging(productId));
+                answer.Email = User.GetUserEmail();
+                answer.UserId = User.GetUserId();
+                answer.UserIp = HttpContext.GetUserIp();
+                answer.UserName = User.Identity.Name;
+                if (_commentService.AddAnswer(answer))
+                {
+                    return View("ShowComments", _commentService.GetProductCommentWithPaging(productId));
+                }
+                TempData["ErrorSwal"] = "پاسخ شما ثبت نشد";
+                return Redirect($"/BookInfo/{productId}");
             }
-            TempData["ErrorSwal"] = "پاسخ شما ثبت نشد";
+
+            TempData["InfoSwal"] = "برای ثبت پاسخ می بایست وارد حساب کاربری خود شوید";
             return Redirect($"/BookInfo/{productId}");
         }
 

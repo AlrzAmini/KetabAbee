@@ -49,3 +49,28 @@
     border-radius: 6px;
     border: 1px solid #E5E4E2;
 }
+.mt-205 {
+   margin-top: 205.5px;
+}
+.none-transform {
+    transform: none;
+}
+.el-position {
+    position: relative;
+    overflow: visible;
+    box-sizing: border-box;
+    min-height: 1px;
+}
+.el-sticky-sidebar {
+    padding-top: 0px;
+    padding-bottom: 1px;
+    position: static;
+    transform: none;
+}
+.pub-box-swiper-slide {
+    width: 209px;
+    margin-left: 10px;
+}
+.pub-swiper-wrapper {
+    transform: translate3d(0px, 0px, 0px);
+}

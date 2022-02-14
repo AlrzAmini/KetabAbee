@@ -44,30 +44,25 @@
                     @comment.Body
                 </p>
             </div>
-            @if (User.Identity.IsAuthenticated)
-            {
-
-                <div class="col-md-3">
-                    <div class="col-12">
-                        <form asp-controller="Book" asp-action="AddAnswer"
-                              data-ajax="true"
-                              data-ajax-method="post"
-                              data-ajax-mode="replace"
-                              data-ajax-update="#CommentList"
-                              data-ajax-success="SuccessAnswer">
-                            <input type="hidden" name="productId" value="@comment.ProductId" />
-                            <input type="hidden" name="answer.CommentId" value="@comment.CommentId" />
-                            <div class="form-element-row">
-                                <textarea name="answer.AnswerBody" id="answer-body" cols="10" rows="5" class="input-element" placeholder="متن پاسخ خود را وارد کنید"></textarea>
-                                <div class="comments-likes">
-                                    <button class="btn-like">پاسخ</button>
-                                </div>
+            <div class="col-md-3">
+                <div class="col-12">
+                    <form asp-controller="Book" asp-action="AddAnswer"
+                          data-ajax="true"
+                          data-ajax-method="post"
+                          data-ajax-mode="replace"
+                          data-ajax-update="#CommentList"
+                          data-ajax-success="SuccessAnswer">
+                        <input type="hidden" name="productId" value="@comment.ProductId" />
+                        <input type="hidden" name="answer.CommentId" value="@comment.CommentId" />
+                        <div class="form-element-row">
+                            <textarea name="answer.AnswerBody" id="answer-body" cols="10" rows="5" class="input-element" placeholder="متن پاسخ خود را وارد کنید"></textarea>
+                            <div class="comments-likes">
+                                <button class="btn-like">پاسخ</button>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
-
-            }
+            </div>
             @if (comment.Answers != null && comment.Answers.Any())
             {
                 foreach (var answer in comment.Answers.OrderByDescending(a => a.SendDate))

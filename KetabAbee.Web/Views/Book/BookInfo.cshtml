@@ -27,7 +27,7 @@
     <meta property=og:price:currency content="IRR">
     <meta property=og:locale content="ir_FA">
 }
-<main class="page-content" style="margin-top: 205.5px;">
+<main class="page-content mt-205">
     <div class="container">
         <div class="row mb-1">
             <div class="col-12">
@@ -70,9 +70,9 @@
                     <div class="product-title mb-3">
                         <div class="breadcrumb mb-1">
                             <nav>
-                                <a href="#" class="text-info">انتشارات @Model.Publisher.PublisherName</a>
-                                <a href="#" class="text-info">دسته @Model.Group.GroupTitle</a>
-                                <a href="#" class="text-info">@Model.SubGroup.GroupTitle</a>
+                                <a class="text-info">انتشارات @Model.Publisher.PublisherName</a>
+                                <a class="text-info">دسته @Model.Group.GroupTitle</a>
+                                <a class="text-info">@Model.SubGroup.GroupTitle</a>
                             </nav>
                         </div>
                         <h1>
@@ -522,7 +522,7 @@
                 دیگر کتاب های نشر @Model.Publisher.PublisherName
             </div>
             <div class="swiper-container slider-lg swiper-container-initialized swiper-container-horizontal swiper-container-rtl">
-                <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
+                <div class="swiper-wrapper pub-swiper-wrapper">
                     @if (publisherBooks != null && publisherBooks.Any())
                     {
                         foreach (var book in publisherBooks)
