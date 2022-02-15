@@ -37,7 +37,8 @@ namespace KetabAbee.IoC
     {
         public static void RegisterServices(IServiceCollection service)
         {
-            //Cums From App Layer
+            #region Cums From App Layer
+
             service.AddScoped<IUserService, UserService>();
             service.AddScoped<ITicketService, TicketService>();
             service.AddScoped<IWalletService, WalletService>();
@@ -49,7 +50,10 @@ namespace KetabAbee.IoC
             service.AddScoped<IDiscountService, DiscountService>();
             service.AddScoped<IBlogService, BlogService>();
 
-            //Cums From Data Layer
+            #endregion
+
+            #region Cums From Data Layer
+
             service.AddScoped<IUserRepository, UserRepository>();
             service.AddScoped<ITicketRepository, TicketRepository>();
             service.AddScoped<IWalletRepository, WalletRepository>();
@@ -61,6 +65,7 @@ namespace KetabAbee.IoC
             service.AddScoped<IDiscountRepository, DiscountRepository>();
             service.AddScoped<IBlogRepository, BlogRepository>();
 
+            #endregion
 
             #region html encode
 
@@ -75,9 +80,6 @@ namespace KetabAbee.IoC
             service.AddScoped<IViewRenderService, RenderViewToString>();
 
             #endregion
-
-
-
         }
     }
 }
