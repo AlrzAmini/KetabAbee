@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Admin.Wallet;
 using KetabAbee.Application.DTOs.Paging;
 using KetabAbee.Application.DTOs.Wallet;
+using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Wallet;
 using KetabAbee.Domain.Interfaces;
 using KetabAbee.Domain.Models.Wallet;
@@ -44,10 +45,15 @@ namespace KetabAbee.Application.Services.Wallet
         {
             try
             {
+                if (charge.Amount <= 0)
+                {
+                    return false;
+                }
+
                 var wallet = new Domain.Models.Wallet.Wallet
                 {
                     Amount = charge.Amount,
-                    Behalf = charge.Behalf,
+                    Behalf = charge.Behalf.Sanitizer(),
                     CreateDate = DateTime.Now,
                     UserId = userId,
                     IsPay = isPay,

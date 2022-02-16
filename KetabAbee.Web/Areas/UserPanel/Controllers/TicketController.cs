@@ -100,10 +100,10 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         {
             if (_ticketService.TicketIsReadBySender(id))
             {
-                TempData["SuccessMessage"] = "حالت خوانده شده تیکت تغییر یافت";
+                TempData["SuccessSwal"] = "حالت خوانده شده تیکت تغییر یافت";
                 return RedirectToAction("Index");
             }
-            TempData["ErrorMessage"] = "عملیات با شکست مواجه شد";
+            TempData["ErrorSwal"] = "عملیات با شکست مواجه شد";
             return RedirectToAction("Index");
         }
 

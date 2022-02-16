@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GoogleReCaptcha.V3.Interface;
 using KetabAbee.Application.DTOs.Wallet;
 using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Wallet;
@@ -14,10 +15,12 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         #region cunstructor
 
         private readonly IWalletService _walletService;
+        private readonly ICaptchaValidator _captchaValidator;
 
-        public WalletController(IWalletService walletService)
+        public WalletController(IWalletService walletService, ICaptchaValidator captchaValidator)
         {
             _walletService = walletService;
+            _captchaValidator = captchaValidator;
         }
 
         #endregion
@@ -37,23 +40,17 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
             return View(_walletService.GetWalletsWithPagingByUserId(walletsWithPaging));
         }
 
-        [HttpPost("Wallet/Charge")]
-        public IActionResult ChargeWallet(ChargeWalletViewModel charge, string url)
+        [HttpPost("Wallet/Charge"),ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChargeWallet(ChargeWalletViewModel charge, string url)
         {
-            if (!ModelState.IsValid)
+            if (!await _captchaValidator.IsCaptchaPassedAsync(charge.Captcha))
             {
-                var walletWithPaging = new WalletsWithPagingViewModel
-                {
-                    UserId = User.GetUserId()
-                };
-                var newWallets = _walletService.GetWalletsWithPagingByUserId(walletWithPaging);
-                return View(newWallets);
+                TempData["ErrorSwal"] = "احراز هویت کپچا انجام نشد چند لحظه دیگر تلاش کنید";
+                return Redirect("/Wallet/Charge");
             }
 
-            // check price cant be 0
-            if (charge.Amount <= 0)
+            if (!ModelState.IsValid)
             {
-                TempData["ErrorSwal"] = "مبلغ وارد شده صحیح نمی باشد";
                 var walletWithPaging = new WalletsWithPagingViewModel
                 {
                     UserId = User.GetUserId()
@@ -85,6 +82,5 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         }
 
         #endregion
-
     }
 }

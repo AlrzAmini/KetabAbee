@@ -5,15 +5,22 @@
     ViewData["Title"] = "تیکت ها";
 }
 
-<main class="page-content" style="margin-top: 205.5px; transform: none;">
-    <div class="container" style="transform: none;">
-        <div class="row mb-5" style="transform: none;">
-            <div class="col-lg-3 col-md-4 mb-md-0 mb-3 sticky-sidebar" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
-
-                <div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none;">
+<main class="page-content mt-205 none-transform">
+    <div class="container none-transform">
+        <div class="row mb-5 none-transform">
+            <div class="col-lg-3 col-md-4 mb-md-0 mb-3 sticky-sidebar el-position">
+                <div class="theiaStickySidebar el-sticky-sidebar">
                     <div class="sidebar-widget">
                         @await Component.InvokeAsync("UserPanelSideBarComponent")
-                    </div><div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 349px; height: 599px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div>
+                    </div>
+                    <div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;">
+                        <div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;">
+                            <div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 349px; height: 599px;"></div>
+                        </div>
+                        <div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;">
+                            <div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-9 col-md-8">
@@ -26,7 +33,7 @@
                                         string orderBy = ViewBag.orderby as string;
                                     }
                                     <form id="filterform" asp-controller="Ticket" asp-action="Index" method="get">
-                                        <input type="hidden" asp-for="PageNum"/>
+                                        <input type="hidden" asp-for="PageNum" />
                                         <div class="section-title mb-2">
                                             <div class="col-9">
                                                 <div class="row">
@@ -42,7 +49,7 @@
                                                             <option value="createdateasc">قدیمی ترین</option>
                                                         }
                                                     </select>
-                                                    <input type="text" class="form-control col-8 mr-1" asp-for="Title" placeholder="جستجو بر اساس عنوان تیکت"/>
+                                                    <input type="text" class="form-control col-8 mr-1" asp-for="Title" placeholder="جستجو بر اساس عنوان تیکت" />
                                                 </div>
                                             </div>
                                             <button type="submit" class="btn btn-info col-3">جستجو</button>
@@ -62,43 +69,43 @@
                                             <div class="table-responsive">
                                                 <table class="table">
                                                     <thead>
-                                                    <tr>
-                                                        <th>عنوان</th>
-                                                        <th>ثبت</th>
-                                                        <th>شما</th>
-                                                        <th>اهمیت</th>
-                                                        <th>وضعیت</th>
-                                                        <th>جزییات</th>
-                                                    </tr>
+                                                        <tr>
+                                                            <th>عنوان</th>
+                                                            <th>ثبت</th>
+                                                            <th>شما</th>
+                                                            <th>اهمیت</th>
+                                                            <th>وضعیت</th>
+                                                            <th>جزییات</th>
+                                                        </tr>
                                                     </thead>
                                                     <tbody>
-                                                    @foreach (var item in Model.Tickets)
-                                                    {
-                                                        <tr>
-                                                            <td class="order-code">@item.Title</td>
-                                                            <td>@item.TicketSendDate.ToIraniDate()</td>
-                                                            @if (item.IsReadBySender)
-                                                            {
-                                                                <td class="text-success">خوانده اید</td>
-                                                            }
-                                                            else
-                                                            {
-                                                                <td class="text-danger">نخوانده اید</td>
-                                                            }
-                                                            <td>@item.TicketPriority.GetEnumName()</td>
-                                                            <td>@item.TicketState.GetEnumName()</td>
-                                                            <td class="order-detail-link">
-                                                                <a asp-controller="Ticket" asp-action="ShowTicket" asp-route-Id="@item.TicketId">
-                                                                    <i class="far fa-chevron-left"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    }
+                                                        @foreach (var item in Model.Tickets)
+                                                        {
+                                                            <tr>
+                                                                <td class="order-code">@item.Title</td>
+                                                                <td>@item.TicketSendDate.ToIraniDate()</td>
+                                                                @if (item.IsReadBySender)
+                                                                {
+                                                                    <td class="text-success">خوانده اید</td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td class="text-danger">نخوانده اید</td>
+                                                                }
+                                                                <td>@item.TicketPriority.GetEnumName()</td>
+                                                                <td>@item.TicketState.GetEnumName()</td>
+                                                                <td class="order-detail-link">
+                                                                    <a asp-controller="Ticket" asp-action="ShowTicket" asp-route-Id="@item.TicketId">
+                                                                        <i class="far fa-chevron-left"></i>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        }
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </section>
-                                        <partial name="_UserPanelPaging" model="Model.GetCurrentPaging()"/>
+                                        <partial name="_UserPanelPaging" model="Model.GetCurrentPaging()" />
                                     }
                                     else
                                     {
@@ -124,7 +131,7 @@
 @section Scripts{
 
     <script>
-       
+
         function changeSort() {
             $("#filterform").submit();
         }
