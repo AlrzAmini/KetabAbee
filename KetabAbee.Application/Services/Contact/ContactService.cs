@@ -27,7 +27,7 @@ namespace KetabAbee.Application.Services.Contact
 
         public bool AddEmailToNewsEmails(string email)
         {
-            email = FixText.EmailFixer(email);
+            email = email.Sanitizer();
             return _contactRepository.AddEmailToNewsEmails(new NewsEmail { EmailAddress = email });
         }
 
@@ -67,10 +67,10 @@ namespace KetabAbee.Application.Services.Contact
             {
                 UserId = userId,
                 UserIp = userIp,
-                UserName = contactUs.UserName,
-                Email = contactUs.Email,
-                Body = contactUs.Body,
-                Subject = contactUs.Subject,
+                UserName = contactUs.UserName.Sanitizer(),
+                Email = contactUs.Email.Sanitizer(),
+                Body = contactUs.Body.Sanitizer(),
+                Subject = contactUs.Subject.Sanitizer(),
                 SendDate = DateTime.Now
             };
             return _contactRepository.AddContactUs(newContactUs);

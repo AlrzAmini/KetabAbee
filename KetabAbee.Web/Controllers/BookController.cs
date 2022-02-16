@@ -208,6 +208,8 @@ namespace KetabAbee.Web.Controllers
         [HttpGet("Book/RemoveComment/{commentId}")]
         public IActionResult RemoveComment(int commentId, int? bookId)
         {
+            #region is auth
+
             if (User.Identity.IsAuthenticated)
             {
                 if (!_commentService.IsUserSendComment(User.GetUserId(), commentId)) return Forbid();
@@ -220,6 +222,10 @@ namespace KetabAbee.Web.Controllers
                 return Redirect(bookId == null ? "/UserPanel/Comments" : $"/BookInfo/{bookId}");
             }
 
+            #endregion
+
+            #region is not auth
+
             if (!_commentService.IsUserSendComment(HttpContext.GetUserIp(), commentId)) return Forbid();
             if (_commentService.DeleteComment(commentId))
             {
@@ -229,6 +235,7 @@ namespace KetabAbee.Web.Controllers
             TempData["ErrorSwal"] = "مشکلی در حذف دیدگاه رخ داد";
             return Redirect($"/BookInfo/{bookId}");
 
+            #endregion
         }
 
         #endregion

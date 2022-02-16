@@ -1,7 +1,6 @@
 ﻿@using KetabAbee.Application.Extensions
 @{
     var url = Context.GetCurrentUrl();
-    
 }
 @section Scripts
 {
@@ -13,7 +12,7 @@
         <form action="/AddToNLE" class="newsletterform" method="post">
             <input type="hidden" name="url" value="@url" />
             <div class="form-group">
-                <input type="email" name="email" placeholder="آدرس ایمیل خود را وارد نمایید">
+                <input type="email" name="email" placeholder="آدرس ایمیل خود را وارد نمایید" required="">
                 <button type="submit">عضویت</button>
             </div>
         </form>

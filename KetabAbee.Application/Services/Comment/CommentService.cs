@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.Const;
 using KetabAbee.Application.DTOs.Comment;
+using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Comment;
 using KetabAbee.Domain.Interfaces;
 using KetabAbee.Domain.Models.Comment.ProductComment;
@@ -28,12 +29,18 @@ namespace KetabAbee.Application.Services.Comment
         public bool AddAnswer(ProductCommentAnswer answer)
         {
             answer.SendDate = DateTime.Now;
+            answer.AnswerBody = answer.AnswerBody.Sanitizer();
             return _commentRepository.AddAnswer(answer);
         }
 
         public bool AddComment(ProductComment comment)
         {
             comment.SendDate = DateTime.Now;
+
+            comment.Body = comment.Body.Sanitizer();
+            comment.Email = comment.Email.Sanitizer();
+            comment.UserName = comment.UserName.Sanitizer();
+
             return _commentRepository.AddComment(comment);
         }
 

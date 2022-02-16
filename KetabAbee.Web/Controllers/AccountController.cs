@@ -18,6 +18,8 @@ namespace KetabAbee.Web.Controllers
 {
     public class AccountController : Controller
     {
+        #region MyRegion
+
         private readonly IUserService _userService;
         private readonly ICaptchaValidator _captchaValidator;
         private readonly IViewRenderService _renderService;
@@ -28,6 +30,8 @@ namespace KetabAbee.Web.Controllers
             _captchaValidator = captchaValidator;
             _renderService = renderService;
         }
+
+        #endregion
 
         #region Register
 
@@ -269,7 +273,7 @@ namespace KetabAbee.Web.Controllers
         {
             if (!await _captchaValidator.IsCaptchaPassedAsync(reset.Captcha))
             {
-                TempData["ErrorMessage"] = "احراز هویت کپچا انجام نشد . دوباره تلاش کنید";
+                TempData["ErrorSwal"] = "احراز هویت کپچا انجام نشد . دوباره تلاش کنید";
                 return View(reset);
             }
 
@@ -288,17 +292,17 @@ namespace KetabAbee.Web.Controllers
             // check password strength
             if (PasswordStrengthChecker.CheckStrength(reset.Password) == PasswordScore.VeryWeak)
             {
-                TempData["WarningMessage"] = "کلمه عبور وارد شده بسیار ضعیف است";
+                TempData["WarningSwal"] = "کلمه عبور وارد شده بسیار ضعیف است";
                 TempData["InfoMessage"] = "کلمه عبور می بایست حداقل 6 کاراکتر داشته باشد";
                 return View(reset);
             }
 
-            user.Password = PasswordHasher.EncodePasswordMd5(reset.Password);
+            user.Password = PasswordHasher.EncodePasswordMd5(reset.Password.Sanitizer());
             user.EmailActivationCode = new Random().Next(10000, 99999).ToString();
 
             _userService.UpdateUser(user);
 
-            TempData["SuccessMessage"] = "رمز عبور شما با موفقیت تغییر کرد";
+            TempData["SuccessSwal"] = "رمز عبور شما با موفقیت تغییر کرد";
 
             return RedirectToAction("Login");
 

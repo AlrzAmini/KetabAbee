@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs;
+using KetabAbee.Application.DTOs.Admin.Discount;
 using KetabAbee.Application.DTOs.Discount;
 using KetabAbee.Domain.Models.Products;
 
@@ -20,5 +21,9 @@ namespace KetabAbee.Application.Interfaces.Product.Discount
         bool UpdateDiscount(int discountId);
 
         bool RemoveDiscount(int discountId);
+
+        EditDiscountViewModel GetInfoForEditDiscount(int discountId);
+
+        EditDiscountResult EditDiscount(EditDiscountViewModel discount);
     }
 }

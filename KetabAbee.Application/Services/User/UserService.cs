@@ -35,8 +35,8 @@ namespace KetabAbee.Application.Services.User
         {
             var newUser = new Domain.Models.User.User()
             {
-                UserName = user.UserName,
-                Email = user.Email,
+                UserName = user.UserName.Sanitizer(),
+                Email = user.Email.Sanitizer(),
                 Password = PasswordHasher.EncodePasswordMd5(user.Password),
                 EmailActivationCode = new Random().Next(10000, 99999).ToString(),
                 MobileActivationCode = new Random().Next(100000, 999998).ToString(),
@@ -89,7 +89,7 @@ namespace KetabAbee.Application.Services.User
 
         public Domain.Models.User.User GetUserByEmail(string email)
         {
-            return _userRepository.GetUserByEmail(email);
+            return _userRepository.GetUserByEmail(email.Sanitizer());
         }
 
         public Domain.Models.User.User GetUserByEmailActivationCode(string emailActiveCode)
@@ -404,7 +404,7 @@ namespace KetabAbee.Application.Services.User
 
         public bool EmailActivatorBy5ThCode(string activateCode)
         {
-            var user = _userRepository.GetUserByEmailActive5ThCode(activateCode);
+            var user = _userRepository.GetUserByEmailActive5ThCode(activateCode.Sanitizer());
 
             // user not found
             if (user == null)

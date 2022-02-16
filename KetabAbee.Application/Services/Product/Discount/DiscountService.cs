@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs;
+using KetabAbee.Application.DTOs.Admin.Discount;
 using KetabAbee.Application.DTOs.Discount;
 using KetabAbee.Application.DTOs.Paging;
 using KetabAbee.Application.Interfaces.Product;
@@ -76,9 +77,49 @@ namespace KetabAbee.Application.Services.Product.Discount
             return _discountRepository.RemoveDiscount(GetDiscountById(discountId));
         }
 
+        public EditDiscountViewModel GetInfoForEditDiscount(int discountId)
+        {
+            return _discountRepository.GetDiscounts()
+                  .Where(d => d.DiscountId == discountId)
+                  .Select(d => new EditDiscountViewModel()
+                  {
+                      ProductId = d.ProductId,
+                      DiscountId = d.DiscountId,
+                      DiscountNumber = d.DiscountNumber,
+                      Percent = d.Percent,
+                      ExpiredDate = d.ExpiredDate.ToShamsi(),
+                      ProductName = d.Product.Name
+                  }).Single();
+        }
+
         public bool UpdateDiscount(int discountId)
         {
             return _discountRepository.UpdateDiscount(GetDiscountById(discountId));
+        }
+
+        public EditDiscountResult EditDiscount(EditDiscountViewModel discount)
+        {
+            try
+            {
+                var newDiscount = GetDiscountById(discount.DiscountId);
+
+                if (newDiscount == null)
+                {
+                    return EditDiscountResult.NotFound;
+                }
+
+                newDiscount.ProductId = discount.ProductId;
+                newDiscount.DiscountNumber = discount.DiscountNumber;
+                newDiscount.ExpiredDate = discount.ExpiredDate.ToMiladiDateTime();
+                newDiscount.Percent = discount.Percent;
+
+                return _discountRepository.UpdateDiscount(newDiscount) ? EditDiscountResult.Success : EditDiscountResult.Error;
+            }
+            catch 
+            {
+                return EditDiscountResult.UnHandledException;
+            }
+
         }
     }
 }

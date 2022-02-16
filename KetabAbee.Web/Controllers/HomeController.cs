@@ -107,7 +107,7 @@ namespace KetabAbee.Web.Controllers
                 TempData["WarningSwal"] = "این ایمیل قبلا ثبت شده است";
                 return Redirect(url);
             }
-            TempData["ErrorSwal"] = "ایمیل را وارد کنید";
+            TempData["WarningSwal"] = "ایمیل را وارد کنید";
             return Redirect(url);
         }
 
@@ -236,6 +236,5 @@ namespace KetabAbee.Web.Controllers
         }
 
         #endregion
-
     }
 }

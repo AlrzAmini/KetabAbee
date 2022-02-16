@@ -16,8 +16,8 @@
 </div>
 <!-- /Page Breadcrumb -->
 <div class="col-12 col-md-12 row margin-bottom-10">
-    <div class="alert alert-info">
-        امکانات این بخش هنوز به سایت افزوده نشده است
+    <div class="alert alert-info fade in radius-bordered alert-shadowed">
+        امکانات این بخش هنوز به خدمات سایت افزوده نشده است
     </div>
 </div>
 <div class="col-12 col-md-12 row margin-bottom-10">
@@ -82,7 +82,7 @@
                         @discount.Product.Name
                     </td>
                     <td>
-                        <a class="btn btn-info" asp-controller="AdminNews" asp-action="SendToAll" asp-route-newsId="1">ویرایش</a>
+                        <a class="btn btn-info" asp-controller="AdminDiscount" asp-action="EditDiscount" asp-route-discountId="@discount.DiscountId">ویرایش</a>
                         <a class="btn btn-danger" asp-controller="AdminDiscount" asp-action="RemoveDiscount" asp-route-discountId="@discount.DiscountId"
                            onclick="return confirm('از حذف این تخفیف مطمعن هستید ؟')">حذف</a>
                     </td>
