@@ -58,7 +58,6 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         public IActionResult EditProfile()
         {
             var infoForEdit = _userService.GetInfoForEditInUserPanel(User.Identity.Name);
-
             return View(infoForEdit);
         }
 
@@ -74,12 +73,12 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
 
             if (_userService.EditUserProfile(edit))
             {
-                TempData["SuccessMessage"] = "پروفایل شما با موفقیت بروزرسانی شد";
+                TempData["SuccessSwal"] = "پروفایل شما با موفقیت بروزرسانی شد";
 
                 return RedirectToAction("Dashboard");
             }
 
-            TempData["ErrorMessage"] = "خطایی در هنگام ویرایش اطلاعات شما رخ داد";
+            TempData["ErrorSwal"] = "خطایی در هنگام ویرایش اطلاعات شما رخ داد";
 
             return RedirectToAction("Dashboard");
 
@@ -107,20 +106,20 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
 
             if (!_userService.IsOldPasswordCorrect(userName,change.OldPassword))
             {
-                TempData["ErrorMessage"] = "کلمه عبور فعلی شما همخوانی ندارد ";
+                TempData["ErrorSwal"] = "کلمه عبور فعلی شما همخوانی ندارد ";
                 return View(change);
             }
 
             // check password strength
             if (PasswordStrengthChecker.CheckStrength(change.Password) == PasswordScore.VeryWeak)
             {
-                TempData["WarningMessage"] = "کلمه عبور جدید بسیار ضعیف است";
-                TempData["InfoMessage"] = "کلمه عبور می بایست بیش از 6 کاراکتر داشته باشد";
+                TempData["WarningSwal"] = "کلمه عبور جدید بسیار ضعیف است";
+                TempData["ErrorMessage"] = "کلمه عبور می بایست بیش از 6 کاراکتر داشته باشد";
                 return View(change);
             }
 
             if (!_userService.ChangePasswordInUserPanel(userName, change.Password)) return View(change);
-            TempData["SuccessMessage"] = "کلمه عبور شما با موفقیت بروزرسانی شد ";
+            TempData["SuccessSwal"] = "کلمه عبور شما با موفقیت بروزرسانی شد ";
             return RedirectToAction("Dashboard");
         }
 

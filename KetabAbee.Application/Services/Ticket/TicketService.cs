@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Paging;
 using KetabAbee.Application.DTOs.Ticket;
+using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Ticket;
 using KetabAbee.Domain.Interfaces;
 using KetabAbee.Domain.Models.Ticket;
@@ -50,8 +51,8 @@ namespace KetabAbee.Application.Services.Ticket
             var newTicket = new Domain.Models.Ticket.Ticket()
             {
                 SenderId = senderId,
-                Title = ticket.Title,
-                Body = ticket.Body,
+                Title = ticket.Title.Sanitizer(),
+                Body = ticket.Body.Sanitizer(),
                 TicketPriority = ticket.TicketPriority,
                 TicketSendDate = DateTime.Now,
                 IsReadBySender = true,
@@ -211,18 +212,29 @@ namespace KetabAbee.Application.Services.Ticket
             }
         }
 
-        public bool AddAnswerFromUser(TicketAnswer answer)
+        public bool AddAnswerFromUser(CreateTicketAnswerViewModel answer)
         {
             try
             {
                 if (answer == null) return false;
 
+                answer.Ticket = GetTicketById(answer.TicketId);
+
+                var newAnswer = new TicketAnswer
+                {
+                    AnswerBody = answer.AnswerBody.Sanitizer(),
+                    SendDate = DateTime.Now,
+                    SenderId = answer.SenderId,
+                    TicketId = answer.TicketId,
+                    Ticket = answer.Ticket
+                };
+
                 // after add a new answer to ticket
-                answer.SendDate = DateTime.Now;
-                answer.Ticket.TicketState = TicketState.Pending;
-                answer.Ticket.IsReadByAdmin = false;
-                answer.Ticket.IsReadBySender = true;
-                _ticketRepository.AddAnswer(answer);
+                
+                newAnswer.Ticket.TicketState = TicketState.Pending;
+                newAnswer.Ticket.IsReadByAdmin = false;
+                newAnswer.Ticket.IsReadBySender = true;
+                _ticketRepository.AddAnswer(newAnswer);
 
                 return true;
             }

@@ -45,7 +45,7 @@ namespace KetabAbee.Application.Interfaces.Ticket
 
         ShowTicketInAdminViewmodel GetTicketForShowTicketInAdmin(int ticketId);
 
-        bool AddAnswerFromUser(TicketAnswer answer);
+        bool AddAnswerFromUser(CreateTicketAnswerViewModel answer);
 
         #endregion
 

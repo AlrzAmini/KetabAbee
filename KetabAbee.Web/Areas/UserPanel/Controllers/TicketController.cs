@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Ganss.XSS;
+using GoogleReCaptcha.V3.Interface;
 using KetabAbee.Application.DTOs.Ticket;
 using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Ticket;
@@ -17,10 +18,12 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         #region constructor
 
         private readonly ITicketService _ticketService;
+        private readonly ICaptchaValidator _captchaValidator;
 
-        public TicketController(ITicketService ticketService)
+        public TicketController(ITicketService ticketService, ICaptchaValidator captchaValidator)
         {
             _ticketService = ticketService;
+            _captchaValidator = captchaValidator;
         }
 
         #endregion
@@ -30,10 +33,10 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         [HttpGet("Tickets")]
         public IActionResult Index(FilterTicketViewModel filter)
         {
-            filter.UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            filter.UserId = User.GetUserId();
 
             ViewBag.orderby = filter.OrderBy.GetEnumName();
-            
+
             return View(_ticketService.FilterTickets(filter));
         }
 
@@ -48,27 +51,27 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         }
 
         [HttpPost("Ticket/AddTicket"), ValidateAntiForgeryToken]
-        public IActionResult AddTicket(AddTicketViewmodel ticket)
+        public async Task<IActionResult> AddTicket(AddTicketViewmodel ticket)
         {
+            if (!await _captchaValidator.IsCaptchaPassedAsync(ticket.Captcha))
+            {
+                TempData["ErrorSwal"] = "احراز هویت کپچا انجام نشد چند لحظه دیگر تلاش کنید";
+                return View(ticket);
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(ticket);
             }
 
-            // sanitize body
-            var sanitizer = new HtmlSanitizer();
-            ticket.Body = sanitizer.Sanitize(ticket.Body);
-
-            bool res = _ticketService.AddTicket(ticket, int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
-
-            if (res)
+            if (_ticketService.AddTicket(ticket, User.GetUserId()))
             {
-                TempData["SuccessMessage"] = "ثبت تیکت با موفقیت انجام شد";
+                TempData["SuccessSwal"] = "ثبت تیکت با موفقیت انجام شد";
                 TempData["InfoMessage"] = "پاسخ به تیکت شما پس از بررسی ارسال خواهد شد";
                 return RedirectToAction("Index");
             }
 
-            TempData["ErrorMessage"] = "ثبت تیکت با شکست مواجه شد";
+            TempData["ErrorSwal"] = "ثبت تیکت با شکست مواجه شد";
             return View(ticket);
         }
 
@@ -84,7 +87,7 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
             {
                 return NotFound();
             }
-            
+
             return View(ticketWithAnswers);
         }
 
@@ -109,28 +112,29 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
 
         #region Answer Ticket
 
-        public IActionResult CreateAnswer(int id, string answerBody)
+        public async Task<IActionResult> CreateAnswer(CreateTicketAnswerViewModel answer)
         {
-            if (!string.IsNullOrEmpty(answerBody))
+            var id = answer.TicketId;
+            if (!await _captchaValidator.IsCaptchaPassedAsync(answer.Captcha))
             {
-                var answer = new TicketAnswer
-                {
-                    TicketId = id,
-                    SenderId = User.GetUserId(),
-                    AnswerBody = answerBody,
-                    Ticket = _ticketService.GetTicketById(id)
-                };
+                TempData["ErrorSwal"] = "احراز هویت کپچا انجام نشد چند لحظه دیگر تلاش کنید";
+                return RedirectToAction("ShowTicket", new { id });
+            }
+
+            if (!string.IsNullOrEmpty(answer.AnswerBody))
+            {
+                answer.SenderId = User.GetUserId();
 
                 if (_ticketService.AddAnswerFromUser(answer))
                 {
-                    TempData["SuccessMessage"] = "پاسخ تیکت ثبت شد";
+                    TempData["SuccessSwal"] = "پاسخ تیکت ثبت شد";
                     return RedirectToAction("ShowTicket", new { id });
                 }
 
-                TempData["ErrorMessage"] = "پاسخ تیکت ثبت نشد";
+                TempData["ErrorSwal"] = "پاسخ تیکت ثبت نشد";
                 return RedirectToAction("ShowTicket", new { id });
             }
-            TempData["ErrorMessage"] = "متن پاسخ نمی تواند خالی باشد";
+            TempData["ErrorSwal"] = "متن پاسخ نمی تواند خالی باشد";
             return RedirectToAction("ShowTicket", new { id });
         }
 

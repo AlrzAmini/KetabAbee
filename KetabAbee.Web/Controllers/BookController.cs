@@ -8,6 +8,9 @@ using KetabAbee.Domain.Models.Products;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading.Tasks;
+using KetabAbee.Application.DTOs.Comment;
+using GoogleReCaptcha.V3.Interface;
 
 namespace KetabAbee.Web.Controllers
 {
@@ -18,12 +21,14 @@ namespace KetabAbee.Web.Controllers
         private readonly IProductService _productService;
         private readonly IOrderService _orderService;
         private readonly ICommentService _commentService;
+        private readonly ICaptchaValidator _captchaValidator;
 
-        public BookController(IProductService productService, IOrderService orderService, ICommentService commentService)
+        public BookController(IProductService productService, IOrderService orderService, ICommentService commentService, ICaptchaValidator captchaValidator)
         {
             _productService = productService;
             _orderService = orderService;
             _commentService = commentService;
+            _captchaValidator = captchaValidator;
         }
 
         #endregion
@@ -128,7 +133,7 @@ namespace KetabAbee.Web.Controllers
         #region add comment
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult AddComment(ProductComment comment)
+        public IActionResult AddComment(CreateCommentViewModel comment)
         {
             if (User.Identity.IsAuthenticated)
             {

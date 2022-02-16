@@ -70,9 +70,10 @@
                         </div>
                         <div class="widget-body bordered-left bordered-green">
                             <form asp-controller="Ticket" asp-action="CreateAnswer">
-                                <input type="hidden" name="id" value="@Model.Ticket.TicketId" />
+                                <input type="hidden" name="answer.TicketId" value="@Model.Ticket.TicketId" />
+                                <input type="hidden" name="answer.Captcha" id="captchaInput" />
                                 <div class="form-group has-success has-feedback">
-                                    <textarea id="Body" name="answerBody" class="form-control"></textarea>
+                                    <textarea id="Body" name="answer.AnswerBody" class="form-control"></textarea>
                                 </div>
                                 <button class="btn btn-success" type="submit">ارسال</button>
                             </form>
@@ -118,6 +119,8 @@
 </main>
 @section Scripts
 {
+    <partial name="_ValidationScriptsPartial"/>
+    <partial name="_CaptchaScripts"/>
     <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
     <script>
         CKEDITOR.replace('Body', {

@@ -33,15 +33,27 @@ namespace KetabAbee.Application.Services.Comment
             return _commentRepository.AddAnswer(answer);
         }
 
-        public bool AddComment(ProductComment comment)
+        public bool AddComment(CreateCommentViewModel comment)
         {
-            comment.SendDate = DateTime.Now;
+            try
+            {
+                var newComment = new ProductComment
+                {
+                    SendDate = DateTime.Now,
+                    Body = comment.Body.Sanitizer(),
+                    Email = comment.Email.Sanitizer(),
+                    ProductId = comment.ProductId,
+                    UserId = comment.UserId,
+                    UserIp = comment.UserIp,
+                    UserName = comment.UserName.Sanitizer()
+                };
 
-            comment.Body = comment.Body.Sanitizer();
-            comment.Email = comment.Email.Sanitizer();
-            comment.UserName = comment.UserName.Sanitizer();
-
-            return _commentRepository.AddComment(comment);
+                return _commentRepository.AddComment(newComment);
+            }
+            catch
+            {
+                throw new ArgumentNullException(nameof(comment));
+            }
         }
 
         public bool DeleteComment(int commentId)

@@ -23,6 +23,7 @@
                         </div>
                         <section class="shadow-around p-3">
                             <form asp-action="AddTicket" method="post">
+                                <partial name="_CaptchaInput" />
                                 <div class="row">
                                     <div class="col-md-6 mb-5">
                                         <div class="text-sm text-muted mb-3">عنوان:</div>
@@ -72,6 +73,8 @@
 @section Scripts
 {
     <partial name="_ValidationScriptsPartial" />
+    <partial name="_CaptchaScripts" />
+
     <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
     <script>
         CKEDITOR.replace('Body', {

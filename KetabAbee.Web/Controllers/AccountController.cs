@@ -18,7 +18,7 @@ namespace KetabAbee.Web.Controllers
 {
     public class AccountController : Controller
     {
-        #region MyRegion
+        #region Constructor
 
         private readonly IUserService _userService;
         private readonly ICaptchaValidator _captchaValidator;
@@ -309,6 +309,5 @@ namespace KetabAbee.Web.Controllers
         }
 
         #endregion
-
     }
 }

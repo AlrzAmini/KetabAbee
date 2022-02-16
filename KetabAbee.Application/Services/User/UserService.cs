@@ -202,11 +202,11 @@ namespace KetabAbee.Application.Services.User
                 // update user
                 var user = GetUserByEmail(edit.Email);
 
-                user.Mobile = edit.Mobile;
+                user.Mobile = edit.Mobile.Sanitizer();
                 user.AvatarName = edit.CurrentAvatar;
                 user.BirthDay = edit.BirthDay;
                 user.Age = edit.BirthDay.GetAgeByDateTime();
-                user.Address = edit.Address;
+                user.Address = edit.Address.Sanitizer();
 
                 UpdateUser(user);
                 return true;
@@ -227,7 +227,7 @@ namespace KetabAbee.Application.Services.User
             try
             {
                 var user = _userRepository.GetUserByUserName(username);
-                user.Password = PasswordHasher.EncodePasswordMd5(newPass);
+                user.Password = PasswordHasher.EncodePasswordMd5(newPass.Sanitizer());
 
                 UpdateUser(user);
                 return true;

@@ -6,11 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Paging;
+using KetabAbee.Application.DTOs.Site;
 using KetabAbee.Domain.Models.Ticket;
 
 namespace KetabAbee.Application.DTOs.Ticket
 {
-    public class AddTicketViewmodel
+    public class AddTicketViewmodel : CaptchaViewModel
     {
         #region Properties
 
