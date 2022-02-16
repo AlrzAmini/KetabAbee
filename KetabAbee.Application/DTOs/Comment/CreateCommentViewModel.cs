@@ -9,7 +9,7 @@ using KetabAbee.Application.DTOs.Site;
 
 namespace KetabAbee.Application.DTOs.Comment
 {
-    public class CreateCommentViewModel
+    public class CreateCommentViewModel : CaptchaViewModel
     {
         public int? UserId { get; set; }
 

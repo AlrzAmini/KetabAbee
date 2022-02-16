@@ -21,7 +21,7 @@ namespace KetabAbee.Application.Interfaces.Order
 
         bool RemoveItemOfOrderDetail(int userId, int orderId, int detailId);
 
-        string UpdateDetailCount(int userId, int orderId, int detailId, int newCount);
+        ChangeCountResult UpdateDetailCount(int userId, int orderId, int detailId, int newCount);
 
         bool PayByOrderId(int userId, int orderId);
 

@@ -36,4 +36,12 @@ namespace KetabAbee.Domain.Models.Order
 
         #endregion
     }
+
+    public enum ChangeCountResult
+    {
+        Success,
+        OutOfRange,
+        NotFound,
+        UnHandledException
+    }
 }

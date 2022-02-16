@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Order;
 using KetabAbee.Application.Interfaces.User;
+using KetabAbee.Domain.Models.Order;
 using Microsoft.AspNetCore.Http.Extensions;
 
 namespace KetabAbee.Web.Areas.UserPanel.Controllers
@@ -97,25 +98,24 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         [Route("/Cart/ChangeCount")]
         public IActionResult SetProductCount(int productCount, string reqUrl, int orderId, int detailId)
         {
-            //TODO : Check service with inventory
-            if (_orderService.UpdateDetailCount(User.GetUserId(), orderId, detailId, productCount) == "Success")
+            var res = _orderService.UpdateDetailCount(User.GetUserId(), orderId, detailId, productCount);
+            switch (res)
             {
-                return Redirect(reqUrl);
-            }
+                case ChangeCountResult.Success:
+                    return Redirect(reqUrl);
 
-            if (_orderService.UpdateDetailCount(User.GetUserId(), orderId, detailId, productCount) == "Null")
-            {
-                return BadRequest();
-            }
+                case ChangeCountResult.NotFound:
+                    return BadRequest();
 
-            if (_orderService.UpdateDetailCount(User.GetUserId(), orderId, detailId, productCount) == "OutOfRange")
-            {
-                TempData["WarningMessage"] = "موجودی کالا کافی نیست";
-                return Redirect(reqUrl);
-            }
+                case ChangeCountResult.OutOfRange:
+                    TempData["WarningSwal"] = "موجودی کالا کافی نیست";
+                    return Redirect(reqUrl);
 
-            TempData["ErrorMessage"] = "خطایی در انجام عملیات رخ داد";
-            return Redirect(reqUrl);
+                case ChangeCountResult.UnHandledException:
+                default:
+                    TempData["ErrorSwal"] = "خطایی در انجام عملیات رخ داد";
+                    return Redirect(reqUrl);
+            }
         }
 
         #endregion

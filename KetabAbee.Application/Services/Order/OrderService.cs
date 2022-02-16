@@ -286,7 +286,7 @@ namespace KetabAbee.Application.Services.Order
             _orderRepository.UpdateDetail(detail);
         }
 
-        public string UpdateDetailCount(int userId, int orderId, int detailId, int newCount)
+        public ChangeCountResult UpdateDetailCount(int userId, int orderId, int detailId, int newCount)
         {
             try
             {
@@ -294,21 +294,21 @@ namespace KetabAbee.Application.Services.Order
                     .SingleOrDefault(d => !d.Order.IsFinally && d.OrderId == orderId && d.DetailId == detailId);
                 if (detail == null)
                 {
-                    return "Null";
+                    return ChangeCountResult.NotFound;
                 }
 
                 if (newCount > detail.Product.Inventory)
                 {
-                    return "OutOfRange";
+                    return ChangeCountResult.OutOfRange;
                 }
                 detail.Count = newCount;
                 UpdateDetail(detail);
                 _orderRepository.UpdatePriceOrder(orderId);
-                return "Success";
+                return ChangeCountResult.Success;
             }
             catch
             {
-                return "Exception";
+                return ChangeCountResult.UnHandledException;
             }
         }
 
