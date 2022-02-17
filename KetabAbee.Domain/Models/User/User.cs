@@ -42,7 +42,7 @@ namespace KetabAbee.Domain.Models.User
         #region Mobile
 
         [DisplayName("موبایل")]
-        [MaxLength(50, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
+        [MaxLength(20, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
         public string Mobile { get; set; }
 
         #endregion

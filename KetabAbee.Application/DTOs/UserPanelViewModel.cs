@@ -43,7 +43,9 @@ namespace KetabAbee.Application.DTOs
         #region Mobile
 
         [DisplayName("موبایل")]
-        [MaxLength(50, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
+        [MaxLength(16, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
+        [Phone(ErrorMessage = "شماره تلفن وارد شده صحیح نیست")]
+        [MinLength(10,ErrorMessage = "شماره تلفن وارد شده صحیح نیست")]
         public string Mobile { get; set; }
 
         #endregion
