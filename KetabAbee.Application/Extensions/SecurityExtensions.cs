@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Application.Security;
 
 namespace KetabAbee.Application.Extensions
 {
@@ -17,6 +18,11 @@ namespace KetabAbee.Application.Extensions
                 KeepChildNodes = true
             };
             return htmlSanitizer.Sanitize(value);
+        }
+
+        public static string CheckPasswordStrength(this string password)
+        {
+            return PasswordStrengthChecker.CheckStrength(password).GetEnumName();
         }
     }
 }

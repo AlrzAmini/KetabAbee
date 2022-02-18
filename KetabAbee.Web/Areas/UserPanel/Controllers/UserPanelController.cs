@@ -123,6 +123,17 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
             return RedirectToAction("Dashboard");
         }
 
+        #region check strength
+
+        [HttpGet("UserPanel/Get/Password-Strength-Json")]
+        public IActionResult GetPasswordStrengthJson(string password)
+        {
+            var data = password.CheckPasswordStrength();
+            return new JsonResult(data);
+        }
+
+        #endregion
+
         #endregion
 
         #region Favorites
@@ -156,5 +167,6 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         }
 
         #endregion
+
     }
 }
