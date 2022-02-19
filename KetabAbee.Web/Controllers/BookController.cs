@@ -55,11 +55,11 @@ namespace KetabAbee.Web.Controllers
             var model = _productService.GetBookForShowByBookId(bookId);
 
             ViewBag.PublisherBooks = _productService.PublisherBooks(model.PublisherId, model).ToList();
-            ViewBag.CommentCount = _commentService.ProductCommentCount(bookId);
 
             if (!User.Identity.IsAuthenticated) return View(model);
 
             ViewBag.FavBook = _productService.GetFavBookInfoFromBook(User.GetUserId(), model.BookId);
+
             var userName = User.Identity.Name;
             ViewBag.AgeRangeBooks = _productService.GetBooksByAgeRange(userName).ToList();
             ViewBag.UserAge = _productService.GetAgeByUserName(userName);

@@ -112,11 +112,13 @@ namespace KetabAbee.Web.Controllers
             if (!await _captchaValidator.IsCaptchaPassedAsync(login.Captcha))
             {
                 TempData["ErrorSwal"] = "احراز هویت کپچا انجام نشد . دوباره تلاش کنید";
+                ViewData["returnUrl"] = returnUrl;
                 return View(login);
             }
 
             if (!ModelState.IsValid)
             {
+                ViewData["returnUrl"] = returnUrl;
                 return View(login);
             }
             
@@ -127,10 +129,11 @@ namespace KetabAbee.Web.Controllers
                 if (!user.IsEmailActive)
                 {
                     TempData["WarningSwal"] = "حساب کاربری شما فعال نشده است";
+                    ViewData["returnUrl"] = returnUrl;
                     return View(login);
                 }
 
-                var claims = new List<Claim>()
+                var claims = new List<Claim>
                 {
                     new(ClaimTypes.NameIdentifier,user.UserId.ToString()),
                     new(ClaimTypes.Name,user.UserName),
@@ -140,7 +143,7 @@ namespace KetabAbee.Web.Controllers
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 var principal = new ClaimsPrincipal(identity);
 
-                var properties = new AuthenticationProperties()
+                var properties = new AuthenticationProperties
                 {
                     IsPersistent = login.RememberMe
                 };
@@ -160,6 +163,7 @@ namespace KetabAbee.Web.Controllers
                 return Redirect("/");
             }
 
+            ViewData["returnUrl"] = returnUrl;
             TempData["ErrorSwal"] = "نام کاربری یا کلمه عبور اشتباه است";
             return View(login);
 
