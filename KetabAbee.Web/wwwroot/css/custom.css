@@ -85,6 +85,22 @@
     left: 1062.5px;
 }
 
+.el-visibility-on {
+    visibility: visible;
+}
+
+.star--color {
+    color: #FFD700;
+}
+
+.el-width-450 {
+    width: 415px;
+}
+
+.el-swiper-wraper-book-info {
+    transform: translate3d(0px, 0px, 0px);
+}
+
 .pub-box-swiper-slide {
     width: 209px;
     margin-left: 10px;

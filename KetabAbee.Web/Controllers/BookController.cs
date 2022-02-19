@@ -53,15 +53,16 @@ namespace KetabAbee.Web.Controllers
         public IActionResult BookInfo(int bookId, string bookName)
         {
             var model = _productService.GetBookForShowByBookId(bookId);
+
             ViewBag.PublisherBooks = _productService.PublisherBooks(model.PublisherId, model).ToList();
             ViewBag.CommentCount = _commentService.ProductCommentCount(bookId);
-            if (User.Identity.IsAuthenticated)
-            {
-                ViewBag.FavBook = _productService.GetFavBookInfoFromBook(User.GetUserId(), model.BookId);
-                var userName = User.Identity.Name;
-                ViewBag.AgeRangeBooks = _productService.GetBooksByAgeRange(userName).ToList();
-                ViewBag.UserAge = _productService.GetAgeByUserName(userName);
-            }
+
+            if (!User.Identity.IsAuthenticated) return View(model);
+
+            ViewBag.FavBook = _productService.GetFavBookInfoFromBook(User.GetUserId(), model.BookId);
+            var userName = User.Identity.Name;
+            ViewBag.AgeRangeBooks = _productService.GetBooksByAgeRange(userName).ToList();
+            ViewBag.UserAge = _productService.GetAgeByUserName(userName);
 
             return View(model);
         }
@@ -259,6 +260,17 @@ namespace KetabAbee.Web.Controllers
             }
             TempData["ErrorSwal"] = "مشکلی در حذف دیدگاه رخ داد";
             return Redirect($"/BookInfo/{bookId}");
+        }
+
+        #endregion
+
+        #region get book comments count
+
+        [HttpGet("Get/book-comments-count-json")]
+        public IActionResult GetBookCommentsCount(int bookId)
+        {
+            var data = _commentService.ProductCommentCount(bookId);
+            return new JsonResult(data);
         }
 
         #endregion

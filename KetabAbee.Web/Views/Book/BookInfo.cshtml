@@ -9,8 +9,8 @@
     var userId = User.GetUserId();
     var bookScoresCount = _productService.AllBookSentScoresCount(Model.BookId);
     var userBoughtCourse = User.Identity.IsAuthenticated && _productService.IsUserBoughtBook(userId, Model.BookId);
+    var url = Context.GetCurrentUrl();
 }
-
 @section MetaTag
 {
     <meta name="googlebot" content="index,follow" />
@@ -47,9 +47,9 @@
                 <div class="col-xl-4 col-lg-4 col-md-6 mb-md-0 mb-3">
                     <div class="product-gallery">
                         <div class="swiper-container gallery-slider pb-md-0 pb-3 swiper-container-initialized swiper-container-horizontal swiper-container-rtl">
-                            <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
-                                <div class="swiper-slide" style="width: 415px;">
-                                    <img src="/images/Book/image/@Model.ImageName" data-large="/images/Book/image/@Model.ImageName" class="zoom-image thumbnail rounded" alt="@Model.Name" style="visibility: visible;">
+                            <div class="swiper-wrapper el-swiper-wraper-book-info">
+                                <div class="swiper-slide el-width-450">
+                                    <img src="/images/Book/image/@Model.ImageName" data-large="/images/Book/image/@Model.ImageName" class="zoom-image thumbnail rounded el-visibility-on" alt="@Model.Name">
                                 </div>
                             </div>
                         </div>
@@ -57,12 +57,19 @@
                         {
                             <ul class="product--actions">
                                 <li>
-                                    <!-- در صورت نیاز به استفاده از فرم از کد زیر استفاده کنید -->
                                     <partial name="_AddToFavorite" model="ViewBag.FavBook as FavoriteBook" />
-                                    @*<a asp-controller="Book" asp-action="AddToFavorite" asp-route-bookId="@Model.BookId" class="is-action add-to-favorite"><i class="fas fa-heart"></i></a>
-                                        <span class="tooltip--action">افزودن به علاقمندی</span>*@
                                 </li>
                             </ul>
+                        }
+                        else
+                        {
+                            <ul class="product--actions">
+                                <li>
+                                    <a class="add-to-favorite" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@url"><i class="fas fa-heart"></i></a>
+                                    <span class="tooltip--action">افزودن به علاقمندی</span>
+                                </li>
+                            </ul>
+
                         }
                     </div>
                 </div>
@@ -87,11 +94,11 @@
                                 @_productService.SatisfiedBookBuyersPercent(Model.BookId)% از خریداران، از این کالا راضی بوده اند.
                             </p>
                             <p>
-                                <i class="fa fa-star" style="color: #FFD700"></i>
+                                <i class="fa fa-star star--color"></i>
                                 @_productService.GetBookAverageScore(Model.BookId)
                                 <span class="text-black-50">(@bookScoresCount)</span>
                                 <span> ° </span>
-                                <a class="text-info">@ViewBag.CommentCount دیدگاه کاربران</a>
+                                <a class="text-info"><span id="book-comments-count"></span> دیدگاه کاربران</a>
                             </p>
                         </div>
                     }
@@ -103,11 +110,11 @@
                                 هنوز امتیازی ثبت نشده
                             </p>
                             <p>
-                                <i class="fa fa-star" style="color: #FFD700"></i>
+                                <i class="fa fa-star star--color"></i>
                                 هنوز امتیازی ثبت نشده
                                 <span class="text-black-50">(0)</span>
                                 <span> ° </span>
-                                <a class="text-info">@ViewBag.CommentCount دیدگاه کاربران</a>
+                                <a class="text-info"><span id="book-comments-count"></span> دیدگاه کاربران</a>
                             </p>
                         </div>
                     }
@@ -163,10 +170,6 @@
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
-                                @*route url*@
-                                @*<a asp-controller="Book" asp-action="AddToCart" asp-route-productId="@Model.BookId" asp-route-url="@reqUrl" class="add-to-cart btn-block">
-                                        افزودن به سبد خرید
-                                    </a>*@
                                 <a asp-controller="Book" asp-action="AddToCart" asp-route-productId="@Model.BookId" target="_blank" class="add-to-cart btn-block">
                                     افزودن به سبد خرید
                                 </a>
@@ -211,44 +214,7 @@
                     </div>
                 </div>
             </div>
-            <div class="services pt-3 row mx-0">
-                <div class="col-md-3 col-sm-6 mb-md-0 mb-4">
-                    <div class="service-item">
-                        <img src="/images/services/delivery-person.png" alt="">
-                        <div class="service-item-body">
-                            <h6>تحویل سریع و رایگان</h6>
-                            <p>تحویل رایگان کالا برای کلیه سفارشات بیش از 500 هزار تومان</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6 mb-md-0 mb-4">
-                    <div class="service-item">
-                        <img src="/images/services/recieve.png" alt="">
-                        <div class="service-item-body">
-                            <h6>۷ روز ضمانت بازگشت</h6>
-                            <p>در صورت نارضایتی به هر دلیلی می توانید محصول را بازگردانید</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6 mb-md-0 mb-4">
-                    <div class="service-item">
-                        <img src="/images/services/headset.png" alt="">
-                        <div class="service-item-body">
-                            <h6>پشتیبانی ۲۴ ساعته</h6>
-                            <p>در صورت وجود هرگونه سوال یا ابهامی، با ما در تماس باشید</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6 mb-md-0 mb-4">
-                    <div class="service-item">
-                        <img src="/images/services/debit-card.png" alt="">
-                        <div class="service-item-body">
-                            <h6>پرداخت آنلاین ایمن</h6>
-                            <p>محصولات مدنظر خود را با خیال آسوده به صورت آنلاین خریداری کنید</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <partial name="_BookServices" />
         </div>
 
         @if (userBoughtCourse && !_productService.ScoreSentByUser(userId, Model.BookId))
@@ -310,7 +276,7 @@
                     کتاب های مناسب سن شما
                 </div>
                 <div class="swiper-container slider-lg swiper-container-initialized swiper-container-horizontal swiper-container-rtl">
-                    <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
+                    <div class="swiper-wrapper el-swiper-wraper-book-info">
                         @if (ageRangeBooks != null && ageRangeBooks.Any())
                         {
                             foreach (var book in ageRangeBooks)
@@ -499,7 +465,7 @@
                                     </div>
                                 </form>
                                 <div class="section-title mb-1 mt-4">
-                                    دیدگاه کاربران (@ViewBag.CommentCount)
+                                    دیدگاه کاربران
                                 </div>
                                 <hr>
                             </div>
@@ -565,7 +531,6 @@
                 confirmButtonText: 'باشه'
             });
         }
-
         function SuccessAnswer() {
             $("#answer-body").val("");
             swal.fire({
@@ -575,6 +540,16 @@
                 confirmButtonText: 'باشه'
             });
         }
+    </script>
 
+    <script>
+        var bookId = @Model.BookId;
+            $.ajax({
+                url: "/Get/book-comments-count-json?bookId=" + @Model.BookId,
+                type: "GET",
+                success: function (data) {
+                    $("#book-comments-count").html(data);
+                }
+            });
     </script>
 }

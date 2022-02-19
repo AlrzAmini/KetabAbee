@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using KetabAbee.Application.Convertors;
@@ -9,7 +7,6 @@ using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Comment;
 using KetabAbee.Application.Interfaces.Order;
 using KetabAbee.Application.Interfaces.Product;
-using KetabAbee.Application.Interfaces.Ticket;
 using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Security;
 
