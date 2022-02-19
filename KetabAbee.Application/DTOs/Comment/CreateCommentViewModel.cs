@@ -35,4 +35,11 @@ namespace KetabAbee.Application.DTOs.Comment
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
         public string Body { get; set; }
     }
+
+    public enum CreateCommentResult
+    {
+        Success,
+        Error,
+        EmptyBody
+    }
 }

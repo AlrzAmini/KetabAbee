@@ -430,6 +430,7 @@
                                       data-ajax-update="#CommentList"
                                       data-ajax-success="Success">
                                     <input type="hidden" name="comment.ProductId" value="@Model.BookId" />
+                                    <input type="hidden" name="comment.Captcha" id="captchaInput" />
                                     <div class="row align-items-center">
                                         @if (!User.Identity.IsAuthenticated)
                                         {
@@ -453,7 +454,7 @@
                                         }
                                         <div class="col-12">
                                             <div class="form-element-row">
-                                                <label for="phone-number" class="label-element">نظر شما</label>
+                                                <label class="label-element">نظر شما</label>
                                                 <textarea name="comment.Body" id="comment-body" cols="30" rows="10" class="input-element"></textarea>
                                             </div>
                                         </div>
@@ -524,12 +525,6 @@
             $("#userName").val("");
             $("#userEmail").val("");
             $("#comment-body").val("");
-            swal.fire({
-                title: "موفق",
-                text: "کامنت با موفقیت ثبت شد",
-                icon: "success",
-                confirmButtonText: 'باشه'
-            });
         }
         function SuccessAnswer() {
             $("#answer-body").val("");
@@ -541,15 +536,15 @@
             });
         }
     </script>
-
     <script>
         var bookId = @Model.BookId;
-            $.ajax({
-                url: "/Get/book-comments-count-json?bookId=" + @Model.BookId,
-                type: "GET",
-                success: function (data) {
-                    $("#book-comments-count").html(data);
-                }
-            });
+        $.ajax({
+            url: "/Get/book-comments-count-json?bookId=" + @Model.BookId,
+            type: "GET",
+            success: function (data) {
+                $("#book-comments-count").html(data);
+            }
+        });
     </script>
+    <partial name="_CaptchaScripts" />
 }

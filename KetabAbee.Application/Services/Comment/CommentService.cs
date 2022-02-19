@@ -33,14 +33,20 @@ namespace KetabAbee.Application.Services.Comment
             return _commentRepository.AddAnswer(answer);
         }
 
-        public bool AddComment(CreateCommentViewModel comment)
+        public CreateCommentResult AddComment(CreateCommentViewModel comment)
         {
             try
             {
+                var commentBody = comment.Body.Sanitizer();
+                if (string.IsNullOrEmpty(commentBody))
+                {
+                    return CreateCommentResult.EmptyBody;
+                }
+
                 var newComment = new ProductComment
                 {
                     SendDate = DateTime.Now,
-                    Body = comment.Body.Sanitizer(),
+                    Body = commentBody,
                     Email = comment.Email.Sanitizer(),
                     ProductId = comment.ProductId,
                     UserId = comment.UserId,
@@ -48,11 +54,11 @@ namespace KetabAbee.Application.Services.Comment
                     UserName = comment.UserName.Sanitizer()
                 };
 
-                return _commentRepository.AddComment(newComment);
+                return _commentRepository.AddComment(newComment) ? CreateCommentResult.Success : CreateCommentResult.Error;
             }
             catch
             {
-                throw new ArgumentNullException(nameof(comment));
+                return CreateCommentResult.Error;
             }
         }
 
