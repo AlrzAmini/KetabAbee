@@ -135,14 +135,8 @@ namespace KetabAbee.Web.Controllers
         #region add comment
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddComment(CreateCommentViewModel comment)
+        public IActionResult AddComment(CreateCommentViewModel comment)
         {
-            if (!await _captchaValidator.IsCaptchaPassedAsync(comment.Captcha))
-            {
-                TempData["ErrorSwal"] = "احراز هویت کپچا انجام نشد چند لحظه دیگر تلاش کنید";
-                return View("ShowComments", _commentService.GetProductCommentWithPaging(comment.ProductId));
-            }
-
             if (User.Identity.IsAuthenticated)
             {
                 comment.UserId = User.GetUserId();
@@ -150,24 +144,12 @@ namespace KetabAbee.Web.Controllers
                 comment.Email = User.GetUserEmail();
             }
             comment.UserIp = HttpContext.GetUserIp();
-
-            var productId = comment.ProductId;
-            var res = _commentService.AddComment(comment);
-            switch (res)
+            if (_commentService.AddComment(comment))
             {
-                case CreateCommentResult.Success:
-                    TempData["SuccessSwal"] = "نظر شما با موفقیت ثبت شد";
-                    return Redirect($"/BookInfo/{productId}");
-                case CreateCommentResult.EmptyBody:
-                    TempData["ErrorSwal"] = "متن نظر نمیتواند خالی باشد";
-                    return Redirect($"/BookInfo/{productId}");
-                case CreateCommentResult.Error:
-                    TempData["ErrorSwal"] = "نظر شما ثبت نشد";
-                    return Redirect($"/BookInfo/{productId}");
-                default:
-                    TempData["ErrorSwal"] = "مشکلی در ثبت نظر رخ داد";
-                    return Redirect($"/BookInfo/{productId}");
+                return View("ShowComments", _commentService.GetProductCommentWithPaging(comment.ProductId));
             }
+            TempData["ErrorSwal"] = "کامنت شما ثبت نشد";
+            return Redirect($"/BookInfo/{comment.ProductId}");
         }
 
         #endregion

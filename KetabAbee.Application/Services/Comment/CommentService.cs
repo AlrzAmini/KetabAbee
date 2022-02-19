@@ -33,14 +33,14 @@ namespace KetabAbee.Application.Services.Comment
             return _commentRepository.AddAnswer(answer);
         }
 
-        public CreateCommentResult AddComment(CreateCommentViewModel comment)
+        public bool AddComment(CreateCommentViewModel comment)
         {
             try
             {
                 var commentBody = comment.Body.Sanitizer();
                 if (string.IsNullOrEmpty(commentBody))
                 {
-                    return CreateCommentResult.EmptyBody;
+                    return false;
                 }
 
                 var newComment = new ProductComment
@@ -54,11 +54,11 @@ namespace KetabAbee.Application.Services.Comment
                     UserName = comment.UserName.Sanitizer()
                 };
 
-                return _commentRepository.AddComment(newComment) ? CreateCommentResult.Success : CreateCommentResult.Error;
+                return _commentRepository.AddComment(newComment);
             }
             catch
             {
-                return CreateCommentResult.Error;
+                return false;
             }
         }
 

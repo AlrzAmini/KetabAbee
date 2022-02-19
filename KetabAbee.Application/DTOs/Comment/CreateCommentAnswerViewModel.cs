@@ -9,12 +9,13 @@ using KetabAbee.Application.DTOs.Site;
 
 namespace KetabAbee.Application.DTOs.Comment
 {
-    public class CreateCommentViewModel
+    public class CreateCommentAnswerViewModel 
     {
-        public int? UserId { get; set; }
+        [Required]
+        public int UserId { get; set; }
 
         [Required]
-        public int ProductId { get; set; }
+        public int CommentId { get; set; }
 
         [Required]
         [MaxLength(100)]
@@ -31,12 +32,12 @@ namespace KetabAbee.Application.DTOs.Comment
         [EmailAddress(ErrorMessage = "ایمیل وارد شده معتبر نیست . دقت کنید !")]
         public string Email { get; set; }
 
-        [DisplayName("متن کامنت")]
+        [DisplayName("متن پاسخ")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
-        public string Body { get; set; }
+        public string AnswerBody { get; set; }
     }
 
-    public enum CreateCommentResult
+    public enum CreateCommentAnswerResult
     {
         Success,
         Error,

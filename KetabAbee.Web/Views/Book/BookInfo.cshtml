@@ -430,7 +430,6 @@
                                       data-ajax-update="#CommentList"
                                       data-ajax-success="Success">
                                     <input type="hidden" name="comment.ProductId" value="@Model.BookId" />
-                                    <input type="hidden" name="comment.Captcha" id="captchaInput" />
                                     <div class="row align-items-center">
                                         @if (!User.Identity.IsAuthenticated)
                                         {
@@ -521,11 +520,19 @@
         function pageComment(pageNum) {
             $("#CommentList").load("/Book/ShowComments/" + @Model.BookId + "?pageNum="+pageNum);
         }
+
         function Success() {
             $("#userName").val("");
             $("#userEmail").val("");
             $("#comment-body").val("");
+            swal.fire({
+                title: "موفق",
+                text: "کامنت با موفقیت ثبت شد",
+                icon: "success",
+                confirmButtonText: 'باشه'
+            });
         }
+
         function SuccessAnswer() {
             $("#answer-body").val("");
             swal.fire({
@@ -537,7 +544,6 @@
         }
     </script>
     <script>
-        var bookId = @Model.BookId;
         $.ajax({
             url: "/Get/book-comments-count-json?bookId=" + @Model.BookId,
             type: "GET",
@@ -546,5 +552,4 @@
             }
         });
     </script>
-    <partial name="_CaptchaScripts" />
 }

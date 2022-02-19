@@ -12,7 +12,7 @@ namespace KetabAbee.Application.Interfaces.Comment
     {
         #region commnet
 
-        CreateCommentResult AddComment(CreateCommentViewModel comment);
+        bool AddComment(CreateCommentViewModel comment);
 
         bool DeleteComment(int commentId);
 

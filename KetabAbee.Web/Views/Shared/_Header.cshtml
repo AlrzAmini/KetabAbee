@@ -165,7 +165,7 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <a asp-controller="UserPanel" asp-action="Dashboard">
-                            @User.FindFirstValue(ClaimTypes.Name)
+                            @User.Identity.Name
                             <i class="fad fa-chevron-down text-sm mr-1"></i>
                         </a>
                         <ul class="dropdown-wrapper">
@@ -176,9 +176,9 @@
                                             <img class="rounded-circle" src="/avatar/thumb/@_userService.GetAvatarNameByUserId(User.GetUserId())" alt="avatar">
                                         </span>
                                         <span class="header-profile-dropdown-user-info">
-                                            <p class="header-profile-dropdown-user-name">
+                                            <text class="header-profile-dropdown-user-name">
                                                 @User.Identity.Name
-                                            </p>
+                                            </text>
                                             <span class="header-profile-dropdown-user-profile-link">
                                                 مشاهده حساب
                                                 کاربری
@@ -249,7 +249,7 @@
                     }
                     else
                     {
-                        <a href="/Register" class="btn-auth">
+                        <a asp-controller="Account" asp-action="Register" class="btn-auth">
                             <i class="fal fa-user-circle"></i>
                             ورود و عضویت
                         </a>
