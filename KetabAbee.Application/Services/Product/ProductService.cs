@@ -692,6 +692,10 @@ namespace KetabAbee.Application.Services.Product
         {
             try
             {
+                if (qualityScore < 0 || contentScore < 0)
+                {
+                    return false;
+                }
                 var score = new BookScore
                 {
                     UserId = userId,
