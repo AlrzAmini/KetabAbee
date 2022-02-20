@@ -438,7 +438,7 @@
                                                     <label class="label-element">
                                                         نام شما
                                                     </label>
-                                                    <input type="text" id="userName" name="comment.UserName" class="input-element" required="">
+                                                    <input type="text" id="userName" name="comment.UserName" class="input-element" required data-error="نام را وارد کنید">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
@@ -447,19 +447,19 @@
                                                         ایمیل
                                                         شما
                                                     </label>
-                                                    <input type="email" id="userEmail" name="comment.Email" class="input-element" required="">
+                                                    <input type="email" id="userEmail" name="comment.Email" class="input-element" required data-error="ایمیل را وارد کنید">
                                                 </div>
                                             </div>
                                         }
                                         <div class="col-12">
                                             <div class="form-element-row">
                                                 <label class="label-element">نظر شما</label>
-                                                <textarea name="comment.Body" id="comment-body" cols="30" rows="10" class="input-element"></textarea>
+                                                <textarea name="comment.Body" id="comment-body" cols="30" rows="10" class="input-element" required data-error="متن دیدگاه را وارد کنید"></textarea>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <button class="btn btn-primary px-3">ارسال نظر <i class="fad fa-comment-alt-edit"></i></button>
+                                                <button type="submit" id="submit" class="btn btn-primary px-3">ارسال نظر <i class="fad fa-comment-alt-edit"></i></button>
                                             </div>
                                         </div>
                                     </div>

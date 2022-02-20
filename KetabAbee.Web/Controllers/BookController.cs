@@ -171,6 +171,7 @@ namespace KetabAbee.Web.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+                // todo : if body was empty --> check in service
                 answer.Email = User.GetUserEmail();
                 answer.UserId = User.GetUserId();
                 answer.UserIp = HttpContext.GetUserIp();
@@ -180,11 +181,11 @@ namespace KetabAbee.Web.Controllers
                     return View("ShowComments", _commentService.GetProductCommentWithPaging(productId));
                 }
                 TempData["ErrorSwal"] = "پاسخ شما ثبت نشد";
-                return Redirect($"/BookInfo/{productId}");
+                return RedirectToAction("BookInfo", new { bookId = productId });
             }
 
             TempData["InfoSwal"] = "برای ثبت پاسخ می بایست وارد حساب کاربری خود شوید";
-            return Redirect($"/BookInfo/{productId}");
+            return RedirectToAction("BookInfo", new {bookId = productId});
         }
 
         #endregion
