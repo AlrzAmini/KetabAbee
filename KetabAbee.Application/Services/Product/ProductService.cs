@@ -688,30 +688,31 @@ namespace KetabAbee.Application.Services.Product
             return _productRepository.GetFavById(likeId);
         }
 
-        public bool AddScore(int userId, int bookId, string userIp, int qualityScore, int contentScore)
+        public AddScoreResult AddScore(AddBookScoreViewModel addScore)
         {
             try
             {
-                if (qualityScore < 0 || contentScore < 0)
+                if (addScore.QualityScore < 0 || addScore.ContentScore < 0 || addScore.QualityScore > 5 || addScore.ContentScore > 5)
                 {
-                    return false;
+                    return AddScoreResult.OutRangeScoreValue;
                 }
                 var score = new BookScore
                 {
-                    UserId = userId,
-                    BookId = bookId,
-                    UserIp = userIp,
-                    QualityScore = qualityScore,
-                    ContentScore = contentScore,
+                    UserId = addScore.UserId,
+                    BookId = addScore.BookId,
+                    UserIp = addScore.UserIp,
+                    QualityScore = addScore.QualityScore,
+                    ContentScore = addScore.ContentScore,
                     ScoreDate = DateTime.Now,
-                    AverageScores = (float)(qualityScore + contentScore) / 2,
+                    AverageScores = (float)(addScore.QualityScore + addScore.ContentScore) / 2,
                     IsScored = true
                 };
-                return _productRepository.AddScore(score);
+
+                return _productRepository.AddScore(score) ? AddScoreResult.Success : AddScoreResult.Failed;
             }
             catch
             {
-                return false;
+                return AddScoreResult.Error;
             }
         }
 

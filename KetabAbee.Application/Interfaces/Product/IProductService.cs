@@ -116,7 +116,7 @@ namespace KetabAbee.Application.Interfaces.Product
 
         #region Score
 
-        bool AddScore(int userId, int bookId, string userIp, int qualityScore, int contentScore);
+        AddScoreResult AddScore(AddBookScoreViewModel addScore);
 
         bool IsUserBoughtBook(int userId, int bookId);
 

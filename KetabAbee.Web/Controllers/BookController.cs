@@ -53,16 +53,54 @@ namespace KetabAbee.Web.Controllers
         public IActionResult BookInfo(int bookId, string bookName)
         {
             var model = _productService.GetBookForShowByBookId(bookId);
+            if (model == null)
+            {
+                return NotFound();
+            }
 
-            ViewBag.PublisherBooks = _productService.PublisherBooks(model.PublisherId, model).ToList();
+            #region scores
+
+            ViewData["SatisfiedUsersPercent"] = _productService.SatisfiedBookBuyersPercent(bookId);
+            ViewData["BookAverageScore"] = _productService.GetBookAverageScore(bookId);
+
+            #endregion
+
+            #region publisher books
+
+            ViewData["PublisherBooks"] = _productService.PublisherBooks(model.PublisherId, model).ToList();
+
+            #endregion
 
             if (!User.Identity.IsAuthenticated) return View(model);
 
-            ViewBag.FavBook = _productService.GetFavBookInfoFromBook(User.GetUserId(), model.BookId);
+            var userId = User.GetUserId();
+
+            #region user bought book
+
+            ViewData["IsUserBoughtBook"] = User.Identity.IsAuthenticated && _productService.IsUserBoughtBook(userId, bookId);
+
+            #endregion
+
+            #region scores
+
+            ViewData["BookScoresCount"] = _productService.AllBookSentScoresCount(bookId);
+            ViewData["ScoreSentByUser"] = _productService.ScoreSentByUser(userId, bookId);
+
+            #endregion
+
+            #region favorite books
+
+            ViewBag.FavBook = _productService.GetFavBookInfoFromBook(userId, bookId);
+
+            #endregion
+
+            #region age range books
 
             var userName = User.Identity.Name;
-            ViewBag.AgeRangeBooks = _productService.GetBooksByAgeRange(userName).ToList();
-            ViewBag.UserAge = _productService.GetAgeByUserName(userName);
+            ViewData["AgeRangeBooks"] = _productService.GetBooksByAgeRange(userName).ToList();
+            ViewData["UserAge"] = _productService.GetAgeByUserName(userName);
+
+            #endregion
 
             return View(model);
         }
@@ -184,7 +222,7 @@ namespace KetabAbee.Web.Controllers
             }
 
             TempData["InfoSwal"] = "برای ثبت پاسخ می بایست وارد حساب کاربری خود شوید";
-            return RedirectToAction("BookInfo", new {bookId = productId});
+            return RedirectToAction("BookInfo", new { bookId = productId });
         }
 
         #endregion
@@ -193,19 +231,34 @@ namespace KetabAbee.Web.Controllers
 
         [Authorize]
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult AddScore(int bookId, int qualityScore, int contentScore)
+        public IActionResult AddScore(AddBookScoreViewModel score)
         {
-            var userId = User.GetUserId();
+            score.UserId = User.GetUserId();
+            score.UserIp = HttpContext.GetUserIp();
+
+            var userId = score.UserId;
+            var bookId = score.BookId;
 
             if (!_productService.IsUserBoughtBook(userId, bookId)) return BadRequest();
 
-            if (_productService.AddScore(userId, bookId, HttpContext.GetUserIp(), qualityScore, contentScore))
+            var res = _productService.AddScore(score);
+            switch (res)
             {
-                TempData["SuccessSwal"] = "امتیاز شما برای این محصول ثبت شد";
-                return Redirect($"/BookInfo/{bookId}");
+                case AddScoreResult.Success:
+                    TempData["SuccessSwal"] = "امتیاز شما برای این محصول ثبت شد";
+                    return RedirectToAction("BookInfo", new { bookId });
+                case AddScoreResult.Failed:
+                    TempData["ErrorSwal"] = "امتیاز شما ثبت نشد";
+                    return RedirectToAction("BookInfo", new { bookId });
+                case AddScoreResult.Error:
+                    TempData["ErrorSwal"] = "مشکلی در ثبت امتیاز رخ داد";
+                    return RedirectToAction("BookInfo", new { bookId });
+                case AddScoreResult.OutRangeScoreValue:
+                    return BadRequest();
+                default:
+                    TempData["ErrorSwal"] = "مشکلی در ثبت امتیاز رخ داد";
+                    return RedirectToAction("BookInfo", new { bookId });
             }
-            TempData["ErrorSwal"] = "امتیاز شما ثبت نشد";
-            return Redirect($"/BookInfo/{bookId}");
         }
 
         #endregion
