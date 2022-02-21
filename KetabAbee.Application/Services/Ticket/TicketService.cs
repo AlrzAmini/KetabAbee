@@ -91,8 +91,6 @@ namespace KetabAbee.Application.Services.Ticket
                 case FilterTicketOrder.CreateDateDsc:
                     result = result.OrderByDescending(t => t.TicketSendDate);
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
 
             // filter by priority

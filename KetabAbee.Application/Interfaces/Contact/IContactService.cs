@@ -38,7 +38,7 @@ namespace KetabAbee.Application.Interfaces.Contact
 
         bool SendAnswerForContactUs(int contactId, string subject, string body);
 
-        bool AddRequestBranch(CreateRequestBranchViewModel model);
+        Task<bool> AddRequestBranch(CreateRequestBranchViewModel model);
 
         ShowBranchRequestsToAdminViewModel GetRequestsForShowAdmin(ShowBranchRequestsToAdminViewModel model);
 

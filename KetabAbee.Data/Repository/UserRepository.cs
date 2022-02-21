@@ -19,10 +19,10 @@ namespace KetabAbee.Data.Repository
             _context = context;
         }
 
-        public bool RegisterUser(User user)
+        public async Task<bool> RegisterUser(User user)
         {
             _context.Users.Add(user);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return true;
         }
@@ -49,9 +49,9 @@ namespace KetabAbee.Data.Repository
             return _context.Users.Any(u => u.Mobile == mobile.Trim());
         }
 
-        public User IsUserRegistered(string email, string password)
+        public async Task<User> IsUserRegistered(string email, string password)
         {
-            return _context.Users.SingleOrDefault(u => u.Email == email && u.Password == password);
+            return await Task.FromResult(_context.Users.SingleOrDefault(u => u.Email == email && u.Password == password));
         }
 
         //public bool ActiveAccountByEmail(string emailActiveCode)

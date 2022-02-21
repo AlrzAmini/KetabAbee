@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using KetabAbee.Application.Interfaces.Permission;
 
 namespace KetabAbee.Application.Services.User
@@ -31,7 +32,7 @@ namespace KetabAbee.Application.Services.User
             _walletService = walletService;
         }
 
-        public Domain.Models.User.User RegisterUser(RegisterViewModel user)
+        public async Task<Domain.Models.User.User> RegisterUser(RegisterViewModel user)
         {
             var newUser = new Domain.Models.User.User()
             {
@@ -49,7 +50,7 @@ namespace KetabAbee.Application.Services.User
                 Age = null
             };
 
-            _userRepository.RegisterUser(newUser);
+            await _userRepository.RegisterUser(newUser);
 
             return newUser;
         }
@@ -77,9 +78,9 @@ namespace KetabAbee.Application.Services.User
             return mobile != null && _userRepository.IsMobileExist(mobile);
         }
 
-        public Domain.Models.User.User GetUserForLogin(LoginViewModel login)
+        public async Task<Domain.Models.User.User> GetUserForLogin(LoginViewModel login)
         {
-            return _userRepository.IsUserRegistered(login.Email, PasswordHasher.EncodePasswordMd5(login.Password));
+            return await _userRepository.IsUserRegistered(login.Email, PasswordHasher.EncodePasswordMd5(login.Password));
         }
 
         //public bool ActiveAccountByEmail(string emailActiveCode)
@@ -577,6 +578,6 @@ namespace KetabAbee.Application.Services.User
             };
         }
 
-        
+
     }
 }

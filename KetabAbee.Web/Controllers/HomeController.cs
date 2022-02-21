@@ -182,12 +182,13 @@ namespace KetabAbee.Web.Controllers
                 TempData["ErrorSwal"] = "احراز هویت کپچا انجام نشد چند لحظه دیگر تلاش کنید";
                 return View(model);
             }
+
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            if (_contactService.AddRequestBranch(model))
+            if (await _contactService.AddRequestBranch(model))
             {
                 TempData["SuccessSwal"] = "درخواست شعبه با موفقیت ارسال شد";
                 return RedirectToAction("Index");
@@ -211,8 +212,7 @@ namespace KetabAbee.Web.Controllers
 
         #region CKEditor Images
 
-        [HttpPost]
-        [Route("file-upload")]
+        [HttpPost("file-upload")]
         public IActionResult UploadImage(IFormFile upload, string CKEditorFuncNum, string CKEditor, string langCode)
         {
             if (upload.Length <= 0) return null;

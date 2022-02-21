@@ -4,7 +4,7 @@
 <head>
     <link rel="icon" href="/images/book.png" type="image/gif" sizes="16x16">
 
-    @RenderSectionAsync("MetaTag", false)
+    @await RenderSectionAsync("MetaTag", false)
     <partial name="_Metas" />
 
     <title>@ViewData["Title"]</title>

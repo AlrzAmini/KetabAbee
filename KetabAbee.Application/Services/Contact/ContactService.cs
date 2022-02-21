@@ -42,7 +42,7 @@ namespace KetabAbee.Application.Services.Contact
             return _contactRepository.AddNewsLetter(newNewsLetter);
         }
 
-        public bool AddRequestBranch(CreateRequestBranchViewModel model)
+        public async Task<bool> AddRequestBranch(CreateRequestBranchViewModel model)
         {
             try
             {
@@ -53,7 +53,7 @@ namespace KetabAbee.Application.Services.Contact
                     Phone = model.Phone.Sanitizer(),
                     CreateDate = DateTime.Now
                 };
-                return _contactRepository.AddReqBranch(reqBranch);
+                return await _contactRepository.AddReqBranch(reqBranch);
             }
             catch
             {

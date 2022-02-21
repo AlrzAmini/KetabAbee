@@ -75,7 +75,7 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         }
 
         #endregion
-
+        
         #region remove order detail from order
 
         [HttpGet("/Cart/Remove/{detailId}")]

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using KetabAbee.Domain.Models.ContactUs;
 
 namespace KetabAbee.Domain.Interfaces
@@ -39,7 +40,7 @@ namespace KetabAbee.Domain.Interfaces
 
         #region req branch
 
-        bool AddReqBranch(RequestBranch request);
+        Task<bool> AddReqBranch(RequestBranch request);
 
         IEnumerable<RequestBranch> GetRequests();
 

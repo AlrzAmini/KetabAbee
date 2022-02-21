@@ -13,7 +13,7 @@ namespace KetabAbee.Domain.Interfaces
 
         #region Account
 
-        bool RegisterUser(User user);
+        Task<bool> RegisterUser(User user);
 
         bool IsEmailExist(string email);
 
@@ -21,7 +21,7 @@ namespace KetabAbee.Domain.Interfaces
 
         bool IsMobileExist(string mobile);
 
-        User IsUserRegistered(string email, string password);
+        Task<User> IsUserRegistered(string email, string password);
 
         //bool ActiveAccountByEmail(string emailActiveCode);
 

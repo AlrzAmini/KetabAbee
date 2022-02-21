@@ -80,7 +80,7 @@ namespace KetabAbee.Web.Controllers
             }
 
             //register user
-            var user = _userService.RegisterUser(register);
+            var user = await _userService.RegisterUser(register);
             if (user == null) return RedirectToAction("Register");
             TempData["SuccessSwal"] = "ثبت نام شما با موفقیت انجام شد";
             TempData["InfoMessage"] = "لطفا با استفاده از کد ارسال شده حساب خود را فعالسازی کنید";
@@ -122,7 +122,7 @@ namespace KetabAbee.Web.Controllers
                 return View(login);
             }
             
-            var user = _userService.GetUserForLogin(login);
+            var user = await _userService.GetUserForLogin(login);
 
             if (user != null)
             {

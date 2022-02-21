@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using KetabAbee.Data.Context;
 using KetabAbee.Domain.Interfaces;
 using KetabAbee.Domain.Models.ContactUs;
@@ -58,12 +59,12 @@ namespace KetabAbee.Data.Repository
             }
         }
 
-        public bool AddReqBranch(RequestBranch request)
+        public async Task<bool> AddReqBranch(RequestBranch request)
         {
             try
             {
-                _context.RequestBranches.Add(request);
-                _context.SaveChanges();
+                await _context.RequestBranches.AddAsync(request);
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch
@@ -84,7 +85,7 @@ namespace KetabAbee.Data.Repository
 
         public IEnumerable<ContactUs> GetContactUses()
         {
-            return _context.ContactUses.OrderByDescending(c=>c.SendDate);
+            return _context.ContactUses.OrderByDescending(c => c.SendDate);
         }
 
         public IEnumerable<string> GetNewsEmailEmails()
