@@ -38,7 +38,7 @@ namespace KetabAbee.Application.Interfaces.Comment
 
         #region answer
 
-        bool AddAnswer(ProductCommentAnswer answer);
+        CreateCommentAnswerResult AddAnswer(CreateCommentAnswerViewModel answer);
 
         bool DeleteAnswer(int answerId);
 

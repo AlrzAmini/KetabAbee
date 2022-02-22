@@ -31,6 +31,12 @@ namespace KetabAbee.Application.Extensions
             return data != null ? Convert.ToString(data.Value) : default;
         }
 
+        public static string GetUserName(this ClaimsPrincipal claim)
+        {
+            var data = claim?.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Name);
+            return data != null ? Convert.ToString(data.Value) : default;
+        }
+
         public static string ToTooman(this long price)
         {
             return price.ToString("#,0") + " تومان ";

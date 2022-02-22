@@ -206,7 +206,7 @@ namespace KetabAbee.Web.Controllers
         #region add answer
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult AddAnswer(ProductCommentAnswer answer, int productId)
+        public IActionResult AddAnswer(CreateCommentAnswerViewModel answer, int productId)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -214,13 +214,21 @@ namespace KetabAbee.Web.Controllers
                 answer.Email = User.GetUserEmail();
                 answer.UserId = User.GetUserId();
                 answer.UserIp = HttpContext.GetUserIp();
-                answer.UserName = User.Identity.Name;
-                if (_commentService.AddAnswer(answer))
+                answer.UserName = User.GetUserName();
+
+                var res = _commentService.AddAnswer(answer);
+                switch (res)
                 {
-                    return View("ShowComments", _commentService.GetProductCommentWithPaging(productId));
+                    case CreateCommentAnswerResult.Success:
+                        return View("ShowComments", _commentService.GetProductCommentWithPaging(productId));
+                    case CreateCommentAnswerResult.EmptyBody:
+                        return View("ShowComments", _commentService.GetProductCommentWithPaging(productId));
+                    case CreateCommentAnswerResult.Error:
+                        return View("ShowComments", _commentService.GetProductCommentWithPaging(productId));
+                    default:
+                        TempData["ErrorSwal"] = "پاسخ شما ثبت نشد";
+                        return RedirectToAction("BookInfo", new { bookId = productId });
                 }
-                TempData["ErrorSwal"] = "پاسخ شما ثبت نشد";
-                return RedirectToAction("BookInfo", new { bookId = productId });
             }
 
             TempData["InfoSwal"] = "برای ثبت پاسخ می بایست وارد حساب کاربری خود شوید";

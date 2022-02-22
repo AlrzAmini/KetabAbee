@@ -257,6 +257,7 @@ namespace KetabAbee.Data.Repository
 
         public int SatisfiedBookBuyersPercent(int bookId)
         {
+            // when i try to send this data to **service** i ve got error about memory leak
             try
             {
                 var allBookScoresCount = _context.BookScores.Count(s => s.BookId == bookId);

@@ -26,11 +26,32 @@ namespace KetabAbee.Application.Services.Comment
             return _commentRepository.IsUserSendComment(userId, commentId);
         }
 
-        public bool AddAnswer(ProductCommentAnswer answer)
+        public CreateCommentAnswerResult AddAnswer(CreateCommentAnswerViewModel answer)
         {
-            answer.SendDate = DateTime.Now;
-            answer.AnswerBody = answer.AnswerBody.Sanitizer();
-            return _commentRepository.AddAnswer(answer);
+            var answerBody = answer.AnswerBody.Sanitizer();
+            if (string.IsNullOrEmpty(answerBody))
+            {
+                return CreateCommentAnswerResult.EmptyBody;
+            }
+
+            try
+            {
+                var newAnswer = new ProductCommentAnswer
+                {
+                    AnswerBody = answerBody,
+                    CommentId = answer.CommentId,
+                    Email = answer.Email,
+                    SendDate = DateTime.Now,
+                    UserId = answer.UserId,
+                    UserIp = answer.UserIp,
+                    UserName = answer.UserName
+                };
+                return _commentRepository.AddAnswer(newAnswer) ? CreateCommentAnswerResult.Success : CreateCommentAnswerResult.Error;
+            }
+            catch
+            {
+                return CreateCommentAnswerResult.Error;
+            }
         }
 
         public bool AddComment(CreateCommentViewModel comment)

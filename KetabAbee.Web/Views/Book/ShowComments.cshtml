@@ -61,7 +61,7 @@
                         <div class="form-element-row">
                             <textarea name="answer.AnswerBody" id="answer-body" cols="10" rows="5" class="input-element" placeholder="متن پاسخ ..." required data-error="متن پاسخ را وارد کنید"></textarea>
                             <div class="comments-likes">
-                                <button class="btn-like">پاسخ</button>
+                                <button class="btn btn-outline-success btn-sm">پاسخ</button>
                             </div>
                         </div>
                     </form>
@@ -102,7 +102,7 @@
                                 {
                                     <a asp-controller="Book" asp-action="RemoveAnswer"
                                        asp-route-answerId="@answer.Id" asp-route-bookId="@comment.ProductId"
-                                       class="btn btn-danger btn--remove--comment btn-sm mt-3 mr-3"><i class="fa fa-trash"></i></a>
+                                       class="btn btn-danger btn--remove--comment btn-sm mt-3 mr-3 mb-1"><i class="fa fa-trash"></i></a>
                                 }
                             }
                         </div>
