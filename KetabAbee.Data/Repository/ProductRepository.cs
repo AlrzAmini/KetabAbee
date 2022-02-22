@@ -237,11 +237,11 @@ namespace KetabAbee.Data.Repository
                     return (float)Math.Round(SumBookAverageScores(bookId) / AllBookSentScoresCount(bookId), 2);
                 }
 
-                return 0;
+                return default;
             }
             catch
             {
-                return 0;
+                return default;
             }
         }
 
@@ -257,9 +257,20 @@ namespace KetabAbee.Data.Repository
 
         public int SatisfiedBookBuyersPercent(int bookId)
         {
-            var allBookScoresCount = _context.BookScores.Count(s => s.BookId == bookId);
-            var satisfiedBookScoresCount = _context.BookScores.Count(s => s.BookId == bookId && s.AverageScores >= 3);
-            return satisfiedBookScoresCount * 100 / allBookScoresCount;
+            try
+            {
+                var allBookScoresCount = _context.BookScores.Count(s => s.BookId == bookId);
+                if (allBookScoresCount == 0)
+                {
+                    return default;
+                }
+                var satisfiedBookScoresCount = _context.BookScores.Count(s => s.BookId == bookId && s.AverageScores >= 3);
+                return satisfiedBookScoresCount * (100 / allBookScoresCount);
+            }
+            catch
+            {
+                return default;
+            }
         }
 
         public float SumBookAverageScores(int bookId)
@@ -293,7 +304,7 @@ namespace KetabAbee.Data.Repository
         {
             return _context.Books
                 .Where(b => EF.Functions.Like(b.Name, $"%{search}%"))
-                .Select(b=>b.Name);
+                .Select(b => b.Name);
         }
     }
 }

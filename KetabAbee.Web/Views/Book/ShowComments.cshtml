@@ -1,12 +1,16 @@
 ﻿@using KetabAbee.Application.Convertors
 @using KetabAbee.Application.Extensions
 @using KetabAbee.Application.Interfaces.Comment
+@using KetabAbee.Application.Interfaces.Permission
 @using KetabAbee.Application.Interfaces.Product
+@using KetabAbee.Application.Const
 @model Tuple<List<KetabAbee.Domain.Models.Comment.ProductComment.ProductComment>, int>
 @inject IProductService _productService;
 @inject ICommentService _commentService;
+@inject IPermissionService _permissionService;
 @{
     Layout = null;
+    var isUserAdmin = _permissionService.CheckPermission(PerIds.AdminPanel, User.GetUserEmail());
 }
 @if (Model.Item1 != null && Model.Item1.Any())
 {
@@ -94,7 +98,7 @@
                         <div class="col-md-1">
                             @if (User.Identity.IsAuthenticated)
                             {
-                                if (_commentService.IsUserSendAnswer(User.GetUserId(), answer.Id))
+                                if (_commentService.IsUserSendAnswer(User.GetUserId(), answer.Id) || isUserAdmin)
                                 {
                                     <a asp-controller="Book" asp-action="RemoveAnswer"
                                        asp-route-answerId="@answer.Id" asp-route-bookId="@comment.ProductId"
@@ -115,7 +119,7 @@
             <div class="col-md-1">
                 @if (User.Identity.IsAuthenticated)
                 {
-                    if (_commentService.IsUserSendComment(User.GetUserId(), comment.CommentId))
+                    if (_commentService.IsUserSendComment(User.GetUserId(), comment.CommentId) || isUserAdmin)
                     {
                         <a asp-controller="Book" asp-action="RemoveComment"
                            asp-route-commentId="@comment.CommentId" asp-route-bookId="@comment.ProductId"
@@ -124,7 +128,7 @@
                 }
                 else
                 {
-                    if (_commentService.IsUserSendComment(Context.GetUserIp(), comment.CommentId))
+                    if (_commentService.IsUserSendComment(Context.GetUserIp(), comment.CommentId) || isUserAdmin)
                     {
                         <a asp-controller="Book" asp-action="RemoveComment"
                            asp-route-commentId="@comment.CommentId" asp-route-bookId="@comment.ProductId"

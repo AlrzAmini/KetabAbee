@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using KetabAbee.Application.DTOs.Comment;
 using GoogleReCaptcha.V3.Interface;
+using KetabAbee.Application.Const;
+using KetabAbee.Application.Interfaces.Permission;
 
 namespace KetabAbee.Web.Controllers
 {
@@ -21,14 +23,14 @@ namespace KetabAbee.Web.Controllers
         private readonly IProductService _productService;
         private readonly IOrderService _orderService;
         private readonly ICommentService _commentService;
-        private readonly ICaptchaValidator _captchaValidator;
+        private readonly IPermissionService _permissionService;
 
-        public BookController(IProductService productService, IOrderService orderService, ICommentService commentService, ICaptchaValidator captchaValidator)
+        public BookController(IProductService productService, IOrderService orderService, ICommentService commentService, IPermissionService permissionService)
         {
             _productService = productService;
             _orderService = orderService;
             _commentService = commentService;
-            _captchaValidator = captchaValidator;
+            _permissionService = permissionService;
         }
 
         #endregion
@@ -58,7 +60,7 @@ namespace KetabAbee.Web.Controllers
                 return NotFound();
             }
 
-            #region scores
+            #region sat and avg score
 
             ViewData["SatisfiedUsersPercent"] = _productService.SatisfiedBookBuyersPercent(bookId);
             ViewData["BookAverageScore"] = _productService.GetBookAverageScore(bookId);
@@ -272,7 +274,7 @@ namespace KetabAbee.Web.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
-                if (!_commentService.IsUserSendComment(User.GetUserId(), commentId)) return Forbid();
+                if (!_commentService.IsUserSendComment(User.GetUserId(), commentId) && !_permissionService.CheckPermission(PerIds.AdminPanel, User.GetUserEmail())) return BadRequest();
                 if (_commentService.DeleteComment(commentId))
                 {
                     TempData["SuccessSwal"] = "دیدگاه با موفقیت حذف شد";
@@ -306,7 +308,8 @@ namespace KetabAbee.Web.Controllers
         [HttpGet("Book/RemoveAnswer/{answerId}")]
         public IActionResult RemoveAnswer(int answerId, int bookId)
         {
-            if (!_commentService.IsUserSendAnswer(User.GetUserId(), answerId)) return Forbid();
+            // todo : admin can remove comments
+            if (!_commentService.IsUserSendAnswer(User.GetUserId(), answerId) && !_permissionService.CheckPermission(PerIds.AdminPanel, User.GetUserEmail())) return BadRequest();
             if (_commentService.DeleteAnswer(answerId))
             {
                 TempData["SuccessSwal"] = "پاسخ با موفقیت حذف شد";

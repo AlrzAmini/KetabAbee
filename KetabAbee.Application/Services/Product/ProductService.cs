@@ -609,10 +609,10 @@ namespace KetabAbee.Application.Services.Product
                 case <= 10:
                     result = result.Where(r => r.AgeRange == AgeRange.Kid);
                     break;
-                case > 10 and <= 20:
+                case > 10 and <= 18:
                     result = result.Where(r => r.AgeRange == AgeRange.Teenager);
                     break;
-                case > 20:
+                case > 18:
                     result = result.Where(r => r.AgeRange == AgeRange.Adult);
                     break;
             }
