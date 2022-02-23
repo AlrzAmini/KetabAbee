@@ -118,6 +118,16 @@
             </a>
         </li>
     }
+    @if (_permissionService.CheckPermission(PerIds.AdminComments, User.GetUserEmail()))
+    {
+        <!--news letter-->
+        <li>
+            <a asp-area="AdminPanel" asp-controller="AdminComment" asp-action="Index">
+                <i class="menu-icon fa fa-comment"></i>
+                <span class="menu-text"> مدیریت نظرات </span>
+            </a>
+        </li>
+    }
 
 </ul>
 <!-- /Sidebar Menu -->

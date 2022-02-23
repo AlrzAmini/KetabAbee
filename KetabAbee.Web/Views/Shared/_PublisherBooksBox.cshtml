@@ -1,9 +1,13 @@
 ﻿@using KetabAbee.Application.Convertors
+@using KetabAbee.Application.Extensions
 @model KetabAbee.Application.DTOs.Book.BookListViewModel
+@{
+    var bookName = Model.Name.NameFixerForUrl();
+}
 <div class="swiper-slide pub-box-swiper-slide">
     <div class="product-card">
         <div class="product-card-top">
-            <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@Model.BookId" asp-route-bookName="@Model.Name" class="product-image">
+            <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@Model.BookId" asp-route-bookName="@bookName" class="product-image">
                 <img src="/images/Book/thumb/@Model.ImageName" alt="product image">
             </a>
         </div>
@@ -14,7 +18,7 @@
                 </div>
             </div>
             <h6 class="product-name">
-                <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@Model.BookId" asp-route-bookName="@Model.Name">
+                <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@Model.BookId" asp-route-bookName="@bookName">
                     @Model.Name اثر @Model.Writer نشر @Model.PublisherName
                 </a>
             </h6>

@@ -62,5 +62,19 @@ namespace KetabAbee.Application.Extensions
         {
             return str?[..Math.Min(str.Length, maxLength)];
         }
+
+        public static string NameFixerForUrl(this string str)
+        {
+            return str.Replace(" ", "-");
+        }
+
+        public static bool IsAllCharEnglish(this string input)
+        {
+            return input.ToCharArray()
+                .All(item => char.IsLower(item) ||
+                             char.IsUpper(item) ||
+                             char.IsDigit(item) ||
+                             char.IsWhiteSpace(item));
+        }
     }
 }

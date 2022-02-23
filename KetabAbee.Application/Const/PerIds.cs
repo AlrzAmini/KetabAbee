@@ -29,5 +29,7 @@ namespace KetabAbee.Application.Const
         public const int AdminDiscounts = 10;
 
         public const int AdminBlogs = 11;
+
+        public const int AdminComments = 12;
     }
 }

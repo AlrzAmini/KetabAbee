@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Site;
 
 namespace KetabAbee.Application.DTOs.Contact
@@ -19,8 +14,10 @@ namespace KetabAbee.Application.DTOs.Contact
         public string Name { get; set; }
 
         [DisplayName("تلفن")]
-        [MaxLength(50, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
+        [MaxLength(20, ErrorMessage = "شماره تلفن وارد شده صحیح نیست")]
+        [MinLength(10, ErrorMessage = "شماره تلفن وارد شده صحیح نیست")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
+        [Phone(ErrorMessage = "شماره تلفن وارد شده صحیح نیست")]
         public string Phone { get; set; }
 
         [DisplayName("ایمیل")]

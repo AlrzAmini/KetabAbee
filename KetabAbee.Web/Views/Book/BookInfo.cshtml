@@ -8,8 +8,16 @@
     var isAuthUser = User.Identity.IsAuthenticated;
     var url = Context.GetCurrentUrl();
     var bookScoresCount = (int)ViewData["BookScoresCount"];
-    var userBoughtBook = (bool)ViewData["IsUserBoughtBook"];
-    var isScoreSentByUser = (bool)ViewData["ScoreSentByUser"];
+    var userBoughtBook = false;
+    if (ViewData["IsUserBoughtBook"] != null)
+    {
+        userBoughtBook = (bool)ViewData["IsUserBoughtBook"];
+    }
+    var isScoreSentByUser = false;
+    if (ViewData["ScoreSentByUser"] != null)
+    {
+        isScoreSentByUser = (bool) ViewData["ScoreSentByUser"];
+    }
     var ageRangeBooks = ViewData["AgeRangeBooks"] as List<BookListViewModel>;
     var age = (int?)ViewData["UserAge"];
     var publisherBooks = ViewData["PublisherBooks"] as List<BookListViewModel>;

@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using KetabAbee.Application.Const;
+using KetabAbee.Application.DTOs.Admin.Comment;
 using KetabAbee.Application.DTOs.Comment;
+using KetabAbee.Application.DTOs.Paging;
 using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Comment;
 using KetabAbee.Domain.Interfaces;
 using KetabAbee.Domain.Models.Comment.ProductComment;
+using Microsoft.EntityFrameworkCore;
 
 namespace KetabAbee.Application.Services.Comment
 {
@@ -155,6 +159,120 @@ namespace KetabAbee.Application.Services.Comment
                 SendDate = c.SendDate,
                 UserName = c.UserName
             });
+        }
+
+        public FilterCommentsViewModel FilterComments(FilterCommentsViewModel filter)
+        {
+            #region get comments
+
+            var result = _commentRepository.GetComments()
+                .Select(c => new CommentInAdminViewModel
+                {
+                    Body = c.Body,
+                    CommentId = c.CommentId,
+                    SendDate = c.SendDate,
+                    SenderName = c.UserName,
+                    ProductName = c.Product.Name,
+                    IsReadByAdmin = c.IsReadByAdmin
+                }).AsQueryable();
+
+            #endregion
+
+            #region filter by sender name
+
+            if (!string.IsNullOrEmpty(filter.UserName))
+            {
+                result = result.Where(r => r.SenderName.Contains(filter.UserName));
+            }
+
+            #endregion
+
+            #region filter by body
+
+
+            if (!string.IsNullOrEmpty(filter.Body))
+            {
+                result = result.Where(r => r.Body.Contains(filter.Body));
+            }
+
+            #endregion
+
+            #region filter by is not read
+
+            if (filter.IsNotReadByAdmin)
+            {
+                result = result.Where(r => !r.IsReadByAdmin);
+            }
+
+            #endregion
+
+            #region paging
+
+            var pager = Pager.Build(filter.PageNum, result.Count(), filter.Take, filter.PageCountAfterAndBefor);
+            var comments = result.Paging(pager).ToList();
+
+            #endregion
+
+            return filter.SetPaging(pager).SetComments(comments);
+        }
+
+        public ChangeCommentIsReadResult ChangeCommentIsRead(int commentId)
+        {
+            try
+            {
+                var comment = GetCommentById(commentId);
+                if (comment == null)
+                {
+                    return ChangeCommentIsReadResult.NotFound;
+                }
+
+                switch (comment.IsReadByAdmin)
+                {
+                    case true:
+                        comment.IsReadByAdmin = false;
+                        UpdateComment(comment);
+                        return ChangeCommentIsReadResult.ChangedToIsNotRead;
+                    case false:
+                        comment.IsReadByAdmin = true;
+                        UpdateComment(comment);
+                        return ChangeCommentIsReadResult.ChangedToRead;
+                }
+            }
+            catch
+            {
+                return ChangeCommentIsReadResult.Error;
+            }
+        }
+
+        public DeleteEnglishCommentsResult DeleteEnglishComments()
+        {
+            try
+            {
+                var comments = _commentRepository.GetComments()
+                    .Select(c => new DeleteEnglishCommentsViewModel()
+                    {
+                        CommentId = c.CommentId,
+                        Body = c.Body
+                    }).Where(c => c.Body.IsAllCharEnglish()).ToList();
+
+                if (!comments.Any()) return DeleteEnglishCommentsResult.NotFoundAnyEnglishComment;
+
+                foreach (var comment in comments)
+                {
+                    DeleteComment(comment.CommentId);
+                }
+
+                return DeleteEnglishCommentsResult.Success;
+            }
+            catch
+            {
+                return DeleteEnglishCommentsResult.Error;
+            }
+        }
+
+        public int EnglishCommentsCount()
+        {
+            return _commentRepository.GetCommentsBodies().Count(c => c.IsAllCharEnglish());
         }
     }
 }

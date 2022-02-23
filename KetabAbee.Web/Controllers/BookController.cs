@@ -64,6 +64,7 @@ namespace KetabAbee.Web.Controllers
 
             ViewData["SatisfiedUsersPercent"] = _productService.SatisfiedBookBuyersPercent(bookId);
             ViewData["BookAverageScore"] = _productService.GetBookAverageScore(bookId);
+            ViewData["BookScoresCount"] = _productService.AllBookSentScoresCount(bookId);
 
             #endregion
 
@@ -85,7 +86,6 @@ namespace KetabAbee.Web.Controllers
 
             #region scores
 
-            ViewData["BookScoresCount"] = _productService.AllBookSentScoresCount(bookId);
             ViewData["ScoreSentByUser"] = _productService.ScoreSentByUser(userId, bookId);
 
             #endregion

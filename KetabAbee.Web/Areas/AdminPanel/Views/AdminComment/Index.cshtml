@@ -1,0 +1,134 @@
+﻿@using KetabAbee.Application.Convertors
+@model KetabAbee.Application.DTOs.Admin.Comment.FilterCommentsViewModel
+@{
+    ViewData["Title"] = "نظرات";
+}
+<div class="page-breadcrumbs margin-bottom-20">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
+
+<div class="col-12 col-md-4">
+    <div class="row mt-4">
+        <div class="col-lg-12 mt-4">
+            <div class="widget m-4">
+                <div class="widget-header bordered-bottom bordered-azure">
+                    <i class="widget-icon fa fa-filter azure"></i>
+                    <span class="widget-caption azure">فیلتر نظرات</span>
+                </div>
+                <div class="widget-body no-padding">
+                    <div class="tickets-container">
+                        <form id="filterform" asp-controller="AdminComment" asp-action="Index" method="get">
+                            <input type="hidden" asp-for="PageNum" />
+                            <div class="form-group">
+                                <label for="definput">نام نویسنده</label>
+                                <input type="text" class="form-control" id="definput" placeholder="جستجو بر اساس نام نویسنده" asp-for="UserName">
+                            </div>
+                            <div class="form-group">
+                                <label for="definput">محتوا</label>
+                                <input type="text" class="form-control" id="definput" placeholder="جستجو بر اساس محتوای نظر" asp-for="Body">
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" onchange="submitForm()" class="colored-success" asp-for="IsNotReadByAdmin">
+                                    <span class="text">فقط خوانده نشده ها</span>
+                                </label>
+                            </div>
+                            <button class="btn btn-azure btn-lg btn-block" type="submit"><i class="fa fa-search"></i></button>
+                        </form>
+                    </div>
+                    <div class="tickets-container">
+                        <a class="btn btn-danger btn-lg btn-block" asp-area="AdminPanel" asp-controller="AdminComment" asp-action="DeleteAllEngComments" onclick="return confirm('از حذف نظرات انگلیسی اطمینان دارید ؟')"> نظرات انگلیسی و اعداد را حذف کن = @ViewData["ENGCommentsCount"]</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@if (Model.Comments != null && Model.Comments.Any())
+{
+    <div class="col-xs-12 col-md-8">
+        <div class="well with-header with-footer">
+            <div class="header bordered-sky">
+                <i class="fa fa-ticket"></i>
+                نظرات
+            </div>
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            شماره
+                        </th>
+                        <th>
+                            فرستنده
+                        </th>
+                        <th>
+                            محصول
+                        </th>
+                        <th>
+                            تاریخ ارسال
+                        </th>
+                        <th>
+                            متن
+                        </th>
+                        <th>
+                            دستورات
+                        </th>
+                        <th>
+                            وضعیت
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var comment in Model.Comments)
+                    {
+                        <tr>
+                            <td>
+                                @comment.CommentId
+                            </td>
+                            <td>
+                                @comment.SenderName
+                            </td>
+                            <td>
+                                @comment.ProductName
+                            </td>
+                            <td>
+                                @comment.SendDate.ToShamsi()
+                            </td>
+                            <td>
+                                @comment.Body
+                            </td>
+                            <td>
+                                <a class="btn btn-danger" asp-controller="AdminComment" asp-action="DeleteComment" onclick="return confirm('از حذف این نظر اطمینان دارید ؟')" asp-route-commentId="@comment.CommentId">حذف</a>
+                                <a class="btn btn-success" asp-controller="AdminComment" asp-action="ChangeIsRead" asp-route-commentId="@comment.CommentId">خوانده شد</a>
+                                <a class="btn btn-primary" asp-controller="AdminTicket" asp-action="TicketIsRead" onclick="return confirm('حالت | خوانده شد | این تیکت را تغییر می دهید ؟')" asp-route-id="@comment.CommentId">پاسخ ها</a>
+                            </td>
+                            <td class="@(comment.IsReadByAdmin?"bg-success":"bg-danger")">
+                                @(comment.IsReadByAdmin?"خوانده شده":"خوانده نشده")
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <partial name="_AdminPaging" model="Model.GetCurrentPaging()" />
+    </div>
+}
+else
+{
+    <div class="alert alert-danger">هنوز نظری ثبت نشده است</div>
+}
+@section Scripts
+{
+    <script>
+        function submitForm() {
+            $("#filterform").submit();
+        }
+    </script>
+}
+

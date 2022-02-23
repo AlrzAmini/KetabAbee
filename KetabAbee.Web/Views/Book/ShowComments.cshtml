@@ -10,7 +10,7 @@
 @inject IPermissionService _permissionService;
 @{
     Layout = null;
-    var isUserAdmin = _permissionService.CheckPermission(PerIds.AdminPanel, User.GetUserEmail());
+    var isUserAdmin = _permissionService.CheckPermission(PerIds.AdminComments, User.GetUserEmail());
 }
 @if (Model.Item1 != null && Model.Item1.Any())
 {

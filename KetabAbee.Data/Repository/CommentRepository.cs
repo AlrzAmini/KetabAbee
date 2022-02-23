@@ -145,5 +145,17 @@ namespace KetabAbee.Data.Repository
         {
             return _context.ProductCommentAnswers.Find(answerId);
         }
+
+        public IEnumerable<ProductComment> GetComments()
+        {
+            return _context.ProductComments
+                .Include(c=>c.Product)
+                .OrderByDescending(c=>c.SendDate);
+        }
+
+        public List<string> GetCommentsBodies()
+        {
+            return _context.ProductComments.Select(c => c.Body).ToList();
+        }
     }
 }

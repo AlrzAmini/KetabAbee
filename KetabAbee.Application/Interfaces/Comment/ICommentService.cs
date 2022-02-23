@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Application.DTOs.Admin.Comment;
 using KetabAbee.Application.DTOs.Comment;
 using KetabAbee.Domain.Models.Comment.ProductComment;
 
@@ -46,6 +47,18 @@ namespace KetabAbee.Application.Interfaces.Comment
 
         ProductCommentAnswer GetAnswerById(int answerId);
 
+
+        #endregion
+
+        #region admin
+
+        FilterCommentsViewModel FilterComments(FilterCommentsViewModel filter);
+
+        ChangeCommentIsReadResult ChangeCommentIsRead(int commentId);
+
+        DeleteEnglishCommentsResult DeleteEnglishComments();
+
+        int EnglishCommentsCount();
 
         #endregion
     }
