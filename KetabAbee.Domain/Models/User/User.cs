@@ -156,6 +156,8 @@ namespace KetabAbee.Domain.Models.User
 
         public ICollection<ProductComment> ProductComments { get; set; }
 
+        public ICollection<UserIp> UserIps { get; set; }
+
         #endregion
     }
 }

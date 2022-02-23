@@ -4,14 +4,16 @@ using KetabAbee.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KetabAbee.Data.Migrations
 {
     [DbContext(typeof(KetabAbeeDBContext))]
-    partial class KetabAbeeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220223093227_adduserIp")]
+    partial class adduserIp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -825,6 +827,10 @@ namespace KetabAbee.Data.Migrations
                     b.Property<DateTime>("RegisterDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("UserIp")
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -855,28 +861,6 @@ namespace KetabAbee.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserBooks");
-                });
-
-            modelBuilder.Entity("KetabAbee.Domain.Models.User.UserIp", b =>
-                {
-                    b.Property<int>("UserIpId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Ip")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserIpId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserIps");
                 });
 
             modelBuilder.Entity("KetabAbee.Domain.Models.User.UserRole", b =>
@@ -1234,17 +1218,6 @@ namespace KetabAbee.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("KetabAbee.Domain.Models.User.UserIp", b =>
-                {
-                    b.HasOne("KetabAbee.Domain.Models.User.User", "User")
-                        .WithMany("UserIps")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("KetabAbee.Domain.Models.User.UserRole", b =>
                 {
                     b.HasOne("KetabAbee.Domain.Models.User.Role", "Role")
@@ -1372,8 +1345,6 @@ namespace KetabAbee.Data.Migrations
                     b.Navigation("Tickets");
 
                     b.Navigation("UserBooks");
-
-                    b.Navigation("UserIps");
 
                     b.Navigation("UserRoles");
 

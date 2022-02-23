@@ -8,6 +8,7 @@ using KetabAbee.Application.DTOs.Admin.Home;
 using KetabAbee.Application.DTOs.Admin.User;
 using KetabAbee.Application.DTOs.Admin.Wallet;
 using KetabAbee.Application.DTOs.Book;
+using KetabAbee.Domain.Models.User;
 using Microsoft.AspNetCore.Http;
 
 namespace KetabAbee.Application.Interfaces.User
@@ -37,6 +38,8 @@ namespace KetabAbee.Application.Interfaces.User
         bool UpdateUser(Domain.Models.User.User user);
 
         bool EmailActivatorBy5ThCode(string activateCode);
+
+        void AddUserIp(UserIp userIp);
 
         #endregion
 

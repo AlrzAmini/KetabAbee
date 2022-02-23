@@ -33,6 +33,10 @@ namespace KetabAbee.Domain.Interfaces
 
         User GetUserByEmailActive5ThCode(string emailActiveCode);
 
+        void AddUserIp(UserIp userIp);
+
+        bool CheckUserIpIsNotRepetitious(UserIp userIp);
+
 
         #endregion
 

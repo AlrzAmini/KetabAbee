@@ -17,7 +17,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using KetabAbee.Application.Interfaces.Permission;
+using KetabAbee.Domain.Models.User;
 
 namespace KetabAbee.Application.Services.User
 {
@@ -34,7 +34,7 @@ namespace KetabAbee.Application.Services.User
 
         public async Task<Domain.Models.User.User> RegisterUser(RegisterViewModel user)
         {
-            var newUser = new Domain.Models.User.User()
+            var newUser = new Domain.Models.User.User
             {
                 UserName = user.UserName.Sanitizer(),
                 Email = user.Email.Sanitizer(),
@@ -49,9 +49,13 @@ namespace KetabAbee.Application.Services.User
                 BirthDay = null,
                 Age = null
             };
-
+            
             await _userRepository.RegisterUser(newUser);
-
+            _userRepository.AddUserIp(new UserIp
+            {
+                UserId = newUser.UserId,
+                Ip = user.UserIp
+            });
             return newUser;
         }
 
@@ -578,6 +582,12 @@ namespace KetabAbee.Application.Services.User
             };
         }
 
-
+        public void AddUserIp(UserIp userIp)
+        {
+            if (!_userRepository.CheckUserIpIsNotRepetitious(userIp))
+            {
+                _userRepository.AddUserIp(userIp);
+            }
+        }
     }
 }

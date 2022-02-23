@@ -197,5 +197,16 @@ namespace KetabAbee.Data.Repository
         {
             return _context.Users.Count(u => u.IsOnline);
         }
+
+        public void AddUserIp(UserIp userIp)
+        {
+            _context.UserIps.Add(userIp);
+            _context.SaveChanges();
+        }
+
+        public bool CheckUserIpIsNotRepetitious(UserIp userIp)
+        {
+            return _context.UserIps.Any(i=>i.UserId == userIp.UserId && i.Ip == userIp.Ip);
+        }
     }
 }

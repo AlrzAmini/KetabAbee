@@ -33,6 +33,8 @@ namespace KetabAbee.Data.Context
 
         public DbSet<UserBook> UserBooks { get; set; }
 
+        public DbSet<UserIp> UserIps { get; set; }
+
         #endregion
 
         #region ticket

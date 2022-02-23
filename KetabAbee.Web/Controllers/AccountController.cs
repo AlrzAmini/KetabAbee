@@ -11,6 +11,7 @@ using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Security;
 using KetabAbee.Application.Senders;
+using KetabAbee.Domain.Models.User;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
@@ -80,6 +81,7 @@ namespace KetabAbee.Web.Controllers
             }
 
             //register user
+            register.UserIp = HttpContext.GetUserIp();
             var user = await _userService.RegisterUser(register);
             if (user == null) return RedirectToAction("Register");
             TempData["SuccessSwal"] = "ثبت نام شما با موفقیت انجام شد";
@@ -151,6 +153,11 @@ namespace KetabAbee.Web.Controllers
                 // command for login user
                 await HttpContext.SignInAsync(principal, properties);
 
+                _userService.AddUserIp(new UserIp
+                {
+                    Ip = HttpContext.GetUserIp(),
+                    UserId = user.UserId
+                });
                 user.IsOnline = true;
                 _userService.UpdateUser(user);
                 

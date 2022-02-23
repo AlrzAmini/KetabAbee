@@ -50,6 +50,13 @@ namespace KetabAbee.Application.DTOs
 
         #endregion
 
+        #region UserIp
+
+        [MaxLength(15)]
+        public string UserIp { get; set; }
+
+        #endregion
+
     }
 
     public class LoginViewModel : CaptchaViewModel
