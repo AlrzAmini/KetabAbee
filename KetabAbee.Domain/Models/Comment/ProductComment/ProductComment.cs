@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Domain.Models.Comment.CommentReport;
 using KetabAbee.Domain.Models.Products;
 
 namespace KetabAbee.Domain.Models.Comment.ProductComment
@@ -58,6 +59,8 @@ namespace KetabAbee.Domain.Models.Comment.ProductComment
         public Book Product { get; set; }
 
         public ICollection<ProductCommentAnswer> Answers { get; set; }
+
+        public ICollection<CommentsReport> Reports { get; set; }
 
 
         #endregion
