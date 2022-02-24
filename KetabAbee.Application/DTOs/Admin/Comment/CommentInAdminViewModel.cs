@@ -10,6 +10,10 @@ namespace KetabAbee.Application.DTOs.Admin.Comment
     {
         public int CommentId { get; set; }
 
+        public int? UserId { get; set; }
+
+        public string UserIp { get; set; }
+
         public string SenderName { get; set; }
 
         public DateTime SendDate { get; set; }
@@ -19,6 +23,8 @@ namespace KetabAbee.Application.DTOs.Admin.Comment
         public string ProductName { get; set; }
 
         public bool IsReadByAdmin { get; set; }
+
+        public int AnswersCount { get; set; }
     }
 
     public enum ChangeCommentIsReadResult

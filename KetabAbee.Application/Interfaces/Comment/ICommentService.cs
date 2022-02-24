@@ -60,6 +60,8 @@ namespace KetabAbee.Application.Interfaces.Comment
 
         int EnglishCommentsCount();
 
+        IEnumerable<CommentAnswersViewModel> GetCommentAnswers(int commentId);
+
         #endregion
     }
 }

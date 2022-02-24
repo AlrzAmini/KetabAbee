@@ -104,5 +104,35 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Comments
         }
 
         #endregion
+
+        #region comment answers
+
+        [HttpGet("C/{commentId}/Answers")]
+        public IActionResult ShowCommentAnswers(int commentId)
+        {
+            var model = _commentService.GetCommentAnswers(commentId).ToList();
+            if (model.Any()) return View(model);
+
+            TempData["InfoMessage"] = "پاسخی برای این کامنت یافت نشد";
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region delete answer
+
+        [HttpGet("Delete/A/{answerId}")]
+        public IActionResult DeleteAnswer(int answerId, int commentId)
+        {
+            if (_commentService.DeleteAnswer(answerId))
+            {
+                TempData["SuccessMessage"] = "پاسخ با موفقیت حذف شد";
+                return RedirectToAction("ShowCommentAnswers", new {commentId});
+            }
+            TempData["ErrorMessage"] = "پاسخ حذف نشد";
+            return RedirectToAction("ShowCommentAnswers", new { commentId });
+        }
+
+        #endregion
     }
 }

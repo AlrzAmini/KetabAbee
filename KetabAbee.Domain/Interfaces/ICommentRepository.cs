@@ -52,6 +52,8 @@ namespace KetabAbee.Domain.Interfaces
 
         List<string> GetCommentsBodies();
 
+        IEnumerable<ProductCommentAnswer> GetCommentAnswers(int commentId);
+
         #endregion
     }
 }

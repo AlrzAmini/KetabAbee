@@ -1,0 +1,94 @@
+﻿@using KetabAbee.Application.Convertors
+@model List<KetabAbee.Application.DTOs.Admin.Comment.CommentAnswersViewModel>
+@{
+    ViewData["Title"] = " جوابهای کامنت " + Model.FirstOrDefault()?.CAnswerId;
+}
+
+
+<div class="page-breadcrumbs margin-bottom-20">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li>
+            <a asp-controller="AdminComment" asp-action="Index">نظرات</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
+
+@if (Model != null && Model.Any())
+{
+    <div class="col-xs-12 col-md-8">
+        <div class="well with-header with-footer">
+            <div class="header bordered-sky">
+                <i class="fa fa-comment-alt"></i>
+                پاسخ ها
+            </div>
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            شماره
+                        </th>
+                        <th>
+                            فرستنده
+                        </th>
+                        <th>
+                            ایمیل
+                        </th>
+                        <th>
+                            تاریخ ارسال
+                        </th>
+                        <th>
+                            متن
+                        </th>
+                        <th>
+                            دستورات
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var answer in Model)
+                    {
+                        <tr>
+                            <td>
+                                @answer.CAnswerId
+                            </td>
+                            <td>
+                                <ol class="dd-list">
+                                    @answer.UserName
+                                    <li class="dd-item bordered-blue" data-id="6">
+                                        <div class="dd-handle"> @answer.UserId </div>
+                                    </li>
+                                    <li class="dd-item bordered-palegreen" data-id="7">
+                                        <div class="dd-handle"> @answer.UserIp </div>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td>
+                                @answer.Email
+                            </td>
+                            <td>
+                                @answer.SendDate.ToShamsi()
+                            </td>
+                            <td>
+                                @answer.AnswerBody
+                            </td>
+                            <td>
+                                <a class="btn btn-danger" asp-controller="AdminComment" asp-action="DeleteAnswer"
+                                   onclick="return confirm('از حذف این پاسخ اطمینان دارید ؟')" asp-route-answerId="@answer.CAnswerId"
+                                   asp-route-commentId="@answer.CommentId">حذف</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-danger">هنوز پاسخی ثبت نشده است</div>
+}

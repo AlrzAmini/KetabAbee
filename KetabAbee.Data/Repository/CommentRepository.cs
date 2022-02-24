@@ -150,12 +150,20 @@ namespace KetabAbee.Data.Repository
         {
             return _context.ProductComments
                 .Include(c=>c.Product)
+                .Include(c=>c.Answers)
                 .OrderByDescending(c=>c.SendDate);
         }
 
         public List<string> GetCommentsBodies()
         {
             return _context.ProductComments.Select(c => c.Body).ToList();
+        }
+
+        public IEnumerable<ProductCommentAnswer> GetCommentAnswers(int commentId)
+        {
+            return _context.ProductCommentAnswers
+                .Where(a => a.CommentId == commentId)
+                .OrderByDescending(a=>a.SendDate);
         }
     }
 }

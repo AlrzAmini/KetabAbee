@@ -173,7 +173,10 @@ namespace KetabAbee.Application.Services.Comment
                     SendDate = c.SendDate,
                     SenderName = c.UserName,
                     ProductName = c.Product.Name,
-                    IsReadByAdmin = c.IsReadByAdmin
+                    IsReadByAdmin = c.IsReadByAdmin,
+                    AnswersCount = c.Answers.Count,
+                    UserId = c.UserId,
+                    UserIp = c.UserIp
                 }).AsQueryable();
 
             #endregion
@@ -273,6 +276,21 @@ namespace KetabAbee.Application.Services.Comment
         public int EnglishCommentsCount()
         {
             return _commentRepository.GetCommentsBodies().Count(c => c.IsAllCharEnglish());
+        }
+
+        public IEnumerable<CommentAnswersViewModel> GetCommentAnswers(int commentId)
+        {
+            return _commentRepository.GetCommentAnswers(commentId).Select(a => new CommentAnswersViewModel
+            {
+                UserName = a.UserName,
+                Email = a.Email,
+                SendDate = a.SendDate,
+                AnswerBody = a.AnswerBody,
+                CAnswerId = a.Id,
+                UserId = a.UserId,
+                UserIp = a.UserIp,
+                CommentId = a.CommentId
+            });
         }
     }
 }
