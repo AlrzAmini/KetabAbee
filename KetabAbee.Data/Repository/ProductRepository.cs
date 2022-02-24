@@ -307,5 +307,34 @@ namespace KetabAbee.Data.Repository
                 .Where(b => EF.Functions.Like(b.Name, $"%{search}%"))
                 .Select(b => b.Name);
         }
+
+        public int PublisherBooksCount(int publisherId)
+        {
+            return _context.Books.Count(b => b.PublisherId == publisherId);
+        }
+
+        public IEnumerable<Book> GetPublisherBooks(int publisherId)
+        {
+            return _context.Books.Include(p => p.Publisher).Where(b => b.PublisherId == publisherId);
+        }
+
+        public Publisher GetPublisherById(int publisherId)
+        {
+            return _context.Publishers.Find(publisherId);
+        }
+
+        public bool UpdatePublisher(Publisher publisher)
+        {
+            try
+            {
+                _context.Publishers.Update(publisher);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

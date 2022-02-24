@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Admin.Products.Book;
+using KetabAbee.Application.DTOs.Admin.Products.Book.Publishers;
 using KetabAbee.Application.DTOs.Book;
 using KetabAbee.Domain.Models.Products;
 using Microsoft.AspNetCore.Http;
@@ -111,6 +112,13 @@ namespace KetabAbee.Application.Interfaces.Product
 
         List<SelectListItem> GetPublishersForSelect();
 
+        IEnumerable<PublisherInAdminViewModel> GetPublishersForAdmin();
+
+        int PublisherBooksCount(int publisherId);
+
+        IEnumerable<PublisherBooksViewModel> GetPublisherBooks(int publisherId);
+
+        bool DeletePublisher(int publisherId);
 
         #endregion
 

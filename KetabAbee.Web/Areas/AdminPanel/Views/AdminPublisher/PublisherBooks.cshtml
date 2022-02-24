@@ -1,0 +1,52 @@
+﻿@model List<KetabAbee.Application.DTOs.Admin.Products.Book.Publishers.PublisherBooksViewModel>
+@{
+    ViewData["Title"] = " کتابهای " + Model[0]?.PublisherName;
+}
+
+<div class="row">
+    <div class="col-xs-12 col-md-6">
+        @if (Model != null && Model.Any())
+        {
+            <div class="well with-header  with-footer">
+                <div class="header bg-lightred">
+                    لیست کتابهای نشر @Model[0].PublisherName
+                </div>
+                <table class="table table-hover">
+                    <thead class="bordered-red">
+                        <tr>
+                            <th>
+                                شناسه
+                            </th>
+                            <th>
+                                عنوان
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var book in Model)
+                        {
+
+                            <tr>
+                                <td>
+                                    <a asp-controller="AdminBook" asp-action="EditBook" asp-route-bookId="@book.BookId">
+                                        @book.BookId
+                                    </a>
+                                </td>
+                                <td>
+                                    <a asp-controller="AdminBook" asp-action="EditBook" asp-route-bookId="@book.BookId">
+                                        @book.BookName
+                                    </a>
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info">کتابی ثبت نشده است</div>
+        }
+    </div>
+</div>

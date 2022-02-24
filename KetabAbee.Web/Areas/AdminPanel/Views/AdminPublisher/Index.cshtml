@@ -1,0 +1,60 @@
+﻿@using KetabAbee.Application.Interfaces.Product
+@model List<KetabAbee.Application.DTOs.Admin.Products.Book.Publishers.PublisherInAdminViewModel>
+@inject IProductService _productService;
+@{
+    ViewData["Title"] = "ناشران";
+}
+
+<div class="row">
+    <div class="col-xs-12 col-md-6">
+        @if (Model != null && Model.Any())
+        {
+            <div class="well with-header  with-footer">
+                <div class="header bg-blue">
+                    لیست ناشران
+                </div>
+                <table class="table table-hover">
+                    <thead class="bordered-darkorange">
+                        <tr>
+                            <th>
+                                شناسه
+                            </th>
+                            <th>
+                                عنوان
+                            </th>
+                            <th>
+                                دستورات
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var pub in Model)
+                        {
+                            var bookCount = _productService.PublisherBooksCount(pub.PublisherId);
+                            <tr>
+                                <td>
+                                    @pub.PublisherId
+                                </td>
+                                <td>
+                                    @pub.PublisherName
+                                </td>
+                                <td>
+                                    <a class="btn btn-danger" asp-controller="AdminPublisher" asp-action="DeletePublisher" asp-route-publisherId="@pub.PublisherId" onclick="return confirm('از حذف این ناشر اطمینان دارید ؟')">حذف</a>
+                                    <a class="btn btn-info">ویرایش</a>
+                                    @if (bookCount > 0)
+                                    {
+                                        <a class="btn btn-primary" asp-controller="AdminPublisher" asp-action="PublisherBooks" asp-route-publisherId="@pub.PublisherId">کتابها : @bookCount</a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info">ناشری ثبت نشده است</div>
+        }
+    </div>
+</div>

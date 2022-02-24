@@ -87,6 +87,13 @@ namespace KetabAbee.Domain.Interfaces
 
         bool AddPublisher(Publisher publisher);
 
+        int PublisherBooksCount(int publisherId);
+
+        IEnumerable<Book> GetPublisherBooks(int publisherId);
+
+        Publisher GetPublisherById(int publisherId);
+
+        bool UpdatePublisher(Publisher publisher);
 
         #endregion
 

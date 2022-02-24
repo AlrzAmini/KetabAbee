@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using KetabAbee.Application.Const;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs.Admin.Products.Book;
+using KetabAbee.Application.DTOs.Admin.Products.Book.Publishers;
 using KetabAbee.Application.DTOs.Book;
 using KetabAbee.Application.DTOs.Paging;
 using KetabAbee.Application.Generators;
@@ -776,6 +777,51 @@ namespace KetabAbee.Application.Services.Product
         public IEnumerable<string> GetBookNamesForAutoCompleteSearch(string search)
         {
             return _productRepository.GetBookNamesForAutoCompleteSearch(search);
+        }
+
+        public IEnumerable<PublisherInAdminViewModel> GetPublishersForAdmin()
+        {
+            return _productRepository.GetPublishers()
+                .Select(p => new PublisherInAdminViewModel
+                {
+                    PublisherName = p.PublisherName,
+                    PublisherId = p.PublisherId
+                });
+        }
+
+        public int PublisherBooksCount(int publisherId)
+        {
+            return _productRepository.PublisherBooksCount(publisherId);
+        }
+
+        public IEnumerable<PublisherBooksViewModel> GetPublisherBooks(int publisherId)
+        {
+            return _productRepository.PublisherBooks(publisherId)
+                .Select(b => new PublisherBooksViewModel
+                {
+                    BookId = b.BookId,
+                    BookName = b.Name,
+                    PublisherName = b.Publisher.PublisherName
+                });
+        }
+
+        public bool DeletePublisher(int publisherId)
+        {
+            try
+            {
+                var publisher = _productRepository.GetPublisherById(publisherId);
+                if (publisher == null)
+                {
+                    return false;
+                }
+
+                publisher.IsDelete = true;
+                return _productRepository.UpdatePublisher(publisher);
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

@@ -56,10 +56,25 @@
     {
         <!--Books-->
         <li>
-            <a asp-area="AdminPanel" asp-controller="AdminBook" asp-action="Index">
+            <a href="#" class="menu-dropdown">
                 <i class="menu-icon fa fa-book"></i>
-                <span class="menu-text"> مدیریت کتاب ها </span>
+                <span class="menu-text"> کتابها </span>
+                <i class="menu-expand"></i>
             </a>
+            <ul class="submenu" style="display: none;">
+                <li>
+                    <a asp-area="AdminPanel" asp-controller="AdminBook" asp-action="Index">
+                        <i class="menu-icon fa fa-book"></i>
+                        <span class="menu-text"> مدیریت کتاب ها </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="AdminPanel" asp-controller="AdminPublisher" asp-action="Index">
+                        <i class="menu-icon fa fa-upload"></i>
+                        <span class="menu-text"> مدیریت ناشر ها </span>
+                    </a>
+                </li>
+            </ul>
         </li>
     }
     @if (_permissionService.CheckPermission(PerIds.AdminOrders, User.GetUserEmail()))
@@ -67,7 +82,7 @@
         <!--Orders-->
         <li>
             <a asp-area="AdminPanel" asp-controller="AdminOrder" asp-action="Index">
-                <i class="menu-icon fa fa-book"></i>
+                <i class="menu-icon fa fa-cart-plus"></i>
                 <span class="menu-text"> مدیریت سفارش ها </span>
             </a>
         </li>

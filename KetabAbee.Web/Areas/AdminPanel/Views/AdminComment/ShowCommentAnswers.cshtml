@@ -1,7 +1,7 @@
 ﻿@using KetabAbee.Application.Convertors
 @model List<KetabAbee.Application.DTOs.Admin.Comment.CommentAnswersViewModel>
 @{
-    ViewData["Title"] = " جوابهای کامنت " + Model.FirstOrDefault()?.CAnswerId;
+    ViewData["Title"] = " جوابهای کامنت " + Model[0]?.CAnswerId;
 }
 
 
