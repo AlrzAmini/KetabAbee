@@ -38,6 +38,8 @@ namespace KetabAbee.Domain.Models.Task
 
         public bool IsCompleted { get; set; }
 
+        public bool IsOutOfDate { get; set; }
+
         public bool IsDelete { get; set; }
 
         #endregion
