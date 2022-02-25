@@ -13,5 +13,7 @@ namespace KetabAbee.Domain.Interfaces
         bool AddTask(Task task);
 
         IEnumerable<Role> GetRoles();
+
+        IEnumerable<Task> GetTasks();
     }
 }

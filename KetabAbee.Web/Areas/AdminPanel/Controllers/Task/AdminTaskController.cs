@@ -28,9 +28,9 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Task
 
         #region index
 
-        public IActionResult Index()
+        public IActionResult Index(FilterTasksViewModel filter)
         {
-            return View();
+            return View(_taskService.FilterTasks(filter));
         }
 
         #endregion

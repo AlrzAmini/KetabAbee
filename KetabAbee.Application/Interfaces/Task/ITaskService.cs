@@ -12,5 +12,9 @@ namespace KetabAbee.Application.Interfaces.Task
         CreateTaskViewModel GetRolesForCreateTask();
 
         CreateTaskResult AddTask(CreateTaskViewModel task);
+
+        IEnumerable<ShowTaskInListForManager> GetTasksForManager();
+
+        FilterTasksViewModel FilterTasks(FilterTasksViewModel filter);
     }
 }

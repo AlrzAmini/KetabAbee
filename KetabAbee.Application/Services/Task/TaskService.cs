@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs.Admin.Task;
+using KetabAbee.Application.DTOs.Paging;
 using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Task;
 using KetabAbee.Domain.Interfaces;
@@ -51,6 +52,32 @@ namespace KetabAbee.Application.Services.Task
             }
         }
 
+        public FilterTasksViewModel FilterTasks(FilterTasksViewModel filter)
+        {
+            var result = GetTasksForManager().AsQueryable();
+
+            if (!string.IsNullOrEmpty(filter.RoleSearch))
+            {
+                result = result.Where(r => r.RoleTitle.Contains(filter.RoleSearch));
+            }
+
+            if (!string.IsNullOrEmpty(filter.StartDateSearch))
+            {
+                var sDate = filter.StartDateSearch.ToMiladiDateTime();
+                result = result.Where(r => r.CreateDate > sDate);
+            }
+            if (!string.IsNullOrEmpty(filter.EndDateSearch))
+            {
+                var eDate = filter.EndDateSearch.ToMiladiDateTime();
+                result = result.Where(r => r.DeadLine < eDate);
+            }
+
+            var pager = Pager.Build(filter.PageNum, result.Count(), filter.Take, filter.PageCountAfterAndBefor);
+            var tasks = result.Paging(pager).ToList();
+
+            return filter.SetPaging(pager).SetTasks(tasks);
+        }
+
         public CreateTaskViewModel GetRolesForCreateTask()
         {
             return new CreateTaskViewModel
@@ -66,6 +93,18 @@ namespace KetabAbee.Application.Services.Task
                         Value = r.RoleId.ToString()
                     }).ToList()
             };
+        }
+
+        public IEnumerable<ShowTaskInListForManager> GetTasksForManager()
+        {
+            return _taskRepository.GetTasks().Select(t => new ShowTaskInListForManager
+            {
+                CreateDate = t.CreateDate,
+                DeadLine = t.DeadLine,
+                RoleTitle = t.Role.RoleTitle,
+                CreatorName = t.Creator.UserName,
+                TaskId = t.TaskId
+            });
         }
     }
 }

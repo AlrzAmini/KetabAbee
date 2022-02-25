@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using KetabAbee.Data.Context;
 using KetabAbee.Domain.Interfaces;
 using KetabAbee.Domain.Models.User;
+using Microsoft.EntityFrameworkCore;
 using Task = KetabAbee.Domain.Models.Task.Task;
 
 namespace KetabAbee.Data.Repository
@@ -36,6 +37,12 @@ namespace KetabAbee.Data.Repository
         public IEnumerable<Role> GetRoles()
         {
             return _context.Roles;
+        }
+
+        public IEnumerable<Task> GetTasks()
+        {
+            return _context.Tasks.Include(t => t.Creator)
+                .Include(t => t.Role);
         }
     }
 }

@@ -1,8 +1,16 @@
-﻿
+﻿@model KetabAbee.Application.DTOs.Admin.Task.FilterTasksViewModel
 @{
     ViewData["Title"] = "تسک ها";
 }
-
+<div class="page-breadcrumbs margin-bottom-20">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
 <div class="row col-md-12">
     <a class="btn btn-success" asp-controller="AdminTask" asp-action="CreateTask">افزودن تسک جدید</a>
 </div>
