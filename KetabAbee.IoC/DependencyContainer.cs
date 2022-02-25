@@ -13,6 +13,7 @@ using KetabAbee.Application.Interfaces.Order;
 using KetabAbee.Application.Interfaces.Permission;
 using KetabAbee.Application.Interfaces.Product;
 using KetabAbee.Application.Interfaces.Product.Discount;
+using KetabAbee.Application.Interfaces.Task;
 using KetabAbee.Application.Interfaces.Ticket;
 using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Interfaces.Wallet;
@@ -23,6 +24,7 @@ using KetabAbee.Application.Services.Order;
 using KetabAbee.Application.Services.Permission;
 using KetabAbee.Application.Services.Product;
 using KetabAbee.Application.Services.Product.Discount;
+using KetabAbee.Application.Services.Task;
 using KetabAbee.Application.Services.Ticket;
 using KetabAbee.Application.Services.User;
 using KetabAbee.Application.Services.Wallet;
@@ -49,6 +51,7 @@ namespace KetabAbee.IoC
             service.AddScoped<ICommentService, CommentService>();
             service.AddScoped<IDiscountService, DiscountService>();
             service.AddScoped<IBlogService, BlogService>();
+            service.AddScoped<ITaskService, TaskService>();
 
             #endregion
 
@@ -64,6 +67,7 @@ namespace KetabAbee.IoC
             service.AddScoped<ICommentRepository, CommentRepository>();
             service.AddScoped<IDiscountRepository, DiscountRepository>();
             service.AddScoped<IBlogRepository, BlogRepository>();
+            service.AddScoped<ITaskRepository, TaskRepository>();
 
             #endregion
 

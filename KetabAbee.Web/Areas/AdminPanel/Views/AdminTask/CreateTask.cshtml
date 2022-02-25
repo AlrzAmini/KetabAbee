@@ -1,0 +1,59 @@
+﻿@using KetabAbee.Domain.Models.Task
+@model KetabAbee.Application.DTOs.Admin.Task.CreateTaskViewModel
+@{
+    ViewData["Title"] = "افزودن تسک جدید";
+}
+<div class="page-breadcrumbs margin-bottom-20">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li>
+            <a asp-controller="AdminTask" asp-action="Index">تسک ها</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-lg-6 col-sm-6 col-xs-12">
+        <div class="widget">
+            <div class="widget-header bordered-bottom bordered-pink">
+                <span class="widget-caption">اطلاعات تسک</span>
+            </div>
+            <div class="widget-body">
+                <div id="horizontal-form">
+                    <form class="form-horizontal" role="form" asp-controller="AdminTask" asp-action="CreateTask" method="post">
+                        <div class="row margin-bottom-10">
+                            <div class="col-md-6">
+                                <span class="input-icon icon-right inverted">
+                                    <input type="text" asp-for="CreateDate" class="form-control" placeholder="از تاریخ">
+                                    <i class="fa fa-clock bg-success"></i>
+                                </span>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="input-icon icon-right inverted">
+                                    <input type="text" asp-for="DeadLine" class="form-control" placeholder="تا تاریخ">
+                                    <i class="fa fa-clock bg-danger"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <textarea class="form-control" asp-for="Body" rows="5" placeholder="متن تسک"></textarea>
+                        <div class="row margin-bottom-10 margin-top-10">
+                            
+                            <div class="col-md-4">
+                                <label> ضرورت : </label>
+                                <select class="form-control" asp-for="TaskPriority" asp-items="@(Html.GetEnumSelectList<TaskPriority>())"></select>
+                                <div class="horizontal-space"></div>
+                            </div>
+                        </div>
+                        <div class="horizontal-space"></div>
+                        <div>
+                            <button type="submit" class="btn btn-success">ثبت تسک</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

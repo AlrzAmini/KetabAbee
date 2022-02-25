@@ -15,7 +15,7 @@
     @if (_permissionService.IsUserHaveRole(User.GetUserId(), RoleIds.Manager))
     {
         <li>
-            <a asp-controller="AdminHome" asp-action="Home">
+            <a asp-controller="AdminTask" asp-action="Index">
                 <i class="menu-icon glyphicon glyphicon-tasks"></i>
                 <span class="menu-text"> مدیریت تسک ها </span>
             </a>

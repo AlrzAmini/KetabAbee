@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.Extensions;
@@ -9,18 +8,17 @@ using KetabAbee.Application.Interfaces.Permission;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-//using ShoraaDahak.Core.Services.Interfaces;
 
 namespace KetabAbee.Application.Security
 {
-    public class PermissionCheckerAttribute : AuthorizeAttribute, IAuthorizationFilter
+    public class RoleCheckerAttribute : AuthorizeAttribute, IAuthorizationFilter
     {
         private IPermissionService _permissionService;
-        private readonly int _permissionId;
+        private readonly int _roleId;
 
-        public PermissionCheckerAttribute(int permissionId)
+        public RoleCheckerAttribute(int roleId)
         {
-            _permissionId = permissionId;
+            _roleId = roleId;
         }
         public void OnAuthorization(AuthorizationFilterContext context)
         {
@@ -28,9 +26,9 @@ namespace KetabAbee.Application.Security
 
             if (context.HttpContext.User.Identity.IsAuthenticated)
             {
-                var email = context.HttpContext.User.GetUserEmail();
-                 
-                if (!_permissionService.CheckPermission(_permissionId, email))
+                var userId = context.HttpContext.User.GetUserId();
+
+                if (!_permissionService.IsUserHaveRole(userId, _roleId))
                 {
                     context.Result = new RedirectResult("/");
                 }
