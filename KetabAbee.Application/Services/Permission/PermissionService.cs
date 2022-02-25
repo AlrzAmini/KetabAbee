@@ -20,7 +20,7 @@ namespace KetabAbee.Application.Services.Permission
 
         public void AddPermissionsToRole(int roleId, List<int> selectedPermissions)
         {
-           _permissionRepository.AddPermissionsToRole(roleId,selectedPermissions);
+            _permissionRepository.AddPermissionsToRole(roleId, selectedPermissions);
         }
 
         public int AddRole(Role role)
@@ -75,9 +75,14 @@ namespace KetabAbee.Application.Services.Permission
             return _permissionRepository.GetRoles();
         }
 
+        public bool IsUserHaveRole(int userId, int roleId)
+        {
+            return _permissionRepository.IsUserHaveRole(userId, roleId);
+        }
+
         public void UpdatePermissionOfRole(int roleId, List<int> selectedPermission)
         {
-            _permissionRepository.UpdatePermissionOfRole(roleId,selectedPermission);
+            _permissionRepository.UpdatePermissionOfRole(roleId, selectedPermission);
         }
 
         public bool UpdateRole(Role role)

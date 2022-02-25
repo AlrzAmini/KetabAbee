@@ -161,5 +161,10 @@ namespace KetabAbee.Data.Repository
                 .Select(r => r.RoleId)
                 .ToList();
         }
+
+        public bool IsUserHaveRole(int userId, int roleId)
+        {
+            return _context.UserRoles.Any(r => r.UserId == userId && r.RoleId == roleId);
+        }
     }
 }

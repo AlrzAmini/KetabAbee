@@ -39,6 +39,8 @@ namespace KetabAbee.Application.Interfaces.Permission
 
         bool CheckPermission(int permissionId, string email);
 
+        bool IsUserHaveRole(int userId, int roleId);
+
         #endregion
     }
 }

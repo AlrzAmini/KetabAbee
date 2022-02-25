@@ -12,6 +12,15 @@
             <span class="menu-text"> داشبورد </span>
         </a>
     </li>
+    @if (_permissionService.IsUserHaveRole(User.GetUserId(), RoleIds.Manager))
+    {
+        <li>
+            <a asp-controller="AdminHome" asp-action="Home">
+                <i class="menu-icon glyphicon glyphicon-tasks"></i>
+                <span class="menu-text"> مدیریت تسک ها </span>
+            </a>
+        </li>
+    }
     @if (_permissionService.CheckPermission(PerIds.AdminRoles, User.GetUserEmail()))
     {
         <!--Roles-->
