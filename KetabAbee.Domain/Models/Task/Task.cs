@@ -15,10 +15,10 @@ namespace KetabAbee.Domain.Models.Task
         public int TaskId { get; set; }
 
         [Required]
-        public int UserId { get; set; }
+        public int CreatorId { get; set; }
 
         [Required]
-        public int UserRoleId { get; set; }
+        public int RoleId { get; set; }
 
         #region properties
 
@@ -44,9 +44,9 @@ namespace KetabAbee.Domain.Models.Task
 
         #region Relations
 
-        public User.User User { get; set; }
+        public User.User Creator { get; set; }
 
-        public UserRole UserRole { get; set; }
+        public Role Role { get; set; }
 
         #endregion
     }

@@ -27,23 +27,32 @@
                         <div class="row margin-bottom-10">
                             <div class="col-md-6">
                                 <span class="input-icon icon-right inverted">
-                                    <input type="text" asp-for="CreateDate" class="form-control" placeholder="از تاریخ">
+                                    <input data-jdp type="text" asp-for="CreateDate" class="form-control" placeholder="از تاریخ">
                                     <i class="fa fa-clock bg-success"></i>
                                 </span>
+                                <span asp-validation-for="CreateDate" class="text-danger"></span>
                             </div>
                             <div class="col-md-6">
                                 <span class="input-icon icon-right inverted">
-                                    <input type="text" asp-for="DeadLine" class="form-control" placeholder="تا تاریخ">
+                                    <input data-jdp type="text" asp-for="DeadLine" class="form-control" placeholder="تا تاریخ">
                                     <i class="fa fa-clock bg-danger"></i>
                                 </span>
+                                <span asp-validation-for="DeadLine" class="text-danger"></span>
                             </div>
                         </div>
                         <textarea class="form-control" asp-for="Body" rows="5" placeholder="متن تسک"></textarea>
+                        <span asp-validation-for="Body" class="text-danger"></span>
                         <div class="row margin-bottom-10 margin-top-10">
-                            
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label> ضرورت : </label>
                                 <select class="form-control" asp-for="TaskPriority" asp-items="@(Html.GetEnumSelectList<TaskPriority>())"></select>
+                                <span asp-validation-for="TaskPriority" class="text-danger"></span>
+                                <div class="horizontal-space"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label> برای : </label>
+                                <select class="form-control" asp-for="SelectRoleId" asp-items="@Model.RolesList"></select>
+                                <span asp-validation-for="SelectRoleId" class="text-danger"></span>
                                 <div class="horizontal-space"></div>
                             </div>
                         </div>
@@ -57,3 +66,11 @@
         </div>
     </div>
 </div>
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+    <script type="text/javascript" src="/js/JalaliDataPicker-min.js"></script>
+    <script>
+        jalaliDatepicker.startWatch();
+    </script>
+}

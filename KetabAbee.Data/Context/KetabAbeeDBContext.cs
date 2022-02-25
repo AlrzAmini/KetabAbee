@@ -165,6 +165,9 @@ namespace KetabAbee.Data.Context
             modelBuilder.Entity<Blog>()
                 .HasQueryFilter(e => !e.IsDelete);
 
+            modelBuilder.Entity<Task>()
+                .HasQueryFilter(e => !e.IsDelete);
+
             #endregion
 
             base.OnModelCreating(modelBuilder);
