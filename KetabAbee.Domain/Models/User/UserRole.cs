@@ -21,6 +21,7 @@ namespace KetabAbee.Domain.Models.User
         #endregion
 
         #region Relations
+
         //[ForeignKey("UserId")]
         public User User { get; set; }
 

@@ -5,6 +5,7 @@ using KetabAbee.Domain.Models.ContactUs;
 using KetabAbee.Domain.Models.Order;
 using KetabAbee.Domain.Models.Permission;
 using KetabAbee.Domain.Models.Products;
+using KetabAbee.Domain.Models.Task;
 using KetabAbee.Domain.Models.Ticket;
 using KetabAbee.Domain.Models.User;
 using KetabAbee.Domain.Models.Wallet;
@@ -101,6 +102,12 @@ namespace KetabAbee.Data.Context
         #region blog
 
         public DbSet<Blog> Blogs { get; set; }
+
+        #endregion
+
+        #region Task
+
+        public DbSet<Task> Tasks { get; set; }
 
         #endregion
 
