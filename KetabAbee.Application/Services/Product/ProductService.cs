@@ -823,5 +823,69 @@ namespace KetabAbee.Application.Services.Product
                 return false;
             }
         }
+
+        public CreatePublisherResult AddPublisherFromAdmin(CreatePublisherViewModel publisher)
+        {
+            if (publisher == null)
+            {
+                return CreatePublisherResult.Error;
+            }
+
+            if (IsNotPublisherNameUnique(publisher.PublisherName))
+            {
+                return CreatePublisherResult.RepetitiousName;
+            }
+
+            var newPublisher = new Publisher
+            {
+                PublisherName = publisher.PublisherName
+            };
+
+            return _productRepository.AddPublisher(newPublisher) ? CreatePublisherResult.Success : CreatePublisherResult.Error;
+        }
+
+        public EditPublisherViewModel GetPublisherInfoForEdit(int publisherId)
+        {
+            var publisher = _productRepository.GetPublisherById(publisherId);
+
+            return new EditPublisherViewModel
+            {
+                PublisherName = publisher.PublisherName,
+                PublisherId = publisherId
+            };
+        }
+
+        public EditPublisherResult EditPublisher(EditPublisherViewModel publisher)
+        {
+            try
+            {
+                if (IsNotPublisherNameUnique(publisher.PublisherName))
+                {
+                    return EditPublisherResult.RepetitiousName;
+                }
+
+                var newPublisher = new Publisher
+                {
+                    PublisherName = publisher.PublisherName,
+                    PublisherId = publisher.PublisherId
+                };
+
+                return _productRepository.UpdatePublisher(newPublisher) ? EditPublisherResult.Success : EditPublisherResult.Error;
+            }
+            catch
+            {
+                return EditPublisherResult.Error;
+            }
+        }
+
+        public IEnumerable<string> GetAllPublisherNames()
+        {
+            return _productRepository.GetAllPublisherNames();
+        }
+
+        public bool IsNotPublisherNameUnique(string publisherName)
+        {
+            return _productRepository.IsNotPublisherNameUnique(publisherName);
+        }
     }
 }

@@ -95,6 +95,10 @@ namespace KetabAbee.Domain.Interfaces
 
         bool UpdatePublisher(Publisher publisher);
 
+        IEnumerable<string> GetAllPublisherNames();
+
+        bool IsNotPublisherNameUnique(string publisherName);
+
         #endregion
 
         #region Score

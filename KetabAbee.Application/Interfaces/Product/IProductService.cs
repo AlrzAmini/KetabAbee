@@ -120,6 +120,16 @@ namespace KetabAbee.Application.Interfaces.Product
 
         bool DeletePublisher(int publisherId);
 
+        CreatePublisherResult AddPublisherFromAdmin(CreatePublisherViewModel publisher);
+
+        EditPublisherViewModel GetPublisherInfoForEdit(int publisherId);
+
+        EditPublisherResult EditPublisher(EditPublisherViewModel publisher);
+
+        IEnumerable<string> GetAllPublisherNames();
+
+        bool IsNotPublisherNameUnique(string publisherName);
+
         #endregion
 
         #region Score

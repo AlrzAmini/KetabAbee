@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KetabAbee.Application.Const;
+using KetabAbee.Application.DTOs.Admin.Products.Book.Publishers;
 using KetabAbee.Application.Interfaces.Product;
 using KetabAbee.Application.Security;
 
@@ -76,5 +77,83 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
 
         #endregion
 
+        #region edit publisher
+
+        [HttpGet("Edit/{publisherId}")]
+        public IActionResult EditPublisher(int publisherId)
+        {
+            var publisher = _productService.GetPublisherInfoForEdit(publisherId);
+
+            if (publisher != null) return View(publisher);
+
+            TempData["WarningMessage"] = "ناشر مورد نظر یافت نشد";
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost("Edit/{publisherId}"), ValidateAntiForgeryToken]
+        public IActionResult EditPublisher(EditPublisherViewModel publisher)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(publisher);
+            }
+
+            var res = _productService.EditPublisher(publisher);
+
+            switch (res)
+            {
+                case EditPublisherResult.Success:
+                    TempData["SuccessMessage"] = "ناشر با موفقیت ویرایش شد";
+                    return RedirectToAction("Index");
+                case EditPublisherResult.RepetitiousName:
+                    TempData["WarningMessage"] = "نام ناشر تکراری است";
+                    return RedirectToAction("EditPublisher", new { publisher });
+                case EditPublisherResult.Error:
+                    TempData["ErrorMessage"] = "ناشر ویرایش نشد";
+                    return RedirectToAction("EditPublisher", new { publisher });
+                default:
+                    TempData["ErrorMessage"] = "ناشر ویرایش نشد";
+                    return RedirectToAction("EditPublisher", new { publisher });
+            }
+        }
+
+        #endregion
+
+        #region add publisher
+
+        [HttpGet("P/Add")]
+        public IActionResult AddPublisher()
+        {
+            return View();
+        }
+
+        [HttpPost("P/Add"), ValidateAntiForgeryToken]
+        public IActionResult AddPublisher(CreatePublisherViewModel publisher)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(publisher);
+            }
+
+            var res = _productService.AddPublisherFromAdmin(publisher);
+
+            switch (res)
+            {
+                case CreatePublisherResult.Success:
+                    TempData["SuccessMessage"] = "ناشر افزوده شد";
+                    return RedirectToAction("Index");
+                case CreatePublisherResult.RepetitiousName:
+                    TempData["WarningMessage"] = "نام ناشر تکراری است";
+                    return RedirectToAction("AddPublisher", new { publisher });
+                case CreatePublisherResult.Error:
+                    TempData["ErrorMessage"] = "ناشر افزوده نشد";
+                    return RedirectToAction("AddPublisher", new { publisher });
+                default:
+                    TempData["ErrorMessage"] = "ناشر افزوده نشد";
+                    return RedirectToAction("AddPublisher", new { publisher });
+            }
+        }
+
+        #endregion
     }
 }

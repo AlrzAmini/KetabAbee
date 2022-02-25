@@ -4,7 +4,20 @@
 @{
     ViewData["Title"] = "ناشران";
 }
-
+<!-- Page Breadcrumb -->
+<div class="page-breadcrumbs margin-bottom-20">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
+<!-- /Page Breadcrumb -->
+<div class="row col-md-12 margin-bottom-20">
+    <a class="btn btn-success" asp-controller="AdminPublisher" asp-action="AddPublisher">افزودن ناشر</a>
+</div>
 <div class="row">
     <div class="col-xs-12 col-md-6">
         @if (Model != null && Model.Any())
@@ -40,7 +53,7 @@
                                 </td>
                                 <td>
                                     <a class="btn btn-danger" asp-controller="AdminPublisher" asp-action="DeletePublisher" asp-route-publisherId="@pub.PublisherId" onclick="return confirm('از حذف این ناشر اطمینان دارید ؟')">حذف</a>
-                                    <a class="btn btn-info">ویرایش</a>
+                                    <a class="btn btn-info" asp-controller="AdminPublisher" asp-action="EditPublisher" asp-route-publisherId="@pub.PublisherId">ویرایش</a>
                                     @if (bookCount > 0)
                                     {
                                         <a class="btn btn-primary" asp-controller="AdminPublisher" asp-action="PublisherBooks" asp-route-publisherId="@pub.PublisherId">کتابها : @bookCount</a>

@@ -336,5 +336,15 @@ namespace KetabAbee.Data.Repository
                 return false;
             }
         }
+
+        public IEnumerable<string> GetAllPublisherNames()
+        {
+            return _context.Publishers.Select(p => p.PublisherName);
+        }
+
+        public bool IsNotPublisherNameUnique(string publisherName)
+        {
+            return GetAllPublisherNames().Any(n => n == publisherName);
+        }
     }
 }

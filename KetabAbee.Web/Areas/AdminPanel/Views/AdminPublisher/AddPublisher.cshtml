@@ -1,0 +1,39 @@
+﻿@model KetabAbee.Application.DTOs.Admin.Products.Book.Publishers.CreatePublisherViewModel
+@{
+    ViewData["Title"] = "افزودن ناشر";
+}
+
+<div class="page-breadcrumbs margin-bottom-20">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminPublisher" asp-action="Index">ناشران</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
+<div class="col-md-6 col-xs-12">
+    <div class="widget">
+        <div class="widget-header bordered-left bordered-green">
+            <span class="widget-caption">افزودن ناشر</span>
+        </div>
+        <div class="widget-body bordered-left bordered-green">
+            <form class="form-inline" role="form" asp-controller="AdminPublisher" asp-action="AddPublisher" method="post">
+                <div class="form-group">
+                    <label class="sr-only">نام ناشر</label>
+                    <input type="text" class="form-control" asp-for="PublisherName" placeholder="نام ناشر">
+                </div>
+                <span asp-validation-for="PublisherName" class="text-danger"></span>
+                <button type="submit" class="btn btn-success">ثبت ناشر</button>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial"/>
+}
