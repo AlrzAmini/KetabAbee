@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Paging;
+using KetabAbee.Domain.Models.Task;
 
 namespace KetabAbee.Application.DTOs.Admin.Task
 {

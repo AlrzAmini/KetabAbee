@@ -9,6 +9,7 @@ using KetabAbee.Application.DTOs.Paging;
 using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Task;
 using KetabAbee.Domain.Interfaces;
+using KetabAbee.Domain.Models.Task;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KetabAbee.Application.Services.Task
@@ -56,10 +57,16 @@ namespace KetabAbee.Application.Services.Task
         {
             var result = GetTasksForManager().AsQueryable();
 
+            #region filter role title
+
             if (!string.IsNullOrEmpty(filter.RoleSearch))
             {
                 result = result.Where(r => r.RoleTitle.Contains(filter.RoleSearch));
             }
+
+            #endregion
+
+            #region filter date
 
             if (!string.IsNullOrEmpty(filter.StartDateSearch))
             {
@@ -72,8 +79,14 @@ namespace KetabAbee.Application.Services.Task
                 result = result.Where(r => r.DeadLine < eDate);
             }
 
+            #endregion
+
+            #region paging
+
             var pager = Pager.Build(filter.PageNum, result.Count(), filter.Take, filter.PageCountAfterAndBefor);
             var tasks = result.Paging(pager).ToList();
+
+            #endregion
 
             return filter.SetPaging(pager).SetTasks(tasks);
         }
@@ -103,7 +116,9 @@ namespace KetabAbee.Application.Services.Task
                 DeadLine = t.DeadLine,
                 RoleTitle = t.Role.RoleTitle,
                 CreatorName = t.Creator.UserName,
-                TaskId = t.TaskId
+                TaskId = t.TaskId,
+                IsCompleted = t.IsCompleted,
+                TaskPriority = t.TaskPriority
             });
         }
     }

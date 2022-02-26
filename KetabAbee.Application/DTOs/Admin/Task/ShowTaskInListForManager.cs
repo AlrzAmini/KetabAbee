@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Domain.Models.Task;
 
 namespace KetabAbee.Application.DTOs.Admin.Task
 {
@@ -17,5 +18,9 @@ namespace KetabAbee.Application.DTOs.Admin.Task
         public DateTime CreateDate { get; set; }
 
         public DateTime? DeadLine { get; set; }
+
+        public bool IsCompleted { get; set; }
+
+        public TaskPriority TaskPriority { get; set; }
     }
 }
