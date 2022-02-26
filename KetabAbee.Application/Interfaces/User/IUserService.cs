@@ -93,6 +93,8 @@ namespace KetabAbee.Application.Interfaces.User
 
         UsersStatisticsViewModel GetUsersStaticsForAdmin();
 
+        List<int> GetUserRoleIds(int userId);
+
         #endregion
     }
 }

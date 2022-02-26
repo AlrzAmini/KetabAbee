@@ -206,7 +206,14 @@ namespace KetabAbee.Data.Repository
 
         public bool CheckUserIpIsNotRepetitious(UserIp userIp)
         {
-            return _context.UserIps.Any(i=>i.UserId == userIp.UserId && i.Ip == userIp.Ip);
+            return _context.UserIps.Any(i => i.UserId == userIp.UserId && i.Ip == userIp.Ip);
+        }
+
+        public List<int> GetUserRoleIds(int userId)
+        {
+            return _context.UserRoles
+                .Where(r => r.UserId == userId)
+                .Select(r => r.RoleId).ToList();
         }
     }
 }

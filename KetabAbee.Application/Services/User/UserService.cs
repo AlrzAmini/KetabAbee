@@ -589,5 +589,10 @@ namespace KetabAbee.Application.Services.User
                 _userRepository.AddUserIp(userIp);
             }
         }
+
+        public List<int> GetUserRoleIds(int userId)
+        {
+            return _userRepository.GetUserRoleIds(userId);
+        }
     }
 }

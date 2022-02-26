@@ -76,6 +76,8 @@ namespace KetabAbee.Domain.Interfaces
 
         int OnlineUsersCount();
 
+        List<int> GetUserRoleIds(int userId);
+
         #endregion
 
         int GetUserIdByUserName(string userName);
