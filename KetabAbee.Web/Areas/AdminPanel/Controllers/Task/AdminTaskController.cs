@@ -73,5 +73,21 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Task
         }
 
         #endregion
+
+        #region delete task
+
+        [HttpGet("Delete/{taskId}")]
+        public IActionResult DeleteTask(int taskId)
+        {
+            if (_taskService.DeleteTask(taskId))
+            {
+                TempData["SuccessMessage"] = "تسک با موفقیت حذف شد";
+                return RedirectToAction("Index");
+            }
+            TempData["ErrorMessage"] = "تسک حذف نشد";
+            return RedirectToAction("Index");
+        }
+
+        #endregion
     }
 }

@@ -39,10 +39,29 @@ namespace KetabAbee.Data.Repository
             return _context.Roles;
         }
 
+        public Task GetTaskById(int taskId)
+        {
+            return _context.Tasks.Find(taskId);
+        }
+
         public IEnumerable<Task> GetTasks()
         {
             return _context.Tasks.Include(t => t.Creator)
                 .Include(t => t.Role).OrderByDescending(t=>t.TaskId);
+        }
+
+        public bool UpdateTask(Task task)
+        {
+            try
+            {
+                _context.Tasks.Update(task);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

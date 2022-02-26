@@ -16,5 +16,7 @@ namespace KetabAbee.Application.Interfaces.Task
         IEnumerable<ShowTaskInListForManager> GetTasksForManager();
 
         FilterTasksViewModel FilterTasks(FilterTasksViewModel filter);
+
+        bool DeleteTask(int taskId);
     }
 }

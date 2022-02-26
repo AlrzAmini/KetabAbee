@@ -53,6 +53,25 @@ namespace KetabAbee.Application.Services.Task
             }
         }
 
+        public bool DeleteTask(int taskId)
+        {
+            try
+            {
+                var task = _taskRepository.GetTaskById(taskId);
+                if (task == null)
+                {
+                    return false;
+                }
+
+                task.IsDelete = true;
+                return _taskRepository.UpdateTask(task);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public FilterTasksViewModel FilterTasks(FilterTasksViewModel filter)
         {
             var result = GetTasksForManager().AsQueryable();

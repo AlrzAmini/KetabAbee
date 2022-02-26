@@ -13,7 +13,10 @@
         <li class="active">@ViewData["Title"]</li>
     </ul>
 </div>
-<div class="row">
+<div class="row col-md-12 margin-bottom-20">
+    <div class="col-md-6">
+        <a class="btn btn-success" asp-controller="AdminTask" asp-action="CreateTask">افزودن تسک جدید</a>
+    </div>
     <div class="col-lg-6 col-sm-12 col-xs-12">
         <div class="widget">
             <div class="widget-header bordered-left bordered-darkorange">
@@ -39,11 +42,6 @@
                 </form>
             </div>
         </div>
-    </div>
-</div>
-<div class="row col-md-12 margin-bottom-20">
-    <div class="col-md-9">
-        <a class="btn btn-success" asp-controller="AdminTask" asp-action="CreateTask">افزودن تسک جدید</a>
     </div>
 </div>
 <div class="row col-md-12">
@@ -126,7 +124,7 @@
                                 <td>
                                     <a class="btn btn-info">مشاهده</a>
                                     <a class="btn btn-warning">ویرایش</a>
-                                    <a class="btn btn-danger">حذف</a>
+                                    <a class="btn btn-danger" asp-controller="AdminTask" asp-action="DeleteTask" asp-route-taskId="@task.TaskId">حذف</a>
                                 </td>
                             </tr>
                         }

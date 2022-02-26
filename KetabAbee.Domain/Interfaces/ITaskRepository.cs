@@ -15,5 +15,9 @@ namespace KetabAbee.Domain.Interfaces
         IEnumerable<Role> GetRoles();
 
         IEnumerable<Task> GetTasks();
+
+        Task GetTaskById(int taskId);
+
+        bool UpdateTask(Task task);
     }
 }
