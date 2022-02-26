@@ -25,7 +25,7 @@
             <div class="widget-body bordered-left bordered-warning">
                 <form id="filterform" class="form-inline" role="form" asp-controller="AdminTask" asp-action="Index" method="get">
                     <input type="hidden" asp-for="PageNum" />
-                    <div class="form-group col-md-2">
+                    <div class="form-group col-md-3">
                         <label class="sr-only">تاریخ شروع</label>
                         <input data-jdp type="text" asp-for="StartDateSearch" class="form-control" placeholder="از تاریخ شروع">
                     </div>
@@ -122,8 +122,10 @@
                                     </td>
                                 }
                                 <td>
-                                    <a class="btn btn-info">مشاهده</a>
-                                    <a class="btn btn-warning">ویرایش</a>
+                                    <a href="javascript:void(0);" class="btn btn-info" data-container="body" data-titleclass="bordered-purple" data-class="light" data-toggle="popover-hover" data-placement="right" data-title="متن تسک" data-content="@task.Body" data-original-title="" title="">
+                                        متن
+                                    </a>
+                                    <a class="btn btn-warning" asp-controller="AdminTask" asp-action="EditTask" asp-route-taskId="@task.TaskId">ویرایش</a>
                                     <a class="btn btn-danger" asp-controller="AdminTask" asp-action="DeleteTask" asp-route-taskId="@task.TaskId">حذف</a>
                                 </td>
                             </tr>

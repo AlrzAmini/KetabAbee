@@ -1,0 +1,89 @@
+﻿@using KetabAbee.Domain.Models.Task
+@model KetabAbee.Application.DTOs.Admin.Task.EditTaskViewModel
+@{
+    ViewData["Title"] = " ویرایش تسک " + Model.TaskId;
+}
+
+<div class="page-breadcrumbs margin-bottom-20">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li>
+            <a asp-controller="AdminTask" asp-action="Index">تسک ها</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-lg-6 col-sm-6 col-xs-12">
+        <div class="widget">
+            <div class="widget-header bordered-bottom bordered-pink">
+                <span class="widget-caption">اطلاعات تسک</span>
+            </div>
+            <div class="widget-body">
+                <div id="horizontal-form">
+                    <form class="form-horizontal" role="form" asp-controller="AdminTask" asp-action="EditTask" method="post">
+                        <input type="hidden" asp-for="TaskId"/>
+                        <input type="hidden" asp-for="UserId"/>
+                        <div class="row margin-bottom-10">
+                            <div class="col-md-6">
+                                <span class="input-icon icon-right inverted">
+                                    <input data-jdp type="text" asp-for="CreateDate" class="form-control" placeholder="از تاریخ">
+                                    <i class="glyphicon glyphicon-time bg-success"></i>
+                                </span>
+                                <span asp-validation-for="CreateDate" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="input-icon icon-right inverted">
+                                    <input data-jdp type="text" asp-for="DeadLine" class="form-control" placeholder="تا تاریخ">
+                                    <i class="glyphicon glyphicon-time bg-danger"></i>
+                                </span>
+                                <span asp-validation-for="DeadLine" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <textarea class="form-control" asp-for="Body" rows="5" placeholder="متن تسک"></textarea>
+                        <span asp-validation-for="Body" class="text-danger"></span>
+                        <div class="row margin-bottom-10 margin-top-10">
+                            <div class="col-md-6">
+                                <label> ضرورت : </label>
+                                <select class="form-control" asp-for="TaskPriority" asp-items="@(Html.GetEnumSelectList<TaskPriority>())"></select>
+                                <span asp-validation-for="TaskPriority" class="text-danger"></span>
+                                <div class="horizontal-space"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label> برای : </label>
+                                <select class="form-control" asp-for="SelectRoleId" asp-items="@Model.RolesList"></select>
+                                <span asp-validation-for="SelectRoleId" class="text-danger"></span>
+                                <div class="horizontal-space"></div>
+                            </div>
+                        </div>
+                        <div class="row margin-bottom-20">
+                            <div class="col-lg-4 col-sm-4 col-xs-4">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" asp-for="IsCompleted" class="colored-success" checked="@(Model.IsCompleted ? "checked":"")">
+                                        <span class="text">انجام شده</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="horizontal-space"></div>
+                        <div>
+                            <button type="submit" class="btn btn-info">ویرایش تسک</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+    <script type="text/javascript" src="/js/JalaliDataPicker-min.js"></script>
+    <script>
+        jalaliDatepicker.startWatch();
+    </script>
+}

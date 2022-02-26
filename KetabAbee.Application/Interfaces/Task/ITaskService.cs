@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Admin.Task;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KetabAbee.Application.Interfaces.Task
 {
@@ -18,5 +19,13 @@ namespace KetabAbee.Application.Interfaces.Task
         FilterTasksViewModel FilterTasks(FilterTasksViewModel filter);
 
         bool DeleteTask(int taskId);
+
+        TaskInfoViewModel GetTaskInfo(int taskId);
+
+        EditTaskViewModel GetTaskInfoForEdit(int taskId);
+
+        List<SelectListItem> GetRolesSelectList();
+
+        EditTaskResult EditTask(EditTaskViewModel task);
     }
 }

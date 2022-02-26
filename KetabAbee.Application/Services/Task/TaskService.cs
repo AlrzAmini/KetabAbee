@@ -110,6 +110,16 @@ namespace KetabAbee.Application.Services.Task
             return filter.SetPaging(pager).SetTasks(tasks);
         }
 
+        public List<SelectListItem> GetRolesSelectList()
+        {
+            return _taskRepository.GetRoles()
+                .Select(t => new SelectListItem
+                {
+                    Text = t.RoleTitle,
+                    Value = t.RoleId.ToString()
+                }).ToList();
+        }
+
         public CreateTaskViewModel GetRolesForCreateTask()
         {
             return new CreateTaskViewModel
@@ -127,6 +137,47 @@ namespace KetabAbee.Application.Services.Task
             };
         }
 
+        public TaskInfoViewModel GetTaskInfo(int taskId)
+        {
+            var task = _taskRepository.GetTaskByIdWithIncludes(taskId);
+            if (task == null)
+            {
+                return new TaskInfoViewModel();
+            }
+            return new TaskInfoViewModel
+            {
+                CreateDate = task.CreateDate,
+                RoleTitle = task.Role.RoleTitle,
+                Body = task.Body,
+                TaskPriority = task.TaskPriority,
+                DeadLine = task.DeadLine,
+                CreatorName = task.Creator.UserName,
+                IsCompleted = task.IsCompleted,
+                TaskId = task.TaskId
+            };
+        }
+
+        public EditTaskViewModel GetTaskInfoForEdit(int taskId)
+        {
+            var task = _taskRepository.GetTaskById(taskId);
+            if (task == null)
+            {
+                return new EditTaskViewModel();
+            }
+
+            return new EditTaskViewModel
+            {
+                UserId = task.CreatorId,
+                CreateDate = task.CreateDate.ToShamsi(),
+                Body = task.Body,
+                TaskPriority = task.TaskPriority,
+                DeadLine = task.DeadLine.ToShamsi(),
+                RolesList = GetRolesSelectList(),
+                SelectRoleId = task.RoleId,
+                TaskId = task.TaskId
+            };
+        }
+
         public IEnumerable<ShowTaskInListForManager> GetTasksForManager()
         {
             return _taskRepository.GetTasks().Select(t => new ShowTaskInListForManager
@@ -137,8 +188,45 @@ namespace KetabAbee.Application.Services.Task
                 CreatorName = t.Creator.UserName,
                 TaskId = t.TaskId,
                 IsCompleted = t.IsCompleted,
-                TaskPriority = t.TaskPriority
+                TaskPriority = t.TaskPriority,
+                Body = t.Body
             });
+        }
+
+        public EditTaskResult EditTask(EditTaskViewModel task)
+        {
+            try
+            {
+                if (task == null)
+                {
+                    return EditTaskResult.NotFound;
+                }
+
+                var createDate = task.CreateDate.ToMiladiDateTime();
+                var deadLine = task.DeadLine.ToMiladiDateTime();
+                if (createDate > deadLine)
+                {
+                    return EditTaskResult.DateError;
+                }
+
+                var newTask = new Domain.Models.Task.Task
+                {
+                    CreateDate = createDate,
+                    DeadLine = deadLine,
+                    RoleId = task.SelectRoleId,
+                    Body = task.Body.Sanitizer(),
+                    TaskPriority = task.TaskPriority,
+                    CreatorId = task.UserId,
+                    IsCompleted = task.IsCompleted,
+                    TaskId = task.TaskId
+                };
+
+                return _taskRepository.UpdateTask(newTask) ? EditTaskResult.Success : EditTaskResult.Error;
+            }
+            catch
+            {
+                return EditTaskResult.Error;
+            }
         }
     }
 }

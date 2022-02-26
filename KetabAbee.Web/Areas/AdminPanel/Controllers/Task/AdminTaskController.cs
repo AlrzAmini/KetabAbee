@@ -89,5 +89,54 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Task
         }
 
         #endregion
+
+        #region task info
+
+        [HttpGet("Info/{taskId}")]
+        public IActionResult TaskInfo(int taskId)
+        {
+            return View(_taskService.GetTaskInfo(taskId));
+        }
+
+        #endregion
+
+        #region edit task
+
+        [HttpGet("Edit/{taskId}")]
+        public IActionResult EditTask(int taskId)
+        {
+            return View(_taskService.GetTaskInfoForEdit(taskId));
+        }
+
+        [HttpPost("Edit/{taskId}"), ValidateAntiForgeryToken]
+        public IActionResult EditTask(EditTaskViewModel edit)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(edit);
+            }
+
+            var res = _taskService.EditTask(edit);
+            switch (res)
+            {
+                case EditTaskResult.Success:
+                    TempData["SuccessMessage"] = "با موفقیت ویرایش شد";
+                    return RedirectToAction("Index");
+                case EditTaskResult.NotFound:
+                    TempData["WarningMessage"] = "تسکی یافت نشد";
+                    return RedirectToAction("EditTask", new { taskId = edit.TaskId });
+                case EditTaskResult.DateError:
+                    TempData["WarningMessage"] = "تاریخ پایان نمیتواند کوچکتر از تاریخ شروع باشد";
+                    return RedirectToAction("EditTask", new { taskId = edit.TaskId });
+                case EditTaskResult.Error:
+                    TempData["ErrorMessage"] = "خطایی در انجام عملیات رخ داد";
+                    return RedirectToAction("EditTask", new { taskId = edit.TaskId });
+                default:
+                    TempData["ErrorMessage"] = "خطایی در انجام عملیات رخ داد";
+                    return RedirectToAction("Index");
+            }
+        }
+
+        #endregion
     }
 }

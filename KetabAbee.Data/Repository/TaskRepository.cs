@@ -44,10 +44,17 @@ namespace KetabAbee.Data.Repository
             return _context.Tasks.Find(taskId);
         }
 
+        public Task GetTaskByIdWithIncludes(int taskId)
+        {
+            return _context.Tasks.Include(t => t.Role)
+                .Include(t => t.Creator)
+                .FirstOrDefault(t => t.TaskId == taskId);
+        }
+
         public IEnumerable<Task> GetTasks()
         {
             return _context.Tasks.Include(t => t.Creator)
-                .Include(t => t.Role).OrderByDescending(t=>t.TaskId);
+                .Include(t => t.Role).OrderByDescending(t => t.TaskId);
         }
 
         public bool UpdateTask(Task task)

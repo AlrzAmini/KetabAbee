@@ -19,5 +19,7 @@ namespace KetabAbee.Domain.Interfaces
         Task GetTaskById(int taskId);
 
         bool UpdateTask(Task task);
+
+        Task GetTaskByIdWithIncludes(int taskId);
     }
 }

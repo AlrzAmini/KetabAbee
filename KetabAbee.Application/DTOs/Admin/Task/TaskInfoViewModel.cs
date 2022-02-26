@@ -7,7 +7,7 @@ using KetabAbee.Domain.Models.Task;
 
 namespace KetabAbee.Application.DTOs.Admin.Task
 {
-    public class ShowTaskInListForManager
+    public class TaskInfoViewModel
     {
         public int TaskId { get; set; }
 
@@ -15,14 +15,18 @@ namespace KetabAbee.Application.DTOs.Admin.Task
 
         public string RoleTitle { get; set; }
 
+        #region properties
+
+        public string Body { get; set; }
+
         public DateTime CreateDate { get; set; }
 
         public DateTime? DeadLine { get; set; }
 
-        public bool IsCompleted { get; set; }
-
         public TaskPriority TaskPriority { get; set; }
 
-        public string Body { get; set; }
+        public bool IsCompleted { get; set; }
+
+        #endregion
     }
 }
