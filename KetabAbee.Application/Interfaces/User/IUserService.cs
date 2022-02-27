@@ -95,6 +95,8 @@ namespace KetabAbee.Application.Interfaces.User
 
         List<int> GetUserRoleIds(int userId);
 
+        UserInfoViewModel GetUserForShowInUserInfo(int userId);
+
         #endregion
     }
 }

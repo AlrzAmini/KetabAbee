@@ -121,7 +121,7 @@ namespace KetabAbee.Data.Repository
         {
             try
             {
-                return _context.Users.SingleOrDefault(u => u.UserId == userId).AvatarName;
+                return _context.Users.FirstOrDefault(u => u.UserId == userId)?.AvatarName;
             }
             catch
             {
@@ -142,17 +142,17 @@ namespace KetabAbee.Data.Repository
 
         public string GetUserNameByUserId(int userId)
         {
-            return _context.Users.SingleOrDefault(u => u.UserId == userId).UserName;
+            return _context.Users.FirstOrDefault(u => u.UserId == userId)?.UserName;
         }
 
         public string GetEmailByUserId(int userId)
         {
-            return _context.Users.SingleOrDefault(u => u.UserId == userId).Email;
+            return _context.Users.FirstOrDefault(u => u.UserId == userId)?.Email;
         }
 
         public string GetMobileByUserId(int userId)
         {
-            return _context.Users.SingleOrDefault(u => u.UserId == userId).Mobile;
+            return _context.Users.SingleOrDefault(u => u.UserId == userId)?.Mobile;
         }
 
         public List<int> GetUserFavBookIds(int userId)
@@ -168,7 +168,7 @@ namespace KetabAbee.Data.Repository
 
         public int GetUserIdByUserName(string userName)
         {
-            return _context.Users.SingleOrDefault(u => u.UserName == userName).UserId;
+            return _context.Users.SingleOrDefault(u => u.UserName == userName)!.UserId;
         }
 
         public string GetUserAddressByUserId(int userId)
@@ -214,6 +214,12 @@ namespace KetabAbee.Data.Repository
             return _context.UserRoles
                 .Where(r => r.UserId == userId)
                 .Select(r => r.RoleId).ToList();
+        }
+
+        public User GetUserByIdWithIncludes(int userId)
+        {
+            return _context.Users.Include(u => u.UserIps)
+                .FirstOrDefault(u => u.UserId == userId);
         }
     }
 }

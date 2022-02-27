@@ -78,6 +78,8 @@ namespace KetabAbee.Domain.Interfaces
 
         List<int> GetUserRoleIds(int userId);
 
+        User GetUserByIdWithIncludes(int userId);
+
         #endregion
 
         int GetUserIdByUserName(string userName);

@@ -86,7 +86,7 @@
                                     {
                                         <li class="ticket-item">
                                             <div class="row">
-                                                <div class="ticket-user col-lg-4 col-sm-12">
+                                                <div class="ticket-user col-lg-3 col-sm-12">
                                                     <img src="/Avatar/thumb/@user.AvatarName" class="user-avatar" alt="avatar">
                                                     <span class="user-name">@user.UserName</span>
                                                     <span class="user-at">از تاریخ</span>
@@ -102,8 +102,9 @@
                                                     <i class="glyphicon glyphicon-earphone"></i>
                                                     <span class="time">@user.Mobile</span>
                                                 </div>
-                                                <div class="ticket-type  col-lg-3 col-sm-6 col-xs-12">
+                                                <div class="ticket-type col-lg-4 col-sm-6 col-xs-12">
                                                     <span class="divider hidden-xs"></span>
+                                                    <a asp-area="AdminPanel" asp-controller="AdminUser" asp-action="UserInfo" asp-route-userId="@user.UserId" class="btn btn-palegreen">جزییات</a>
                                                     <a asp-area="AdminPanel" asp-controller="AdminUser" asp-action="ChargeWallet" asp-route-id="@user.UserId" class="btn btn-success">کیف پول</a>
                                                     <a asp-area="AdminPanel" asp-controller="AdminUser" asp-action="EditUser" asp-route-id="@user.UserId" class="btn btn-blue">ویرایش</a>
                                                     <a asp-area="AdminPanel" asp-controller="AdminUser" asp-action="DeleteUser" asp-route-id="@user.UserId" onclick="return confirm('از حذف این کاربر اطمینان دارید ؟')" class="btn btn-danger shiny">حذف</a>

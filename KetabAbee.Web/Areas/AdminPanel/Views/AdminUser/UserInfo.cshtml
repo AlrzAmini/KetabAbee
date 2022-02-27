@@ -1,0 +1,173 @@
+﻿@using KetabAbee.Application.Convertors
+@using KetabAbee.Application.Extensions
+@model KetabAbee.Application.DTOs.Admin.User.UserInfoViewModel
+@{
+    ViewData["Title"] = "جزییات کاربر " + Model.UserName;
+}
+
+<div class="row">
+    <div class="col-lg-12 col-sm-12 col-xs-12">
+        <h5 class="row-title before-magenta"><i class="fa fa-user magenta"></i>@ViewData["Title"]</h5>
+        <div class="row">
+            <div class="col-md-12 col-sm-6 col-xs-12">
+                <div class="widget flat radius-bordered">
+                    <div class="widget-header bg-magenta margin-bottom-20">
+                        <span class="widget-caption">مشخصات کاربر</span>
+                    </div>
+                    <div>
+                        <div class="col-lg-4 col-sm-6 col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header bordered-left bordered-blueberry">
+                                    <span class="widget-caption">نام کاربری :</span>
+                                </div>
+                                <div class="widget-body bordered-left bordered-blue">
+                                    <p>@Model.UserName</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header bordered-left bordered-blueberry">
+                                    <span class="widget-caption">آی دی :</span>
+                                </div>
+                                <div class="widget-body bordered-left bordered-blue">
+                                    <p>@Model.UserId</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header bordered-left bordered-blueberry">
+                                    <span class="widget-caption">آی پی :</span>
+                                </div>
+                                <div class="widget-body bordered-left bordered-blue">
+                                    <p>@Model.LatestUserIp</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header bordered-left bordered-green">
+                                    <span class="widget-caption">ایمیل :</span>
+                                </div>
+                                <div class="widget-body bordered-left bordered-palegreen">
+                                    <p>@Model.Email</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header bordered-left bordered-green">
+                                    <span class="widget-caption">کد فعالسازی ایمیل :</span>
+                                </div>
+                                <div class="widget-body bordered-left bordered-palegreen">
+                                    <p>@Model.EmailActivationCode</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header bordered-left bordered-green">
+                                    <span class="widget-caption">وضعیت فعالسازی ایمیل :</span>
+                                </div>
+                                <div class="widget-body bordered-left bordered-palegreen">
+                                    <p>@(Model.IsEmailActive ? "فعال":"غیر فعال")</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header bordered-left bordered-danger">
+                                    <span class="widget-caption">موبایل :</span>
+                                </div>
+                                <div class="widget-body bordered-left bordered-orange">
+                                    <p>@Model.Mobile</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header bordered-left bordered-danger">
+                                    <span class="widget-caption">کد فعالسازی موبایل :</span>
+                                </div>
+                                <div class="widget-body bordered-left bordered-orange">
+                                    <p>@Model.MobileActivationCode</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header bordered-left bordered-danger">
+                                    <span class="widget-caption">وضعیت فعالسازی موبایل :</span>
+                                </div>
+                                <div class="widget-body bordered-left bordered-orange">
+                                    <p>@(Model.IsMobileActive ? "فعال":"غیر فعال")</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header bordered-left bordered-maroon">
+                                    <span class="widget-caption">آدرس :</span>
+                                </div>
+                                <div class="widget-body bordered-left bordered-magenta">
+                                    <p>@Model.Address</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header bordered-left bordered-maroon">
+                                    <span class="widget-caption">تاریخ تولد :</span>
+                                </div>
+                                <div class="widget-body bordered-left bordered-magenta">
+                                    <p>@Model.BirthDay.ToShamsi()</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header bordered-left bordered-maroon">
+                                    <span class="widget-caption">سن :</span>
+                                </div>
+                                <div class="widget-body bordered-left bordered-magenta">
+                                    <p>@Model?.Age</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header bordered-left bordered-blue">
+                                    <span class="widget-caption">تاریخ ثبت نام :</span>
+                                </div>
+                                <div class="widget-body bordered-left bordered-azure">
+                                    <p>@Model.RegisterDate.ToIraniDate()</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header bordered-left bordered-blue">
+                                    <span class="widget-caption">موجودی کیف پول :</span>
+                                </div>
+                                <div class="widget-body bordered-left bordered-azure">
+                                    <p>@Model.WalletBalance.ToTooman()</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 col-xs-12">
+                            <div class="widget">
+                                <div class="widget-header bordered-left bordered-blue">
+                                    <span class="widget-caption">تصویر پروفایل :</span>
+                                </div>
+                                <div class="widget-body bordered-left bordered-azure">
+                                    <img class="img-fluid max-width100" alt="profile" src="/Avatar/@Model.AvatarName"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

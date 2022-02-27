@@ -594,5 +594,34 @@ namespace KetabAbee.Application.Services.User
         {
             return _userRepository.GetUserRoleIds(userId);
         }
+
+        public UserInfoViewModel GetUserForShowInUserInfo(int userId)
+        {
+            var user = _userRepository.GetUserByIdWithIncludes(userId);
+            if (user == null)
+            {
+                return new UserInfoViewModel();
+            }
+
+            return new UserInfoViewModel
+            {
+                UserName = user.UserName,
+                AvatarName = user.AvatarName,
+                Address = user.Address,
+                Age = user.Age,
+                BirthDay = user.BirthDay,
+                Email = user.Email,
+                EmailActivationCode = user.EmailActivationCode,
+                IsEmailActive = user.IsEmailActive,
+                IsMobileActive = user.IsMobileActive,
+                IsOnline = user.IsOnline,
+                Mobile = user.Mobile,
+                MobileActivationCode = user.MobileActivationCode,
+                RegisterDate = user.RegisterDate,
+                UserId = user.UserId,
+                LatestUserIp = user.UserIps.OrderByDescending(i => i.UserIpId).FirstOrDefault()?.Ip,
+                WalletBalance = _walletService.BalanceUserWallet(user.UserId)
+            };
+        }
     }
 }

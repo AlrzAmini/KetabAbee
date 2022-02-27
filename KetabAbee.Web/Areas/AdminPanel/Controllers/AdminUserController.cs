@@ -307,5 +307,18 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
 
         #endregion
 
+        #region user info
+
+        [HttpGet("Admin/Users/Info/{userId}")]
+        public IActionResult UserInfo(int userId)
+        {
+            var user = _userService.GetUserForShowInUserInfo(userId);
+            if (user != null) return View(user);
+
+            TempData["ErrorMessage"] = "کاربری یافت نشد";
+            return RedirectToAction("Index");
+        }
+
+        #endregion
     }
 }
