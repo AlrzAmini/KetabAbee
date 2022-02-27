@@ -21,5 +21,9 @@ namespace KetabAbee.Domain.Interfaces
         bool UpdateTask(Task task);
 
         Task GetTaskByIdWithIncludes(int taskId);
+
+        IEnumerable<Task> GetTaskForEachAdmin(int roleId);
+
+        List<Task> GetTasksByRoleIds(List<int> roleIds);
     }
 }

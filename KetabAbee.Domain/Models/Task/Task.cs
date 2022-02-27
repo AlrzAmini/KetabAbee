@@ -30,7 +30,7 @@ namespace KetabAbee.Domain.Models.Task
         [Required]
         public DateTime CreateDate { get; set; }
 
-        public DateTime? DeadLine { get; set; }
+        public DateTime DeadLine { get; set; }
 
         [DisplayName("میزان اهمیت")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]

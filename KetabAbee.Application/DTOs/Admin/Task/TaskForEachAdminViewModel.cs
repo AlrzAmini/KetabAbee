@@ -7,13 +7,11 @@ using KetabAbee.Domain.Models.Task;
 
 namespace KetabAbee.Application.DTOs.Admin.Task
 {
-    public class ShowTaskInListForManager
+    public class TaskForEachAdminViewModel
     {
         public int TaskId { get; set; }
 
         public string CreatorName { get; set; }
-
-        public string RoleTitle { get; set; }
 
         public DateTime CreateDate { get; set; }
 

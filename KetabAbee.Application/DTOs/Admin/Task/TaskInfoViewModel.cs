@@ -21,7 +21,7 @@ namespace KetabAbee.Application.DTOs.Admin.Task
 
         public DateTime CreateDate { get; set; }
 
-        public DateTime? DeadLine { get; set; }
+        public DateTime DeadLine { get; set; }
 
         public TaskPriority TaskPriority { get; set; }
 

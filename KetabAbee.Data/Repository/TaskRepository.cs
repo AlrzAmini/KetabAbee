@@ -51,10 +51,33 @@ namespace KetabAbee.Data.Repository
                 .FirstOrDefault(t => t.TaskId == taskId);
         }
 
+        public IEnumerable<Task> GetTaskForEachAdmin(int roleId)
+        {
+            return _context.Tasks.Include(t => t.Creator).Where(t => t.RoleId == roleId);
+        }
+
         public IEnumerable<Task> GetTasks()
         {
             return _context.Tasks.Include(t => t.Creator)
                 .Include(t => t.Role).OrderByDescending(t => t.TaskId);
+        }
+
+        public List<Task> GetTasksByRoleIds(List<int> roleIds)
+        {
+            var listTasks = new List<Task>();
+
+            foreach (var roleId in roleIds)
+            {
+                var tasks = _context.Tasks.Include(t => t.Creator)
+                    .OrderByDescending(t => t.TaskId)
+                    .Where(t => t.RoleId == roleId && !t.IsCompleted);
+                if (tasks.Any())
+                {
+                    listTasks.AddRange(tasks);
+                }
+            }
+
+            return listTasks;
         }
 
         public bool UpdateTask(Task task)

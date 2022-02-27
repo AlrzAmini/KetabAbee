@@ -228,5 +228,59 @@ namespace KetabAbee.Application.Services.Task
                 return EditTaskResult.Error;
             }
         }
+
+        public List<TaskForEachAdminViewModel> GetTaskForEachAdmin(int roleId)
+        {
+            return _taskRepository.GetTaskForEachAdmin(roleId)
+                .Select(t => new TaskForEachAdminViewModel
+                {
+                    CreateDate = t.CreateDate,
+                    Body = t.Body,
+                    TaskPriority = t.TaskPriority,
+                    DeadLine = t.DeadLine,
+                    IsCompleted = t.IsCompleted,
+                    TaskId = t.TaskId,
+                    CreatorName = t.Creator.UserName
+                }).ToList();
+        }
+
+        public List<TaskForEachAdminViewModel> GetTasksForAdmin(List<int> roleIds)
+        {
+            return _taskRepository.GetTasksByRoleIds(roleIds)
+                .Select(t => new TaskForEachAdminViewModel
+                {
+                    CreateDate = t.CreateDate,
+                    DeadLine = t.DeadLine,
+                    Body = t.Body,
+                    TaskPriority = t.TaskPriority,
+                    CreatorName = t.Creator.UserName,
+                    IsCompleted = t.IsCompleted,
+                    TaskId = t.TaskId
+                }).ToList();
+        }
+
+        public bool ChangeTaskIsCompleted(int taskId)
+        {
+            try
+            {
+                var task = _taskRepository.GetTaskById(taskId);
+                if (task == null)
+                {
+                    return false;
+                }
+
+                if (task.IsCompleted)
+                {
+                    return false;
+                }
+
+                task.IsCompleted = true;
+                return _taskRepository.UpdateTask(task);
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

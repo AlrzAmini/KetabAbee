@@ -31,6 +31,7 @@ namespace KetabAbee.Application.DTOs.Admin.Task
         public string CreateDate { get; set; }
 
         [DisplayName("تاریخ پایان تسک")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
         public string DeadLine { get; set; }
 
         [DisplayName("میزان اهمیت")]

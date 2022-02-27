@@ -1,7 +1,9 @@
 ﻿@using KetabAbee.Application.DTOs
 @using KetabAbee.Application.DTOs.Admin.Home
+@using KetabAbee.Application.DTOs.Admin.Task
 @using KetabAbee.Application.DTOs.Ticket
 @using KetabAbee.Application.Extensions
+@using KetabAbee.Application.Convertors
 @{
     ViewData["Title"] = "صفحه اصلی";
 
@@ -232,7 +234,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row margin-bottom-10">
     <div class="col-lg-6 col-sm-6 col-xs-12">
         <div class="well with-header">
             <div class="header bordered-danger">آمار سفارشات</div>
@@ -266,3 +268,64 @@
         </div>
     </div>
 </div>
+@{
+    var tasks = ViewBag.CurrentAdminTasks as List<TaskForEachAdminViewModel>;
+}
+<div class="row">
+    <div class="col-lg-4 col-sm-12 col-xs-12">
+        <div class="widget">
+            <div class="widget-header bordered-bottom bordered-themeprimary">
+                <i class="widget-icon fa fa-tasks themeprimary"></i>
+                <span class="widget-caption themeprimary">لیست تسک ها</span>
+            </div><!--Widget Header-->
+            <div class="widget-body no-padding">
+                <div class="task-container">
+                    <ul class="tasks-list">
+                        @if (tasks != null && tasks.Any())
+                        {
+                            foreach (var task in tasks)
+                            {
+                                <li class="task-item">
+                                    <div class="task-check">
+                                        <form id="isCompForm" asp-controller="AdminHome" asp-action="ChangeTaskIsCompleted" asp-route-taskId="@task.TaskId" method="post">
+                                            <label>
+                                                <input onchange="submitForm()" onclick="return confirm('این تسک انجام شده است ؟')" type="checkbox">
+                                                <span class="text"></span>
+                                            </label>
+                                        </form>
+                                    </div>
+                                    @{
+                                        var taskPriority = task.TaskPriority.GetEnumName();
+                                    }
+                                    <div class="task-state">
+                                        <span class="label @(taskPriority switch
+                                                           {
+                                                               "مهم" => "label-red",
+                                                               "عادی" => "label-green",
+                                                               _ => "label-info"
+                                                               })">
+                                            @taskPriority
+                                        </span>
+                                    </div>
+                                    <div class="task-time">@task.CreateDate.ToShamsi()</div>
+                                    <div class="task-body">@task.Body</div>
+                                    <div class="task-creator"><a>@task.CreatorName</a></div>
+                                    <div class="task-assignedto">@task.DeadLine.ToShamsi()</div>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div><!--Widget Body-->
+        </div>
+
+    </div>
+</div>
+@section Scripts
+{
+    <script>
+        function submitForm() {
+            $('#isCompForm').submit();
+        }
+    </script>
+}

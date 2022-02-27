@@ -3,9 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KetabAbee.Application.DTOs.Admin.Task;
 using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Order;
 using KetabAbee.Application.Interfaces.Product;
+using KetabAbee.Application.Interfaces.Task;
 using KetabAbee.Application.Interfaces.Ticket;
 using KetabAbee.Application.Interfaces.User;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,19 +16,21 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
 {
     public class AdminHomeController : AdminBaseController
     {
-        #region ctor
+        #region constructor
 
         private readonly IProductService _productService;
         private readonly IUserService _userService;
         private readonly ITicketService _ticketService;
         private readonly IOrderService _orderService;
+        private readonly ITaskService _taskService;
 
-        public AdminHomeController(IProductService productService, IUserService userService, ITicketService ticketService, IOrderService orderService)
+        public AdminHomeController(IProductService productService, IUserService userService, ITicketService ticketService, IOrderService orderService, ITaskService taskService)
         {
             _productService = productService;
             _userService = userService;
             _ticketService = ticketService;
             _orderService = orderService;
+            _taskService = taskService;
         }
 
         #endregion
@@ -71,6 +75,13 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
 
             #endregion
 
+            #region tasks
+
+            var roleIds = _userService.GetUserRoleIds(User.GetUserId());
+            ViewBag.CurrentAdminTasks = _taskService.GetTasksForAdmin(roleIds);
+            
+            #endregion
+
             return View();
         }
 
@@ -100,5 +111,21 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
 
         #endregion
 
+        #region change task is completed
+
+        [HttpPost("Change/T/{taskId}")]
+        public IActionResult ChangeTaskIsCompleted(int taskId)
+        {
+            if (_taskService.ChangeTaskIsCompleted(taskId))
+            {
+                TempData["SuccessMessage"] = "انجام شد";
+                return RedirectToAction("Home");
+            }
+
+            TempData["ErrorMessage"] = "مشکلی در انجام عملیات رخ داد";
+            return RedirectToAction("Home");
+        }
+
+        #endregion
     }
 }
