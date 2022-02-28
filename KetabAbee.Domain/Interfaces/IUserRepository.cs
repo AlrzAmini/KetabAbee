@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Domain.Models.Comment.ProductComment;
+using KetabAbee.Domain.Models.Order;
+using KetabAbee.Domain.Models.Products;
 using KetabAbee.Domain.Models.User;
 
 namespace KetabAbee.Domain.Interfaces
@@ -79,6 +82,18 @@ namespace KetabAbee.Domain.Interfaces
         List<int> GetUserRoleIds(int userId);
 
         User GetUserByIdWithIncludes(int userId);
+
+        List<string> GetUserIps(int userId);
+
+        List<BookScore> GetUserBookScores(int userId);
+
+        List<FavoriteBook> GetUserFavoriteBooks(int userId);
+
+        List<Order> GetUserOrders(int userId);
+
+        List<ProductComment> GetUserProductComments(int userId);
+
+        List<Book> GetUserBooks(int userId);
 
         #endregion
 

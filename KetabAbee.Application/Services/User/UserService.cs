@@ -49,7 +49,7 @@ namespace KetabAbee.Application.Services.User
                 BirthDay = null,
                 Age = null
             };
-            
+
             await _userRepository.RegisterUser(newUser);
             _userRepository.AddUserIp(new UserIp
             {
@@ -622,6 +622,86 @@ namespace KetabAbee.Application.Services.User
                 LatestUserIp = user.UserIps.OrderByDescending(i => i.UserIpId).FirstOrDefault()?.Ip,
                 WalletBalance = _walletService.BalanceUserWallet(user.UserId)
             };
+        }
+
+        public List<string> GetUserIps(int userId)
+        {
+            return _userRepository.GetUserIps(userId);
+        }
+
+        public List<UserBooksScoresViewModel> GetUserBookScores(int userId)
+        {
+            return _userRepository.GetUserBookScores(userId)
+                .Select(s => new UserBooksScoresViewModel
+                {
+                    UserName = s.User.UserName,
+                    UserIp = s.UserIp,
+                    BookName = s.Book.Name,
+                    ContentScore = s.ContentScore,
+                    QualityScore = s.QualityScore,
+                    AverageScores = s.AverageScores,
+                    ScoreDate = s.ScoreDate,
+                    ScoreId = s.ScoreId,
+                    UserId = s.UserId,
+                    BookId = s.BookId
+                }).ToList();
+        }
+
+        public List<UserFavoriteBooksViewModel> GetUserFavoriteBooks(int userId)
+        {
+            return _userRepository.GetUserFavoriteBooks(userId)
+                .Select(f => new UserFavoriteBooksViewModel
+                {
+                    UserName = f.User.UserName,
+                    BookName = f.Book.Name,
+                    BookImageName = f.Book.ImageName,
+                    LikeId = f.LikeId,
+                    BookId = f.BookId
+                }).ToList();
+        }
+
+        public List<UserOrderViewModel> GetUserOrders(int userId)
+        {
+            return _userRepository.GetUserOrders(userId)
+                .Select(o => new UserOrderViewModel
+                {
+                    UserName = o.User.UserName,
+                    Address = o.Address,
+                    CreateDate = o.CreateDate,
+                    IsFinally = o.IsFinally,
+                    OrderId = o.OrderId,
+                    OrderSum = o.OrderSum,
+                    SendingProcessIsCompleted = o.SendingProcessIsCompleted
+                })
+                .ToList();
+        }
+
+        public List<UserProductCommentViewModel> GetUserProductComments(int userId)
+        {
+            return _userRepository.GetUserProductComments(userId)
+                .Select(c => new UserProductCommentViewModel
+                {
+                    UserName = c.UserName,
+                    Email = c.Email,
+                    ProductId = c.ProductId,
+                    Body = c.Body,
+                    UserIp = c.UserIp,
+                    CommentId = c.CommentId,
+                    IsReadByAdmin = c.IsReadByAdmin,
+                    SendDate = c.SendDate,
+                    ProductName = c.Product.Name
+                }).ToList();
+        }
+
+        public List<UserBookViewModel> GetUserBooks(int userId)
+        {
+            return _userRepository.GetUserBooks(userId)
+                .Select(b => new UserBookViewModel
+                {
+                    BookName = b.Name,
+                    BookImageName = b.ImageName,
+                    BookId = b.BookId
+                }).ToList();
         }
     }
 }

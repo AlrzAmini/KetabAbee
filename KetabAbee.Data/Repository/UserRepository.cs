@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Data.Context;
 using KetabAbee.Domain.Interfaces;
+using KetabAbee.Domain.Models.Comment.ProductComment;
+using KetabAbee.Domain.Models.Order;
+using KetabAbee.Domain.Models.Products;
 using KetabAbee.Domain.Models.User;
 using Microsoft.EntityFrameworkCore;
 
@@ -220,6 +223,58 @@ namespace KetabAbee.Data.Repository
         {
             return _context.Users.Include(u => u.UserIps)
                 .FirstOrDefault(u => u.UserId == userId);
+        }
+
+        public List<string> GetUserIps(int userId)
+        {
+            return _context.UserIps.Where(i => i.UserId == userId)
+                .Select(i => i.Ip)
+                .ToList();
+        }
+
+        public List<BookScore> GetUserBookScores(int userId)
+        {
+            return _context.BookScores
+                .Include(s=>s.User)
+                .Include(s=>s.Book)
+                .Where(s => s.UserId == userId)
+                .ToList();
+        }
+
+        public List<FavoriteBook> GetUserFavoriteBooks(int userId)
+        {
+            return _context.FavoriteBooks
+                .Include(f=>f.Book)
+                .Include(f=>f.User)
+                .Where(f => f.UserId == userId && f.IsLiked)
+                .ToList();
+        }
+
+        public List<Order> GetUserOrders(int userId)
+        {
+            return _context.Orders
+                .Include(o=>o.User)
+                .Where(o => o.UserId == userId)
+                .OrderByDescending(o=>o.CreateDate)
+                .ToList();
+        }
+
+        public List<ProductComment> GetUserProductComments(int userId)
+        {
+            return _context.ProductComments
+                .Include(c=>c.Product)
+                .Where(c => c.UserId == userId)
+                .ToList();
+        }
+
+        public List<Book> GetUserBooks(int userId)
+        {
+            return _context.UserBooks
+                .Include(b => b.Book)
+                .Where(b => b.UserId == userId)
+                .Select(ub=>ub.Book)
+                .Distinct()
+                .ToList();
         }
     }
 }

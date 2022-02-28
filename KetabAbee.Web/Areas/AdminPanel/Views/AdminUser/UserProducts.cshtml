@@ -1,0 +1,50 @@
+﻿@model List<KetabAbee.Application.DTOs.Admin.User.UserBookViewModel>
+@{
+    ViewData["Title"] = "محصولات";
+}
+
+<div class="col-xs-12 col-md-12">
+    <div class="well with-header with-footer">
+        <div class="header bordered-pink">
+            @ViewData["Title"]
+        </div>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>
+                    شماره
+                </th>
+                <th>
+                    <i class="fa fa-book"></i> محصول
+                </th>
+                <th>
+                    تصویر محصول
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var book in Model)
+                {
+                    <tr>
+                        <td>
+                            @book.BookId
+                        </td>
+                        <td>
+                            <a asp-controller="AdminBook" asp-action="BookInfo" asp-route-bookId="@book.BookId">@book.BookName</a>
+                        </td>
+                        <td>
+                            <div class="col-md-3">
+                                <a asp-controller="AdminBook" asp-action="BookInfo" asp-route-bookId="@book.BookId">
+                                    <img alt="product" class="img-thumbnail img-fluid width-50 rounded" src="/images/Book/thumb/@book.BookImageName" />
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

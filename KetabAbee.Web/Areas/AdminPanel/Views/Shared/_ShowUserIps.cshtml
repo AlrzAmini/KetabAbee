@@ -1,0 +1,25 @@
+﻿@model List<string>
+
+<div class="modal-preview">
+    <div class="modal modal-darkorange">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">آی پی ها:</h4>
+                </div>
+                <div class="modal-body">
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            <div class="btn btn-azure">
+                                <p>@item</p>
+                            </div>
+                        }
+                    }
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+

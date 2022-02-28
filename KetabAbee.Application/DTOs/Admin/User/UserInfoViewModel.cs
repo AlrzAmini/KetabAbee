@@ -2,11 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using KetabAbee.Domain.Models.Comment.CommentReport;
-using KetabAbee.Domain.Models.Comment.ProductComment;
-using KetabAbee.Domain.Models.Products;
-using KetabAbee.Domain.Models.Ticket;
-using KetabAbee.Domain.Models.User;
+
 
 namespace KetabAbee.Application.DTOs.Admin.User
 {
@@ -122,32 +118,5 @@ namespace KetabAbee.Application.DTOs.Admin.User
 
         #endregion
 
-        #region Relations
-
-        public List<UserRole> UserRoles { get; set; }
-
-        public List<Domain.Models.Ticket.Ticket> Tickets { get; set; }
-
-        public ICollection<TicketAnswer> TicketAnswers { get; set; }
-
-        public ICollection<Domain.Models.Wallet.Wallet> Wallets { get; set; }
-
-        public ICollection<FavoriteBook> FavoriteBooks { get; set; }
-
-        public ICollection<Domain.Models.Order.Order> Orders { get; set; }
-
-        public ICollection<UserBook> UserBooks { get; set; }
-
-        public ICollection<Domain.Models.ContactUs.ContactUs> ContactUsCollection { get; set; }
-
-        public ICollection<BookScore> BookScores { get; set; }
-
-        public ICollection<ProductComment> ProductComments { get; set; }
-
-        public ICollection<UserIp> UserIps { get; set; }
-
-        public ICollection<CommentsReport> CommentReports { get; set; }
-
-        #endregion
     }
 }

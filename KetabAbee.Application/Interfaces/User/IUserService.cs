@@ -8,6 +8,7 @@ using KetabAbee.Application.DTOs.Admin.Home;
 using KetabAbee.Application.DTOs.Admin.User;
 using KetabAbee.Application.DTOs.Admin.Wallet;
 using KetabAbee.Application.DTOs.Book;
+using KetabAbee.Domain.Models.Products;
 using KetabAbee.Domain.Models.User;
 using Microsoft.AspNetCore.Http;
 
@@ -96,6 +97,18 @@ namespace KetabAbee.Application.Interfaces.User
         List<int> GetUserRoleIds(int userId);
 
         UserInfoViewModel GetUserForShowInUserInfo(int userId);
+
+        List<string> GetUserIps(int userId);
+
+        List<UserBooksScoresViewModel> GetUserBookScores(int userId);
+
+        List<UserFavoriteBooksViewModel> GetUserFavoriteBooks(int userId);
+
+        List<UserOrderViewModel> GetUserOrders(int userId);
+
+        List<UserProductCommentViewModel> GetUserProductComments(int userId);
+
+        List<UserBookViewModel> GetUserBooks(int userId);
 
         #endregion
     }

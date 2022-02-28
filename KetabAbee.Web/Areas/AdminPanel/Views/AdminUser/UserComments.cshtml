@@ -1,0 +1,74 @@
+﻿@using KetabAbee.Application.Convertors
+@model List<KetabAbee.Application.DTOs.Admin.User.UserProductCommentViewModel>
+@{
+    ViewData["Title"] = "نظرات";
+}
+
+<div class="col-xs-12 col-md-12">
+    <div class="well with-header with-footer">
+        <div class="header bordered-pink">
+            @ViewData["Title"]
+        </div>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        شماره
+                    </th>
+                    <th>
+                        <i class="fa fa-user"></i> کاربر
+                    </th>
+                    <th>
+                        <i class="fa fa-book"></i> ایمیل
+                    </th>
+                    <th>
+                        محصول
+                    </th>
+                    <th>
+                        ادمین خوانده
+                    </th>
+                    <th>
+                        متن
+                    </th>
+                    <th>
+                        تاریخ ثبت
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var comment in Model)
+                    {
+                        <tr>
+                            <td>
+                                @comment.CommentId
+                            </td>
+                            <td>
+                                @comment.UserName
+                            </td>
+                            <td>
+                                @comment.Email
+                            </td>
+                            <td>
+                                <a asp-controller="AdminBook" asp-action="BookInfo" asp-route-bookId="@comment.ProductId">
+                                    @comment.ProductName
+                                </a>
+                            </td>
+                            <td>
+                                @(comment.IsReadByAdmin ? "بله" : "خیر")
+                            </td>
+                            <td>
+                                @comment.Body 
+                            </td>
+                            <td>
+                                @comment.SendDate.ToShamsi()
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

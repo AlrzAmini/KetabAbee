@@ -403,5 +403,15 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
         }
 
         #endregion
+
+        #region book info
+
+        [HttpGet("BookInfo/{bookId}")]
+        public IActionResult BookInfo(int bookId)
+        {
+            return View();
+        }
+
+        #endregion
     }
 }

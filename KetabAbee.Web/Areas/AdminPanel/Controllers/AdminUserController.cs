@@ -320,5 +320,104 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
         }
 
         #endregion
+
+        #region user info collections
+
+        #region ip's
+
+        [HttpGet("Admin/Users/Ips")]
+        public IActionResult UserIps(int userId)
+        {
+            var userIps = _userService.GetUserIps(userId);
+
+            if (userIps != null && userIps.Any())
+            {
+                return View("_ShowUserIps", userIps);
+            }
+            TempData["ErrorMessage"] = "آی پی ثبت نشده است";
+            return RedirectToAction("UserInfo", new { userId });
+        }
+
+        #endregion
+
+        #region scores
+
+        [HttpGet("Admin/Users/{userId}/Scores")]
+        public IActionResult UserScores(int userId)
+        {
+            var userScores = _userService.GetUserBookScores(userId);
+            if (userScores != null && userScores.Any()) return View(userScores);
+            TempData["ErrorMessage"] = "این کاربر امتیازی ثبت نکرده است";
+            return RedirectToAction("UserInfo", new {userId});
+        }
+
+        #endregion
+
+        #region favorite books
+
+        [HttpGet("Admin/Users/{userId}/Favorites")]
+        public IActionResult UserFavoriteBooks(int userId)
+        {
+            var userFavBooks = _userService.GetUserFavoriteBooks(userId);
+            if (userFavBooks != null && userFavBooks.Any()) return View(userFavBooks);
+
+            TempData["ErrorMessage"] = "این کاربر محصول مورد علاقه ای ثبت نکرده است";
+            return RedirectToAction("UserInfo", new { userId });
+        }
+
+        #endregion
+
+        #region orders
+
+        [HttpGet("Admin/Users/{userId}/Orders")]
+        public IActionResult UserOrders(int userId)
+        {
+            var orders = _userService.GetUserOrders(userId);
+            if (orders != null && orders.Any()) return View(orders);
+
+            TempData["ErrorMessage"] = "این کاربر سفارشی ثبت نکرده است";
+            return RedirectToAction("UserInfo", new { userId });
+        }
+
+        #endregion
+
+        #region comments
+
+        [HttpGet("Admin/Users/{userId}/Comments")]
+        public IActionResult UserComments(int userId)
+        {
+            var comments = _userService.GetUserProductComments(userId);
+            if (comments != null && comments.Any()) return View(comments);
+
+            TempData["ErrorMessage"] = "این کاربر نظری ثبت نکرده است";
+            return RedirectToAction("UserInfo", new { userId });
+        }
+
+        #endregion
+
+        #region products
+
+        [HttpGet("Admin/Users/{userId}/Products")]
+        public IActionResult UserProducts(int userId)
+        {
+            var books = _userService.GetUserBooks(userId);
+            if (books != null && books.Any()) return View(books);
+
+            TempData["ErrorMessage"] = "این کاربر محصولی نخریده است";
+            return RedirectToAction("UserInfo", new { userId });
+        }
+
+        #endregion
+
+        #region reports
+
+        public IActionResult CommentReports()
+        {
+            return View();
+        }
+
+        #endregion
+
+        #endregion
     }
 }
