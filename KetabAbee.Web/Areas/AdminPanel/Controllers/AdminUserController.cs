@@ -242,33 +242,29 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
         }
 
         [HttpPost("Admin/Users/ChargeWallet/{userId}")]
-        public IActionResult ChargeWallet(ChargeWalletFromAdminViewModel charge) // id = user id
+        public IActionResult ChargeWallet(ChargeWalletFromAdminViewModel charge)
         {
             if (!ModelState.IsValid)
             {
-                var newCharge = _userService.GetChargeInfoForAdmin(charge.UserId);
-                return View(newCharge);
+                return RedirectToAction("ChargeWallet", new { id = charge.UserId });
             }
 
             // check price cant be 0
             if (charge.Amount <= 0)
             {
                 TempData["ErrorMessage"] = "مبلغ وارد شده صحیح نمی باشد";
-                var newCharge = _userService.GetChargeInfoForAdmin(charge.UserId);
-                return View(newCharge);
+                return RedirectToAction("ChargeWallet", new { id = charge.UserId });
             }
 
             // charge wallet
             if (_walletService.ChargeWalletFromAdmin(charge))
             {
                 TempData["SuccessMessage"] = "شارژ حساب با موفقیت انجام شد ";
-                var newCharge = _userService.GetChargeInfoForAdmin(charge.UserId);
-                return View(newCharge);
+                return RedirectToAction("ChargeWallet", new {id = charge.UserId});
             }
 
             TempData["ErrorMessage"] = "عملیات شارژ حساب انجام نشد";
-            var oCharge = _userService.GetChargeInfoForAdmin(charge.UserId);
-            return View(oCharge);
+            return RedirectToAction("ChargeWallet", new { id = charge.UserId });
         }
 
         #endregion
@@ -280,29 +276,25 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var newCharge = _userService.GetChargeInfoForAdmin(charge.UserId);
-                return View("ChargeWallet", newCharge);
+                return RedirectToAction("ChargeWallet", new { id = charge.UserId });
             }
 
             // check price cant be 0
             if (charge.Amount <= 0)
             {
                 TempData["ErrorMessage"] = "مبلغ وارد شده صحیح نمی باشد";
-                var newCharge = _userService.GetChargeInfoForAdmin(charge.UserId);
-                return View("ChargeWallet", newCharge);
+                return RedirectToAction("ChargeWallet", new { id = charge.UserId });
             }
 
             // charge wallet
             if (_walletService.WithDrawWalletFromAdmin(charge))
             {
                 TempData["SuccessMessage"] = "برداشت از حساب با موفقیت انجام شد ";
-                var newCharge = _userService.GetChargeInfoForAdmin(charge.UserId);
-                return View("ChargeWallet", newCharge);
+                return RedirectToAction("ChargeWallet", new { id = charge.UserId });
             }
 
             TempData["ErrorMessage"] = "عملیات برداشت انجام نشد";
-            var oCharge = _userService.GetChargeInfoForAdmin(charge.UserId);
-            return RedirectToAction("ChargeWallet", oCharge);
+            return RedirectToAction("ChargeWallet", new { id = charge.UserId });
         }
 
         #endregion
@@ -348,7 +340,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
             var userScores = _userService.GetUserBookScores(userId);
             if (userScores != null && userScores.Any()) return View(userScores);
             TempData["ErrorMessage"] = "این کاربر امتیازی ثبت نکرده است";
-            return RedirectToAction("UserInfo", new {userId});
+            return RedirectToAction("UserInfo", new { userId });
         }
 
         #endregion

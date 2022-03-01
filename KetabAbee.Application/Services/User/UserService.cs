@@ -118,7 +118,7 @@ namespace KetabAbee.Application.Services.User
                 Age = user.Age,
                 RegisterDate = user.RegisterDate,
                 UserName = user.UserName,
-                Wallet = _walletService.BalanceUserWallet(user.UserId),
+                Wallet = user.WalletBalance,
                 Address = user.Address,
                 ImageName = user.AvatarName,
                 BirthDate = user.BirthDay
@@ -137,7 +137,7 @@ namespace KetabAbee.Application.Services.User
                 Email = user.Email,
                 AvatarName = user.AvatarName,
                 Name = user.UserName,
-                Wallet = _walletService.BalanceUserWallet(user.UserId)
+                Wallet = user.WalletBalance
             };
 
             return sideBarInfo;
@@ -537,11 +537,12 @@ namespace KetabAbee.Application.Services.User
 
         public ChargeWalletFromAdminViewModel GetChargeInfoForAdmin(int userId)
         {
-            var charge = new ChargeWalletFromAdminViewModel()
+            var user = _userRepository.GetUserById(userId);
+            var charge = new ChargeWalletFromAdminViewModel
             {
                 UserId = userId,
-                UserName = GetUserNameByUserId(userId),
-                Inventory = _walletService.BalanceUserWallet(userId).ToString("#,0")
+                UserName = user.UserName,
+                Inventory = user.WalletBalance.ToString("#,0")
             };
 
             return charge;
@@ -731,8 +732,7 @@ namespace KetabAbee.Application.Services.User
                     Amount = w.Amount,
                     Behalf = w.Behalf,
                     IsPay = w.IsPay,
-                    WalletId = w.WalletId,
-                    WalletType = w.WalletType
+                    WalletId = w.WalletId
                 }).ToList();
         }
 
@@ -747,6 +747,11 @@ namespace KetabAbee.Application.Services.User
 
             user.WalletBalance = newBalance;
             return UpdateUser(user);
+        }
+
+        public long GetUserWalletBalance(int userId)
+        {
+            return _userRepository.GetUserById(userId).WalletBalance;
         }
     }
 }

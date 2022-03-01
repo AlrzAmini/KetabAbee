@@ -8,7 +8,6 @@
 @using KetabAbee.Application.Interfaces.User
 @using KetabAbee.Application.Interfaces.Wallet
 @inject IUserService _userService;
-@inject IWalletService _walletService;
 @inject IOrderService _orderService;
 @inject IProductService _productService;
 @inject IPermissionService _permissionService;
@@ -19,7 +18,7 @@
             <div class="d-flex align-items-center justify-content-between">
                 <div class="contact-list">
                     <ul>
-                        <li><i class="fas fa-phone-rotary"></i><a href="tel: 02100000000">09300804882</a></li>
+                        <li><i class="fas fa-phone-rotary"></i><a href="tel: 09300804882">09300804882</a></li>
                         <li>
                             <i class="fas fa-envelope"></i><a href="mailto: mranotmillion@gmail.com">mranotmillion@gmail.com</a>
                         </li>
@@ -27,9 +26,12 @@
                 </div>
                 <div class="top-header-menu">
                     <ul>
-                        @if (User.Identity.IsAuthenticated && _permissionService.CheckPermission(PerIds.AdminPanel, User.GetUserEmail()))
+                        @if (_permissionService.CheckPermission(PerIds.AdminPanel, User.GetUserEmail()))
                         {
                             <li><a asp-area="AdminPanel" asp-controller="AdminHome" asp-action="Home">پنل ادمین</a></li>
+                        }
+                        @if (User.Identity.IsAuthenticated)
+                        {
                             <li><a asp-area="UserPanel" asp-controller="Order" asp-action="Orders"> سفارش ها</a></li>
                         }
                         <li><a asp-controller="Book" asp-action="Index">فروشگاه</a></li>
@@ -189,7 +191,7 @@
                                         <span class="header-profile-dropdown-account-item">
                                             <span class="header-profile-dropdown-account-item-title">موجودی</span>
                                             <span class="header-profile-dropdown-account-item-amount">
-                                                <span class="header-profile-dropdown-account-item-amount-number">@_walletService.BalanceUserWallet(User.GetUserId()).ToTooman()</span>
+                                                <span class="header-profile-dropdown-account-item-amount-number">@_userService.GetUserWalletBalance(User.GetUserId()).ToTooman()</span>
                                             </span>
                                         </span>
                                     </span>

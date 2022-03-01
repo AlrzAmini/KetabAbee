@@ -116,6 +116,8 @@ namespace KetabAbee.Application.Interfaces.User
 
         bool UpdateUserWalletBalance(int userId);
 
+        long GetUserWalletBalance(int userId);
+
         #endregion
     }
 }
