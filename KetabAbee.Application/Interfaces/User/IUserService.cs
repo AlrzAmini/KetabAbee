@@ -110,6 +110,12 @@ namespace KetabAbee.Application.Interfaces.User
 
         List<UserBookViewModel> GetUserBooks(int userId);
 
+        List<UserTicketsViewModel> GetUserTickets(int userId);
+
+        List<UserWalletViewModel> GetUserWallets(int userId);
+
+        bool UpdateUserWalletBalance(int userId);
+
         #endregion
     }
 }

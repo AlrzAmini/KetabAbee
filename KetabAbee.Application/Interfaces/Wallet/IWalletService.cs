@@ -27,5 +27,7 @@ namespace KetabAbee.Application.Interfaces.Wallet
         bool WithDrawWalletFromAdmin(ChargeWalletFromAdminViewModel charge);
 
         bool AddWallet(Domain.Models.Wallet.Wallet wallet);
+
+        bool UpdateUserWalletBalance(int userId);
     }
 }

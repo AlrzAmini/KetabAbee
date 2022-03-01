@@ -703,5 +703,50 @@ namespace KetabAbee.Application.Services.User
                     BookId = b.BookId
                 }).ToList();
         }
+
+        public List<UserTicketsViewModel> GetUserTickets(int userId)
+        {
+            return _userRepository.GetUserTickets(userId)
+                .Select(t => new UserTicketsViewModel
+                {
+                    Body = t.Body,
+                    IsReadByAdmin = t.IsReadByAdmin,
+                    IsReadBySender = t.IsReadBySender,
+                    SenderName = t.Sender.UserName,
+                    TicketId = t.TicketId,
+                    TicketState = t.TicketState,
+                    TicketSendDate = t.TicketSendDate,
+                    TicketPriority = t.TicketPriority,
+                    Title = t.Title
+                }).ToList();
+        }
+
+        public List<UserWalletViewModel> GetUserWallets(int userId)
+        {
+            return _userRepository.GetUserWallets(userId)
+                .Select(w => new UserWalletViewModel
+                {
+                    UserName = w.User.UserName,
+                    CreateDate = w.CreateDate,
+                    Amount = w.Amount,
+                    Behalf = w.Behalf,
+                    IsPay = w.IsPay,
+                    WalletId = w.WalletId,
+                    WalletType = w.WalletType
+                }).ToList();
+        }
+
+        public bool UpdateUserWalletBalance(int userId)
+        {
+            var user = _userRepository.GetUserById(userId);
+
+            var userBalance = user.WalletBalance;
+            var newBalance = _walletService.BalanceUserWallet(userId);
+
+            if (userBalance == newBalance) return false;
+
+            user.WalletBalance = newBalance;
+            return UpdateUser(user);
+        }
     }
 }

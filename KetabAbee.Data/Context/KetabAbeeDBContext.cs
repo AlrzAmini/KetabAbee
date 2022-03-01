@@ -168,6 +168,9 @@ namespace KetabAbee.Data.Context
             modelBuilder.Entity<Task>()
                 .HasQueryFilter(e => !e.IsDelete);
 
+            modelBuilder.Entity<Wallet>()
+                .HasQueryFilter(e => !e.IsDelete);
+
             #endregion
 
             base.OnModelCreating(modelBuilder);

@@ -8,7 +8,9 @@ using KetabAbee.Domain.Interfaces;
 using KetabAbee.Domain.Models.Comment.ProductComment;
 using KetabAbee.Domain.Models.Order;
 using KetabAbee.Domain.Models.Products;
+using KetabAbee.Domain.Models.Ticket;
 using KetabAbee.Domain.Models.User;
+using KetabAbee.Domain.Models.Wallet;
 using Microsoft.EntityFrameworkCore;
 
 namespace KetabAbee.Data.Repository
@@ -274,6 +276,23 @@ namespace KetabAbee.Data.Repository
                 .Where(b => b.UserId == userId)
                 .Select(ub=>ub.Book)
                 .Distinct()
+                .ToList();
+        }
+
+        public List<Ticket> GetUserTickets(int userId)
+        {
+            return _context.Tickets
+                .Include(t=>t.Sender)
+                .OrderByDescending(t=>t.TicketSendDate)
+                .Where(t => t.SenderId == userId)
+                .ToList();
+        }
+
+        public List<Wallet> GetUserWallets(int userId)
+        {
+            return _context.Wallets
+                .Include(w=>w.User)
+                .Where(w => w.UserId == userId)
                 .ToList();
         }
     }

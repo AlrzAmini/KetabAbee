@@ -17,10 +17,12 @@ namespace KetabAbee.Application.Services.Wallet
     {
 
         private readonly IWalletRepository _walletRepository;
+        private readonly IUserRepository _userRepository;
 
-        public WalletService(IWalletRepository walletRepository)
+        public WalletService(IWalletRepository walletRepository, IUserRepository userRepository)
         {
             _walletRepository = walletRepository;
+            _userRepository = userRepository;
         }
 
         public IEnumerable<Domain.Models.Wallet.Wallet> GetWalletsByUserId(int userId)
@@ -60,7 +62,7 @@ namespace KetabAbee.Application.Services.Wallet
                     WalletType = WalletType.Deposit
                 };
 
-                _walletRepository.AddWallet(wallet);
+                AddWallet(wallet);
                 return true;
             }
             catch
@@ -107,7 +109,7 @@ namespace KetabAbee.Application.Services.Wallet
                     WalletType = WalletType.Deposit
                 };
 
-                _walletRepository.AddWallet(wallet);
+                AddWallet(wallet);
                 return true;
             }
             catch
@@ -130,7 +132,7 @@ namespace KetabAbee.Application.Services.Wallet
                     WalletType = WalletType.Withdraw
                 };
 
-                _walletRepository.AddWallet(wallet);
+                AddWallet(wallet);
                 return true;
             }
             catch
@@ -142,7 +144,24 @@ namespace KetabAbee.Application.Services.Wallet
         public bool AddWallet(Domain.Models.Wallet.Wallet wallet)
         {
             var walletId = _walletRepository.AddWallet(wallet);
-            return walletId != 0;
+            if (UpdateUserWalletBalance(wallet.UserId)) return walletId != 0;
+
+            _walletRepository.RemoveWallet(walletId);
+            return false;
+
+        }
+
+        public bool UpdateUserWalletBalance(int userId)
+        {
+            var user = _userRepository.GetUserById(userId);
+
+            var userBalance = user.WalletBalance;
+            var newBalance = BalanceUserWallet(userId);
+
+            if (userBalance == newBalance) return false;
+
+            user.WalletBalance = newBalance;
+            return _userRepository.UpdateUser(user);
         }
     }
 }

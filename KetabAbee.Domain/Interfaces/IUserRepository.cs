@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using KetabAbee.Domain.Models.Comment.ProductComment;
 using KetabAbee.Domain.Models.Order;
 using KetabAbee.Domain.Models.Products;
+using KetabAbee.Domain.Models.Ticket;
 using KetabAbee.Domain.Models.User;
+using KetabAbee.Domain.Models.Wallet;
 
 namespace KetabAbee.Domain.Interfaces
 {
@@ -94,6 +96,10 @@ namespace KetabAbee.Domain.Interfaces
         List<ProductComment> GetUserProductComments(int userId);
 
         List<Book> GetUserBooks(int userId);
+
+        List<Ticket> GetUserTickets(int userId);
+
+        List<Wallet> GetUserWallets(int userId);
 
         #endregion
 

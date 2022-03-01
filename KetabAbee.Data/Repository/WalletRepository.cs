@@ -40,6 +40,13 @@ namespace KetabAbee.Data.Repository
             return _context.Wallets.Where(w => w.UserId == userId).OrderByDescending(w=>w.CreateDate);
         }
 
+        public void RemoveWallet(int walletId)
+        {
+            var wallet = GetWalletById(walletId);
+            wallet.IsDelete = true;
+            UpdateWallet(wallet);
+        }
+
         public bool UpdateWallet(Wallet wallet)
         {
             _context.Wallets.Update(wallet);

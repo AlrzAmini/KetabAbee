@@ -18,5 +18,7 @@ namespace KetabAbee.Domain.Interfaces
         Wallet GetWalletById(int walletId);
 
         IEnumerable<Wallet> GetWalletsByUserId(int userId);
+
+        void RemoveWallet(int walletId);
     }
 }

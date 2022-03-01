@@ -1,0 +1,73 @@
+﻿@using KetabAbee.Application.Extensions
+@using KetabAbee.Application.Convertors
+@model List<KetabAbee.Application.DTOs.Admin.User.UserWalletViewModel>
+@{
+    ViewData["Title"] = "تراکنش ها";
+}
+
+
+<div class="col-xs-12 col-md-12">
+    <div class="well with-header with-footer">
+        <div class="header bordered-pink">
+            @ViewData["Title"]
+        </div>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        شماره
+                    </th>
+                    <th>
+                        <i class="fa fa-user"></i> کاربر
+                    </th>
+                    <th>
+                        میزان تراکنش
+                    </th>
+                    <th>
+                        نوع تراکنش
+                    </th>
+                    <th>
+                        توضیحات
+                    </th>
+                    <th>
+                        تاریخ ثبت
+                    </th>
+                    <th>
+                        وضعیت پرداخت
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var wallet in Model)
+                    {
+                        <tr>
+                            <td>
+                                @wallet.WalletId
+                            </td>
+                            <td>
+                                @wallet.UserName
+                            </td>
+                            <td>
+                                @wallet.Amount.ToTooman()
+                            </td>
+                            <td>
+                                @wallet.WalletType.GetEnumName()
+                            </td>
+                            <td>
+                                @wallet.Behalf
+                            </td>
+                            <td>
+                                @wallet.CreateDate.ToShamsi()
+                            </td>
+                            <td>
+                                @(wallet.IsPay ? "موفق" : "ناموفق")
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

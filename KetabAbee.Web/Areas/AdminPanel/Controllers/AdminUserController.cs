@@ -409,6 +409,34 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
 
         #endregion
 
+        #region tickets
+
+        [HttpGet("Admin/Users/{userId}/Tickets")]
+        public IActionResult UserTickets(int userId)
+        {
+            var tickets = _userService.GetUserTickets(userId);
+            if (tickets != null && tickets.Any()) return View(tickets);
+
+            TempData["ErrorMessage"] = "این کاربر تیکتی ثبت نکرده است";
+            return RedirectToAction("UserInfo", new { userId });
+        }
+
+        #endregion
+
+        #region wallets
+
+        [HttpGet("Admin/Users/{userId}/Wallets")]
+        public IActionResult UserWallets(int userId)
+        {
+            var wallets = _userService.GetUserWallets(userId);
+            if (wallets != null && wallets.Any()) return View(wallets);
+
+            TempData["ErrorMessage"] = "این کاربر تراکنشی ثبت نکرده است";
+            return RedirectToAction("UserInfo", new { userId });
+        }
+
+        #endregion
+
         #region reports
 
         public IActionResult CommentReports()

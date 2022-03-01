@@ -36,6 +36,8 @@ namespace KetabAbee.Domain.Models.Wallet
         [DisplayName("انجام شد")]
         public bool IsPay { get; set; }
 
+        public bool IsDelete { get; set; }
+
         #endregion
 
         #region Relations

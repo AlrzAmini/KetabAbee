@@ -41,7 +41,7 @@ namespace KetabAbee.IoC
         {
             #region Cums From App Layer
 
-            service.AddScoped<IUserService, UserService>();
+            service.AddTransient<IUserService, UserService>();
             service.AddScoped<ITicketService, TicketService>();
             service.AddScoped<IWalletService, WalletService>();
             service.AddScoped<IPermissionService, PermissionService>();

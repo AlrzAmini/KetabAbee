@@ -1,0 +1,90 @@
+﻿@using KetabAbee.Application.Convertors
+@using KetabAbee.Application.Extensions
+@model List<KetabAbee.Application.DTOs.Admin.User.UserTicketsViewModel>
+@{
+    ViewData["Title"] = "تیکت ها";
+}
+
+<div class="col-xs-12 col-md-12">
+    <div class="well with-header with-footer">
+        <div class="header bordered-pink">
+            @ViewData["Title"]
+        </div>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        شماره
+                    </th>
+                    <th>
+                        <i class="fa fa-user"></i> کاربر
+                    </th>
+                    <th>
+                        موضوع
+                    </th>
+                    <th>
+                        متن
+                    </th>
+                    <th>
+                        ادمین
+                    </th>
+                    <th>
+                        کاربر
+                    </th>
+                    <th>
+                        اهمیت
+                    </th>
+                    <th>
+                        وضعیت
+                    </th>
+                    <th>
+                        تاریخ ثبت
+                    </th>
+                    <th>
+                        دستورات
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var ticket in Model)
+                    {
+                        <tr>
+                            <td>
+                                @ticket.TicketId
+                            </td>
+                            <td>
+                                @ticket.SenderName
+                            </td>
+                            <td>
+                                @ticket.Title
+                            </td>
+                            <td>
+                                @Html.Raw(ticket.Body)
+                            </td>
+                            <td>
+                                @(ticket.IsReadByAdmin ? "خوانده" : "نخوانده")
+                            </td>
+                            <td>
+                                @(ticket.IsReadBySender ? "خوانده" : "نخوانده")
+                            </td>
+                            <td>
+                                @ticket.TicketPriority.GetEnumName()
+                            </td>
+                            <td>
+                                @ticket.TicketState.GetEnumName()
+                            </td>
+                            <td>
+                                @ticket.TicketSendDate.ToShamsi()
+                            </td>
+                            <td>
+                                <a class="btn btn-info" asp-controller="AdminTicket" asp-action="ShowTicketDetails" asp-route-id="@ticket.TicketId">مشاهده</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

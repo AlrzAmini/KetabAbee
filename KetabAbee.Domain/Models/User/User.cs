@@ -123,6 +123,12 @@ namespace KetabAbee.Domain.Models.User
 
         #endregion
 
+        #region Balance
+
+        public long WalletBalance { get; set; }
+
+        #endregion
+
         #region is online ?
 
         public bool IsOnline { get; set; }
