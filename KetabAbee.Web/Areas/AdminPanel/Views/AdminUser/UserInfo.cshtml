@@ -4,7 +4,26 @@
 @{
     ViewData["Title"] = "جزییات کاربر " + Model.UserName;
 }
-
+<div class="row col-md-12 margin-bottom-10 h-100 align-items-center">
+    <div class="col-md-2">
+        <a class="btn btn-info btn-block" asp-controller="AdminUser" asp-action="SendActiveEmail" asp-route-userId="@Model.UserId">ارسال ایمیل فعالسازی</a>
+    </div>
+    <div class="col-md-2">
+        <a class="btn btn-success btn-block" asp-controller="AdminUser" asp-action="SendActiveMessage" asp-route-userId="@Model.UserId">ارسال پیامک فعالسازی</a>
+    </div>
+    <div class="col-md-2">
+        <a class="btn btn-darkorange btn-block" asp-controller="AdminUser" asp-action="BannUser" asp-route-userId="@Model.UserId">مسدود کردن</a>
+    </div>
+    <div class="col-md-2">
+        <a class="btn btn-danger btn-block" asp-controller="AdminUser" asp-action="DeleteUserInInfo" asp-route-userId="@Model.UserId">حذف</a>
+    </div>
+    <div class="col-md-2">
+        <a class="btn btn-warning btn-block" asp-controller="AdminUser" asp-action="DeleteUserComments" asp-route-userId="@Model.UserId">حذف نظرات کاربر</a>
+    </div>
+    <div class="col-md-2">
+        <a class="btn btn-azure btn-block" asp-controller="AdminUser" asp-action="AddUserToAdmins" asp-route-userId="@Model.UserId">انتخاب به عنوان ادمین</a>
+    </div>
+</div>
 <div class="row">
     <div class="col-lg-12 col-sm-12 col-xs-12">
         <h5 class="row-title before-magenta"><i class="fa fa-user magenta"></i>@ViewData["Title"]</h5>

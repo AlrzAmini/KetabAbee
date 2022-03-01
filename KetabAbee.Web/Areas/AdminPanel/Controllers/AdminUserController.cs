@@ -260,7 +260,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
             if (_walletService.ChargeWalletFromAdmin(charge))
             {
                 TempData["SuccessMessage"] = "شارژ حساب با موفقیت انجام شد ";
-                return RedirectToAction("ChargeWallet", new {id = charge.UserId});
+                return RedirectToAction("ChargeWallet", new { id = charge.UserId });
             }
 
             TempData["ErrorMessage"] = "عملیات شارژ حساب انجام نشد";
@@ -434,6 +434,76 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
         public IActionResult CommentReports()
         {
             return View();
+        }
+
+        #endregion
+
+        #endregion
+
+        #region user info commands
+
+        #region send message
+
+        [HttpGet("Admin/Users/{userId}/SendM")]
+        public IActionResult SendActiveMessage(int userId)
+        {
+            TempData["InfoMessage"] = "این بخش هنوز در دسترس نیست";
+            return RedirectToAction("UserInfo", new { userId });
+        }
+
+        #endregion
+
+        #region send email
+
+        [HttpGet("Admin/Users/{userId}/SendE")]
+        public IActionResult SendActiveEmail(int userId)
+        {
+            TempData["InfoMessage"] = "این بخش هنوز در دسترس نیست";
+            return RedirectToAction("UserInfo", new { userId });
+        }
+
+        #endregion
+
+        #region bann user
+
+        [HttpGet("Admin/Users/{userId}/Bann")]
+        public IActionResult BannUser(int userId)
+        {
+            TempData["InfoMessage"] = "این بخش هنوز در دسترس نیست";
+            return RedirectToAction("UserInfo", new { userId });
+        }
+
+        #endregion
+
+        #region delete user
+
+        [HttpGet("Admin/Users/{userId}/Del")]
+        public IActionResult DeleteUserInInfo(int userId)
+        {
+            TempData["InfoMessage"] = "این بخش هنوز در دسترس نیست";
+            return RedirectToAction("UserInfo", new { userId });
+        }
+
+        #endregion
+
+        #region delete user comments
+
+        [HttpGet("Admin/Users/{userId}/DelAllComments")]
+        public IActionResult DeleteUserComments(int userId)
+        {
+            TempData["InfoMessage"] = "این بخش هنوز در دسترس نیست";
+            return RedirectToAction("UserInfo", new { userId });
+        }
+
+        #endregion
+
+        #region add user to admins
+
+        [HttpGet("Admin/Users/{userId}/Set/Admin")]
+        public IActionResult AddUserToAdmins(int userId)
+        {
+            TempData["InfoMessage"] = "این بخش هنوز در دسترس نیست";
+            return RedirectToAction("UserInfo", new { userId });
         }
 
         #endregion

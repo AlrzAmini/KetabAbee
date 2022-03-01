@@ -11,6 +11,267 @@
     width: 50px;
 }
 
+button {
+    cursor: pointer;
+    outline: none;
+    &.outline
+
+{
+    position: relative;
+    z-index: 3;
+    background: transparent;
+    color: #1172c4;
+    font-size: 14px;
+    border-color: #1172c4;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 22px;
+    padding: 10px 40px;
+    text-transform: uppercase;
+    transition: all 0.2s linear;
+    a
+
+{
+    text-decoration: none;
+}
+
+}
+
+.outline:hover {
+    color: white;
+    background: #1172c4;
+    border-color: white;
+    transition: all 0.2s linear;
+}
+
+.outline:active {
+    border-radius: 22px;
+}
+
+.white-blue {
+    font-weight: 700;
+    color: #00aeef;
+    border-color: white;
+    background: white;
+}
+
+    .white-blue:hover {
+        color: white;
+        background: #00aeef;
+        border-color: white;
+    }
+
+.white-green {
+    font-weight: 700;
+    color: #7dc21e;
+    border-color: white;
+    background: white;
+}
+
+    .white-green:hover {
+        color: white;
+        background: #7dc21e;
+        border-color: white;
+    }
+
+.green-white {
+    font-weight: 700;
+    color: #7dc21e;
+    border-color: #7dc21e;
+    background: transparent;
+}
+
+    .green-white:hover {
+        color: white;
+        background: #7dc21e;
+        border-color: #7dc21e;
+    }
+
+.purple-white {
+    font-weight: 700;
+    color: #664e96;
+    border-color: #664e96;
+    background: transparent;
+}
+
+    .purple-white:hover {
+        color: white;
+        background: #664e96;
+        border-color: #664e96;
+    }
+
+.white-purple {
+    font-weight: 700;
+    color: #664e96;
+    border-color: white;
+    background: white;
+}
+
+    .white-purple:hover {
+        color: white;
+        background: #664e96;
+        border-color: white;
+    }
+
+}
+
+.wrap {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button {
+    min-width: 300px;
+    min-height: 60px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+    font-weight: 700;
+    color: #313133;
+    background: #4FD1C5;
+    background: linear-gradient(90deg, rgba(129,230,217,1) 0%, rgba(79,209,197,1) 100%);
+    border: none;
+    border-radius: 1000px;
+    box-shadow: 12px 12px 24px rgba(79,209,197,.64);
+    transition: all 0.3s ease-in-out 0s;
+    cursor: pointer;
+    outline: none;
+    position: relative;
+    padding: 10px;
+}
+
+button::before {
+    content: '';
+    border-radius: 1000px;
+    min-width: calc(300px + 12px);
+    min-height: calc(60px + 12px);
+    border: 6px solid #00FFCB;
+    box-shadow: 0 0 60px rgba(0,255,203,.64);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: all .3s ease-in-out 0s;
+}
+
+.button:hover, .button:focus {
+    color: #313133;
+    transform: translateY(-6px);
+}
+
+button:hover::before, button:focus::before {
+    opacity: 1;
+}
+
+button::after {
+    content: '';
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    border: 6px solid #00FFCB;
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: ring 1.5s infinite;
+}
+
+button:hover::after, button:focus::after {
+    animation: none;
+    display: none;
+}
+
+@keyframes ring {
+    0% {
+        width: 30px;
+        height: 30px;
+        opacity: 1;
+    }
+
+    100% {
+        width: 300px;
+        height: 300px;
+        opacity: 0;
+    }
+}
+
+.btn-circ {
+    display: inline-block;
+    text-decoration: none;
+    background: #ff8181;
+    color: #FFF;
+    width: 120px;
+    height: 120px;
+    line-height: 120px;
+    border-radius: 50%;
+    text-align: center;
+    font-weight: bold;
+    vertical-align: middle;
+    overflow: hidden;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
+    border-bottom: solid 3px #bd6565;
+    transition: .4s;
+}
+
+    .btn-circ:active {
+        -ms-transform: translateY(2px);
+        -webkit-transform: translateY(2px);
+        transform: translateY(2px);
+        box-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
+        border-bottom: none;
+    }
+
+    .btn-circ:hover {
+        text-decoration: none;
+    }
+
+.cross_line {
+    display: inline-block;
+    position: relative;
+    padding: 0.25em 1em;
+    border-top: solid 2px black;
+    border-bottom: solid 2px black;
+    text-decoration: none;
+    font-weight: bold;
+    color: #03A9F4;
+}
+
+    .cross_line:before, .cross_line:after {
+        content: '';
+        position: absolute;
+        top: -7px;
+        width: 2px;
+        height: -webkit-calc(100% + 14px);
+        height: calc(100% + 14px);
+        background-color: black;
+        transition: .3s;
+    }
+
+    .cross_line:before {
+        left: 7px;
+    }
+
+    .cross_line:after {
+        right: 7px;
+    }
+
+    .cross_line:hover:before {
+        top: 0px;
+        left: 0;
+        height: 100%;
+    }
+
+    .cross_line:hover:after {
+        top: 0px;
+        right: 0;
+        height: 100%;
+    }
+
 .button-23 {
     background-color: #FFFFFF;
     border: 1px solid #222222;
@@ -35,23 +296,23 @@
     width: auto;
 }
 
-.button-23:focus-visible {
-    box-shadow: #222222 0 0 0 2px, rgba(255, 255, 255, 0.8) 0 0 0 4px;
-    transition: box-shadow .2s;
-}
+    .button-23:focus-visible {
+        box-shadow: #222222 0 0 0 2px, rgba(255, 255, 255, 0.8) 0 0 0 4px;
+        transition: box-shadow .2s;
+    }
 
-.button-23:active {
-    background-color: #F7F7F7;
-    border-color: #000000;
-    transform: scale(.96);
-}
+    .button-23:active {
+        background-color: #F7F7F7;
+        border-color: #000000;
+        transform: scale(.96);
+    }
 
-.button-23:disabled {
-    border-color: #DDDDDD;
-    color: #DDDDDD;
-    cursor: not-allowed;
-    opacity: 1;
-}
+    .button-23:disabled {
+        border-color: #DDDDDD;
+        color: #DDDDDD;
+        cursor: not-allowed;
+        opacity: 1;
+    }
 
 .button-47 {
     align-items: center;
