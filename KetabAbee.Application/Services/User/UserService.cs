@@ -17,6 +17,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using KetabAbee.Application.Interfaces.Comment;
 using KetabAbee.Domain.Models.User;
 
 namespace KetabAbee.Application.Services.User
@@ -25,11 +26,13 @@ namespace KetabAbee.Application.Services.User
     {
         private readonly IUserRepository _userRepository;
         private readonly IWalletService _walletService;
+        private readonly ICommentService _commentService;
 
-        public UserService(IUserRepository userRepository, IWalletService walletService)
+        public UserService(IUserRepository userRepository, IWalletService walletService, ICommentService commentService)
         {
             _userRepository = userRepository;
             _walletService = walletService;
+            _commentService = commentService;
         }
 
         public async Task<Domain.Models.User.User> RegisterUser(RegisterViewModel user)
@@ -621,7 +624,8 @@ namespace KetabAbee.Application.Services.User
                 RegisterDate = user.RegisterDate,
                 UserId = user.UserId,
                 LatestUserIp = user.UserIps.OrderByDescending(i => i.UserIpId).FirstOrDefault()?.Ip,
-                WalletBalance = _walletService.BalanceUserWallet(user.UserId)
+                WalletBalance = _walletService.BalanceUserWallet(user.UserId),
+                IsBanned = user.IsBanned
             };
         }
 
@@ -752,6 +756,92 @@ namespace KetabAbee.Application.Services.User
         public long GetUserWalletBalance(int userId)
         {
             return _userRepository.GetUserById(userId).WalletBalance;
+        }
+
+        public DeleteUserCommentsResult DeleteUserComments(int userId)
+        {
+            try
+            {
+                var userComments = _userRepository.GetUserProductComments(userId);
+                if (!userComments.Any())
+                {
+                    return DeleteUserCommentsResult.NotHaveComment;
+                }
+
+                foreach (var comment in userComments)
+                {
+                    _commentService.DeleteComment(comment.CommentId);
+                }
+
+                return DeleteUserCommentsResult.Success;
+            }
+            catch
+            {
+                return DeleteUserCommentsResult.Error;
+            }
+        }
+
+        public BanUserIpResult BanUser(int userId)
+        {
+            var userIps = GetUserIps(userId);
+            if (!userIps.Any())
+            {
+                return BanUserIpResult.NotHaveIp;
+            }
+
+            foreach (var ip in userIps)
+            {
+                _userRepository.AddIpToBannedIps(userId, ip);
+            }
+
+            var user = _userRepository.GetUserById(userId);
+            user.IsBanned = true;
+            return UpdateUser(user) ? BanUserIpResult.Success : BanUserIpResult.Error;
+
+        }
+
+        public List<string> GetBannedIps()
+        {
+            return _userRepository.GetBannedIps().Select(b => b.Ip).ToList();
+        }
+
+        public FreeUserIpResult FreeUser(int userId)
+        {
+            try
+            {
+                var userIps = GetUserIps(userId);
+                if (!userIps.Any())
+                {
+                    return FreeUserIpResult.NotHaveIp;
+                }
+
+                foreach (var ip in userIps)
+                {
+                    _userRepository.RemoveIpFromBannedIps(userId, ip);
+                }
+
+                var user = _userRepository.GetUserById(userId);
+                if (!user.IsBanned)
+                {
+                    return FreeUserIpResult.UserIsAlreadyFree;
+                }
+                user.IsBanned = false;
+                return UpdateUser(user) ? FreeUserIpResult.Success : FreeUserIpResult.Error;
+            }
+            catch
+            {
+                return FreeUserIpResult.Error;
+            }
+        }
+
+        public Domain.Models.User.User CreateNewEmailActiveCodeForUser(int userId)
+        {
+            var user = _userRepository.GetUserById(userId);
+
+            user.EmailActivationCode = new Random().Next(10000, 99999).ToString();
+            user.IsEmailActive = false;
+
+            return UpdateUser(user) ? user : new Domain.Models.User.User();
         }
     }
 }

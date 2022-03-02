@@ -101,9 +101,16 @@ namespace KetabAbee.Domain.Interfaces
 
         List<Wallet> GetUserWallets(int userId);
 
+        List<BannedIp> GetBannedIps();
+
+        void AddIpToBannedIps(int userId, string userIp);
+
+        void RemoveIpFromBannedIps(int userId, string ip);
+
+        BannedIp GetBannedIpByInfo(int userId, string ip);
+
         #endregion
 
         int GetUserIdByUserName(string userName);
-
     }
 }

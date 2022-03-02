@@ -134,6 +134,8 @@ namespace KetabAbee.Data.Repository
 
             var userRoles = GetUserRolesByUserId(userId);
 
+            if (userRoles == null) return false;
+
             if (!userRoles.Any()) return false;
 
             var rolesOfPermission = GetRolesOfPermissionByPermissionId(permissionId);
@@ -151,7 +153,7 @@ namespace KetabAbee.Data.Repository
 
         public int GetUserIdByEmail(string email)
         {
-            return _context.Users.SingleOrDefault(u => u.Email == email).UserId;
+            return _context.Users.FirstOrDefault(u => u.Email == email).UserId;
         }
 
         public List<int> GetRolesOfPermissionByPermissionId(int permissionId)

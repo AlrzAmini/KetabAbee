@@ -36,6 +36,8 @@ namespace KetabAbee.Data.Context
 
         public DbSet<UserIp> UserIps { get; set; }
 
+        public DbSet<BannedIp> BannedIps { get; set; }
+
         #endregion
 
         #region ticket

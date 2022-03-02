@@ -295,5 +295,31 @@ namespace KetabAbee.Data.Repository
                 .Where(w => w.UserId == userId)
                 .ToList();
         }
+
+        public List<BannedIp> GetBannedIps()
+        {
+            return _context.BannedIps.ToList();
+        }
+
+        public void AddIpToBannedIps(int userId, string userIp)
+        {
+            _context.BannedIps.Add(new BannedIp
+            {
+                Ip = userIp,
+                UserId = userId
+            });
+            _context.SaveChanges();
+        }
+
+        public void RemoveIpFromBannedIps(int userId, string ip)
+        {
+            _context.BannedIps.Remove(GetBannedIpByInfo(userId, ip));
+            _context.SaveChanges();
+        }
+
+        public BannedIp GetBannedIpByInfo(int userId, string ip)
+        {
+            return _context.BannedIps.FirstOrDefault(b => b.UserId == userId && b.Ip == ip);
+        }
     }
 }

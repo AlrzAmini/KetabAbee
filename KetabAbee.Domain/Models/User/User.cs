@@ -135,6 +135,12 @@ namespace KetabAbee.Domain.Models.User
 
         #endregion
 
+        #region is banned ?
+
+        public bool IsBanned { get; set; }
+
+        #endregion
+
         #region Is delete ?
 
         public bool IsDelete { get; set; }

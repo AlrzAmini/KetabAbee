@@ -26,7 +26,7 @@
                 </div>
                 <div class="top-header-menu">
                     <ul>
-                        @if (_permissionService.CheckPermission(PerIds.AdminPanel, User.GetUserEmail()))
+                        @if (User.Identity.IsAuthenticated && _permissionService.CheckPermission(PerIds.AdminPanel, User.GetUserEmail()))
                         {
                             <li><a asp-area="AdminPanel" asp-controller="AdminHome" asp-action="Home">پنل ادمین</a></li>
                         }

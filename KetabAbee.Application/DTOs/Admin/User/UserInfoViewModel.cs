@@ -12,6 +12,8 @@ namespace KetabAbee.Application.DTOs.Admin.User
 
         public long WalletBalance { get; set; }
 
+        public bool IsBanned { get; set; }
+
         #region UserId
 
         [Key]

@@ -6,22 +6,37 @@
 }
 <div class="row col-md-12 margin-bottom-10 h-100 align-items-center">
     <div class="col-md-2">
-        <a class="btn btn-info btn-block" asp-controller="AdminUser" asp-action="SendActiveEmail" asp-route-userId="@Model.UserId">ارسال ایمیل فعالسازی</a>
+        <a class="btn btn-info btn-block" asp-controller="AdminUser" asp-action="SendActiveEmail" asp-route-userId="@Model.UserId"> ارسال ایمیل کد تایید <i class="fa fa-envelope-o"></i></a>
     </div>
     <div class="col-md-2">
-        <a class="btn btn-success btn-block" asp-controller="AdminUser" asp-action="SendActiveMessage" asp-route-userId="@Model.UserId">ارسال پیامک فعالسازی</a>
+        <a class="btn btn-success btn-block" asp-controller="AdminUser" asp-action="SendActiveMessage" asp-route-userId="@Model.UserId">ارسال پیامک کد تایید <i class="fa fa-paper-plane-o"></i></a>
     </div>
     <div class="col-md-2">
-        <a class="btn btn-darkorange btn-block" asp-controller="AdminUser" asp-action="BannUser" asp-route-userId="@Model.UserId">مسدود کردن</a>
+        <a class="btn btn-warning btn-block" asp-controller="AdminUser" asp-action="DeleteUserComments" asp-route-userId="@Model.UserId" onclick="return confirm('از حذف نظرات این کاربر مطمعن هستید ؟')"> حذف نظرات کاربر <i class="fa fa-comment"></i></a>
     </div>
-    <div class="col-md-2">
-        <a class="btn btn-danger btn-block" asp-controller="AdminUser" asp-action="DeleteUserInInfo" asp-route-userId="@Model.UserId">حذف</a>
+    @if (!Model.IsBanned)
+    {
+        <div class="col-md-2">
+            <a class="btn btn-darkorange btn-block" asp-controller="AdminUser" asp-action="BanUser" asp-route-userId="@Model.UserId" onclick="return confirm('کاربر مسدود شود ؟')">مسدود کردن <i class="fa fa-ban"></i></a>
+        </div>
+    }
+    else
+    {
+        <div class="col-md-2">
+            <a class="btn btn-palegreen btn-block" asp-controller="AdminUser" asp-action="FreeUser" asp-route-userId="@Model.UserId" onclick="return confirm('کاربر آزاد شود ؟')">آزاد کردن <i class="fa fa-check"></i></a>
+        </div>
+    }
+    <div class="col-md-1">
+        <a class="btn btn-magenta btn-block" asp-controller="AdminUser" asp-action="EditUser" asp-route-id="@Model.UserId"> ویرایش <i class="fa fa-edit"></i></a>
     </div>
-    <div class="col-md-2">
-        <a class="btn btn-warning btn-block" asp-controller="AdminUser" asp-action="DeleteUserComments" asp-route-userId="@Model.UserId">حذف نظرات کاربر</a>
+    <div class="col-md-1">
+        <a class="btn btn-maroon btn-block" asp-controller="AdminUser" asp-action="ChargeWallet" asp-route-userId="@Model.UserId"> کیف پول <i class="fa fa-money"></i></a>
     </div>
-    <div class="col-md-2">
-        <a class="btn btn-azure btn-block" asp-controller="AdminUser" asp-action="AddUserToAdmins" asp-route-userId="@Model.UserId">انتخاب به عنوان ادمین</a>
+    <div class="col-md-1">
+        <a class="btn btn-danger btn-block" asp-controller="AdminUser" asp-action="DeleteUserInInfo" asp-route-userId="@Model.UserId" onclick="return confirm('از حذف این کاربر مطمعن هستید ؟')">حذف <i class="fa fa-remove"></i></a>
+    </div>
+    <div class="col-md-1">
+        <a class="btn cross_line btn-block" asp-controller="AdminUser" asp-action="Index">بازگشت</a>
     </div>
 </div>
 <div class="row">
@@ -66,7 +81,7 @@
                     </div>
                     <div>
                         <div class="row">
-                            <div class="col-lg-4 col-sm-6 col-xs-12">
+                            <div class="col-lg-3 col-sm-6 col-xs-12">
                                 <div class="widget">
                                     <div class="widget-header bordered-left bordered-blueberry">
                                         <span class="widget-caption">نام کاربری :</span>
@@ -76,7 +91,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-sm-6 col-xs-12">
+                            <div class="col-lg-3 col-sm-6 col-xs-12">
                                 <div class="widget">
                                     <div class="widget-header bordered-left bordered-blueberry">
                                         <span class="widget-caption">آی دی :</span>
@@ -86,13 +101,23 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-sm-6 col-xs-12">
+                            <div class="col-lg-3 col-sm-6 col-xs-12">
                                 <div class="widget">
                                     <div class="widget-header bordered-left bordered-blueberry">
                                         <span class="widget-caption">آی پی :</span>
                                     </div>
                                     <div class="widget-body bordered-left bordered-blue">
                                         <p>@Model.LatestUserIp</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6 col-xs-12">
+                                <div class="widget">
+                                    <div class="widget-header bordered-left bordered-blueberry">
+                                        <span class="widget-caption">وضعیت :</span>
+                                    </div>
+                                    <div class="widget-body bordered-left bordered-blue">
+                                        <p class="@(Model.IsBanned ? "text-danger":"text-success")">@(Model.IsBanned ? "مسدود":"آزاد")</p>
                                     </div>
                                 </div>
                             </div>
@@ -124,7 +149,7 @@
                                         <span class="widget-caption">وضعیت فعالسازی ایمیل :</span>
                                     </div>
                                     <div class="widget-body bordered-left bordered-palegreen">
-                                        <p>@(Model.IsEmailActive ? "فعال":"غیر فعال")</p>
+                                        <p class="@(Model.IsEmailActive ? "text-success":"text-danger")">@(Model.IsEmailActive ? "فعال":"غیر فعال")</p>
                                     </div>
                                 </div>
                             </div>
@@ -156,7 +181,7 @@
                                         <span class="widget-caption">وضعیت فعالسازی موبایل :</span>
                                     </div>
                                     <div class="widget-body bordered-left bordered-orange">
-                                        <p>@(Model.IsMobileActive ? "فعال":"غیر فعال")</p>
+                                        <p class="@(Model.IsMobileActive ? "text-success":"text-danger")">@(Model.IsMobileActive ? "فعال":"غیر فعال")</p>
                                     </div>
                                 </div>
                             </div>
@@ -200,7 +225,7 @@
                                         <span class="widget-caption">تاریخ ثبت نام :</span>
                                     </div>
                                     <div class="widget-body bordered-left bordered-azure">
-                                        <p>@Model.RegisterDate.ToIraniDate()</p>
+                                        <p>@Model.RegisterDate.ToShamsi()</p>
                                     </div>
                                 </div>
                             </div>

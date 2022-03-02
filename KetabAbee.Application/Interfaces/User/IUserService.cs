@@ -118,6 +118,16 @@ namespace KetabAbee.Application.Interfaces.User
 
         long GetUserWalletBalance(int userId);
 
+        DeleteUserCommentsResult DeleteUserComments(int userId);
+
+        BanUserIpResult BanUser(int userId);
+
+        FreeUserIpResult FreeUser(int userId);
+
+        List<string> GetBannedIps();
+
+        Domain.Models.User.User CreateNewEmailActiveCodeForUser(int userId);
+
         #endregion
     }
 }

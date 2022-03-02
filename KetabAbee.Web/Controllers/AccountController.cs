@@ -90,7 +90,7 @@ namespace KetabAbee.Web.Controllers
 
             //send active email
             string body = _renderService.RenderToStringAsync("_ActivationEmail", user);
-            SendEmail.Send(user.Email, "فعالسازی حساب کاربری در کتاب آبی", body);
+            SendEmail.Send(user.Email, "کد تایید حساب کاربری در کتاب آبی", body);
 
             return RedirectToAction("Activator");
         }
@@ -131,6 +131,12 @@ namespace KetabAbee.Web.Controllers
                 if (!user.IsEmailActive)
                 {
                     TempData["WarningSwal"] = "حساب کاربری شما فعال نشده است";
+                    ViewData["returnUrl"] = returnUrl;
+                    return View(login);
+                }
+                if (user.IsBanned)
+                {
+                    TempData["WarningSwal"] = "حساب کاربری شما مسدود شده است";
                     ViewData["returnUrl"] = returnUrl;
                     return View(login);
                 }

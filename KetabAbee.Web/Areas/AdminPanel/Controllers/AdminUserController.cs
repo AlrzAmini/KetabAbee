@@ -13,6 +13,8 @@ using KetabAbee.Application.Interfaces.Permission;
 using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Interfaces.Wallet;
 using KetabAbee.Application.Security;
+using KetabAbee.Application.Senders;
+using KetabAbee.Domain.Models.User;
 using Microsoft.AspNetCore.Http;
 
 namespace KetabAbee.Web.Areas.AdminPanel.Controllers
@@ -25,12 +27,14 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
         private readonly IUserService _userService;
         private readonly IPermissionService _permissionService;
         private readonly IWalletService _walletService;
+        private readonly IViewRenderService _renderService;
 
-        public AdminUserController(IUserService userService, IPermissionService permissionService, IWalletService walletService)
+        public AdminUserController(IUserService userService, IPermissionService permissionService, IWalletService walletService, IViewRenderService renderService)
         {
             _userService = userService;
             _permissionService = permissionService;
             _walletService = walletService;
+            _renderService = renderService;
         }
 
         #endregion
@@ -305,7 +309,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
         public IActionResult UserInfo(int userId)
         {
             var user = _userService.GetUserForShowInUserInfo(userId);
-            if (user != null) return View(user);
+            if (!string.IsNullOrEmpty(user.UserName)) return View(user);
 
             TempData["ErrorMessage"] = "کاربری یافت نشد";
             return RedirectToAction("Index");
@@ -458,20 +462,78 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
         [HttpGet("Admin/Users/{userId}/SendE")]
         public IActionResult SendActiveEmail(int userId)
         {
-            TempData["InfoMessage"] = "این بخش هنوز در دسترس نیست";
+            var user = _userService.CreateNewEmailActiveCodeForUser(userId);
+
+            if (string.IsNullOrEmpty(user.UserName))
+            {
+                TempData["ErrorMessage"] = "کاربر نامعتبر";
+                return RedirectToAction("UserInfo", new { userId });
+            }
+
+            //send active email
+            var body = _renderService.RenderToStringAsync("_ActivationEmail", user);
+            SendEmail.Send(user.Email, "کد تایید حساب کاربری در کتاب آبی", body);
+
+            TempData["SuccessMessage"] = "ایمیل کد تایید با موفقیت ارسال شد";
             return RedirectToAction("UserInfo", new { userId });
         }
 
         #endregion
 
-        #region bann user
+        #region ban & free user
 
-        [HttpGet("Admin/Users/{userId}/Bann")]
-        public IActionResult BannUser(int userId)
+        #region ban
+
+        [HttpGet("Admin/Users/{userId}/Ban")]
+        public IActionResult BanUser(int userId)
         {
-            TempData["InfoMessage"] = "این بخش هنوز در دسترس نیست";
-            return RedirectToAction("UserInfo", new { userId });
+            var res = _userService.BanUser(userId);
+            switch (res)
+            {
+                case BanUserIpResult.Success:
+                    TempData["SuccessMessage"] = "کاربر مسدود شد";
+                    return RedirectToAction("UserInfo", new { userId });
+                case BanUserIpResult.NotHaveIp:
+                    TempData["InfoMessage"] = "آی پی برای مسدود کردن این کاربر ثبت نشده است";
+                    return RedirectToAction("UserInfo", new { userId });
+                case BanUserIpResult.Error:
+                    TempData["ErrorMessage"] = "مشکلی در مسدود کردن کاربر رخ داد";
+                    return RedirectToAction("UserInfo", new { userId });
+                default:
+                    TempData["ErrorMessage"] = "مشکلی در مسدود کردن کاربر رخ داد";
+                    return RedirectToAction("UserInfo", new { userId });
+            }
         }
+
+        #endregion
+
+        #region free
+
+        [HttpGet("Admin/Users/{userId}/Free")]
+        public IActionResult FreeUser(int userId)
+        {
+            var res = _userService.FreeUser(userId);
+            switch (res)
+            {
+                case FreeUserIpResult.Success:
+                    TempData["SuccessMessage"] = "کاربر آزاد شد";
+                    return RedirectToAction("UserInfo", new { userId });
+                case FreeUserIpResult.NotHaveIp:
+                    TempData["InfoMessage"] = "آی پی برای آزاد کردن این کاربر ثبت نشده است";
+                    return RedirectToAction("UserInfo", new { userId });
+                case FreeUserIpResult.UserIsAlreadyFree:
+                    TempData["WarningMessage"] = "کاربر در حال حاضر آزاد است";
+                    return RedirectToAction("UserInfo", new { userId });
+                case FreeUserIpResult.Error:
+                    TempData["ErrorMessage"] = "مشکلی در آزاد کردن کاربر رخ داد";
+                    return RedirectToAction("UserInfo", new { userId });
+                default:
+                    TempData["ErrorMessage"] = "مشکلی در آزاد کردن کاربر رخ داد";
+                    return RedirectToAction("UserInfo", new { userId });
+            }
+        }
+
+        #endregion
 
         #endregion
 
@@ -480,7 +542,12 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
         [HttpGet("Admin/Users/{userId}/Del")]
         public IActionResult DeleteUserInInfo(int userId)
         {
-            TempData["InfoMessage"] = "این بخش هنوز در دسترس نیست";
+            if (_userService.DeleteUserById(userId))
+            {
+                TempData["SuccessMessage"] = "کاربر با موفقیت حذف شد";
+                return RedirectToAction("Index");
+            }
+            TempData["ErrorMessage"] = "مشکلی در حذف کاربر رخ داد";
             return RedirectToAction("UserInfo", new { userId });
         }
 
@@ -491,19 +558,22 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
         [HttpGet("Admin/Users/{userId}/DelAllComments")]
         public IActionResult DeleteUserComments(int userId)
         {
-            TempData["InfoMessage"] = "این بخش هنوز در دسترس نیست";
-            return RedirectToAction("UserInfo", new { userId });
-        }
-
-        #endregion
-
-        #region add user to admins
-
-        [HttpGet("Admin/Users/{userId}/Set/Admin")]
-        public IActionResult AddUserToAdmins(int userId)
-        {
-            TempData["InfoMessage"] = "این بخش هنوز در دسترس نیست";
-            return RedirectToAction("UserInfo", new { userId });
+            var res = _userService.DeleteUserComments(userId);
+            switch (res)
+            {
+                case DeleteUserCommentsResult.Success:
+                    TempData["SuccessMessage"] = "تمام نظرات این کاربر حذف شد";
+                    return RedirectToAction("UserInfo", new { userId });
+                case DeleteUserCommentsResult.NotHaveComment:
+                    TempData["InfoMessage"] = "این کاربر نظری ثبت نکرده است";
+                    return RedirectToAction("UserInfo", new { userId });
+                case DeleteUserCommentsResult.Error:
+                    TempData["ErrorMessage"] = "مشکلی در حذف نظرات رخ داد";
+                    return RedirectToAction("UserInfo", new { userId });
+                default:
+                    TempData["ErrorMessage"] = "مشکلی در حذف نظرات رخ داد";
+                    return RedirectToAction("UserInfo", new { userId });
+            }
         }
 
         #endregion

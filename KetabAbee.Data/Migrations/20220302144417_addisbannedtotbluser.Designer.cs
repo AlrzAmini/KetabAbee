@@ -4,14 +4,16 @@ using KetabAbee.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KetabAbee.Data.Migrations
 {
     [DbContext(typeof(KetabAbeeDBContext))]
-    partial class KetabAbeeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220302144417_addisbannedtotbluser")]
+    partial class addisbannedtotbluser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -827,19 +829,11 @@ namespace KetabAbee.Data.Migrations
 
             modelBuilder.Entity("KetabAbee.Domain.Models.User.BannedIp", b =>
                 {
-                    b.Property<int>("BanId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.Property<string>("Ip")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
-
-                    b.HasKey("BanId");
 
                     b.HasIndex("UserId");
 

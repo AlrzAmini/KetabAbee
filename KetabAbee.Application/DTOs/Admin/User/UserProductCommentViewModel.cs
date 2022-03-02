@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace KetabAbee.Application.DTOs.Admin.User
 {
-   public class UserProductCommentViewModel
+    public class UserProductCommentViewModel
     {
-       
+
         public int CommentId { get; set; }
 
         public int ProductId { get; set; }
@@ -26,5 +26,12 @@ namespace KetabAbee.Application.DTOs.Admin.User
         public DateTime SendDate { get; set; }
 
         public bool IsReadByAdmin { get; set; }
+    }
+
+    public enum DeleteUserCommentsResult
+    {
+       Success,
+       Error,
+       NotHaveComment
     }
 }

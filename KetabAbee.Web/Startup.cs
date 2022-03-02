@@ -8,6 +8,8 @@ using GoogleReCaptcha.V3;
 using GoogleReCaptcha.V3.Interface;
 using KetabAbee.Data.Context;
 using KetabAbee.IoC;
+using KetabAbee.Web.Models;
+using KetabAbee.Web.PresentationExtensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
@@ -84,7 +86,6 @@ namespace KetabAbee.Web
             services.AddHttpClient<ICaptchaValidator,GoogleReCaptchaValidator>();
 
             #endregion
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -113,6 +114,9 @@ namespace KetabAbee.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseIpFilter();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
