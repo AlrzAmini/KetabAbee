@@ -11,30 +11,12 @@
     width: 50px;
 }
 
-button {
-    cursor: pointer;
-    outline: none;
-    &.outline
-
-{
-    position: relative;
-    z-index: 3;
-    background: transparent;
-    color: #1172c4;
-    font-size: 14px;
-    border-color: #1172c4;
-    border-style: solid;
-    border-width: 2px;
-    border-radius: 22px;
-    padding: 10px 40px;
-    text-transform: uppercase;
-    transition: all 0.2s linear;
-    a
-
-{
-    text-decoration: none;
+.border-gr {
+    border: green 1px solid;
 }
 
+.rad-7px {
+    border-radius: 7px;
 }
 
 .outline:hover {

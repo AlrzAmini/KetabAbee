@@ -1,7 +1,91 @@
-﻿@model KetabAbee.Application.DTOs.Admin.Products.Options.ShowBookInfoViewModel
+﻿@using KetabAbee.Application.Extensions
+@using KetabAbee.Application.Convertors
+@model KetabAbee.Application.DTOs.Admin.Products.Options.ShowBookInfoViewModel
 @{
     ViewData["Title"] = " جزییات کتاب " + Model.Name;
 }
-
+<div class="page-breadcrumbs margin-bottom-20">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li>
+            <a asp-controller="AdminBook" asp-action="Index">کتابها</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
+<div class="row">
+    <div></div>
+</div>
+<div class="card-header">
+    <h5 class="row-title before-success"><i class="fa fa-book success"></i>@ViewData["Title"]</h5>
+</div>
+<div class="card-body">
+    <div class="row bg-white padding-10 radius-bordered">
+        <div class="row">
+            <div class="col-md-1 alert alert-success fade in radius-bordered alert-shadowed margin-left-10">
+                <label class="font-150">عنوان:</label>
+                <h6 class="font-120">@Model.Name</h6>
+            </div>
+            <div class="col-md-1 alert alert-success fade in radius-bordered alert-shadowed margin-left-10">
+                <label class="font-150">نویسنده:</label>
+                <h6 class="font-120">@Model.Writer</h6>
+            </div>
+            <div class="col-md-1 alert alert-success fade in radius-bordered alert-shadowed margin-left-10">
+                <label class="font-150">ناشر:</label>
+                <h6 class="font-120">@Model.PublisherName</h6>
+            </div>
+            <div class="col-md-1 alert alert-success fade in radius-bordered alert-shadowed margin-left-10">
+                <label class="font-150">قیمت:</label>
+                <h6 class="font-120">@Model.Price.ToToman()</h6>
+            </div>
+            <div class="col-md-1 alert alert-success fade in radius-bordered alert-shadowed margin-left-10">
+                <label class="font-150">تعداد صفحه:</label>
+                <h6 class="font-120">@Model.PagesCount</h6>
+            </div>
+            <div class="col-md-1 alert alert-success fade in radius-bordered alert-shadowed margin-left-10">
+                <label class="font-150">جلد:</label>
+                <h6 class="font-120">@Model.CoverType.GetEnumName()</h6>
+            </div>
+            <div class="col-md-1 alert alert-info fade in radius-bordered alert-shadowed margin-left-10">
+                <label class="font-150">دسته بندی:</label>
+                <h6 class="font-120">@Model.GroupName</h6>
+            </div>
+            <div class="col-md-1 alert alert-info fade in radius-bordered alert-shadowed margin-left-10">
+                <label class="font-150">دسته فرعی:</label>
+                <h6 class="font-120">@Model.SubGroupName</h6>
+            </div>
+            <div class="col-md-1 alert alert-info fade in radius-bordered alert-shadowed margin-left-10">
+                <label class="font-150">دسته فرعی 2:</label>
+                <h6 class="font-120">@Model.SubGroup2Name</h6>
+            </div>
+            <div class="col-md-1 alert alert-info fade in radius-bordered alert-shadowed margin-left-10">
+                <label class="font-150">موجودی:</label>
+                <h6 class="font-120">@Model.Inventory</h6>
+            </div>
+            <div class="col-md-1 alert alert-info fade in radius-bordered alert-shadowed margin-left-10">
+                <label class="font-150">محدوده سنی:</label>
+                <h6 class="font-120">@Model.AgeRange.GetEnumName()</h6>
+            </div>
+        </div>
+        <div class="row padding-20">
+            <div class="col-md-12 alert alert-success fade in radius-bordered alert-shadowed">
+                <label class="font-150">خلاصه:</label>
+                <h6 class="font-120">@Html.Raw(Model.Abstract)</h6>
+            </div>
+        </div>
+        <div class="row padding-10">
+            <div class="col-md-6 alert alert-success fade in radius-bordered alert-shadowed">
+                <label class="font-150">توضیح صفحه:</label>
+                <h6 class="font-120">@Model.PageDescription</h6>
+            </div>
+            <div class="col-md-6 img-fluid img-responsive">
+                <img alt="@Model.Name" src="/images/Book/thumb/@Model.ImageName" class="img-thumbnail rounded" />
+            </div>
+        </div>
+    </div>
+</div>
 
 
