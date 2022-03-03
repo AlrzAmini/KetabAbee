@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using KetabAbee.Data.Context;
 using KetabAbee.Domain.Interfaces;
 using KetabAbee.Domain.Models.Products;
+using KetabAbee.Domain.Models.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace KetabAbee.Data.Repository
@@ -345,6 +346,14 @@ namespace KetabAbee.Data.Repository
         public bool IsNotPublisherNameUnique(string publisherName)
         {
             return GetAllPublisherNames().Any(n => n == publisherName);
+        }
+
+        public List<int> GetBookUserIds(int bookId)
+        {
+            return _context.UserBooks
+                .Where(ub => ub.BookId == bookId)
+                .Select(ub => ub.UserId)
+                .ToList();
         }
     }
 }

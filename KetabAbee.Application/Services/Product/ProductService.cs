@@ -8,10 +8,12 @@ using KetabAbee.Application.Const;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs.Admin.Products.Book;
 using KetabAbee.Application.DTOs.Admin.Products.Book.Publishers;
+using KetabAbee.Application.DTOs.Admin.Products.Options;
 using KetabAbee.Application.DTOs.Book;
 using KetabAbee.Application.DTOs.Paging;
 using KetabAbee.Application.Generators;
 using KetabAbee.Application.Interfaces.Product;
+using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Security;
 using KetabAbee.Domain.Interfaces;
 using KetabAbee.Domain.Models.Products;
@@ -24,10 +26,12 @@ namespace KetabAbee.Application.Services.Product
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
+        private readonly IUserRepository _userRepository;
 
-        public ProductService(IProductRepository productRepository)
+        public ProductService(IProductRepository productRepository, IUserRepository userRepository)
         {
             _productRepository = productRepository;
+            _userRepository = userRepository;
         }
 
         public bool AddGroup(ProductGroup group)
@@ -886,6 +890,32 @@ namespace KetabAbee.Application.Services.Product
         public bool IsNotPublisherNameUnique(string publisherName)
         {
             return _productRepository.IsNotPublisherNameUnique(publisherName);
+        }
+
+        public List<BookUsersViewModel> GetBookUsers(int bookId)
+        {
+            var userIds = _productRepository.GetBookUserIds(bookId);
+            if (!userIds.Any())
+            {
+                return new List<BookUsersViewModel>();
+            }
+
+            var users = new List<Domain.Models.User.User>();
+            foreach (var id in userIds)
+            {
+                var user = _userRepository.GetUserById(id);
+                if (user != null)
+                {
+                    users.Add(_userRepository.GetUserById(id));
+                }
+            }
+
+            return users.Select(u => new BookUsersViewModel
+            {
+                UserName = u.UserName,
+                UserId = u.UserId,
+                UserImageName = u.AvatarName
+            }).ToList();
         }
     }
 }

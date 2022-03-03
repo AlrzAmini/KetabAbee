@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Admin.Products.Book;
 using KetabAbee.Application.DTOs.Admin.Products.Book.Publishers;
+using KetabAbee.Application.DTOs.Admin.Products.Options;
 using KetabAbee.Application.DTOs.Book;
 using KetabAbee.Domain.Models.Products;
 using Microsoft.AspNetCore.Http;
@@ -145,6 +146,12 @@ namespace KetabAbee.Application.Interfaces.Product
         float GetBookAverageScore(int bookId);
 
         int SatisfiedBookBuyersPercent(int bookId);
+
+        #endregion
+
+        #region Book Options
+
+        List<BookUsersViewModel> GetBookUsers(int bookId);
 
         #endregion
     }

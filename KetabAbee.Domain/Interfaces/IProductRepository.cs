@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Domain.Models.Products;
+using KetabAbee.Domain.Models.User;
 
 namespace KetabAbee.Domain.Interfaces
 {
@@ -120,6 +121,12 @@ namespace KetabAbee.Domain.Interfaces
         int SatisfiedBookBuyersPercent(int bookId);
 
         float SumBookAverageScores(int bookId);
+
+        #endregion
+
+        #region Book Options
+
+        List<int> GetBookUserIds(int bookId);
 
         #endregion
     }
