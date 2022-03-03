@@ -196,9 +196,10 @@
                                 <img alt="@book.Name" src="/images/Book/thumb/@book.ImageName" class="img-fluid width-50" />
                             </td>
                             <td>
-                                <a class="btn btn-success" asp-controller="AdminBook" asp-action="ChangeInventory" asp-route-bookId="@book.BookId"> تغییر موجودی</a>
-                                <a class="btn btn-info" asp-controller="AdminBook" asp-action="EditBook" asp-route-bookId="@book.BookId">ویرایش</a>
-                                <a class="btn btn-danger" asp-controller="AdminBook" asp-action="DeleteBook" onclick="return confirm('از حذف این کتاب اطمینان دارید ؟')" asp-route-bookId="@book.BookId">حذف</a>
+                                <a class="btn btn-palegreen btn-block" asp-controller="AdminBook" asp-action="BookInfo" asp-route-bookId="@book.BookId"> <i class="fa fa-info"></i></a>
+                                <a class="btn btn-info btn-block" asp-controller="AdminBook" asp-action="EditBook" asp-route-bookId="@book.BookId"><i class="fa fa-edit"></i></a>
+                                <a class="btn btn-danger btn-block" asp-controller="AdminBook" asp-action="DeleteBook" onclick="return confirm('از حذف این کتاب اطمینان دارید ؟')" asp-route-bookId="@book.BookId"><i class="fa fa-trash"></i></a>
+                                <a class="btn btn-success btn-block" asp-controller="AdminBook" asp-action="ChangeInventory" asp-route-bookId="@book.BookId">تغییر موجودی</a>
                             </td>
                         </tr>
                     }

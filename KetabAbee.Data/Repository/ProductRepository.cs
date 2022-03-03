@@ -355,5 +355,15 @@ namespace KetabAbee.Data.Repository
                 .Select(ub => ub.UserId)
                 .ToList();
         }
+
+        public Book GetBookByIdWithIncludes(int bookId)
+        {
+            return _context.Books
+                .Include(b => b.Group)
+                .Include(b => b.SubGroup)
+                .Include(b => b.SubGroup2)
+                .Include(b => b.Publisher)
+                .FirstOrDefault(b => b.BookId == bookId);
+        }
     }
 }

@@ -153,6 +153,8 @@ namespace KetabAbee.Application.Interfaces.Product
 
         List<BookUsersViewModel> GetBookUsers(int bookId);
 
+        ShowBookInfoViewModel GetBookForShowInAdminBookInfo(int bookId);
+
         #endregion
     }
 }

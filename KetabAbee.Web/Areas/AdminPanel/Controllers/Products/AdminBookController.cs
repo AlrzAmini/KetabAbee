@@ -409,7 +409,12 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
         [HttpGet("BookInfo/{bookId}")]
         public IActionResult BookInfo(int bookId)
         {
-            return View();
+            var book = _productService.GetBookForShowInAdminBookInfo(bookId);
+            if (!string.IsNullOrEmpty(book.Name)) return View(book);
+
+            TempData["ErrorMessage"] = "کتاب مورد نظر یافت نشد";
+            return RedirectToAction("Index");
+
         }
 
         #endregion

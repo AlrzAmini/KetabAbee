@@ -917,5 +917,33 @@ namespace KetabAbee.Application.Services.Product
                 UserImageName = u.AvatarName
             }).ToList();
         }
+
+        public ShowBookInfoViewModel GetBookForShowInAdminBookInfo(int bookId)
+        {
+            var book = _productRepository.GetBookByIdWithIncludes(bookId);
+            if (book == null)
+            {
+                return new ShowBookInfoViewModel();
+            }
+
+            return new ShowBookInfoViewModel
+            {
+                BookId = book.BookId,
+                Name = book.Name,
+                ImageName = book.ImageName,
+                Abstract = book.Abstract,
+                AgeRange = book.AgeRange,
+                CoverType = book.CoverType,
+                GroupName = book.Group.GroupTitle,
+                Inventory = book.Inventory,
+                PageDescription = book.PageDescription,
+                PagesCount = book.PagesCount,
+                Price = book.Price,
+                PublisherName = book.Publisher.PublisherName,
+                Writer = book.Writer,
+                SubGroup2Name = book.SubGroup2.GroupTitle,
+                SubGroupName = book.SubGroup.GroupTitle
+            };
+        }
     }
 }

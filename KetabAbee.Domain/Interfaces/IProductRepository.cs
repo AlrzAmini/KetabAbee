@@ -128,6 +128,8 @@ namespace KetabAbee.Domain.Interfaces
 
         List<int> GetBookUserIds(int bookId);
 
+        Book GetBookByIdWithIncludes(int bookId);
+
         #endregion
     }
 }
