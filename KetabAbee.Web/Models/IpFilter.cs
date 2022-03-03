@@ -23,11 +23,11 @@ namespace KetabAbee.Web.Models
         public async Task Invoke(HttpContext context)
         {
             _userService = (IUserService)context.RequestServices.GetService(typeof(IUserService));
-            var ipAddress = context.GetUserIp();
-            var blackList = _userService?.GetBannedIps();
 
-            if (blackList != null)
+            if (_userService != null)
             {
+                var ipAddress = context.GetUserIp();
+                var blackList = await _userService?.GetBannedIps();
                 var isInBlackListIpList = blackList
                     .Any(ip => ip == ipAddress);
                 if (isInBlackListIpList)

@@ -155,6 +155,8 @@ namespace KetabAbee.Application.Interfaces.Product
 
         ShowBookInfoViewModel GetBookForShowInAdminBookInfo(int bookId);
 
+        int GetLotteryWinner(int bookId);
+
         #endregion
     }
 }

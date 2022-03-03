@@ -353,6 +353,7 @@ namespace KetabAbee.Data.Repository
             return _context.UserBooks
                 .Where(ub => ub.BookId == bookId)
                 .Select(ub => ub.UserId)
+                .Distinct()
                 .ToList();
         }
 

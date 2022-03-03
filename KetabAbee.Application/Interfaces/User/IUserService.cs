@@ -124,7 +124,7 @@ namespace KetabAbee.Application.Interfaces.User
 
         FreeUserIpResult FreeUser(int userId);
 
-        List<string> GetBannedIps();
+       Task<List<string>> GetBannedIps();
 
         Domain.Models.User.User CreateNewEmailActiveCodeForUser(int userId);
 

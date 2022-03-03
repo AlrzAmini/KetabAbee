@@ -4,3 +4,48 @@
 }
 
 
+<div class="col-xs-12 col-md-12">
+    <div class="well with-header with-footer">
+        <div class="header bordered-pink">
+            @ViewData["Title"]
+        </div>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        آی دی
+                    </th>
+                    <th>
+                        <i class="fa fa-user"></i> کاربر
+                    </th>
+                    <th>
+                        تصویر کاربر
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>
+                                @user.UserId
+                            </td>
+                            <td>
+                                <a asp-controller="AdminUser" asp-action="UserInfo" asp-route-userId="@user.UserId">@user.UserName</a>
+                            </td>
+                            <td>
+                                <div class="col-md-3">
+                                    <a asp-controller="AdminUser" asp-action="UserInfo" asp-route-userId="@user.UserId">
+                                        <img alt="product" class="img-thumbnail img-fluid width-50 rounded" src="/Avatar/thumb/@user.UserImageName" />
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

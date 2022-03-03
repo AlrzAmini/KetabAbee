@@ -56,7 +56,7 @@ namespace KetabAbee.Data.Repository
 
         public async Task<User> IsUserRegistered(string email, string password)
         {
-            return await Task.FromResult(_context.Users.SingleOrDefault(u => u.Email == email && u.Password == password));
+            return await _context.Users.SingleOrDefaultAsync(u => u.Email == email && u.Password == password);
         }
 
         //public bool ActiveAccountByEmail(string emailActiveCode)
@@ -296,9 +296,9 @@ namespace KetabAbee.Data.Repository
                 .ToList();
         }
 
-        public List<BannedIp> GetBannedIps()
+        public async Task<List<BannedIp>> GetBannedIps()
         {
-            return _context.BannedIps.ToList();
+            return await _context.BannedIps.ToListAsync();
         }
 
         public void AddIpToBannedIps(int userId, string userIp)

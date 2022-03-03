@@ -17,7 +17,12 @@
     </ul>
 </div>
 <div class="row">
-    <div></div>
+    <div class="col-md-2">
+        <a class="btn btn-primary btn-block tooltip-primary" data-toggle="tooltip" data-placement="top" data-original-title="لیست خریداران کتاب" asp-controller="AdminBookOptions" asp-action="BookBuyers" asp-route-bookId="@Model.BookId"><i class="fa fa-users"></i></a>
+    </div>
+    <div class="col-md-2">
+        <a class="btn btn-success tooltip-success btn-block" data-toggle="tooltip" data-placement="top" data-original-title="قرعه کشی بین خریداران کتاب" asp-controller="AdminBookOptions" asp-action="Lottery" asp-route-bookId="@Model.BookId"><i class="fa fa-gift"></i></a>
+    </div>
 </div>
 <div class="card-header">
     <h5 class="row-title before-success"><i class="fa fa-book success"></i>@ViewData["Title"]</h5>

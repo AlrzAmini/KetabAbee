@@ -926,7 +926,7 @@ namespace KetabAbee.Application.Services.Product
                 return new ShowBookInfoViewModel();
             }
 
-            return new ShowBookInfoViewModel
+            var bookInfo = new ShowBookInfoViewModel
             {
                 BookId = book.BookId,
                 Name = book.Name,
@@ -941,9 +941,24 @@ namespace KetabAbee.Application.Services.Product
                 Price = book.Price,
                 PublisherName = book.Publisher.PublisherName,
                 Writer = book.Writer,
-                SubGroup2Name = book.SubGroup2.GroupTitle,
                 SubGroupName = book.SubGroup.GroupTitle
             };
+            if (book.SubGroup2 != null)
+            {
+                bookInfo.SubGroup2Name = book.SubGroup2.GroupTitle;
+            }
+
+            return bookInfo;
+        }
+
+        public int GetLotteryWinner(int bookId)
+        {
+            var bookUserIds = _productRepository.GetBookUserIds(bookId).ToArray();
+
+            var r = new Random();
+            var result = bookUserIds[r.Next(bookUserIds.Length)];
+
+            return result;
         }
     }
 }

@@ -800,9 +800,10 @@ namespace KetabAbee.Application.Services.User
 
         }
 
-        public List<string> GetBannedIps()
+        public async Task<List<string>> GetBannedIps()
         {
-            return _userRepository.GetBannedIps().Select(b => b.Ip).ToList();
+            var userIps = await _userRepository.GetBannedIps();
+            return userIps.Select(b => b.Ip).ToList();
         }
 
         public FreeUserIpResult FreeUser(int userId)
