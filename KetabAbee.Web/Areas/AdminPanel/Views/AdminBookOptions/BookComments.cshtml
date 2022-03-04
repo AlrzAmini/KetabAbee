@@ -1,0 +1,83 @@
+﻿@using KetabAbee.Application.Convertors
+@model List<KetabAbee.Application.DTOs.Admin.Products.Options.ProductCommentForShowInAdminBookInfoViewModel>
+@{
+    ViewData["Title"] = "نظرات " + Model[0].ProductName;
+}
+
+<div class="col-xs-12 col-md-12">
+    <div class="well with-header with-footer">
+        <div class="header bordered-pink">
+            @ViewData["Title"]
+        </div>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        شماره
+                    </th>
+                    <th>
+                        <i class="fa fa-book"></i> محصول
+                    </th>
+                    <th>
+                        <i class="fa fa-user"></i> فرستنده
+                    </th>
+                    <th>
+                        ایمیل فرستنده
+                    </th>
+                    <th>
+                        آی دی فرستنده
+                    </th>
+                    <th>
+                        آی پی فرستنده
+                    </th>
+                    <th>
+                        ادمین خوانده
+                    </th>
+                    <th>
+                        متن
+                    </th>
+                    <th>
+                        تاریخ ثبت
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var comment in Model)
+                    {
+                        <tr>
+                            <td>
+                                @comment.CommentId
+                            </td>
+                            <td>
+                                @comment.ProductName
+                            </td>
+                            <td>
+                                @comment.SenderName
+                            </td>
+                            <td>
+                                @comment.SenderEmail
+                            </td>
+                            <td>
+                                @comment.SenderId
+                            </td>
+                            <td>
+                                @comment.SenderIp
+                            </td>
+                            <td>
+                                @(comment.IsReadByAdmin ? "بله" : "خیر")
+                            </td>
+                            <td>
+                                @comment.CommentBody
+                            </td>
+                            <td>
+                                @comment.SendDate.ToIraniDate() ساعت @comment.SendDate.GetHourAndMinutes()
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

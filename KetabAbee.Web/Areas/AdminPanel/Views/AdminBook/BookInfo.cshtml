@@ -21,8 +21,18 @@
         <a class="btn btn-primary btn-block tooltip-primary" data-toggle="tooltip" data-placement="top" data-original-title="لیست خریداران کتاب" asp-controller="AdminBookOptions" asp-action="BookBuyers" asp-route-bookId="@Model.BookId"><i class="fa fa-users"></i></a>
     </div>
     <div class="col-md-2">
-        <a class="btn btn-success tooltip-success btn-block" data-toggle="tooltip" data-placement="top" data-original-title="قرعه کشی بین خریداران کتاب" asp-controller="AdminBookOptions" asp-action="Lottery" asp-route-bookId="@Model.BookId"><i class="fa fa-gift"></i></a>
+        <div class="buttons-preview">
+            <button class="btn btn-success tooltip-success btn-block" data-toggle="tooltip" data-placement="top" data-original-title="قرعه کشی بین خریداران کتاب" onclick="javascript: Notify($(imgdiv).html(), 'top-right', '10000', 'success', 'fa-gift', true); return false;"><i class="fa fa-gift"></i></button>
+            <div id="imgdiv" style="display:none"><span id="winner-gift" style="padding-left:10px;"></span></div>
+        </div>
     </div>
+    <div class="col-md-2">
+        <a class="btn btn-info btn-block tooltip-info" data-toggle="tooltip" data-placement="top" data-original-title="لیست کامنت های این کتاب" asp-controller="AdminBookOptions" asp-action="BookComments" asp-route-bookId="@Model.BookId"><i class="fa fa-comment"></i></a>
+    </div>
+    <div class="col-md-2">
+        <a class="btn btn-danger btn-block tooltip-danger" data-toggle="tooltip" data-placement="top" data-original-title="حذف کامنت های این کتاب" onclick="return confirm('از حذف کامنت های این کتاب اطمینان دارید ؟')" asp-controller="AdminBookOptions" asp-action="DeleteBookComments" asp-route-bookId="@Model.BookId"><i class="fa fa-trash"></i></a>
+    </div>
+
 </div>
 <div class="card-header">
     <h5 class="row-title before-success"><i class="fa fa-book success"></i>@ViewData["Title"]</h5>
@@ -92,5 +102,20 @@
         </div>
     </div>
 </div>
+@section Scripts
+{
+    <script src="/Admin/js/toastr/toastr.js"></script>
+    <script src="/js/jquery.unobtrusive-ajax.min.js"></script>
 
+    <script>
+        $.ajax({
+            url: "/Admin/Book/Option/@Model.BookId/Lottery-json?bookId=" + @Model.BookId,
+            type: "GET",
+            success: function (data) {
+                $("#winner-gift").html(data);
+            }
+        });
+
+    </script>
+}
 

@@ -27,11 +27,13 @@ namespace KetabAbee.Application.Services.Product
     {
         private readonly IProductRepository _productRepository;
         private readonly IUserRepository _userRepository;
+        private readonly ICommentRepository _commentRepository;
 
-        public ProductService(IProductRepository productRepository, IUserRepository userRepository)
+        public ProductService(IProductRepository productRepository, IUserRepository userRepository, ICommentRepository commentRepository)
         {
             _productRepository = productRepository;
             _userRepository = userRepository;
+            _commentRepository = commentRepository;
         }
 
         public bool AddGroup(ProductGroup group)
@@ -954,11 +956,55 @@ namespace KetabAbee.Application.Services.Product
         public int GetLotteryWinner(int bookId)
         {
             var bookUserIds = _productRepository.GetBookUserIds(bookId).ToArray();
+            if (!bookUserIds.Any())
+            {
+                return default;
+            }
 
             var r = new Random();
             var result = bookUserIds[r.Next(bookUserIds.Length)];
 
             return result;
+        }
+
+        public async Task<DeleteProductCommentsResult> DeleteAllProductComments(int bookId)
+        {
+            try
+            {
+                var productCommentIds = await _productRepository.GetAllProductCommentIds(bookId);
+                if (!productCommentIds.Any())
+                {
+                    return DeleteProductCommentsResult.NotHaveComment;
+                }
+
+                foreach (var id in productCommentIds)
+                {
+                    _commentRepository.DeleteComment(id);
+                }
+                
+                return DeleteProductCommentsResult.Success;
+            }
+            catch
+            {
+                return DeleteProductCommentsResult.Error;
+            }
+        }
+
+        public IEnumerable<ProductCommentForShowInAdminBookInfoViewModel> GetProductCommentsForAdminInBookInfo(int bookId)
+        {
+            return _commentRepository.GetProductComments(bookId)
+                .Select(c => new ProductCommentForShowInAdminBookInfoViewModel
+                {
+                    CommentBody = c.Body,
+                    CommentId = c.CommentId,
+                    IsReadByAdmin = c.IsReadByAdmin,
+                    SendDate = c.SendDate,
+                    ProductName = c.Product.Name,
+                    SenderName = c.UserName,
+                    SenderIp = c.UserIp,
+                    SenderEmail = c.Email,
+                    SenderId = c.UserId
+                });
         }
     }
 }

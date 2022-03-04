@@ -41,4 +41,11 @@ namespace KetabAbee.Application.DTOs.Admin.Products.Options
 
         public int? Inventory { get; set; }
     }
+
+    public enum DeleteProductCommentsResult
+    {
+        Success,
+        NotHaveComment,
+        Error
+    }
 }

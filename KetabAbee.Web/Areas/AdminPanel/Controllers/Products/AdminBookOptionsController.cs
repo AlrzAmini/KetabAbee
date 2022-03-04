@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KetabAbee.Application.Const;
+using KetabAbee.Application.DTOs.Admin.Products.Options;
 using KetabAbee.Application.Interfaces.Product;
+using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Security;
 
 namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
@@ -16,10 +18,12 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
         #region constructor
 
         private readonly IProductService _productService;
+        private readonly IUserService _userService;
 
-        public AdminBookOptionsController(IProductService productService)
+        public AdminBookOptionsController(IProductService productService, IUserService userService)
         {
             _productService = productService;
+            _userService = userService;
         }
 
         #endregion
@@ -40,13 +44,57 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
 
         #region Lottery
 
-        [HttpGet("{bookId}/Lottery")]
+        [HttpGet("{bookId}/Lottery-json")]
         public IActionResult Lottery(int bookId)
         {
             var winnerId = _productService.GetLotteryWinner(bookId);
+            if (winnerId == 0)
+            {
+                const string res = "این کتاب خریداری جهت قرعه کشی ندارد";
+                return new JsonResult(res);
+            }
+            var winnerName = _userService.GetUserNameByUserId(winnerId);
+            var result = $"برنده قرعه کشی  {winnerName} با آی دی ' {winnerId} ' است";
 
-            var sa = winnerId;
-            return View();
+            return new JsonResult(result);
+        }
+
+        #endregion
+
+        #region book comments
+
+        [HttpGet("{bookId}/Comments")]
+        public IActionResult BookComments(int bookId)
+        {
+            var productComments = _productService.GetProductCommentsForAdminInBookInfo(bookId).ToList();
+            if (productComments.Any()) return View(productComments);
+
+            TempData["WarningMessage"] = "نظری برای این محصول ثبت نشده است";
+            return RedirectToAction("BookInfo", "AdminBook", new { bookId });
+
+        }
+
+        #endregion
+
+        #region delete all book comments
+
+        public async Task<IActionResult> DeleteBookComments(int bookId)
+        {
+            var res = await _productService.DeleteAllProductComments(bookId);
+            switch (res)
+            {
+                case DeleteProductCommentsResult.Success:
+                    TempData["SuccessMessage"] = "تمام نظرات این محصول حذف شد";
+                    return RedirectToAction("BookInfo", "AdminBook", new { bookId });
+                case DeleteProductCommentsResult.NotHaveComment:
+                    TempData["WarningMessage"] = "نظری برای این محصول ثبت نشده است";
+                    return RedirectToAction("BookInfo", "AdminBook", new { bookId });
+                case DeleteProductCommentsResult.Error:
+                    TempData["ErrorMessage"] = "مشکلی در حذف نظرات رخ داد";
+                    return RedirectToAction("BookInfo", "AdminBook", new { bookId });
+                default:
+                    return RedirectToAction("BookInfo", "AdminBook", new { bookId });
+            }
         }
 
         #endregion

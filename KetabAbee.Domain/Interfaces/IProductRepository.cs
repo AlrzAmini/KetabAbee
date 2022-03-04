@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Domain.Models.Comment.ProductComment;
 using KetabAbee.Domain.Models.Products;
 using KetabAbee.Domain.Models.User;
 
@@ -129,6 +130,8 @@ namespace KetabAbee.Domain.Interfaces
         List<int> GetBookUserIds(int bookId);
 
         Book GetBookByIdWithIncludes(int bookId);
+
+        Task<List<int>> GetAllProductCommentIds(int bookId);
 
         #endregion
     }

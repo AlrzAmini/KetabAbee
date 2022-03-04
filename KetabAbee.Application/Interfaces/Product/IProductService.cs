@@ -157,6 +157,10 @@ namespace KetabAbee.Application.Interfaces.Product
 
         int GetLotteryWinner(int bookId);
 
+        Task<DeleteProductCommentsResult> DeleteAllProductComments(int bookId);
+
+        IEnumerable<ProductCommentForShowInAdminBookInfoViewModel> GetProductCommentsForAdminInBookInfo(int bookId);
+
         #endregion
     }
 }

@@ -80,6 +80,7 @@ namespace KetabAbee.Data.Repository
         {
             return _context.ProductComments.Include(c => c.User)
                 .Include(c => c.Answers)
+                .Include(c => c.Product)
                 .Where(c => c.ProductId == productId)
                 .OrderByDescending(c => c.SendDate);
         }
@@ -149,9 +150,9 @@ namespace KetabAbee.Data.Repository
         public IEnumerable<ProductComment> GetComments()
         {
             return _context.ProductComments
-                .Include(c=>c.Product)
-                .Include(c=>c.Answers)
-                .OrderByDescending(c=>c.SendDate);
+                .Include(c => c.Product)
+                .Include(c => c.Answers)
+                .OrderByDescending(c => c.SendDate);
         }
 
         public List<string> GetCommentsBodies()
@@ -163,7 +164,7 @@ namespace KetabAbee.Data.Repository
         {
             return _context.ProductCommentAnswers
                 .Where(a => a.CommentId == commentId)
-                .OrderByDescending(a=>a.SendDate);
+                .OrderByDescending(a => a.SendDate);
         }
     }
 }

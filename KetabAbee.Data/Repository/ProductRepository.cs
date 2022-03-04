@@ -366,5 +366,12 @@ namespace KetabAbee.Data.Repository
                 .Include(b => b.Publisher)
                 .FirstOrDefault(b => b.BookId == bookId);
         }
+
+        public async Task<List<int>> GetAllProductCommentIds(int bookId)
+        {
+            return await _context.ProductComments
+                .Where(c => c.ProductId == bookId)
+                .Select(c => c.CommentId).ToListAsync();
+        }
     }
 }
