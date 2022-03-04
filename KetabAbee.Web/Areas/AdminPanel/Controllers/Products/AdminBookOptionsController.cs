@@ -114,5 +114,21 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
         }
 
         #endregion
+
+        #region book scores
+
+        [HttpGet("{bookId}/Scores")]
+        public async Task<IActionResult> BookScores(int bookId)
+        {
+            var scoreList = await _productService.GetAllBookScores(bookId);
+            ViewBag.BookAverageScore = _productService.GetBookAverageScore(bookId);
+            if (scoreList.Any()) return View(scoreList);
+
+            TempData["WarningMessage"] = "امتیازی برای این محصول ثبت نشده است";
+            return RedirectToAction("BookInfo", "AdminBook", new { bookId });
+
+        }
+
+        #endregion
     }
 }

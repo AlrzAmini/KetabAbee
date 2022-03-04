@@ -135,6 +135,8 @@ namespace KetabAbee.Domain.Interfaces
 
         Task<List<User>> GetAllBookSelectedToFavorites(int bookId);
 
+        Task<List<BookScore>> GetAllBookScores(int bookId);
+
         #endregion
     }
 }

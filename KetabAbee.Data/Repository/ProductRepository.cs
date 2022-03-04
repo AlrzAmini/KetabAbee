@@ -381,5 +381,14 @@ namespace KetabAbee.Data.Repository
                 .Where(f => f.BookId == bookId)
                 .Select(f => f.User).ToListAsync();
         }
+
+        public async Task<List<BookScore>> GetAllBookScores(int bookId)
+        {
+            return await _context.BookScores
+                .Include(s=>s.User)
+                .Include(s=>s.Book)
+                .Where(s => s.BookId == bookId)
+                .ToListAsync();
+        }
     }
 }

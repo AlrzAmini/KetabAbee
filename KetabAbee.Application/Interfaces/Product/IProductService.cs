@@ -163,6 +163,8 @@ namespace KetabAbee.Application.Interfaces.Product
 
         Task<List<BookSelectedToFavoriteUsersViewModel>> GetAllBookSelectedToFavorites(int bookId);
 
+        Task<List<BookScoreViewModel>> GetAllBookScores(int bookId);
+
         #endregion
     }
 }

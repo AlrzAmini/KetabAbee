@@ -1,0 +1,80 @@
+﻿@using KetabAbee.Application.Convertors
+@model List<KetabAbee.Application.DTOs.Admin.Products.Options.BookScoreViewModel>
+@{
+    ViewData["Title"] = "امتیاز های کتاب "  + Model[0].BookName;
+}
+
+<div class="alert alert-info fade in radius-bordered alert-shadowed">
+    <p class="font-110">میانگین امتیاز کتاب : @ViewBag.BookAverageScore</p>
+</div>
+<div class="col-xs-12 col-md-12">
+    <div class="well with-header with-footer">
+        <div class="header bordered-pink">
+            @ViewData["Title"]
+        </div>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        شماره
+                    </th>
+                    <th>
+                        <i class="fa fa-book"></i> محصول
+                    </th>
+                    <th>
+                        <i class="fa fa-user"></i> ثبت کننده
+                    </th>
+                    <th>
+                        محتوا
+                    </th>
+                    <th>
+                        کیفیت
+                    </th>
+                    <th>
+                        میانگین امتیاز
+                    </th>
+                    <th>
+                        تاریخ ثبت
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var score in Model)
+                    {
+                        <tr>
+                            <td>
+                                @score.ScoreId
+                            </td>
+                            <td>
+                                <a class="btn btn-link" asp-controller="AdminBook" asp-action="BookInfo" asp-route-bookId="@score.BookId">@score.BookName</a>
+                            </td>
+                            <td>
+                                <a class="btn btn-link" asp-controller="AdminUser" asp-action="UserInfo" asp-route-userId="@score.BookId">@score.UserName</a>
+                                <ol class="dd-list">
+                                    <li class="dd-item bordered-palegreen" data-id="7">
+                                        <div class="dd-handle"> @score.UserIp </div>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td>
+                                @score.ContentScore
+                            </td>
+                            <td>
+                                @score.QualityScore
+                            </td>
+                            <td>
+                                @score.AverageScores
+                            </td>
+                            <td>
+                                @score.ScoreDate.ToIraniDate()
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
