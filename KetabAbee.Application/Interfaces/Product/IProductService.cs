@@ -161,6 +161,8 @@ namespace KetabAbee.Application.Interfaces.Product
 
         IEnumerable<ProductCommentForShowInAdminBookInfoViewModel> GetProductCommentsForAdminInBookInfo(int bookId);
 
+        Task<List<BookSelectedToFavoriteUsersViewModel>> GetAllBookSelectedToFavorites(int bookId);
+
         #endregion
     }
 }

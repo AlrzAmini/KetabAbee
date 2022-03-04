@@ -373,5 +373,13 @@ namespace KetabAbee.Data.Repository
                 .Where(c => c.ProductId == bookId)
                 .Select(c => c.CommentId).ToListAsync();
         }
+
+        public async Task<List<User>> GetAllBookSelectedToFavorites(int bookId)
+        {
+            return await _context.FavoriteBooks
+                .Include(f => f.User)
+                .Where(f => f.BookId == bookId)
+                .Select(f => f.User).ToListAsync();
+        }
     }
 }

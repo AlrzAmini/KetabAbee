@@ -981,7 +981,7 @@ namespace KetabAbee.Application.Services.Product
                 {
                     _commentRepository.DeleteComment(id);
                 }
-                
+
                 return DeleteProductCommentsResult.Success;
             }
             catch
@@ -1005,6 +1005,17 @@ namespace KetabAbee.Application.Services.Product
                     SenderEmail = c.Email,
                     SenderId = c.UserId
                 });
+        }
+
+        public async Task<List<BookSelectedToFavoriteUsersViewModel>> GetAllBookSelectedToFavorites(int bookId)
+        {
+            var usersList = await _productRepository.GetAllBookSelectedToFavorites(bookId);
+            return usersList.Select(q => new BookSelectedToFavoriteUsersViewModel
+            {
+                UserName = q.UserName,
+                ImageName = q.AvatarName,
+                UserId = q.UserId
+            }).ToList();
         }
     }
 }

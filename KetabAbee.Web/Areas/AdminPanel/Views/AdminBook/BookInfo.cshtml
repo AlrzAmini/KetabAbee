@@ -30,9 +30,14 @@
         <a class="btn btn-info btn-block tooltip-info" data-toggle="tooltip" data-placement="top" data-original-title="لیست کامنت های این کتاب" asp-controller="AdminBookOptions" asp-action="BookComments" asp-route-bookId="@Model.BookId"><i class="fa fa-comment"></i></a>
     </div>
     <div class="col-md-2">
-        <a class="btn btn-danger btn-block tooltip-danger" data-toggle="tooltip" data-placement="top" data-original-title="حذف کامنت های این کتاب" onclick="return confirm('از حذف کامنت های این کتاب اطمینان دارید ؟')" asp-controller="AdminBookOptions" asp-action="DeleteBookComments" asp-route-bookId="@Model.BookId"><i class="fa fa-trash"></i></a>
+        <a class="btn btn-warning btn-block tooltip-warning" data-toggle="tooltip" data-placement="top" data-original-title="حذف کامنت های این کتاب" onclick="return confirm('از حذف کامنت های این کتاب اطمینان دارید ؟')" asp-controller="AdminBookOptions" asp-action="DeleteBookComments" asp-route-bookId="@Model.BookId"><i class="fa fa-trash"></i></a>
     </div>
-
+    <div class="col-md-2">
+        <a class="btn btn-maroon btn-block tooltip-maroon" data-toggle="tooltip" data-placement="top" data-original-title="موارد پسندیده شدن" asp-controller="AdminBookOptions" asp-action="UsersLikeThisBook" asp-route-bookId="@Model.BookId"><i class="fa fa-heart"></i></a>
+    </div>
+    <div class="col-md-2">
+        <a class="btn btn-magenta btn-block tooltip-magenta" data-toggle="tooltip" data-placement="top" data-original-title="امتیاز های ثبت شده برای این کتاب" asp-controller="AdminBookOptions" asp-action="UsersLikeThisBook" asp-route-bookId="@Model.BookId"><i class="fa fa-sort-numeric-asc"></i></a>
+    </div>
 </div>
 <div class="card-header">
     <h5 class="row-title before-success"><i class="fa fa-book success"></i>@ViewData["Title"]</h5>

@@ -98,5 +98,21 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
         }
 
         #endregion
+
+        #region favorite users
+
+        [HttpGet("{bookId}/FavUsers")]
+        public async Task<IActionResult> UsersLikeThisBook(int bookId)
+        {
+            var usersList = await _productService.GetAllBookSelectedToFavorites(bookId);
+            ViewBag.UsersCount = usersList.Count;
+            if (usersList.Any()) return View(usersList);
+
+            TempData["WarningMessage"] = "لایکی برای این محصول ثبت نشده است";
+            return RedirectToAction("BookInfo", "AdminBook", new { bookId });
+
+        }
+
+        #endregion
     }
 }
