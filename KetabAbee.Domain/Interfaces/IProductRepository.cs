@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Domain.Models.Comment.ProductComment;
+using KetabAbee.Domain.Models.Order;
 using KetabAbee.Domain.Models.Products;
 using KetabAbee.Domain.Models.User;
 
@@ -136,6 +137,8 @@ namespace KetabAbee.Domain.Interfaces
         Task<List<User>> GetAllBookSelectedToFavorites(int bookId);
 
         Task<List<BookScore>> GetAllBookScores(int bookId);
+
+        Task<List<OrderDetail>> GetAllBookOrderDetails(int bookId);
 
         #endregion
     }

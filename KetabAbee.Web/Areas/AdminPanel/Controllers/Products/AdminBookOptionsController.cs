@@ -130,5 +130,21 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
         }
 
         #endregion
+
+        #region book orders
+
+        [HttpGet("{bookId}/Orders")]
+        public async Task<IActionResult> BookOrders(int bookId)
+        {
+            var orderList = await _productService.GetAllBookOrderDetails(bookId);
+            ViewBag.OrdersCount = orderList.Count;
+            if (orderList.Any()) return View(orderList);
+
+            TempData["WarningMessage"] = "سفارشی برای این محصول ثبت نشده است";
+            return RedirectToAction("BookInfo", "AdminBook", new { bookId });
+
+        }
+
+        #endregion
     }
 }

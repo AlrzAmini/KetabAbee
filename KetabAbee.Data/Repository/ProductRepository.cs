@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Data.Context;
 using KetabAbee.Domain.Interfaces;
+using KetabAbee.Domain.Models.Order;
 using KetabAbee.Domain.Models.Products;
 using KetabAbee.Domain.Models.User;
 using Microsoft.EntityFrameworkCore;
@@ -388,6 +389,17 @@ namespace KetabAbee.Data.Repository
                 .Include(s=>s.User)
                 .Include(s=>s.Book)
                 .Where(s => s.BookId == bookId)
+                .ToListAsync();
+        }
+
+        public async Task<List<OrderDetail>> GetAllBookOrderDetails(int bookId)
+        {
+            return await _context.OrderDetails
+                .Include(d=>d.Order)
+                .ThenInclude(o=>o.User)
+                .Include(d=>d.Product)
+                .Where(d => d.ProductId == bookId)
+                .OrderByDescending(d=>d.DetailId)
                 .ToListAsync();
         }
     }

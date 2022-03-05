@@ -27,7 +27,7 @@ namespace KetabAbee.Web.Models
             if (_userService != null)
             {
                 var ipAddress = context.GetUserIp();
-                var blackList = await _userService?.GetBannedIps();
+                var blackList = await _userService.GetBannedIps();
                 var isInBlackListIpList = blackList
                     .Any(ip => ip == ipAddress);
                 if (isInBlackListIpList)

@@ -71,7 +71,7 @@ namespace KetabAbee.Web
             services.AddDbContext<KetabAbeeDBContext>(option =>
             {
                 option.UseSqlServer(Configuration.GetConnectionString("KetabAbeeDBConnection"));
-            });
+            }, ServiceLifetime.Transient);
 
             #endregion
 
@@ -83,7 +83,7 @@ namespace KetabAbee.Web
 
             #region ReCaptcha
 
-            services.AddHttpClient<ICaptchaValidator,GoogleReCaptchaValidator>();
+            services.AddHttpClient<ICaptchaValidator, GoogleReCaptchaValidator>();
 
             #endregion
         }

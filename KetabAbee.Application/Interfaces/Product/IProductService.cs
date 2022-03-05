@@ -165,6 +165,8 @@ namespace KetabAbee.Application.Interfaces.Product
 
         Task<List<BookScoreViewModel>> GetAllBookScores(int bookId);
 
+        Task<List<BookOrderViewModel>> GetAllBookOrderDetails(int bookId);
+
         #endregion
     }
 }

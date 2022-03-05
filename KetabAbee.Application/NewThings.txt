@@ -5,3 +5,6 @@ var url = $"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Pa
 
 // get user ip
 historicoCookie.EnderecoIp = this.HttpContext.Connection.RemoteIpAddress.ToString();
+
+// phone checker
+ [RegularExpression(@"^([0-9]{11})$", ErrorMessage = "موبایل وارد شده معتبر نمی باشد")]

@@ -1035,5 +1035,28 @@ namespace KetabAbee.Application.Services.Product
                 ScoreId = s.ScoreId
             }).ToList();
         }
+
+        public async Task<List<BookOrderViewModel>> GetAllBookOrderDetails(int bookId)
+        {
+            var orderDetails = await _productRepository.GetAllBookOrderDetails(bookId);
+            if (!orderDetails.Any())
+            {
+                return new List<BookOrderViewModel>();
+            }
+
+            return orderDetails.Select(d => new BookOrderViewModel
+            {
+                UserName = d.Order.User.UserName,
+                OrderId = d.OrderId,
+                Price = d.Price,
+                CreateDate = d.Order.CreateDate,
+                ProductId = d.ProductId,
+                Count = d.Count,
+                DetailId = d.DetailId,
+                ProductName = d.Product.Name,
+                IsFinally = d.Order.IsFinally,
+                UserId = d.Order.UserId
+            }).ToList();
+        }
     }
 }

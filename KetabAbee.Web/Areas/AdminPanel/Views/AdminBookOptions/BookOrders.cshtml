@@ -1,0 +1,95 @@
+﻿@using KetabAbee.Application.Convertors
+@model List<KetabAbee.Application.DTOs.Admin.Products.Options.BookOrderViewModel>
+@{
+    ViewData["Title"] = " سفارشات " + Model[0].ProductName;
+}
+
+<div class="alert alert-info fade in radius-bordered alert-shadowed">
+    <p class="font-110">تعداد سفارش کتاب : @ViewBag.OrdersCount</p>
+</div>
+<div class="col-xs-12 col-md-12">
+    <div class="well with-header with-footer">
+        <div class="header bordered-pink">
+            @ViewData["Title"]
+        </div>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        شماره
+                    </th>
+                    <th>
+                        <i class="fa fa-car-tilt"></i> شماره سفارش
+                    </th>
+                    <th>
+                        <i class="fa fa-user"></i> ثبت کننده
+                    </th>
+                    <th>
+                        محصول
+                    </th>
+                    <th>
+                        تعداد
+                    </th>
+                    <th>
+                        قیمت
+                    </th>
+                    <th>
+                        وضعیت
+                    </th>
+                    <th>
+                        تاریخ ایجاد
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var order in Model)
+                    {
+                        <tr>
+                            <td>
+                                @order.DetailId
+                            </td>
+                            <td>
+                                <a class="btn btn-link" asp-controller="AdminOrder" asp-action="OrderInfo" asp-route-orderId="@order.OrderId">@order.OrderId</a>
+                            </td>
+                            <td>
+                                <a class="btn btn-link" asp-controller="AdminUser" asp-action="UserInfo" asp-route-userId="@order.UserId">@order.UserName</a>
+                            </td>
+                            <td>
+                                <a class="btn btn-link" asp-controller="AdminBook" asp-action="BookInfo" asp-route-bookId="@order.ProductId">@order.ProductName</a>
+                            </td>
+                            <td>
+                                @order.Count
+                            </td>
+                            <td>
+                                @order.Price.ToToman()
+                            </td>
+                            <td>
+                                @if (order.IsFinally)
+                                {
+                                    <p class="text-success">
+                                        نهایی شده
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p class="text-danger">
+                                        نهایی نشده
+                                    </p>
+                                }
+                            </td>
+                            <td>
+                                @order.CreateDate.ToShamsi() ساعت @order.CreateDate.GetHourAndMinutes()
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
