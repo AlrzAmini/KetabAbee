@@ -39,7 +39,7 @@ namespace KetabAbee.Application.Interfaces.Order
 
         Domain.Models.Order.Order GetOrderById(int orderId);
 
-        Domain.Models.Order.Order GetUserUnFinalOrder(int userId);
+        Task<Domain.Models.Order.Order> GetUserUnFinalOrder(int userId);
 
         #region Admin
 

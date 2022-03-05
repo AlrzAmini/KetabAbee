@@ -28,9 +28,9 @@ namespace KetabAbee.Data.Repository
             return true;
         }
 
-        public IEnumerable<ProductGroup> GetGroups()
+        public async Task<List<ProductGroup>> GetGroups()
         {
-            return _context.ProductGroups;
+            return await _context.ProductGroups.ToListAsync();
         }
 
         public IEnumerable<ProductGroup> GetGroupsForAdmin()

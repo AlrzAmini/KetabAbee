@@ -1,16 +1,16 @@
-﻿@using System.Security.Claims
-@using KetabAbee.Application.Const
+﻿@using KetabAbee.Domain.Models.Order
 @using KetabAbee.Application.Convertors
 @using KetabAbee.Application.Extensions
-@using KetabAbee.Application.Interfaces.Order
-@using KetabAbee.Application.Interfaces.Permission
-@using KetabAbee.Application.Interfaces.Product
-@using KetabAbee.Application.Interfaces.User
-@inject IUserService _userService;
-@inject IOrderService _orderService;
-@inject IProductService _productService;
-@inject IPermissionService _permissionService;
-<!-- Page Header -->
+
+@{
+    bool isAuth = ViewBag.IsAuth;
+    bool isAdmin = false;
+    if (isAuth)
+    {
+        isAdmin = ViewBag.IsAdmin;
+    }
+}
+
 <header class="page-header">
     <div class="top-page-header">
         <div class="container">
@@ -25,11 +25,11 @@
                 </div>
                 <div class="top-header-menu">
                     <ul>
-                        @if (User.Identity.IsAuthenticated && _permissionService.CheckPermission(PerIds.AdminPanel, User.GetUserEmail()))
+                        @if (isAuth && isAdmin)
                         {
                             <li><a asp-area="AdminPanel" asp-controller="AdminHome" asp-action="Home">پنل ادمین</a></li>
                         }
-                        @if (User.Identity.IsAuthenticated)
+                        @if (isAuth)
                         {
                             <li><a asp-area="UserPanel" asp-controller="Order" asp-action="Orders"> سفارش ها</a></li>
                         }
@@ -53,40 +53,21 @@
                         <input type="text" name="Search" id="book--name--auto" placeholder="نام محصول را جستجو کنید...">
                         <i class="far fa-search"></i>
                     </form>
-                    @*<div class="search-result">
-                            <ul class="search-result-list">
-                                <li><a href="#">موبایل</a></li>
-                                <li><a href="#">سامسونگ</a></li>
-                                <li><a href="#">مودم</a></li>
-                                <li><a href="#">اپل</a></li>
-                                <li><a href="#">تلویزیون</a></li>
-                            </ul>
-                            <ul class="search-result-most-view">
-                                <li><a href="#">موبایل</a></li>
-                                <li><a href="#">سامسونگ</a></li>
-                                <li><a href="#">مودم</a></li>
-                                <li><a href="#">اپل</a></li>
-                                <li><a href="#">تلویزیون</a></li>
-                            </ul>
-                        </div>*@
                 </div>
             </div>
-
-
             <div class="user-items">
-                @if (User.Identity.IsAuthenticated)
+                @if (isAuth)
                 {
+                    var userCurrentOrder = ViewBag.UserCurrentOrder as Order;
+                    int userBookIdsCount = ViewBag.UserBookIdsCount;
+
                     <div class="user-item">
                         <a asp-area="UserPanel" asp-controller="UserPanel" asp-action="FavoriteBooks">
-                            @{
-                                var userBookIds = _userService.GetUserFavBookIds(User.GetUserId());
-                            }
                             <i class="fal fa-heart"></i>
-                            <span class="bag-items-number">@_productService.GetFavBooksByBookIds(userBookIds).Count()</span>
+                            <span class="bag-items-number">@userBookIdsCount</span>
                         </a>
                     </div>
 
-                    var userCurrentOrder = _orderService.GetUserUnFinalOrder(User.GetUserId());
                     if (userCurrentOrder != null && userCurrentOrder.OrderDetails.Any())
                     {
                         <div class="user-item cart-list">
@@ -163,8 +144,10 @@
                     }
                 }
                 <div class="user-item account">
-                    @if (User.Identity.IsAuthenticated)
+                    @if (isAuth)
                     {
+                        var avatarName = ViewBag.AvatarName as string;
+                        long walletBalance = ViewBag.UserWalletBalance;
                         <a asp-controller="UserPanel" asp-action="Dashboard">
                             @User.Identity.Name
                             <i class="fad fa-chevron-down text-sm mr-1"></i>
@@ -174,7 +157,7 @@
                                 <a asp-controller="UserPanel" asp-action="Dashboard" class="d-block">
                                     <span class="header-profile-dropdown-user">
                                         <span class="header-profile-dropdown-user-img">
-                                            <img class="rounded-circle" src="/avatar/thumb/@_userService.GetAvatarNameByUserId(User.GetUserId())" alt="avatar">
+                                            <img class="rounded-circle" src="/Avatar/thumb/@avatarName" alt="avatar">
                                         </span>
                                         <span class="header-profile-dropdown-user-info">
                                             <text class="header-profile-dropdown-user-name">
@@ -190,7 +173,7 @@
                                         <span class="header-profile-dropdown-account-item">
                                             <span class="header-profile-dropdown-account-item-title">موجودی</span>
                                             <span class="header-profile-dropdown-account-item-amount">
-                                                <span class="header-profile-dropdown-account-item-amount-number">@_userService.GetUserWalletBalance(User.GetUserId()).ToTooman()</span>
+                                                <span class="header-profile-dropdown-account-item-amount-number">@walletBalance.ToToman()</span>
                                             </span>
                                         </span>
                                     </span>
@@ -271,236 +254,32 @@
         <partial name="_NavBar" />
     </div>
 </header>
-<!-- header responsive -->
 <div class="header-responsive fixed--header-top">
     <div class="header-top">
         <div class="side-navigation-wrapper">
             <button class="btn-toggle-side-navigation"><i class="far fa-bars"></i></button>
             <div class="side-navigation">
                 <div class="site-logo">
-                    <a href="#">
-                        <img src="/images/book.png" alt="logo">
+                    <a href="/">
+                        <img src="/images/logo.png" alt="logo">
                     </a>
                 </div>
                 <div class="divider"></div>
                 <ul class="not-list-children">
-                    <li><a href="#"><i class="fal fa-apple-crate"></i> سوپرمارکت</a></li>
-                    <li><a href="#"><i class="fal fa-badge-percent"></i> پیشنهادها و تخفیف ها</a></li>
-                    <li><a href="#"><i class="fal fa-plus-square"></i> فروشنده شوید</a></li>
-                    <li><a href="#"><i class="fal fa-question"></i> سوالی دارید؟</a></li>
+                    <li><a href="/"><i class="fal fa-home"></i> خانه</a></li>
+                    <li><a asp-controller="Blog" asp-action="Index"><i class="fal fa-blog"></i>مجله آبی</a></li>
+                    <li><a asp-controller="Home" asp-action="RequestBranch"><i class="fal fa-store"></i>درخواست شعبه</a></li>
+                    <li><a asp-controller="Home" asp-action="ContactUs"><i class="fal fa-send-back"></i>ارتباط با ما</a></li>
+                    <li><a asp-controller="Home" asp-action="AboutUs"><i class="fal fa-file"></i>درباره ما</a></li>
                 </ul>
                 <div class="divider"></div>
-                <ul class="category-list">
-                    <li class="has-children">
-                        <a href="#">کالای دیجیتال</a>
-                        <ul>
-                            <li class="has-children">
-                                <a href="#">لوازم جانبی گوشی</a>
-                                <ul>
-                                    <li><a href="#">کیف و کاور گوشی</a></li>
-                                    <li><a href="#">پاور بانک (شارژر همراه)</a></li>
-                                    <li><a href="#">پایه نگهدارنده گوشی</a></li>
-                                </ul>
-                            </li>
-                            <li class="has-children">
-                                <a href="#">گوشی موبایل</a>
-                                <ul>
-                                    <li><a href="#">سامسونگ</a></li>
-                                    <li><a href="#">هوآوی</a></li>
-                                    <li><a href="#">اپل</a></li>
-                                    <li><a href="#">شیائومی</a></li>
-                                    <li><a href="#">آنر</a></li>
-                                    <li><a href="#">نوکیا</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">هدفون، هدست، هندزفری</a>
-                            </li>
-                            <li>
-                                <a href="#">اسپیکر بلوتوث و با سیم</a>
-                            </li>
-                            <li class="has-children">
-                                <a href="#">دوربین</a>
-                                <ul>
-                                    <li><a href="#">دوربین عکاسی دیجیتال</a></li>
-                                    <li><a href="#">دوربین‌ ورزشی و فیلم برداری</a></li>
-                                    <li><a href="#">دوربین‌ چاپ سریع</a></li>
-                                </ul>
-                            </li>
-                            <li class="has-children">
-                                <a href="#">لوازم جانبی دوربین</a>
-                                <ul>
-                                    <li><a href="#">لنز</a></li>
-                                    <li><a href="#">کیف</a></li>
-                                    <li><a href="#">کارت حافظه</a></li>
-                                    <li><a href="#">کاغذ چاپ عکس</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="has-children">
-                        <a href="#">مد و پوشاک</a>
-                        <ul>
-                            <li><a href="#">لباس زنانه</a></li>
-                        </ul>
-                    </li>
-                    <li class="has-children">
-                        <a href="#">زیبایی و سلامت</a>
-                        <ul>
-                            <li class="has-children">
-                                <a href="#">لوازم جانبی گوشی</a>
-                                <ul>
-                                    <li><a href="#">کیف و کاور گوشی</a></li>
-                                    <li><a href="#">پاور بانک (شارژر همراه)</a></li>
-                                    <li><a href="#">پایه نگهدارنده گوشی</a></li>
-                                </ul>
-                            </li>
-                            <li class="has-children">
-                                <a href="#">گوشی موبایل</a>
-                                <ul>
-                                    <li><a href="#">سامسونگ</a></li>
-                                    <li><a href="#">هوآوی</a></li>
-                                    <li><a href="#">اپل</a></li>
-                                    <li><a href="#">شیائومی</a></li>
-                                    <li><a href="#">آنر</a></li>
-                                    <li><a href="#">نوکیا</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">هدفون، هدست، هندزفری</a>
-                            </li>
-                            <li>
-                                <a href="#">اسپیکر بلوتوث و با سیم</a>
-                            </li>
-                            <li class="has-children">
-                                <a href="#">دوربین</a>
-                                <ul>
-                                    <li><a href="#">دوربین عکاسی دیجیتال</a></li>
-                                    <li><a href="#">دوربین‌ ورزشی و فیلم برداری</a></li>
-                                    <li><a href="#">دوربین‌ چاپ سریع</a></li>
-                                </ul>
-                            </li>
-                            <li class="has-children">
-                                <a href="#">لوازم جانبی دوربین</a>
-                                <ul>
-                                    <li><a href="#">لنز</a></li>
-                                    <li><a href="#">کیف</a></li>
-                                    <li><a href="#">کارت حافظه</a></li>
-                                    <li><a href="#">کاغذ چاپ عکس</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="has-children">
-                        <a href="#">خانه و آشپزخانه</a>
-                        <ul>
-                            <li class="has-children">
-                                <a href="#">لوازم جانبی گوشی</a>
-                                <ul>
-                                    <li><a href="#">کیف و کاور گوشی</a></li>
-                                    <li><a href="#">پاور بانک (شارژر همراه)</a></li>
-                                    <li><a href="#">پایه نگهدارنده گوشی</a></li>
-                                </ul>
-                            </li>
-                            <li class="has-children">
-                                <a href="#">گوشی موبایل</a>
-                                <ul>
-                                    <li><a href="#">سامسونگ</a></li>
-                                    <li><a href="#">هوآوی</a></li>
-                                    <li><a href="#">اپل</a></li>
-                                    <li><a href="#">شیائومی</a></li>
-                                    <li><a href="#">آنر</a></li>
-                                    <li><a href="#">نوکیا</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">هدفون، هدست، هندزفری</a>
-                            </li>
-                            <li>
-                                <a href="#">اسپیکر بلوتوث و با سیم</a>
-                            </li>
-                            <li class="has-children">
-                                <a href="#">دوربین</a>
-                                <ul>
-                                    <li><a href="#">دوربین عکاسی دیجیتال</a></li>
-                                    <li><a href="#">دوربین‌ ورزشی و فیلم برداری</a></li>
-                                    <li><a href="#">دوربین‌ چاپ سریع</a></li>
-                                </ul>
-                            </li>
-                            <li class="has-children">
-                                <a href="#">لوازم جانبی دوربین</a>
-                                <ul>
-                                    <li><a href="#">لنز</a></li>
-                                    <li><a href="#">کیف</a></li>
-                                    <li><a href="#">کارت حافظه</a></li>
-                                    <li><a href="#">کاغذ چاپ عکس</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="has-children">
-                        <a href="#">کتاب،لوازم تحریر و هنر</a>
-                        <ul>
-                            <li class="has-children">
-                                <a href="#">لوازم جانبی گوشی</a>
-                                <ul>
-                                    <li><a href="#">کیف و کاور گوشی</a></li>
-                                    <li><a href="#">پاور بانک (شارژر همراه)</a></li>
-                                    <li><a href="#">پایه نگهدارنده گوشی</a></li>
-                                </ul>
-                            </li>
-                            <li class="has-children">
-                                <a href="#">گوشی موبایل</a>
-                                <ul>
-                                    <li><a href="#">سامسونگ</a></li>
-                                    <li><a href="#">هوآوی</a></li>
-                                    <li><a href="#">اپل</a></li>
-                                    <li><a href="#">شیائومی</a></li>
-                                    <li><a href="#">آنر</a></li>
-                                    <li><a href="#">نوکیا</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">هدفون، هدست، هندزفری</a>
-                            </li>
-                            <li>
-                                <a href="#">اسپیکر بلوتوث و با سیم</a>
-                            </li>
-                            <li class="has-children">
-                                <a href="#">دوربین</a>
-                                <ul>
-                                    <li><a href="#">دوربین عکاسی دیجیتال</a></li>
-                                    <li><a href="#">دوربین‌ ورزشی و فیلم برداری</a></li>
-                                    <li><a href="#">دوربین‌ چاپ سریع</a></li>
-                                </ul>
-                            </li>
-                            <li class="has-children">
-                                <a href="#">لوازم جانبی دوربین</a>
-                                <ul>
-                                    <li><a href="#">لنز</a></li>
-                                    <li><a href="#">کیف</a></li>
-                                    <li><a href="#">کارت حافظه</a></li>
-                                    <li><a href="#">کاغذ چاپ عکس</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#">اسباب بازی،کودک و نوزاد</a>
-                    </li>
-                    <li>
-                        <a href="#">ورزش و سفر</a>
-                    </li>
-                    <li>
-                        <a href="#">خوردنی و آشامیدنی</a>
-                    </li>
-                </ul>
+                @await Component.InvokeAsync("ProductGroupMobileComponent")
             </div>
             <div class="overlay-side-navigation"></div>
         </div>
         <div class="site-logo">
-            <a href="#">
-                <img src="images/logo.png" alt="logo">
+            <a href="/">
+                <img src="/images/logo.png" alt="logo">
             </a>
         </div>
         <div class="header-tools">
@@ -733,32 +512,13 @@
     </div>
     <div class="header-bottom">
         <div class="search-box">
-            <form action="#">
-                <input type="text" placeholder="نام محصول یا برند را جستجو کنید...">
-                <i class="far fa-search"></i>
+            <form id="search-form" asp-controller="Book" asp-action="Index" method="get">
+                <input type="text" name="Search" id="book--name--auto" placeholder="نام محصول را جستجو کنید...">
+                <i onclick="search()" class="far fa-search"></i>
             </form>
-            <div class="search-result">
-                <ul class="search-result-list">
-                    <li><a href="#">موبایل</a></li>
-                    <li><a href="#">سامسونگ</a></li>
-                    <li><a href="#">مودم</a></li>
-                    <li><a href="#">اپل</a></li>
-                    <li><a href="#">تلویزیون</a></li>
-                </ul>
-                <ul class="search-result-most-view">
-                    <li><a href="#">موبایل</a></li>
-                    <li><a href="#">سامسونگ</a></li>
-                    <li><a href="#">مودم</a></li>
-                    <li><a href="#">اپل</a></li>
-                    <li><a href="#">تلویزیون</a></li>
-                </ul>
-            </div>
         </div>
         <div class="header-tools">
             <a href="#"><i class="far fa-user-circle"></i></a>
         </div>
     </div>
 </div>
-<!-- end header responsive -->
-<!-- end Page Header -->
-<!-- Page Content -->

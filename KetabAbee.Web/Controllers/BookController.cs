@@ -9,6 +9,7 @@ using KetabAbee.Domain.Models.Products;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Comment;
 using GoogleReCaptcha.V3.Interface;
 using KetabAbee.Application.Const;
@@ -38,9 +39,9 @@ namespace KetabAbee.Web.Controllers
         #region Books & Filter
 
         [HttpGet("Books")]
-        public IActionResult Index(FilterBookListViewModel filter)
+        public async Task<IActionResult> Index(FilterBookListViewModel filter)
         {
-            ViewBag.Groups = _productService.GetGroups().ToList();
+            ViewBag.Groups = await _productService.GetGroups();
             ViewBag.Publishers = _productService.GetPublishers().ToList();
 
             return View(_productService.GetBooksForIndex(filter));

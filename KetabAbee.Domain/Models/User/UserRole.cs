@@ -18,6 +18,8 @@ namespace KetabAbee.Domain.Models.User
 
         public int RoleId { get; set; }
 
+        public bool IsDelete { get; set; }
+
         #endregion
 
         #region Relations

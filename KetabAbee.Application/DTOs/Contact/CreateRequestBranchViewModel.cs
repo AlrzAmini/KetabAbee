@@ -14,10 +14,8 @@ namespace KetabAbee.Application.DTOs.Contact
         public string Name { get; set; }
 
         [DisplayName("تلفن")]
-        [MaxLength(20, ErrorMessage = "شماره تلفن وارد شده صحیح نیست")]
-        [MinLength(10, ErrorMessage = "شماره تلفن وارد شده صحیح نیست")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
-        [Phone(ErrorMessage = "شماره تلفن وارد شده صحیح نیست")]
+        [RegularExpression(@"^([0-9]{11})$", ErrorMessage = "شماره تلفن وارد شده صحیح نیست")]
         public string Phone { get; set; }
 
         [DisplayName("ایمیل")]

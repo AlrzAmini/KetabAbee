@@ -12,5 +12,10 @@ namespace KetabAbee.Application.Convertors
         {
             return value.ToString("#,0") + " تومان ";
         }
+
+        public static string ToToman(this long value)
+        {
+            return value.ToString("#,0") + " تومان ";
+        }
     }
 }

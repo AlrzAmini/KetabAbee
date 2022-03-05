@@ -41,9 +41,9 @@ namespace KetabAbee.Application.Services.Product
             return _productRepository.AddGroup(group);
         }
 
-        public IEnumerable<ProductGroup> GetGroups()
+        public async Task<List<ProductGroup>> GetGroups()
         {
-            return _productRepository.GetGroups();
+            return await _productRepository.GetGroups();
         }
 
         public IEnumerable<ProductGroup> GetGroupsForAdmin()
@@ -86,24 +86,28 @@ namespace KetabAbee.Application.Services.Product
             return _productRepository.GetPublishers();
         }
 
-        public List<SelectListItem> GetGroupsForAddBook()
+        public async Task<List<SelectListItem>> GetGroupsForAddBook()
         {
-            return _productRepository.GetGroups().Where(g => g.ParentId == null)
-                .Select(g => new SelectListItem
-                {
-                    Value = g.GroupId.ToString(),
-                    Text = g.GroupTitle
-                }).ToList();
+            var groups = await _productRepository.GetGroups();
+
+            return groups.Where(g => g.ParentId == null)
+             .Select(g => new SelectListItem
+             {
+                 Value = g.GroupId.ToString(),
+                 Text = g.GroupTitle
+             }).ToList();
         }
 
-        public List<SelectListItem> GetSubGroupsForAddBook(int groupId)
+        public async Task<List<SelectListItem>> GetSubGroupsForAddBook(int groupId)
         {
-            return _productRepository.GetGroups().Where(g => g.ParentId == groupId)
-                .Select(g => new SelectListItem
-                {
-                    Value = g.GroupId.ToString(),
-                    Text = g.GroupTitle
-                }).ToList();
+            var groups = await _productRepository.GetGroups();
+
+            return groups.Where(g => g.ParentId == groupId)
+             .Select(g => new SelectListItem
+             {
+                 Value = g.GroupId.ToString(),
+                 Text = g.GroupTitle
+             }).ToList();
         }
 
         public bool AddBook(Book book, IFormFile imgFile)

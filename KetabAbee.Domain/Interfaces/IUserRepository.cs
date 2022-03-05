@@ -51,9 +51,13 @@ namespace KetabAbee.Domain.Interfaces
 
         bool IsOldPasswordCorrect(string username, string oldPass);
 
-        List<int> GetUserFavBookIds(int userId);
+        Task<List<int>> GetUserFavBookIds(int userId);
 
         string GetUserAddressByUserId(int userId);
+
+        Task<long> GetUserWalletBalance(int userId);
+
+        Task<int> GetUserFavBookCount(int userId);
 
         #endregion
 
@@ -61,7 +65,7 @@ namespace KetabAbee.Domain.Interfaces
 
         User GetUserById(int userId);
 
-        string GetAvatarNameByUserId(int userId);
+        Task<string> GetAvatarNameByUserId(int userId);
 
         IEnumerable<User> GetUsersForEditAdmin();
 

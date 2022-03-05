@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs;
 using KetabAbee.Application.Extensions;
@@ -9,6 +10,7 @@ using KetabAbee.Application.Interfaces.Order;
 using KetabAbee.Application.Interfaces.Product;
 using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Security;
+using KetabAbee.Domain.Models.Task;
 
 namespace KetabAbee.Web.Areas.UserPanel.Controllers
 {
@@ -34,11 +36,11 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         #region Dashborad
 
         [HttpGet("UserPanel/Dashboard")]
-        public IActionResult Dashboard()
+        public async Task<IActionResult> Dashboard()
         {
             var userInfo = _userService.GetInfoByUserEmail(User.GetUserEmail());
 
-            var userBookIds = _userService.GetUserFavBookIds(User.GetUserId());
+            var userBookIds = await _userService.GetUserFavBookIds(User.GetUserId());
 
             ViewBag.FavBooks = _productService.GetFavBooksByBookIds(userBookIds).ToList();
 
@@ -136,9 +138,9 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         #region Favorites
 
         [HttpGet("UserPanel/Favorites")]
-        public IActionResult FavoriteBooks()
+        public async Task<IActionResult> FavoriteBooks()
         {
-            var userBookIds = _userService.GetUserFavBookIds(User.GetUserId()); 
+            var userBookIds = await _userService.GetUserFavBookIds(User.GetUserId()); 
             
             return View(_productService.GetFavBooksByBookIds(userBookIds).ToList());
         }

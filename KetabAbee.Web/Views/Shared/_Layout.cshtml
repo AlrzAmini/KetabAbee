@@ -18,7 +18,7 @@
 
     <div class="page-wrapper">
 
-        <partial name="_Header" />
+        @await Component.InvokeAsync("HeaderComponent")
 
         @RenderBody()
 

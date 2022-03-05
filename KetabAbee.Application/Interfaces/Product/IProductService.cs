@@ -17,7 +17,7 @@ namespace KetabAbee.Application.Interfaces.Product
     {
         #region Groups
 
-        IEnumerable<ProductGroup> GetGroups();
+        Task<List<ProductGroup>> GetGroups();
 
         IEnumerable<ProductGroup> GetGroupsForAdmin();
 
@@ -35,9 +35,9 @@ namespace KetabAbee.Application.Interfaces.Product
 
         #region Book
 
-        List<SelectListItem> GetGroupsForAddBook();
+        Task<List<SelectListItem>> GetGroupsForAddBook();
 
-        List<SelectListItem> GetSubGroupsForAddBook(int groupId);
+        Task<List<SelectListItem>> GetSubGroupsForAddBook(int groupId);
 
         IEnumerable<BookListViewModel> GetBestSellingBooks();
 

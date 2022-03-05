@@ -214,9 +214,9 @@ namespace KetabAbee.Application.Services.Order
             return _orderRepository.GetUserOrders(userId);
         }
 
-        public Domain.Models.Order.Order GetUserUnFinalOrder(int userId)
+        public async Task<Domain.Models.Order.Order> GetUserUnFinalOrder(int userId)
         {
-            return _orderRepository.GetUserUnFinalOrder(userId);
+            return await _orderRepository.GetUserUnFinalOrder(userId);
         }
 
         public bool PayByOrderId(int userId, int orderId)

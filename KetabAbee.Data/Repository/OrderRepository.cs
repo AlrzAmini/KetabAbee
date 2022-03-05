@@ -177,13 +177,13 @@ namespace KetabAbee.Data.Repository
                 .SingleOrDefault(o => o.OrderId == orderId);
         }
 
-        public Order GetUserUnFinalOrder(int userId)
+        public async Task<Order> GetUserUnFinalOrder(int userId)
         {
-            return _context.Orders
+            return await _context.Orders
                 .Include(o => o.OrderDetails)
                 .ThenInclude(d => d.Product)
                 .ThenInclude(p => p.Publisher)
-                .SingleOrDefault(o => o.UserId == userId && !o.IsFinally);
+                .FirstOrDefaultAsync(o => o.UserId == userId && !o.IsFinally);
         }
 
         public int GetLastNDaysOrdersCount(int n)

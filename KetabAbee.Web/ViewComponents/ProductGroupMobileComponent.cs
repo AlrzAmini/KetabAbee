@@ -7,18 +7,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KetabAbee.Web.ViewComponents
 {
-    public class ProductGroupComponent : ViewComponent
+    public class ProductGroupMobileComponent : ViewComponent
     {
         private readonly IProductService _productService;
 
-        public ProductGroupComponent(IProductService productService)
+        public ProductGroupMobileComponent(IProductService productService)
         {
             _productService = productService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            return View("ProductGroup", await _productService.GetGroups());
+            return View("ProductGroupMobile", await _productService.GetGroups());
         }
     }
 }

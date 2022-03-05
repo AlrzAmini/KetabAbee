@@ -41,7 +41,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
         #region Add Book
 
         [HttpGet("AddBook")]
-        public IActionResult AddBook()
+        public async Task<IActionResult> AddBook()
         {
             #region Publishers
 
@@ -63,7 +63,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
 
             #region Main Group
 
-            var groups = _productService.GetGroupsForAddBook();
+            var groups = await _productService.GetGroupsForAddBook();
             var selectGroups = new List<SelectListItem>
             {
                 new(){Text = "دسته بندی اصلی را انتخاب کنید",Value = ""}
@@ -75,7 +75,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
 
             #region Sub 1
 
-            var subGroups = _productService.GetSubGroupsForAddBook(int.Parse(groups.First().Value));
+            var subGroups = await _productService.GetSubGroupsForAddBook(int.Parse(groups.First().Value));
             var selectSubGroups = new List<SelectListItem>
             {
                 new(){Text = "دسته بندی فرعی اول را انتخاب کنید",Value = ""}
@@ -87,7 +87,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
 
             #region Sub 2
 
-            var sub2Groups = _productService.GetSubGroupsForAddBook(int.Parse(subGroups.First().Value));
+            var sub2Groups = await _productService.GetSubGroupsForAddBook(int.Parse(subGroups.First().Value));
             var selectSub2Groups = new List<SelectListItem>
             {
                 new(){Text = "دسته بندی فرعی دوم را انتخاب کنید",Value = ""}
@@ -101,7 +101,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
         }
 
         [HttpPost("AddBook")]
-        public IActionResult AddBook(Book book, IFormFile imgFile)
+        public async Task<IActionResult> AddBook(Book book, IFormFile imgFile)
         {
             if (!ModelState.IsValid)
             {
@@ -127,7 +127,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
 
                 #region Main Group
 
-                var groups = _productService.GetGroupsForAddBook();
+                var groups = await _productService.GetGroupsForAddBook();
                 var selectGroups = new List<SelectListItem>
                 {
                     new(){Text = "دسته بندی اصلی را انتخاب کنید",Value = ""}
@@ -139,7 +139,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
 
                 #region Sub 1
 
-                var subGroups = _productService.GetSubGroupsForAddBook(int.Parse(groups.First().Value));
+                var subGroups = await _productService.GetSubGroupsForAddBook(int.Parse(groups.First().Value));
                 var selectSubGroups = new List<SelectListItem>
                 {
                     new(){Text = "دسته بندی فرعی اول را انتخاب کنید",Value = ""}
@@ -151,7 +151,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
 
                 #region Sub 2
 
-                var sub2Groups = _productService.GetSubGroupsForAddBook(int.Parse(subGroups.First().Value));
+                var sub2Groups = await _productService.GetSubGroupsForAddBook(int.Parse(subGroups.First().Value));
                 var selectSub2Groups = new List<SelectListItem>
                 {
                     new(){Text = "دسته بندی فرعی دوم را انتخاب کنید",Value = ""}
@@ -224,7 +224,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
         #region Edit book
 
         [HttpGet("EditBook/{bookId}")]
-        public IActionResult EditBook(int bookId)
+        public async Task<IActionResult> EditBook(int bookId)
         {
             var book = _productService.GetBookById(bookId);
 
@@ -237,14 +237,14 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
 
             #region Sub 1
 
-            var sub1Groups = _productService.GetSubGroupsForAddBook(book.GroupId);
+            var sub1Groups = await _productService.GetSubGroupsForAddBook(book.GroupId);
             ViewBag.sub1Groups = new SelectList(sub1Groups, "Value", "Text", book.SubGroupId);
 
             #endregion
 
             #region Sub 2
 
-            var sub2Groups = _productService.GetSubGroupsForAddBook(book.SubGroupId);
+            var sub2Groups = await _productService.GetSubGroupsForAddBook(book.SubGroupId);
             ViewBag.sub2Groups = new SelectList(sub2Groups, "Value", "Text", book.SubGroup2Id);
 
             #endregion
@@ -260,7 +260,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
         }
 
         [HttpPost("EditBook/{bookId}")]
-        public IActionResult EditBook(Book book, IFormFile imgFile)
+        public async Task<IActionResult> EditBook(Book book, IFormFile imgFile)
         {
             if (!ModelState.IsValid)
             {
@@ -275,14 +275,14 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
 
                 #region Sub 1
 
-                var sub1Groups = _productService.GetSubGroupsForAddBook(book.GroupId);
+                var sub1Groups = await _productService.GetSubGroupsForAddBook(book.GroupId);
                 ViewBag.sub1Groups = new SelectList(sub1Groups, "Value", "Text", book.SubGroupId);
 
                 #endregion
 
                 #region Sub 2
 
-                var sub2Groups = _productService.GetSubGroupsForAddBook(book.SubGroupId);
+                var sub2Groups = await _productService.GetSubGroupsForAddBook(book.SubGroupId);
                 ViewBag.sub2Groups = new SelectList(sub2Groups, "Value", "Text", book.SubGroup2Id);
 
                 #endregion

@@ -14,7 +14,7 @@ namespace KetabAbee.Domain.Interfaces
     {
         #region Group
 
-        IEnumerable<ProductGroup> GetGroups();
+        Task<List<ProductGroup>> GetGroups();
 
         IEnumerable<ProductGroup> GetGroupsForAdmin();
 

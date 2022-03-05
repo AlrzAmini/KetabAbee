@@ -79,7 +79,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
 
             var roleIds = _userService.GetUserRoleIds(User.GetUserId());
             ViewBag.CurrentAdminTasks = _taskService.GetTasksForAdmin(roleIds);
-            
+
             #endregion
 
             return View();
@@ -89,23 +89,23 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
 
         #region Json
 
-        public IActionResult GetSubGroups(int id) // id = groupId
+        public async Task<IActionResult> GetSubGroups(int id) // id = groupId
         {
             var list = new List<SelectListItem>
             {
                 new(){Text = "دسته بندی فرعی اول را انتخاب کنید",Value = ""}
             };
-            list.AddRange(_productService.GetSubGroupsForAddBook(id));
+            list.AddRange(await _productService.GetSubGroupsForAddBook(id));
             return Json(new SelectList(list, "Value", "Text"));
         }
 
-        public IActionResult GetSubGroups2(int id) // id = sub id 1
+        public async Task<IActionResult> GetSubGroups2(int id) // id = sub id 1
         {
             var list = new List<SelectListItem>
             {
                 new(){Text = "دسته بندی فرعی دوم را انتخاب کنید",Value = ""}
             };
-            list.AddRange(_productService.GetSubGroupsForAddBook(id));
+            list.AddRange(await _productService.GetSubGroupsForAddBook(id));
             return Json(new SelectList(list, "Value", "Text"));
         }
 

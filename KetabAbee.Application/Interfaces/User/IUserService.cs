@@ -58,9 +58,11 @@ namespace KetabAbee.Application.Interfaces.User
 
         bool ChangePasswordInUserPanel(string username, string newPass);
 
-        List<int> GetUserFavBookIds(int userId);
+        Task<List<int>> GetUserFavBookIds(int userId);
 
         string GetUserAddressByUserId(int userId);
+
+        Task<int> GetUserFavBookCount(int userId);
 
         #endregion
 
@@ -72,7 +74,7 @@ namespace KetabAbee.Application.Interfaces.User
 
         bool DeleteUserById(int userId);
 
-        string GetAvatarNameByUserId(int userId);
+        Task<string> GetAvatarNameByUserId(int userId);
 
         int AddUser(AddUserFromAdminViewModel user, IFormFile imgFile);
 
@@ -116,7 +118,7 @@ namespace KetabAbee.Application.Interfaces.User
 
         bool UpdateUserWalletBalance(int userId);
 
-        long GetUserWalletBalance(int userId);
+        Task<long> GetUserWalletBalance(int userId);
 
         DeleteUserCommentsResult DeleteUserComments(int userId);
 

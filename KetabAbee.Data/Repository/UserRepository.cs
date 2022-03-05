@@ -122,11 +122,12 @@ namespace KetabAbee.Data.Repository
             return _context.Users.Find(userId);
         }
 
-        public string GetAvatarNameByUserId(int userId)
+        public async Task<string> GetAvatarNameByUserId(int userId)
         {
             try
             {
-                return _context.Users.FirstOrDefault(u => u.UserId == userId)?.AvatarName;
+                var user =  await _context.Users.FindAsync(userId);
+                return user.AvatarName;
             }
             catch
             {
@@ -160,10 +161,10 @@ namespace KetabAbee.Data.Repository
             return _context.Users.SingleOrDefault(u => u.UserId == userId)?.Mobile;
         }
 
-        public List<int> GetUserFavBookIds(int userId)
+        public async Task<List<int>> GetUserFavBookIds(int userId)
         {
-            return _context.FavoriteBooks.Where(f => f.UserId == userId)
-                .Select(f => f.BookId).ToList();
+            return await _context.FavoriteBooks.Where(f => f.UserId == userId)
+                .Select(f => f.BookId).ToListAsync();
         }
 
         public int AllUsersCount()
@@ -320,6 +321,17 @@ namespace KetabAbee.Data.Repository
         public BannedIp GetBannedIpByInfo(int userId, string ip)
         {
             return _context.BannedIps.FirstOrDefault(b => b.UserId == userId && b.Ip == ip);
+        }
+
+        public async Task<long> GetUserWalletBalance(int userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            return user.WalletBalance;
+        }
+
+        public async Task<int> GetUserFavBookCount(int userId)
+        {
+            return await _context.FavoriteBooks.CountAsync(f => f.UserId == userId);
         }
     }
 }

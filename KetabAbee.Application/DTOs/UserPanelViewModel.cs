@@ -44,8 +44,7 @@ namespace KetabAbee.Application.DTOs
 
         [DisplayName("موبایل")]
         [MaxLength(16, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
-        [Phone(ErrorMessage = "شماره تلفن وارد شده صحیح نیست")]
-        [MinLength(10,ErrorMessage = "شماره تلفن وارد شده صحیح نیست")]
+        [RegularExpression(@"^([0-9]{11})$", ErrorMessage = "شماره موبایل وارد شده صحیح نیست")]
         public string Mobile { get; set; }
 
         #endregion

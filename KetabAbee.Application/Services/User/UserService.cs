@@ -352,9 +352,9 @@ namespace KetabAbee.Application.Services.User
 
         }
 
-        public string GetAvatarNameByUserId(int userId)
+        public async Task<string> GetAvatarNameByUserId(int userId)
         {
-            return _userRepository.GetAvatarNameByUserId(userId);
+            return await _userRepository.GetAvatarNameByUserId(userId);
         }
 
         public int AddUser(AddUserFromAdminViewModel user, IFormFile imgFile)
@@ -551,9 +551,9 @@ namespace KetabAbee.Application.Services.User
             return charge;
         }
 
-        public List<int> GetUserFavBookIds(int userId)
+        public async Task<List<int>> GetUserFavBookIds(int userId)
         {
-            return _userRepository.GetUserFavBookIds(userId);
+            return await _userRepository.GetUserFavBookIds(userId);
         }
 
         public string GetUserAddressByUserId(int userId)
@@ -753,9 +753,9 @@ namespace KetabAbee.Application.Services.User
             return UpdateUser(user);
         }
 
-        public long GetUserWalletBalance(int userId)
+        public async Task<long> GetUserWalletBalance(int userId)
         {
-            return _userRepository.GetUserById(userId).WalletBalance;
+            return await _userRepository.GetUserWalletBalance(userId);
         }
 
         public DeleteUserCommentsResult DeleteUserComments(int userId)
@@ -843,6 +843,11 @@ namespace KetabAbee.Application.Services.User
             user.IsEmailActive = false;
 
             return UpdateUser(user) ? user : new Domain.Models.User.User();
+        }
+
+        public async Task<int> GetUserFavBookCount(int userId)
+        {
+            return await _userRepository.GetUserFavBookCount(userId);
         }
     }
 }
