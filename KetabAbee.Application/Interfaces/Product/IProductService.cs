@@ -167,6 +167,12 @@ namespace KetabAbee.Application.Interfaces.Product
 
         Task<List<BookOrderViewModel>> GetAllBookOrderDetails(int bookId);
 
+        Task<BestSellingsWithPagingViewModel> GetBestSellingBooksForAdmin(BestSellingsWithPagingViewModel model);
+
+        Task<MostLikedBooksViewModelWithPaging> GetMostLikedBooksForAdmin(MostLikedBooksViewModelWithPaging model);
+
+        Task<BestRatedBooksWithPaging> GetBestRatedBooksForAdmin(BestRatedBooksWithPaging model);
+
         #endregion
     }
 }

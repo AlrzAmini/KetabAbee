@@ -121,6 +121,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
         public async Task<IActionResult> BookScores(int bookId)
         {
             var scoreList = await _productService.GetAllBookScores(bookId);
+            var a = _productService.GetBookAverageScore(bookId);
             ViewBag.BookAverageScore = _productService.GetBookAverageScore(bookId);
             if (scoreList.Any()) return View(scoreList);
 
@@ -143,6 +144,57 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Products
             TempData["WarningMessage"] = "سفارشی برای این محصول ثبت نشده است";
             return RedirectToAction("BookInfo", "AdminBook", new { bookId });
 
+        }
+
+        #endregion
+
+        #region most selt books
+
+        [HttpGet("Best-Selling")]
+        public async Task<IActionResult> BestSellingBooks(BestSellingsWithPagingViewModel model)
+        {
+            var bestSellingBooks = await _productService.GetBestSellingBooksForAdmin(model);
+            if (bestSellingBooks.Books.Any())
+            {
+                return View(bestSellingBooks);
+            }
+
+            TempData["WarningMessage"] = "هنوز سفارشی ثبت نشده است";
+            return RedirectToAction("Index", "AdminBook");
+        }
+
+        #endregion
+
+        #region most liked books
+
+        [HttpGet("Most-Liked")]
+        public async Task<IActionResult> MostLikedBooks(MostLikedBooksViewModelWithPaging model)
+        {
+            var mostLikedBooks = await _productService.GetMostLikedBooksForAdmin(model);
+            if (mostLikedBooks.Books.Any())
+            {
+                return View(mostLikedBooks);
+            }
+
+            TempData["WarningMessage"] = "هنوز لایکی ثبت نشده است";
+            return RedirectToAction("Index", "AdminBook");
+        }
+
+        #endregion
+
+        #region most rated books
+
+        [HttpGet("Best-Rated")]
+        public async Task<IActionResult> BestRatedBooks(BestRatedBooksWithPaging model)
+        {
+            var bestRatedBooks = await _productService.GetBestRatedBooksForAdmin(model);
+            if (bestRatedBooks.Books.Any())
+            {
+                return View(bestRatedBooks);
+            }
+
+            TempData["WarningMessage"] = "هنوز امتیازی ثبت نشده است";
+            return RedirectToAction("Index", "AdminBook");
         }
 
         #endregion

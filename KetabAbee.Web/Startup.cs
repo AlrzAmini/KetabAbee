@@ -71,7 +71,7 @@ namespace KetabAbee.Web
             services.AddDbContext<KetabAbeeDBContext>(option =>
             {
                 option.UseSqlServer(Configuration.GetConnectionString("KetabAbeeDBConnection"));
-            }, ServiceLifetime.Transient);
+            });
 
             #endregion
 
@@ -91,6 +91,9 @@ namespace KetabAbee.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+            app.UseIpFilter();
+
             #region 404 control
 
             app.Use(async (context, next) =>
@@ -115,7 +118,7 @@ namespace KetabAbee.Web
                 app.UseHsts();
             }
 
-            app.UseIpFilter();
+            
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

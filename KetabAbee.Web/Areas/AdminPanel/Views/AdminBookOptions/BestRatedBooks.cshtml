@@ -1,0 +1,66 @@
+﻿@model KetabAbee.Application.DTOs.Admin.Products.Options.BestRatedBooksWithPaging
+@{
+    ViewData["Title"] = "کتابهایی با بیشترین امتیاز";
+}
+
+<div class="col-xs-12 col-md-12">
+    <div class="well with-header with-footer">
+        <div class="header bordered-pink">
+            @ViewData["Title"]
+        </div>
+        <form id="filterform" asp-controller="AdminBookOptions" asp-action="BestRatedBooks" method="get">
+            <input type="hidden" asp-for="PageNum" />
+        </form>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        <i class="fa fa-book"></i> محصول
+                    </th>
+                    <th>
+                        تصویر محصول
+                    </th>
+                    <th>
+                        مجموع نمرات کیفیت کالا
+                    </th>
+                    <th>
+                        مجموع نمرات محتوای کالا
+                    </th>
+                    <th>
+                        مجموع میانگین نمرات
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Books.Any())
+                {
+                    foreach (var book in Model.Books)
+                    {
+                        <tr>
+                            <td>
+                                <a asp-controller="AdminBook" asp-action="BookInfo" asp-route-bookId="@book.BookId">@book.BookName</a>
+                            </td>
+                            <td>
+                                <div class="col-md-3">
+                                    <a asp-controller="AdminBook" asp-action="BookInfo" asp-route-bookId="@book.BookId">
+                                        <img alt="product" class="img-thumbnail img-fluid width-50 rounded" src="/images/Book/thumb/@book.ImageName" />
+                                    </a>
+                                </div>
+                            </td>
+                            <td>
+                                @book.QualityScore
+                            </td>
+                            <td>
+                                @book.ContentScore
+                            </td>
+                            <td>
+                                @book.AverageScore
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <partial name="_AdminPaging" model="Model.GetCurrentPaging()" />
+</div>

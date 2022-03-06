@@ -140,6 +140,12 @@ namespace KetabAbee.Domain.Interfaces
 
         Task<List<OrderDetail>> GetAllBookOrderDetails(int bookId);
 
+        Task<List<Book>> GetBestSellingBooksForAdmin();
+
+        Task<List<Book>> GetMostLikedBooksForAdmin();
+
+        Task<List<Book>> GetBestRatedBooksForAdmin();
+
         #endregion
     }
 }

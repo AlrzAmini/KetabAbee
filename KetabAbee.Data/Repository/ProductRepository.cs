@@ -299,7 +299,7 @@ namespace KetabAbee.Data.Repository
             return _context.Books.Include(b => b.Publisher)
                 .Include(b => b.OrderDetails)
                 .Where(b => b.OrderDetails.Any() && b.OrderDetails.Count > 3)
-                .OrderByDescending(d => d.OrderDetails.Count)
+                .OrderByDescending(b => b.OrderDetails.Sum(d=>d.Count))
                 .Take(12);
         }
 
@@ -386,8 +386,8 @@ namespace KetabAbee.Data.Repository
         public async Task<List<BookScore>> GetAllBookScores(int bookId)
         {
             return await _context.BookScores
-                .Include(s=>s.User)
-                .Include(s=>s.Book)
+                .Include(s => s.User)
+                .Include(s => s.Book)
                 .Where(s => s.BookId == bookId)
                 .ToListAsync();
         }
@@ -395,11 +395,38 @@ namespace KetabAbee.Data.Repository
         public async Task<List<OrderDetail>> GetAllBookOrderDetails(int bookId)
         {
             return await _context.OrderDetails
-                .Include(d=>d.Order)
-                .ThenInclude(o=>o.User)
-                .Include(d=>d.Product)
+                .Include(d => d.Order)
+                .ThenInclude(o => o.User)
+                .Include(d => d.Product)
                 .Where(d => d.ProductId == bookId)
-                .OrderByDescending(d=>d.DetailId)
+                .OrderByDescending(d => d.DetailId)
+                .ToListAsync();
+        }
+
+        public async Task<List<Book>> GetBestSellingBooksForAdmin()
+        {
+            return await _context.Books
+                .Include(b => b.OrderDetails)
+                .Where(b => b.OrderDetails.Any())
+                .OrderByDescending(b => b.OrderDetails.Sum(d=>d.Count))
+                .ToListAsync();
+        }
+
+        public async Task<List<Book>> GetMostLikedBooksForAdmin()
+        {
+            return await _context.Books
+                .Include(b => b.FavoriteBook)
+                .Where(b => b.FavoriteBook.Any())
+                .OrderByDescending(b => b.FavoriteBook.Count(f => f.IsLiked))
+                .ToListAsync();
+        }
+
+        public async Task<List<Book>> GetBestRatedBooksForAdmin()
+        {
+            return await _context.Books
+                .Include(b => b.BookScores)
+                .Where(b => b.BookScores.Any())
+                .OrderByDescending(b => b.BookScores.Sum(s=>s.AverageScores))
                 .ToListAsync();
         }
     }

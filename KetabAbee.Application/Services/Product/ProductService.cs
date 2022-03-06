@@ -1062,5 +1062,61 @@ namespace KetabAbee.Application.Services.Product
                 UserId = d.Order.UserId
             }).ToList();
         }
+
+        public async Task<BestSellingsWithPagingViewModel> GetBestSellingBooksForAdmin(BestSellingsWithPagingViewModel model)
+        {
+            var query = await _productRepository.GetBestSellingBooksForAdmin();
+            var result = query.Select(q => new BestSellingBookViewModel
+            {
+                BookId = q.BookId,
+                ImageName = q.ImageName,
+                BookName = q.Name,
+                OrderCount = q.OrderDetails.Sum(d=>d.Count)
+            }).AsQueryable();
+
+            //paging
+            var pager = Pager.Build(model.PageNum, result.Count(), model.Take, model.PageCountAfterAndBefor);
+            var books = result.Paging(pager).ToList();
+
+            return model.SetPaging(pager).SetBooks(books);
+        }
+
+        public async Task<MostLikedBooksViewModelWithPaging> GetMostLikedBooksForAdmin(MostLikedBooksViewModelWithPaging model)
+        {
+            var query = await _productRepository.GetMostLikedBooksForAdmin();
+            var result = query.Select(q => new MostLikedBooksViewModel
+            {
+                BookId = q.BookId,
+                ImageName = q.ImageName,
+                BookName = q.Name,
+                LikesCount = q.FavoriteBook.Count(f=>f.IsLiked)
+            }).AsQueryable();
+
+            //paging
+            var pager = Pager.Build(model.PageNum, result.Count(), model.Take, model.PageCountAfterAndBefor);
+            var books = result.Paging(pager).ToList();
+
+            return model.SetPaging(pager).SetBooks(books);
+        }
+
+        public async Task<BestRatedBooksWithPaging> GetBestRatedBooksForAdmin(BestRatedBooksWithPaging model)
+        {
+            var query = await _productRepository.GetBestRatedBooksForAdmin();
+            var result = query.Select(q => new BestRatedBooksViewModel
+            {
+                BookId = q.BookId,
+                ImageName = q.ImageName,
+                BookName = q.Name,
+                AverageScore = q.BookScores.Sum(s=>s.AverageScores),
+                ContentScore = q.BookScores.Sum(s=>s.ContentScore),
+                QualityScore = q.BookScores.Sum(s=>s.QualityScore)
+            }).AsQueryable();
+
+            //paging
+            var pager = Pager.Build(model.PageNum, result.Count(), model.Take, model.PageCountAfterAndBefor);
+            var books = result.Paging(pager).ToList();
+
+            return model.SetPaging(pager).SetBooks(books);
+        }
     }
 }
