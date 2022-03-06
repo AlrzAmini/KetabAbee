@@ -41,6 +41,8 @@ namespace KetabAbee.Domain.Models.Ticket
         [DisplayName("وضعیت")]
         public TicketState TicketState { get; set; }
 
+        public bool IsDelete { get; set; }
+
         #endregion
 
         #region Relations

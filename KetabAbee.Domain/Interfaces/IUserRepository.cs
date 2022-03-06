@@ -85,7 +85,7 @@ namespace KetabAbee.Domain.Interfaces
 
         int OnlineUsersCount();
 
-        List<int> GetUserRoleIds(int userId);
+        Task<List<int>> GetUserRoleIds(int userId);
 
         User GetUserByIdWithIncludes(int userId);
 
@@ -112,6 +112,24 @@ namespace KetabAbee.Domain.Interfaces
         void RemoveIpFromBannedIps(int userId, string ip);
 
         BannedIp GetBannedIpByInfo(int userId, string ip);
+
+        void DeleteUserRoleByUserRoleId(int userRoleId);
+
+        void DeleteUserTickets(List<int> ticketIds);
+
+        void DeleteUserTicketAnswers(List<int> answerIds);
+
+        void DeleteUserWallets(List<int> walletIds);
+
+        void DeleteUserFavs(List<int> favIds);
+
+        void DeleteUserOrders(List<int> orderIds);
+
+        void DeleteUserBooks(List<int> userBookIds);
+
+        void DeleteUserScores(List<int> userScoreIds);
+
+        void DeleteUserComments(List<int> userCommentIds);
 
         #endregion
 

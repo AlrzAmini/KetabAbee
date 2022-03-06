@@ -215,16 +215,26 @@ namespace KetabAbee.Data.Repository
             return _context.UserIps.Any(i => i.UserId == userIp.UserId && i.Ip == userIp.Ip);
         }
 
-        public List<int> GetUserRoleIds(int userId)
+        public async Task<List<int>> GetUserRoleIds(int userId)
         {
-            return _context.UserRoles
+            return await _context.UserRoles
                 .Where(r => r.UserId == userId)
-                .Select(r => r.RoleId).ToList();
+                .Select(r => r.RoleId).ToListAsync();
         }
 
         public User GetUserByIdWithIncludes(int userId)
         {
-            return _context.Users.Include(u => u.UserIps)
+            return _context.Users
+                .Include(u=>u.UserRoles)
+                .Include(u=>u.Tickets)
+                .Include(u=>u.TicketAnswers)
+                .Include(u=>u.Wallets)
+                .Include(u=>u.FavoriteBooks)
+                .Include(u=>u.Orders)
+                .Include(u=>u.UserBooks)
+                .Include(u=>u.BookScores)
+                .Include(u=>u.ProductComments)
+                .Include(u => u.UserIps)
                 .FirstOrDefault(u => u.UserId == userId);
         }
 
@@ -332,6 +342,93 @@ namespace KetabAbee.Data.Repository
         public async Task<int> GetUserFavBookCount(int userId)
         {
             return await _context.FavoriteBooks.CountAsync(f => f.UserId == userId);
+        }
+
+        public void DeleteUserRoleByUserRoleId(int userRoleId)
+        {
+            var userRole = _context.UserRoles.Find(userRoleId);
+            userRole.IsDelete = true;
+            _context.SaveChanges();
+        }
+
+        public void DeleteUserTickets(List<int> ticketIds)
+        {
+            foreach (var ticket in ticketIds.Select(id => _context.Tickets.Find(id)))
+            {
+                ticket.IsDelete = true;
+            }
+
+            _context.SaveChanges();
+        }
+
+        public void DeleteUserTicketAnswers(List<int> answerIds)
+        {
+            foreach (var answer in answerIds.Select(id => _context.TicketAnswers.Find(id)))
+            {
+                answer.IsDelete = true;
+            }
+
+            _context.SaveChanges();
+        }
+
+        public void DeleteUserWallets(List<int> walletIds)
+        {
+            foreach (var wallet in walletIds.Select(id => _context.Wallets.Find(id)))
+            {
+                wallet.IsDelete = true;
+            }
+
+            _context.SaveChanges();
+        }
+
+        public void DeleteUserFavs(List<int> favIds)
+        {
+            foreach (var fav in favIds.Select(id => _context.FavoriteBooks.Find(id)))
+            {
+                fav.IsDelete = true;
+            }
+
+            _context.SaveChanges();
+        }
+
+        public void DeleteUserOrders(List<int> orderIds)
+        {
+            foreach (var order in orderIds.Select(id => _context.Orders.Find(id)))
+            {
+                order.IsDelete = true;
+            }
+
+            _context.SaveChanges();
+        }
+
+        public void DeleteUserBooks(List<int> userBookIds)
+        {
+            foreach (var userBook in userBookIds.Select(id => _context.UserBooks.Find(id)))
+            {
+                userBook.IsDelete = true;
+            }
+
+            _context.SaveChanges();
+        }
+
+        public void DeleteUserScores(List<int> userScoreIds)
+        {
+            foreach (var bookScore in userScoreIds.Select(id => _context.BookScores.Find(id)))
+            {
+                bookScore.IsDelete = true;
+            }
+
+            _context.SaveChanges();
+        }
+
+        public void DeleteUserComments(List<int> userCommentIds)
+        {
+            foreach (var comment in userCommentIds.Select(id => _context.ProductComments.Find(id)))
+            {
+                comment.IsDelete = true;
+            }
+
+            _context.SaveChanges();
         }
     }
 }

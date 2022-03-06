@@ -26,7 +26,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.ViewComponents
 
             ViewBag.AvatarName = await _userService.GetAvatarNameByUserId(userId);
 
-            var roleIds = _userService.GetUserRoleIds(userId);
+            var roleIds = await _userService.GetUserRoleIds(userId);
             ViewBag.CurrentAdminTasks = _taskService.GetTasksForAdmin(roleIds);
 
             return View("AdminHeader");

@@ -96,7 +96,7 @@ namespace KetabAbee.Application.Interfaces.User
 
         UsersStatisticsViewModel GetUsersStaticsForAdmin();
 
-        List<int> GetUserRoleIds(int userId);
+        Task<List<int>> GetUserRoleIds(int userId);
 
         UserInfoViewModel GetUserForShowInUserInfo(int userId);
 
@@ -129,6 +129,8 @@ namespace KetabAbee.Application.Interfaces.User
        Task<List<string>> GetBannedIps();
 
         Domain.Models.User.User CreateNewEmailActiveCodeForUser(int userId);
+
+        void DeleteUserTickets(List<int> ticketIds);
 
         #endregion
     }

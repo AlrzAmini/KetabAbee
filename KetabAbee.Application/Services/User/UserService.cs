@@ -250,7 +250,7 @@ namespace KetabAbee.Application.Services.User
         public IEnumerable<UserForShowInUserListAdminViewModel> GetAllUsersForAdmin()
         {
             return _userRepository.GetUsers()
-                .Select(u => new UserForShowInUserListAdminViewModel()
+                .Select(u => new UserForShowInUserListAdminViewModel
                 {
                     Email = u.Email,
                     Mobile = u.Mobile,
@@ -266,7 +266,7 @@ namespace KetabAbee.Application.Services.User
         {
             try
             {
-                var user = _userRepository.GetUserById(userId);
+                var user = _userRepository.GetUserByIdWithIncludes(userId);
 
                 #region Delete Avatar
 
@@ -292,6 +292,67 @@ namespace KetabAbee.Application.Services.User
 
                 #endregion
 
+                #region delete user relations
+
+                #region delete user roles
+
+                foreach (var userRoleId in user.UserRoles.Select(ur => ur.UserRoleId))
+                {
+                    _userRepository.DeleteUserRoleByUserRoleId(userRoleId);
+                }
+
+                #endregion
+
+                #region delete user tickets
+
+                _userRepository.DeleteUserTickets(user.Tickets.Select(t => t.TicketId).ToList());
+
+                #endregion
+
+                #region delete user ticket answers
+
+                _userRepository.DeleteUserTicketAnswers(user.TicketAnswers.Select(t => t.AnswerId).ToList());
+
+                #endregion
+
+                #region delete user wallet
+
+                _userRepository.DeleteUserWallets(user.Wallets.Select(t => t.WalletId).ToList());
+
+                #endregion
+
+                #region delete user favs
+
+                _userRepository.DeleteUserFavs(user.FavoriteBooks.Select(t => t.LikeId).ToList());
+
+                #endregion
+
+                #region delete user orders
+
+                _userRepository.DeleteUserOrders(user.Orders.Select(t => t.OrderId).ToList());
+
+                #endregion
+
+                #region delete user books
+
+                _userRepository.DeleteUserBooks(user.UserBooks.Select(t => t.UserProductId).ToList());
+
+                #endregion
+
+                #region delete user scores
+
+                _userRepository.DeleteUserScores(user.BookScores.Select(t => t.ScoreId).ToList());
+
+                #endregion
+
+                #region delete user comments
+
+                _userRepository.DeleteUserComments(user.ProductComments.Select(t => t.CommentId).ToList());
+
+                #endregion
+
+                #endregion
+
                 user.AvatarName = "User.jpg";
                 user.IsDelete = true;
 
@@ -302,6 +363,7 @@ namespace KetabAbee.Application.Services.User
             {
                 return false;
             }
+
         }
 
         public FilterUsersViewModel GetAllFilteredUsersInAdmin(FilterUsersViewModel filter)
@@ -594,9 +656,9 @@ namespace KetabAbee.Application.Services.User
             }
         }
 
-        public List<int> GetUserRoleIds(int userId)
+        public async Task<List<int>> GetUserRoleIds(int userId)
         {
-            return _userRepository.GetUserRoleIds(userId);
+            return await _userRepository.GetUserRoleIds(userId);
         }
 
         public UserInfoViewModel GetUserForShowInUserInfo(int userId)
@@ -848,6 +910,11 @@ namespace KetabAbee.Application.Services.User
         public async Task<int> GetUserFavBookCount(int userId)
         {
             return await _userRepository.GetUserFavBookCount(userId);
+        }
+
+        public void DeleteUserTickets(List<int> ticketIds)
+        {
+            _userRepository.DeleteUserTickets(ticketIds);
         }
     }
 }

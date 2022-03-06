@@ -29,6 +29,8 @@ namespace KetabAbee.Domain.Models.Ticket
         [Required]
         public DateTime SendDate { get; set; }
 
+        public bool IsDelete { get; set; }
+
         #endregion
 
         #region Relations

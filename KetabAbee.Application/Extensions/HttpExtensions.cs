@@ -19,12 +19,5 @@ namespace KetabAbee.Application.Extensions
         {
             return $"{httpContext.Request.Scheme}://{httpContext.Request.Host}{httpContext.Request.Path}{httpContext.Request.QueryString}";
         }
-
-        public static List<int> GetUserRoleIds(this HttpContext httpContext)
-        {
-           var userService = (IUserService)httpContext.RequestServices.GetService(typeof(IUserService));
-
-           return userService.GetUserRoleIds(httpContext.User.GetUserId());
-        }
     }
 }

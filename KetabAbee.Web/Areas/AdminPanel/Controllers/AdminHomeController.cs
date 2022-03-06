@@ -38,7 +38,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
         #region Index
 
         [HttpGet("Admin")]
-        public IActionResult Home()
+        public async Task<IActionResult> Home()
         {
             #region profile box
 
@@ -77,7 +77,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
 
             #region tasks
 
-            var roleIds = _userService.GetUserRoleIds(User.GetUserId());
+            var roleIds = await _userService.GetUserRoleIds(User.GetUserId());
             ViewBag.CurrentAdminTasks = _taskService.GetTasksForAdmin(roleIds);
 
             #endregion

@@ -131,6 +131,15 @@ namespace KetabAbee.Data.Context
             modelBuilder.Entity<UserRole>()
                 .HasQueryFilter(e => !e.IsDelete);
 
+            modelBuilder.Entity<Ticket>()
+                .HasQueryFilter(e => !e.IsDelete);
+
+            modelBuilder.Entity<TicketAnswer>()
+                .HasQueryFilter(e => !e.IsDelete);
+
+            modelBuilder.Entity<UserBook>()
+                .HasQueryFilter(e => !e.IsDelete);
+
             modelBuilder.Entity<ProductGroup>()
                 .HasQueryFilter(e => !e.IsDelete);
 

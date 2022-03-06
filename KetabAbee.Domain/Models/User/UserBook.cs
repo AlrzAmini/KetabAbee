@@ -19,6 +19,8 @@ namespace KetabAbee.Domain.Models.User
         [Required]
         public int BookId { get; set; }
 
+        public bool IsDelete { get; set; }
+
 
 
         #region relations
