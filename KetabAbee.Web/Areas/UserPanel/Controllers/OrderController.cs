@@ -91,6 +91,19 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
             return Redirect($"/Cart/{orderId}");
         }
 
+        [HttpGet("/RemoveFromCart/Item/{detailId}")]
+        public IActionResult RemoveItemFromOrderDetailMobile(int detailId, int orderId, string url)
+        {
+            if (_orderService.RemoveItemOfOrderDetail(User.GetUserId(), orderId, detailId))
+            {
+                TempData["SuccessSwal"] = "از سبد خریدتان حذف شد";
+                return Redirect(url);
+            }
+
+            TempData["ErrorSwal"] = "از سبد خریدتان حذف نشد";
+            return Redirect(url);
+        }
+
         #endregion
 
         #region change product count
