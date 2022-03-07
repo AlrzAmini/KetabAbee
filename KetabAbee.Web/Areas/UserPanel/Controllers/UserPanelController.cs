@@ -166,6 +166,5 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         }
 
         #endregion
-
     }
 }
