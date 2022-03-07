@@ -131,6 +131,10 @@ namespace KetabAbee.Domain.Interfaces
 
         void DeleteUserComments(List<int> userCommentIds);
 
+        Task<bool> AddUserIpToBannedIps(string userIp);
+
+        Task<bool> IsIpExistInBanneds(string ip);
+
         #endregion
 
         int GetUserIdByUserName(string userName);

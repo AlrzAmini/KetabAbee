@@ -30,7 +30,7 @@ namespace KetabAbee.Web.ViewComponents
             if (!User.Identity.IsAuthenticated) return View("Header");
 
             var userId = HttpContext.User.GetUserId();
-            ViewBag.IsAdmin = _permissionService.CheckPermission(PerIds.AdminPanel, HttpContext.User.GetUserEmail());
+            ViewBag.IsAdmin = _permissionService.CheckPermission(PerIds.AdminPanel, HttpContext.User.GetUserId());
             ViewBag.UserBookIdsCount = await _userService.GetUserFavBookCount(userId);
             ViewBag.UserCurrentOrder = await _orderService.GetUserUnFinalOrder(userId);
             ViewBag.AvatarName = await _userService.GetAvatarNameByUserId(userId);

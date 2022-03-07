@@ -40,10 +40,6 @@ namespace KetabAbee.Domain.Interfaces
 
         List<int> GetUserRolesByUserId(int userId);
 
-        bool CheckPermission(int permissionId, string email);
-
-        int GetUserIdByEmail(string email);
-
         List<int> GetRolesOfPermissionByPermissionId(int permissionId);
 
         bool IsUserHaveRole(int userId, int roleId);

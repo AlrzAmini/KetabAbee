@@ -283,7 +283,7 @@ namespace KetabAbee.Web.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
-                if (!_commentService.IsUserSendComment(User.GetUserId(), commentId) && !_permissionService.CheckPermission(PerIds.AdminPanel, User.GetUserEmail())) return BadRequest();
+                if (!_commentService.IsUserSendComment(User.GetUserId(), commentId) && !_permissionService.CheckPermission(PerIds.AdminPanel, User.GetUserId())) return BadRequest();
                 if (_commentService.DeleteComment(commentId))
                 {
                     TempData["SuccessSwal"] = "دیدگاه با موفقیت حذف شد";
@@ -318,7 +318,7 @@ namespace KetabAbee.Web.Controllers
         public IActionResult RemoveAnswer(int answerId, int bookId)
         {
             // todo : admin can remove comments
-            if (!_commentService.IsUserSendAnswer(User.GetUserId(), answerId) && !_permissionService.CheckPermission(PerIds.AdminPanel, User.GetUserEmail())) return BadRequest();
+            if (!_commentService.IsUserSendAnswer(User.GetUserId(), answerId) && !_permissionService.CheckPermission(PerIds.AdminPanel, User.GetUserId())) return BadRequest();
             if (_commentService.DeleteAnswer(answerId))
             {
                 TempData["SuccessSwal"] = "پاسخ با موفقیت حذف شد";

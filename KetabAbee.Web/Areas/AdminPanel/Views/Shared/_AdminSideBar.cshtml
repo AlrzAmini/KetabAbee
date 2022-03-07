@@ -21,7 +21,7 @@
             </a>
         </li>
     }
-    @if (_permissionService.CheckPermission(PerIds.AdminRoles, User.GetUserEmail()))
+    @if (_permissionService.CheckPermission(PerIds.AdminRoles, User.GetUserId()))
     {
         <!--Roles-->
         <li>
@@ -31,7 +31,7 @@
             </a>
         </li>
     }
-    @if (_permissionService.CheckPermission(PerIds.AdminUsers, User.GetUserEmail()))
+    @if (_permissionService.CheckPermission(PerIds.AdminUsers, User.GetUserId()))
     {
         <!--Users-->
         <li>
@@ -41,7 +41,7 @@
             </a>
         </li>
     }
-    @if (_permissionService.CheckPermission(PerIds.AdminTickets, User.GetUserEmail()))
+    @if (_permissionService.CheckPermission(PerIds.AdminTickets, User.GetUserId()))
     {
         <!--Tickets-->
         <li>
@@ -51,7 +51,7 @@
             </a>
         </li>
     }
-    @if (_permissionService.CheckPermission(PerIds.AdminGroups, User.GetUserEmail()))
+    @if (_permissionService.CheckPermission(PerIds.AdminGroups, User.GetUserId()))
     {
         <!--Groups-->
         <li>
@@ -61,7 +61,7 @@
             </a>
         </li>
     }
-    @if (_permissionService.CheckPermission(PerIds.AdminBooks, User.GetUserEmail()))
+    @if (_permissionService.CheckPermission(PerIds.AdminBooks, User.GetUserId()))
     {
         <!--Books-->
         <li>
@@ -86,7 +86,7 @@
             </ul>
         </li>
     }
-    @if (_permissionService.CheckPermission(PerIds.AdminOrders, User.GetUserEmail()))
+    @if (_permissionService.CheckPermission(PerIds.AdminOrders, User.GetUserId()))
     {
         <!--Orders-->
         <li>
@@ -96,7 +96,7 @@
             </a>
         </li>
     }
-    @if (_permissionService.CheckPermission(PerIds.AdminNews, User.GetUserEmail()))
+    @if (_permissionService.CheckPermission(PerIds.AdminNews, User.GetUserId()))
     {
         <!--news letter-->
         <li>
@@ -106,7 +106,7 @@
             </a>
         </li>
     }
-    @if (_permissionService.CheckPermission(PerIds.AdminContactUses, User.GetUserEmail()))
+    @if (_permissionService.CheckPermission(PerIds.AdminContactUses, User.GetUserId()))
     {
         <!--news letter-->
         <li>
@@ -122,7 +122,7 @@
             </a>
         </li>
     }
-    @if (_permissionService.CheckPermission(PerIds.AdminDiscounts, User.GetUserEmail()))
+    @if (_permissionService.CheckPermission(PerIds.AdminDiscounts, User.GetUserId()))
     {
         <!--news letter-->
         <li>
@@ -132,7 +132,7 @@
             </a>
         </li>
     }
-    @if (_permissionService.CheckPermission(PerIds.AdminBlogs, User.GetUserEmail()))
+    @if (_permissionService.CheckPermission(PerIds.AdminBlogs, User.GetUserId()))
     {
         <!--news letter-->
         <li>
@@ -142,7 +142,7 @@
             </a>
         </li>
     }
-    @if (_permissionService.CheckPermission(PerIds.AdminComments, User.GetUserEmail()))
+    @if (_permissionService.CheckPermission(PerIds.AdminComments, User.GetUserId()))
     {
         <!--news letter-->
         <li>

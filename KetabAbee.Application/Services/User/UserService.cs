@@ -916,5 +916,27 @@ namespace KetabAbee.Application.Services.User
         {
             _userRepository.DeleteUserTickets(ticketIds);
         }
+
+        public async Task<BanIpResult> BanUserByIp(string userIp)
+        {
+            try
+            {
+                if (await _userRepository.IsIpExistInBanneds(userIp))
+                {
+                    return BanIpResult.IpIsAlreadyExist;
+                }
+
+                if (await _userRepository.AddUserIpToBannedIps(userIp))
+                {
+                    return BanIpResult.Success;
+                }
+
+                return BanIpResult.Error;
+            }
+            catch
+            {
+                return BanIpResult.Error;
+            }
+        }
     }
 }

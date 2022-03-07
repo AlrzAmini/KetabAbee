@@ -26,11 +26,16 @@ namespace KetabAbee.Application.Security
         {
             _permissionService = (IPermissionService)context.HttpContext.RequestServices.GetService(typeof(IPermissionService));
 
+            if (_permissionService == null)
+            {
+                return;
+            }
+
             if (context.HttpContext.User.Identity.IsAuthenticated)
             {
-                var email = context.HttpContext.User.GetUserEmail();
+                var id = context.HttpContext.User.GetUserId();
                  
-                if (!_permissionService.CheckPermission(_permissionId, email))
+                if (!_permissionService.CheckPermission(_permissionId, id))
                 {
                     context.Result = new RedirectResult("/");
                 }

@@ -37,7 +37,7 @@ namespace KetabAbee.Application.Interfaces.Permission
 
         void UpdatePermissionOfRole(int roleId, List<int> selectedPermission);
 
-        bool CheckPermission(int permissionId, string email);
+        bool CheckPermission(int permissionId, int userId);
 
         bool IsUserHaveRole(int userId, int roleId);
 

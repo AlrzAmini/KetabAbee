@@ -318,7 +318,21 @@
                 </div>
             </div><!--Widget Body-->
         </div>
-
+    </div>
+    <div class="col-md-4">
+        <form asp-controller="AdminHome" asp-action="BanUserIp" method="post">
+            <div class="input-group">
+                <div class="form-group has-error has-feedback">
+                    <label class="control-label" for="inputError2">بن کردن آی پی :</label>
+                    <input type="text" class="form-control" name="userIp" id="inputError2" placeholder="آی پی که میخواهید بن شود ...">
+                    <span class="glyphicon glyphicon-fire form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-danger">بن کردن</button>
+            </div>
+        </form>
+        
     </div>
 </div>
 @section Scripts

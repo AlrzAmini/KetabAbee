@@ -132,6 +132,8 @@ namespace KetabAbee.Application.Interfaces.User
 
         void DeleteUserTickets(List<int> ticketIds);
 
+        Task<BanIpResult> BanUserByIp(string userIp);
+
         #endregion
     }
 }

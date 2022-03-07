@@ -29,7 +29,7 @@ namespace KetabAbee.Data.Repository
             // add selected roles to user
             foreach (var roleId in selectedRoleIds)
             {
-                _context.UserRoles.Add(new UserRole()
+                _context.UserRoles.Add(new UserRole
                 {
                     UserId = userId,
                     RoleId = roleId
@@ -128,32 +128,12 @@ namespace KetabAbee.Data.Repository
             AddPermissionsToRole(roleId, selectedPermission);
         }
 
-        public bool CheckPermission(int permissionId, string email)
-        {
-            var userId = GetUserIdByEmail(email);
-
-            var userRoles = GetUserRolesByUserId(userId);
-
-            if (userRoles == null) return false;
-
-            if (!userRoles.Any()) return false;
-
-            var rolesOfPermission = GetRolesOfPermissionByPermissionId(permissionId);
-
-            return rolesOfPermission.Any(r => userRoles.Contains(r));
-        }
-
         public List<int> GetUserRolesByUserId(int userId)
         {
             return _context.UserRoles
                 .Where(r => r.UserId == userId)
                 .Select(r => r.RoleId)
                 .ToList();
-        }
-
-        public int GetUserIdByEmail(string email)
-        {
-            return _context.Users.FirstOrDefault(u => u.Email == email).UserId;
         }
 
         public List<int> GetRolesOfPermissionByPermissionId(int permissionId)

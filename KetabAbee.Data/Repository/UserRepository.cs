@@ -126,7 +126,7 @@ namespace KetabAbee.Data.Repository
         {
             try
             {
-                var user =  await _context.Users.FindAsync(userId);
+                var user = await _context.Users.FindAsync(userId);
                 return user.AvatarName;
             }
             catch
@@ -225,15 +225,15 @@ namespace KetabAbee.Data.Repository
         public User GetUserByIdWithIncludes(int userId)
         {
             return _context.Users
-                .Include(u=>u.UserRoles)
-                .Include(u=>u.Tickets)
-                .Include(u=>u.TicketAnswers)
-                .Include(u=>u.Wallets)
-                .Include(u=>u.FavoriteBooks)
-                .Include(u=>u.Orders)
-                .Include(u=>u.UserBooks)
-                .Include(u=>u.BookScores)
-                .Include(u=>u.ProductComments)
+                .Include(u => u.UserRoles)
+                .Include(u => u.Tickets)
+                .Include(u => u.TicketAnswers)
+                .Include(u => u.Wallets)
+                .Include(u => u.FavoriteBooks)
+                .Include(u => u.Orders)
+                .Include(u => u.UserBooks)
+                .Include(u => u.BookScores)
+                .Include(u => u.ProductComments)
                 .Include(u => u.UserIps)
                 .FirstOrDefault(u => u.UserId == userId);
         }
@@ -248,8 +248,8 @@ namespace KetabAbee.Data.Repository
         public List<BookScore> GetUserBookScores(int userId)
         {
             return _context.BookScores
-                .Include(s=>s.User)
-                .Include(s=>s.Book)
+                .Include(s => s.User)
+                .Include(s => s.Book)
                 .Where(s => s.UserId == userId)
                 .ToList();
         }
@@ -257,8 +257,8 @@ namespace KetabAbee.Data.Repository
         public List<FavoriteBook> GetUserFavoriteBooks(int userId)
         {
             return _context.FavoriteBooks
-                .Include(f=>f.Book)
-                .Include(f=>f.User)
+                .Include(f => f.Book)
+                .Include(f => f.User)
                 .Where(f => f.UserId == userId && f.IsLiked)
                 .ToList();
         }
@@ -266,16 +266,16 @@ namespace KetabAbee.Data.Repository
         public List<Order> GetUserOrders(int userId)
         {
             return _context.Orders
-                .Include(o=>o.User)
+                .Include(o => o.User)
                 .Where(o => o.UserId == userId)
-                .OrderByDescending(o=>o.CreateDate)
+                .OrderByDescending(o => o.CreateDate)
                 .ToList();
         }
 
         public List<ProductComment> GetUserProductComments(int userId)
         {
             return _context.ProductComments
-                .Include(c=>c.Product)
+                .Include(c => c.Product)
                 .Where(c => c.UserId == userId)
                 .ToList();
         }
@@ -285,7 +285,7 @@ namespace KetabAbee.Data.Repository
             return _context.UserBooks
                 .Include(b => b.Book)
                 .Where(b => b.UserId == userId)
-                .Select(ub=>ub.Book)
+                .Select(ub => ub.Book)
                 .Distinct()
                 .ToList();
         }
@@ -293,8 +293,8 @@ namespace KetabAbee.Data.Repository
         public List<Ticket> GetUserTickets(int userId)
         {
             return _context.Tickets
-                .Include(t=>t.Sender)
-                .OrderByDescending(t=>t.TicketSendDate)
+                .Include(t => t.Sender)
+                .OrderByDescending(t => t.TicketSendDate)
                 .Where(t => t.SenderId == userId)
                 .ToList();
         }
@@ -302,7 +302,7 @@ namespace KetabAbee.Data.Repository
         public List<Wallet> GetUserWallets(int userId)
         {
             return _context.Wallets
-                .Include(w=>w.User)
+                .Include(w => w.User)
                 .Where(w => w.UserId == userId)
                 .ToList();
         }
@@ -429,6 +429,29 @@ namespace KetabAbee.Data.Repository
             }
 
             _context.SaveChanges();
+        }
+
+        public async Task<bool> AddUserIpToBannedIps(string userIp)
+        {
+            try
+            {
+                _context.BannedIps.Add(new BannedIp
+                {
+                    Ip = userIp,
+                    UserId = null
+                });
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch 
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> IsIpExistInBanneds(string ip)
+        {
+            return await _context.BannedIps.AnyAsync(i => i.Ip == ip);
         }
     }
 }

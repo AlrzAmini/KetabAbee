@@ -10,6 +10,7 @@ using KetabAbee.Application.Interfaces.Product;
 using KetabAbee.Application.Interfaces.Task;
 using KetabAbee.Application.Interfaces.Ticket;
 using KetabAbee.Application.Interfaces.User;
+using KetabAbee.Domain.Models.User;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KetabAbee.Web.Areas.AdminPanel.Controllers
@@ -124,6 +125,31 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
 
             TempData["ErrorMessage"] = "مشکلی در انجام عملیات رخ داد";
             return RedirectToAction("Home");
+        }
+
+        #endregion
+
+        #region ban ip
+
+        [HttpPost("Ban/Ip")]
+        public async Task<IActionResult> BanUserIp(string userIp)
+        {
+            var res = await _userService.BanUserByIp(userIp);
+            switch (res)
+            {
+                case BanIpResult.Success:
+                    TempData["SuccessMessage"] = "آی پی وارد شده بن شد";
+                    return RedirectToAction("Home");
+                case BanIpResult.Error:
+                    TempData["ErrorMessage"] = "مشکلی در انجام عملیات رخ داد";
+                    return RedirectToAction("Home");
+                case BanIpResult.IpIsAlreadyExist:
+                    TempData["WarningMessage"] = "این آی پی قبلا بن شده است";
+                    return RedirectToAction("Home");
+                default:
+                    TempData["ErrorMessage"] = "مشکلی در انجام عملیات رخ داد";
+                    return RedirectToAction("Home");
+            }
         }
 
         #endregion

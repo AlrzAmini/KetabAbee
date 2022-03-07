@@ -12,8 +12,7 @@ namespace KetabAbee.Domain.Models.User
         [Key]
         public int BanId { get; set; }
 
-        [Required]
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
 
         [Required]
         public string Ip { get; set; }
@@ -34,5 +33,12 @@ namespace KetabAbee.Domain.Models.User
         Error,
         NotHaveIp,
         UserIsAlreadyFree
+    }
+
+    public enum BanIpResult
+    {
+        Success,
+        Error,
+        IpIsAlreadyExist
     }
 }
