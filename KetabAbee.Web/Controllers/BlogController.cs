@@ -35,8 +35,9 @@ namespace KetabAbee.Web.Controllers
 
         #region blog info
 
+        [HttpGet("Blog/{blogId}/{blogTitle}")]
         [HttpGet("Blog/{blogId}")]
-        public IActionResult BlogInfo(int blogId)
+        public IActionResult BlogInfo(int blogId, string blogTitle)
         {
             var model = _blogService.GetBlogForShowInBlogInfo(blogId);
 

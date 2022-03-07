@@ -1,9 +1,10 @@
 ﻿@using KetabAbee.Application.Convertors
+@using KetabAbee.Application.Extensions
 @model KetabAbee.Application.DTOs.Blog.BlogInCardViewModel
 <div class="col-md-4 col-sm-6 col-12 mb-4">
     <div class="blog-card">
         <div class="blog-card-thumbnail">
-            <a asp-controller="Blog" asp-action="BlogInfo" asp-route-blogId="@Model.BlogId">
+            <a asp-controller="Blog" asp-action="BlogInfo" asp-route-blogTitle="@Model.BlogTitle.NameFixerForUrl()" asp-route-blogId="@Model.BlogId">
                 <img class="img-fluid" src="/images/blog/thumb/@Model.ImageName" alt="@Model.BlogTitle">
             </a>
         </div>

@@ -25,15 +25,14 @@
                     <tbody>
                         @foreach (var book in Model)
                         {
-
                             <tr>
                                 <td>
-                                    <a asp-controller="AdminBook" asp-action="EditBook" asp-route-bookId="@book.BookId">
+                                    <a asp-controller="AdminBook" asp-action="BookInfo" asp-route-bookId="@book.BookId">
                                         @book.BookId
                                     </a>
                                 </td>
                                 <td>
-                                    <a asp-controller="AdminBook" asp-action="EditBook" asp-route-bookId="@book.BookId">
+                                    <a asp-controller="AdminBook" asp-action="BookInfo" asp-route-bookId="@book.BookId">
                                         @book.BookName
                                     </a>
                                 </td>
