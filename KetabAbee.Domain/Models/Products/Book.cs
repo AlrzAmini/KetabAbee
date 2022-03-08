@@ -103,6 +103,8 @@ namespace KetabAbee.Domain.Models.Products
 
         public ICollection<ProductDiscount> ProductDiscounts { get; set; }
 
+        public ICollection<Exam.Exam> Exams { get; set; }
+
 
         #endregion
     }

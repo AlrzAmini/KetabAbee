@@ -5,6 +5,7 @@ using KetabAbee.Domain.Models.ContactUs;
 using KetabAbee.Domain.Models.Order;
 using KetabAbee.Domain.Models.Permission;
 using KetabAbee.Domain.Models.Products;
+using KetabAbee.Domain.Models.Products.Exam;
 using KetabAbee.Domain.Models.Task;
 using KetabAbee.Domain.Models.Ticket;
 using KetabAbee.Domain.Models.User;
@@ -113,6 +114,21 @@ namespace KetabAbee.Data.Context
 
         #endregion
 
+        #region Exam
+
+        public DbSet<Exam> Exams { get; set; }
+
+        public DbSet<ExamQuestion> ExamQuestions { get; set; }
+
+        public DbSet<QuestionAnswer> QuestionAnswers { get; set; }
+
+        public DbSet<CorrectAnswer> CorrectAnswers { get; set; }
+
+        public DbSet<ExamGrade> ExamGrades { get; set; }
+
+
+        #endregion
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach (var rel in modelBuilder.Model.GetEntityTypes().SelectMany(s => s.GetForeignKeys()))
@@ -183,6 +199,13 @@ namespace KetabAbee.Data.Context
                 .HasQueryFilter(e => !e.IsDelete);
 
             modelBuilder.Entity<Wallet>()
+                .HasQueryFilter(e => !e.IsDelete);
+
+            modelBuilder.Entity<Exam>()
+                .HasQueryFilter(e => !e.IsDelete);
+            modelBuilder.Entity<ExamQuestion>()
+                .HasQueryFilter(e => !e.IsDelete);
+            modelBuilder.Entity<QuestionAnswer>()
                 .HasQueryFilter(e => !e.IsDelete);
 
             #endregion
