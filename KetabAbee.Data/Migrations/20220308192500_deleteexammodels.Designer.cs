@@ -4,14 +4,16 @@ using KetabAbee.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KetabAbee.Data.Migrations
 {
     [DbContext(typeof(KetabAbeeDBContext))]
-    partial class KetabAbeeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220308192500_deleteexammodels")]
+    partial class deleteexammodels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -544,107 +546,6 @@ namespace KetabAbee.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("BookScores");
-                });
-
-            modelBuilder.Entity("KetabAbee.Domain.Models.Products.Exam.CorrectAnswer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("QuestionAnswerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuestionAnswerId");
-
-                    b.HasIndex("QuestionId");
-
-                    b.ToTable("CorrectAnswers");
-                });
-
-            modelBuilder.Entity("KetabAbee.Domain.Models.Products.Exam.Exam", b =>
-                {
-                    b.Property<int>("ExamId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Time")
-                        .HasColumnType("int");
-
-                    b.HasKey("ExamId");
-
-                    b.HasIndex("BookId");
-
-                    b.ToTable("Exams");
-                });
-
-            modelBuilder.Entity("KetabAbee.Domain.Models.Products.Exam.ExamQuestion", b =>
-                {
-                    b.Property<int>("QuestionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ExamId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("QBody")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.HasKey("QuestionId");
-
-                    b.HasIndex("ExamId");
-
-                    b.ToTable("ExamQuestions");
-                });
-
-            modelBuilder.Entity("KetabAbee.Domain.Models.Products.Exam.QuestionAnswer", b =>
-                {
-                    b.Property<int>("QAnswerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("QAnswerBody")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("QAnswerId");
-
-                    b.HasIndex("QuestionId");
-
-                    b.ToTable("QuestionAnswers");
                 });
 
             modelBuilder.Entity("KetabAbee.Domain.Models.Products.FavoriteBook", b =>
@@ -1356,58 +1257,6 @@ namespace KetabAbee.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("KetabAbee.Domain.Models.Products.Exam.CorrectAnswer", b =>
-                {
-                    b.HasOne("KetabAbee.Domain.Models.Products.Exam.QuestionAnswer", "QuestionAnswer")
-                        .WithMany()
-                        .HasForeignKey("QuestionAnswerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("KetabAbee.Domain.Models.Products.Exam.ExamQuestion", "Question")
-                        .WithMany()
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Question");
-
-                    b.Navigation("QuestionAnswer");
-                });
-
-            modelBuilder.Entity("KetabAbee.Domain.Models.Products.Exam.Exam", b =>
-                {
-                    b.HasOne("KetabAbee.Domain.Models.Products.Book", "Book")
-                        .WithMany("Exams")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Book");
-                });
-
-            modelBuilder.Entity("KetabAbee.Domain.Models.Products.Exam.ExamQuestion", b =>
-                {
-                    b.HasOne("KetabAbee.Domain.Models.Products.Exam.Exam", "Exam")
-                        .WithMany("Questions")
-                        .HasForeignKey("ExamId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Exam");
-                });
-
-            modelBuilder.Entity("KetabAbee.Domain.Models.Products.Exam.QuestionAnswer", b =>
-                {
-                    b.HasOne("KetabAbee.Domain.Models.Products.Exam.ExamQuestion", "Question")
-                        .WithMany("QuestionAnswers")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Question");
-                });
-
             modelBuilder.Entity("KetabAbee.Domain.Models.Products.FavoriteBook", b =>
                 {
                     b.HasOne("KetabAbee.Domain.Models.Products.Book", "Book")
@@ -1633,8 +1482,6 @@ namespace KetabAbee.Data.Migrations
                 {
                     b.Navigation("BookScores");
 
-                    b.Navigation("Exams");
-
                     b.Navigation("FavoriteBook");
 
                     b.Navigation("InventoryReports");
@@ -1646,16 +1493,6 @@ namespace KetabAbee.Data.Migrations
                     b.Navigation("ProductDiscounts");
 
                     b.Navigation("UserBooks");
-                });
-
-            modelBuilder.Entity("KetabAbee.Domain.Models.Products.Exam.Exam", b =>
-                {
-                    b.Navigation("Questions");
-                });
-
-            modelBuilder.Entity("KetabAbee.Domain.Models.Products.Exam.ExamQuestion", b =>
-                {
-                    b.Navigation("QuestionAnswers");
                 });
 
             modelBuilder.Entity("KetabAbee.Domain.Models.Products.ProductDiscount", b =>

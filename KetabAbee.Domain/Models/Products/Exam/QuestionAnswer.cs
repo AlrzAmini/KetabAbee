@@ -10,20 +10,21 @@ namespace KetabAbee.Domain.Models.Products.Exam
 {
     public class QuestionAnswer
     {
+        #region properties
+
         [Key]
-        public int AnswerId { get; set; }
+        public int QAnswerId { get; set; }
 
         [Required]
         public int QuestionId { get; set; }
 
-        #region properties
-
-        [DisplayName("متن پاسخ")]
-        [MaxLength(200, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
+        [DisplayName("متن گزینه")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
-        public string AnswerBody { get; set; }
+        [MaxLength(300, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
+        public string QAnswerBody { get; set; }
 
         public bool IsDelete { get; set; }
+
 
         #endregion
 

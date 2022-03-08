@@ -31,5 +31,7 @@ namespace KetabAbee.Application.Const
         public const int AdminBlogs = 11;
 
         public const int AdminComments = 12;
+
+        public const int AdminExams = 13;
     }
 }

@@ -117,15 +117,9 @@ namespace KetabAbee.Data.Context
         #region Exam
 
         public DbSet<Exam> Exams { get; set; }
-
         public DbSet<ExamQuestion> ExamQuestions { get; set; }
-
         public DbSet<QuestionAnswer> QuestionAnswers { get; set; }
-
         public DbSet<CorrectAnswer> CorrectAnswers { get; set; }
-
-        public DbSet<ExamGrade> ExamGrades { get; set; }
-
 
         #endregion
 
@@ -206,6 +200,8 @@ namespace KetabAbee.Data.Context
             modelBuilder.Entity<ExamQuestion>()
                 .HasQueryFilter(e => !e.IsDelete);
             modelBuilder.Entity<QuestionAnswer>()
+                .HasQueryFilter(e => !e.IsDelete);
+            modelBuilder.Entity<CorrectAnswer>()
                 .HasQueryFilter(e => !e.IsDelete);
 
             #endregion

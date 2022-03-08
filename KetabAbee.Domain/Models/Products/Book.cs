@@ -105,7 +105,6 @@ namespace KetabAbee.Domain.Models.Products
 
         public ICollection<Exam.Exam> Exams { get; set; }
 
-
         #endregion
     }
 
