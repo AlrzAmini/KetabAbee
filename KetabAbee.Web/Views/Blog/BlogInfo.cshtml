@@ -90,14 +90,14 @@
                                     <nav>
                                         <a href="/">کتاب آبی</a>
                                         <a asp-controller="Blog" asp-action="Index">مقالات</a>
-                                        <a href="#">@Model.BlogTitle</a>
+                                        <a>@Model.BlogTitle</a>
                                     </nav>
                                 </div>
                                 <!-- end breadcrumb -->
                                 <div class="blog-card single-blog">
                                     <div class="blog-card-title mb-3">
                                         <h2 class="text-right">
-                                            <a href="#">
+                                            <a>
                                                 @Model.BlogTitle
                                             </a>
                                         </h2>
@@ -111,9 +111,13 @@
                                             <i class="fad fa-clock"></i>
                                             @Model.CreateDate.ToIraniDate()
                                         </div>
+                                        <div class="date">
+                                            خواندن :
+                                            @Model.ReadTime دقیقه
+                                        </div>
                                     </div>
                                     <div class="blog-card-thumbnail">
-                                        <a href="#">
+                                        <a>
                                             <img src="/images/blog/image/@Model.ImageName" alt="@Model.BlogTitle">
                                         </a>
                                     </div>

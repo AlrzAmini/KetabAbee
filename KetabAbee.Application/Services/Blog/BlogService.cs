@@ -327,8 +327,9 @@ namespace KetabAbee.Application.Services.Blog
                     Tags = b.Tags,
                     UserImageName = b.User.AvatarName,
                     WriterBlogs = GetWriterBlogs(b.UserId),
-                    ImageName = b.ImageName
-                }).Single();
+                    ImageName = b.ImageName,
+                    ReadTime = b.BlogBody.GetBlogReadTime()
+                }).SingleOrDefault();
         }
 
         public List<BlogInCardViewModel> GetWriterBlogs(int userId)

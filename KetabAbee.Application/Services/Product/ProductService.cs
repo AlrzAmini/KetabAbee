@@ -1071,7 +1071,7 @@ namespace KetabAbee.Application.Services.Product
                 BookId = q.BookId,
                 ImageName = q.ImageName,
                 BookName = q.Name,
-                OrderCount = q.OrderDetails.Sum(d=>d.Count)
+                OrderCount = q.OrderDetails.Sum(d => d.Count)
             }).AsQueryable();
 
             //paging
@@ -1089,7 +1089,7 @@ namespace KetabAbee.Application.Services.Product
                 BookId = q.BookId,
                 ImageName = q.ImageName,
                 BookName = q.Name,
-                LikesCount = q.FavoriteBook.Count(f=>f.IsLiked)
+                LikesCount = q.FavoriteBook.Count(f => f.IsLiked)
             }).AsQueryable();
 
             //paging
@@ -1107,9 +1107,9 @@ namespace KetabAbee.Application.Services.Product
                 BookId = q.BookId,
                 ImageName = q.ImageName,
                 BookName = q.Name,
-                AverageScore = q.BookScores.Sum(s=>s.AverageScores),
-                ContentScore = q.BookScores.Sum(s=>s.ContentScore),
-                QualityScore = q.BookScores.Sum(s=>s.QualityScore)
+                AverageScore = q.BookScores.Sum(s => s.AverageScores),
+                ContentScore = q.BookScores.Sum(s => s.ContentScore),
+                QualityScore = q.BookScores.Sum(s => s.QualityScore)
             }).AsQueryable();
 
             //paging
@@ -1117,6 +1117,117 @@ namespace KetabAbee.Application.Services.Product
             var books = result.Paging(pager).ToList();
 
             return model.SetPaging(pager).SetBooks(books);
+        }
+
+        public async Task<FilterAdvancedViewModel> FilterBooksForFilterAdvanced(FilterAdvancedViewModel filter)
+        {
+            var result = _productRepository.GetBooksForAdmin().AsQueryable();
+
+            // filter by price range
+            #region price
+
+            if (filter.MinPrice != null)
+            {
+                result = result.Where(r => r.Price >= filter.MinPrice);
+            }
+            if (filter.MaxPrice != null)
+            {
+                result = result.Where(r => r.Price <= filter.MaxPrice);
+            }
+
+            #endregion
+
+            // filter by page count range
+            #region page
+
+            if (filter.MinPageCount != null)
+            {
+                result = result.Where(r => r.PagesCount >= filter.MinPageCount);
+            }
+            if (filter.MaxPageCount != null)
+            {
+                result = result.Where(r => r.PagesCount <= filter.MaxPageCount);
+            }
+
+            #endregion
+
+            // filter by book Name
+            #region book name
+
+            if (!string.IsNullOrEmpty(filter.BookName))
+            {
+                result = result.Where(r => r.Name.Contains(filter.BookName));
+            }
+
+            #endregion
+
+            // filter by publisher id
+            #region publisher
+
+            if (filter.PublisherId != null)
+            {
+                result = result.Where(r => r.PublisherId == filter.PublisherId);
+            }
+
+            #endregion
+
+            // filter by writer name
+            #region writer
+
+            if (!string.IsNullOrEmpty(filter.Writer))
+            {
+                result = result.Where(r => r.Writer.Contains(filter.Writer));
+            }
+
+            #endregion
+
+            // filter by age range
+            #region age
+
+            if (filter.AgeRange != null)
+            {
+                result = result.Where(r => r.AgeRange == filter.AgeRange.Value);
+            }
+
+            #endregion
+
+            // filter by cover type
+            #region cover
+
+            if (filter.CoverType != null)
+            {
+                result = result.Where(r => r.CoverType == filter.CoverType.Value);
+            }
+
+            #endregion
+
+            // filter by is exist
+            #region is exist
+
+            if (filter.IsExist)
+            {
+                result = result.Where(r => r.Inventory != null && r.Inventory != 0);
+            }
+
+            #endregion
+
+            filter.ResultCount = await result.CountAsync();
+
+            //paging
+            var pager = Pager.Build(filter.PageNum, filter.ResultCount, 12, filter.PageCountAfterAndBefor);
+            var books = await result.Paging(pager).Select(b => new BookListViewModel
+            {
+                BookId = b.BookId,
+                Name = b.Name,
+                BookInventory = b.Inventory,
+                ImageName = b.ImageName,
+                PublisherName = b.Publisher.PublisherName,
+                Price = b.Price,
+                Writer = b.Writer
+            }).ToListAsync();
+
+
+            return filter.SetPaging(pager).SetBooks(books);
         }
     }
 }

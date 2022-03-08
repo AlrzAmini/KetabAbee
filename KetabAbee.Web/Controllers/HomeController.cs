@@ -9,11 +9,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using GoogleReCaptcha.V3.Interface;
 using KetabAbee.Application.Convertors;
+using KetabAbee.Application.DTOs.Book;
 using KetabAbee.Application.DTOs.Contact;
 using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Contact;
+using KetabAbee.Application.Interfaces.Product;
 using KetabAbee.Application.Senders;
+using KetabAbee.Domain.Models.Products;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KetabAbee.Web.Controllers
 {
@@ -24,12 +28,14 @@ namespace KetabAbee.Web.Controllers
         private readonly IContactService _contactService;
         private readonly ICaptchaValidator _captchaValidator;
         private readonly IViewRenderService _renderService;
+        private readonly IProductService _productService;
 
-        public HomeController(IContactService contactService, ICaptchaValidator captchaValidator, IViewRenderService renderService)
+        public HomeController(IContactService contactService, ICaptchaValidator captchaValidator, IViewRenderService renderService, IProductService productService)
         {
             _contactService = contactService;
             _captchaValidator = captchaValidator;
             _renderService = renderService;
+            _productService = productService;
         }
 
         #endregion
@@ -81,7 +87,7 @@ namespace KetabAbee.Web.Controllers
         }
 
         #endregion
-        
+
         #region add email to news letter
 
         [HttpPost("AddToNLE")]
@@ -95,7 +101,7 @@ namespace KetabAbee.Web.Controllers
                     if (_contactService.AddEmailToNewsEmails(email))
                     {
                         //send email
-                        string body = _renderService.RenderToStringAsync("_JoinToNews",email);
+                        string body = _renderService.RenderToStringAsync("_JoinToNews", email);
                         SendEmail.Send(email, "عضویت در خبرنامه کتاب آبی", body);
                         TempData["SuccessSwal"] = "با موفقیت به خبرنامه افزوده شد";
 
@@ -207,6 +213,32 @@ namespace KetabAbee.Web.Controllers
             return View();
         }
 
+
+        #endregion
+
+        #region advanced search
+
+        [HttpGet("Advanced-Search")]
+        public async Task<IActionResult> AdvancedSearch(FilterAdvancedViewModel filter)
+        {
+            #region publishers
+
+            var selectPublishers = new List<SelectListItem>
+            {
+                new(){Text = "ناشر ..." , Value = ""}
+            };
+            selectPublishers.AddRange(_productService.GetPublishers()
+                .Select(p => new SelectListItem
+                {
+                    Text = p.PublisherName,
+                    Value = p.PublisherId.ToString()
+                }).ToList());
+            ViewBag.Publishers = selectPublishers;
+
+            #endregion
+
+            return View(await _productService.FilterBooksForFilterAdvanced(filter));
+        }
 
         #endregion
 

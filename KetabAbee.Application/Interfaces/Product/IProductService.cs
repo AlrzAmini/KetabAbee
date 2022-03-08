@@ -101,6 +101,8 @@ namespace KetabAbee.Application.Interfaces.Product
 
         IEnumerable<string> GetBookNamesForAutoCompleteSearch(string search);
 
+        Task<FilterAdvancedViewModel> FilterBooksForFilterAdvanced(FilterAdvancedViewModel filter);
+
         #endregion
 
         #region Publisher

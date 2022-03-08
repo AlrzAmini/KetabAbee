@@ -27,14 +27,20 @@
                     <ul>
                         @if (isAuth && isAdmin)
                         {
-                            <li><a asp-area="AdminPanel" asp-controller="AdminHome" asp-action="Home">پنل ادمین</a></li>
+                            <li>
+                                <a class="btn btn-info text-white btn-sm" asp-area="AdminPanel" asp-controller="AdminHome" asp-action="Home">
+                                    <i class="fad fa-user"></i>
+                                    پنل ادمین
+                                </a>
+                            </li>
                         }
+                        <li><a asp-controller="Home" asp-action="AdvancedSearch">جستجوی پیشرفته</a></li>
                         @if (isAuth)
                         {
                             <li><a asp-area="UserPanel" asp-controller="Order" asp-action="Orders"> سفارش ها</a></li>
                         }
                         <li><a asp-controller="Book" asp-action="Index">فروشگاه</a></li>
-                        <li><a asp-controller="Home" asp-action="Index">خانه</a></li>
+
                     </ul>
                 </div>
             </div>

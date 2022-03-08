@@ -1,0 +1,168 @@
+﻿@using KetabAbee.Domain.Models.Products
+@using KetabAbee.Application.Extensions
+@using KetabAbee.Application.Convertors
+@model KetabAbee.Application.DTOs.Book.FilterAdvancedViewModel
+@{
+    ViewData["Title"] = "جستجوی پیشرفته";
+
+    var selectAgeRanges = new List<SelectListItem>
+{
+        new(){Text = "رنج سنی ...",Value = ""}
+    };
+    selectAgeRanges.AddRange(Html.GetEnumSelectList<AgeRange>());
+
+    var selectCoverTypes = new List<SelectListItem>
+{
+        new(){Text = "نوع جلد ...",Value = ""}
+    };
+    selectCoverTypes.AddRange(Html.GetEnumSelectList<CoverType>());
+}
+@section Scripts
+{
+    <script src="/js/plugins/ResizeSensor.min.js"></script>
+    <partial name="_ValidationScriptsPartial" />
+}
+<main class="page-content">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body pb-2">
+                        <h6 class="m-0">
+                            جستوجو پیشرفته
+                            <small class="float-left text-muted">@Model.ResultCount نتیجه</small>
+                        </h6>
+                        <form id="filterform" class="row filter-price text-right">
+                            <input type="hidden" asp-for="PageNum" />
+                            <div class="form-element-row col-md-6 col-lg-4">
+                                <label>عنوان کتاب :</label>
+                                <input type="text" class="input-element" asp-for="BookName">
+                            </div>
+                            <div class="form-element-row col-md-6 col-lg-4">
+                                <label>نویسنده :</label>
+                                <input type="text" class="input-element" asp-for="Writer">
+                            </div>
+                            <div class="form-element-row col-md-6 col-lg-4">
+                                <label> ناشر :</label>
+                                <select class="form-control select2 select2-hidden-accessible" asp-for="PublisherId" asp-items="ViewBag.Publishers as List<SelectListItem>"></select>
+                            </div>
+                            <div class="form-element-row col-md-6 col-lg-4">
+                                <label> محدوده سنی :</label>
+                                <select class="form-control select2 select2-hidden-accessible" asp-for="AgeRange" asp-items="selectAgeRanges">
+                                </select>
+                            </div>
+                            <div class="form-element-row col-md-6 col-lg-4">
+                                <label> نوع جلد :</label>
+                                <select class="form-control select2 select2-hidden-accessible" asp-for="CoverType" asp-items="selectCoverTypes">
+                                </select>
+                            </div>
+                            <div class="form-element-row col-md-6 col-lg-4 mt-5">
+                                <label class="container-checkbox">
+                                    فقط محصولات موجود
+                                    <input type="checkbox" asp-for="IsExist">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <hr class="col-12 p-0 mb-4 mt-1">
+                            <div class="col-12 text-center">
+                                <div class="row">
+                                    <div class="col-md-6 col-lg-6">
+                                        <label>محدوده قیمت :</label>
+                                        <ul class="filter-range">
+                                            <li data-label="از" data-currency=" تومان">
+                                                <input type="text" class="example-val" asp-for="MinPrice">
+                                                <span asp-validation-for="MinPrice" class="text-danger"></span>
+                                            </li>
+                                            <li data-label="تا" data-currency="تومان">
+                                                <input type="text" class="example-val" asp-for="MaxPrice">
+                                                <span asp-validation-for="MaxPrice" class="text-danger"></span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6 col-lg-6">
+                                        <label>تعداد صفحه :</label>
+                                        <ul class="filter-range">
+                                            <li data-label="از" data-currency="صفحه">
+                                                <input type="text" class="example-val" asp-for="MinPageCount">
+                                            </li>
+                                            <li data-label="تا" data-currency="صفحه">
+                                                <input type="text" class="example-val" asp-for="MaxPageCount">
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-2">
+                                <button type="submit" class="btn  mr-2 btn-success float-left"><i class="fal fa-search"></i> جستجو</button>
+                                <a asp-controller="Home" asp-action="AdvancedSearch" class="btn  btn-danger float-left ml-2"><i class="fal fa-close"></i> حذف فیلتر</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 mt-3">
+            <div class="listing-items row" id="products">
+                @if (Model.Books != null && Model.Books.Any())
+                {
+                    foreach (var book in Model.Books)
+                    {
+                        var existStatus = book.BookInventory != null && book.BookInventory != 0;
+                        <div class="col-lg-3 col-md-4 col-sm-6 px-0">
+                            <div class="product-card">
+                                <div class="product-card-top">
+                                    <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@book.BookId" asp-route-bookName="@book.Name.NameFixerForUrl()" class="product-image">
+                                        <img src="/images/Book/thumb/@book.ImageName" alt="@book.Name">
+                                    </a>
+                                </div>
+                                <div class="product-card-middle">
+                                    <h6 class="product-name">
+                                        <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@book.BookId" asp-route-bookName="@book.Name.NameFixerForUrl()">
+                                            @book.Name اثر @book.Writer نشر @book.PublisherName
+                                        </a>
+                                    </h6>
+                                    @if (existStatus)
+                                    {
+                                        <div class="product-price product-price-clone">@book.Price.ToToman()</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="product-price product-price-clone text-danger">نا موجود</div>
+                                    }
+                                </div>
+                                <div class="product-card-bottom">
+                                    @if (book.BookInventory != null && book.BookInventory != 0)
+                                    {
+                                        <div class="product-price">
+                                            @book.Price.ToToman()
+                                        </div>
+                                        <a asp-controller="Book" asp-action="AddToCart" asp-route-productId="@book.BookId" target="_blank" class="btn-add-to-cart">
+                                            <i class="fad fa-cart-plus"></i>
+                                            افزودن به سبد خرید
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <div class="product-price text-danger">
+                                            نا موجود
+                                        </div>
+                                        <a class="btn-add-to-cart bg-danger">
+                                            موجودی نداریم :(
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-12 text-center alert alert-warning mt-3">
+                        محصولی برای نمایش وجود ندارد
+                    </div>
+                }
+            </div>
+            <partial name="_Paging" model="Model.GetCurrentPaging()"/>
+        </div>
+    </div>
+</main>

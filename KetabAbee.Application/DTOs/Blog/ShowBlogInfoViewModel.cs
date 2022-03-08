@@ -12,21 +12,15 @@ namespace KetabAbee.Application.DTOs.Blog
 
         public int BlogId { get; set; }
 
-
         public int UserId { get; set; }
 
-       
         public string BlogTitle { get; set; }
 
-        
         public string BlogBody { get; set; }
 
-       
         public string PageDescription { get; set; }
 
-        
         public string Tags { get; set; }
-
 
         public DateTime CreateDate { get; set; }
 
@@ -37,6 +31,8 @@ namespace KetabAbee.Application.DTOs.Blog
         public string UserImageName { get; set; }
 
         public string ImageName { get; set; }
+
+        public int ReadTime { get; set; }
 
 
         #endregion
