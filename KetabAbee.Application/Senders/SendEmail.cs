@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace KetabAbee.Application.Senders
 {
     public class SendEmail
     {
-        public static void Send(string to, string subject, string body)
+        public static async Task Send(string to, string subject, string body)
         {
             MailMessage mail = new MailMessage();
             SmtpClient SmtpServer = new SmtpClient("smtp.mail.yahoo.com");
@@ -21,8 +22,10 @@ namespace KetabAbee.Application.Senders
             SmtpServer.Credentials = new System.Net.NetworkCredential("dahakdolatabad@yahoo.com", "dbfjlckbrfrbfsyw");
             SmtpServer.EnableSsl = true;
 
-            SmtpServer.Send(mail);
-
+           await Task.Run(() =>
+           {
+               SmtpServer.SendAsync(mail, null);
+           });
         }
     }
 }

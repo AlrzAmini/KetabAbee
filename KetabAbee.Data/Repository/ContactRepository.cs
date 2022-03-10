@@ -31,12 +31,12 @@ namespace KetabAbee.Data.Repository
             }
         }
 
-        public bool AddEmailToNewsEmails(NewsEmail email)
+        public async Task<bool> AddEmailToNewsEmails(NewsEmail email)
         {
             try
             {
-                _context.NewsEmails.Add(email);
-                _context.SaveChanges();
+                await _context.NewsEmails.AddAsync(email);
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch

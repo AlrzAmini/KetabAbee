@@ -8,7 +8,7 @@ namespace KetabAbee.Domain.Interfaces
     {
         #region news letter
 
-        bool AddEmailToNewsEmails(NewsEmail email);
+        Task<bool> AddEmailToNewsEmails(NewsEmail email);
 
         bool EmailIsUnique(string email);
 

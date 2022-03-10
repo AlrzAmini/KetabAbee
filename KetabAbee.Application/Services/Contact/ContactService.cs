@@ -25,10 +25,10 @@ namespace KetabAbee.Application.Services.Contact
             _contactRepository = contactRepository;
         }
 
-        public bool AddEmailToNewsEmails(string email)
+        public async Task<bool> AddEmailToNewsEmails(string email)
         {
             email = email.Sanitizer();
-            return _contactRepository.AddEmailToNewsEmails(new NewsEmail { EmailAddress = email });
+            return await _contactRepository.AddEmailToNewsEmails(new NewsEmail { EmailAddress = email });
         }
 
         public bool AddNewsLetter(CreateNewsLetterViewModel letter)

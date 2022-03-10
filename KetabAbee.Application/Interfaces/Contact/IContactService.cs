@@ -14,7 +14,7 @@ namespace KetabAbee.Application.Interfaces.Contact
     {
         #region news letter
 
-        bool AddEmailToNewsEmails(string email);
+        Task<bool> AddEmailToNewsEmails(string email);
 
         bool EmailInNewsEmailsIsUnique(string email);
 

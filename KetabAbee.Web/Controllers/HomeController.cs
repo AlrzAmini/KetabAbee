@@ -91,30 +91,43 @@ namespace KetabAbee.Web.Controllers
         #region add email to news letter
 
         [HttpPost("AddToNLE")]
-        public IActionResult AddEmailToNewsLetterEmails(string email, string url)
+        public async Task<IActionResult> AddEmailToNewsLetterEmails(string email, string url)
         {
-            if (!string.IsNullOrEmpty(email))
+            try
             {
-                email = FixText.EmailFixer(email);
-                if (_contactService.EmailInNewsEmailsIsUnique(email))
+                if (!string.IsNullOrEmpty(email))
                 {
-                    if (_contactService.AddEmailToNewsEmails(email))
+                    email = FixText.EmailFixer(email);
+                    if (!email.IsValidEmail())
                     {
-                        //send email
-                        string body = _renderService.RenderToStringAsync("_JoinToNews", email);
-                        SendEmail.Send(email, "عضویت در خبرنامه کتاب آبی", body);
-                        TempData["SuccessSwal"] = "با موفقیت به خبرنامه افزوده شد";
-
+                        TempData["WarningSwal"] = "ایمیل وارد شده صحیح نیست";
                         return Redirect(url);
                     }
-                    TempData["ErrorSwal"] = "عملیات افزودن به خبرنامه با مشکل مواجه شد";
+                    if (_contactService.EmailInNewsEmailsIsUnique(email))
+                    {
+                        if (await _contactService.AddEmailToNewsEmails(email))
+                        {
+                            //send email
+                            string body = _renderService.RenderToStringAsync("_JoinToNews", email);
+                            SendEmail.Send(email, "عضویت در خبرنامه کتاب آبی", body);
+                            TempData["SuccessSwal"] = "با موفقیت به خبرنامه افزوده شد";
+
+                            return Redirect(url);
+                        }
+                        TempData["ErrorSwal"] = "عملیات افزودن به خبرنامه با مشکل مواجه شد";
+                        return Redirect(url);
+                    }
+                    TempData["WarningSwal"] = "این ایمیل قبلا ثبت شده است";
                     return Redirect(url);
                 }
-                TempData["WarningSwal"] = "این ایمیل قبلا ثبت شده است";
+                TempData["WarningSwal"] = "ایمیل را وارد کنید";
                 return Redirect(url);
             }
-            TempData["WarningSwal"] = "ایمیل را وارد کنید";
-            return Redirect(url);
+            catch 
+            {
+                TempData["ErrorSwal"] = "مشکلی رخ داد";
+                return Redirect(url);
+            }
         }
 
         #endregion

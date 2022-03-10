@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Application.Convertors;
 using KetabAbee.Application.Security;
 
 namespace KetabAbee.Application.Extensions
@@ -23,6 +24,27 @@ namespace KetabAbee.Application.Extensions
         public static string CheckPasswordStrength(this string password)
         {
             return PasswordStrengthChecker.CheckStrength(password).GetEnumName();
+        }
+
+        public static bool IsValidEmail(this string email)
+        {
+            var trimmedEmail = email.Trim();
+
+            if (trimmedEmail.EndsWith("."))
+            {
+                return false;
+            }
+
+            email = FixText.EmailFixer(email);
+            try
+            {
+                var address = new System.Net.Mail.MailAddress(email);
+                return address.Address == trimmedEmail;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
