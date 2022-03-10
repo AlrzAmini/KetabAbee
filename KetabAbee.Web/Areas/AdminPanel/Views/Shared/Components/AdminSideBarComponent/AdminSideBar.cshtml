@@ -1,18 +1,26 @@
-﻿@using KetabAbee.Application.Interfaces.Permission
-@using KetabAbee.Application.Const
-@using System.Security.Claims
-@using KetabAbee.Application.Extensions
-@inject IPermissionService _permissionService;
- <!-- Sidebar Menu -->
+﻿@{
+    bool adminTask = ViewBag.AdminTask;
+    bool adminRole = ViewBag.AdminRole;
+    bool adminUser = ViewBag.AdminUser;
+    bool adminTicket = ViewBag.AdminTicket;
+    bool adminGroup = ViewBag.AdminGroup;
+    bool adminBook = ViewBag.AdminBook;
+    bool adminOrder = ViewBag.AdminOrder;
+    bool adminNews = ViewBag.AdminNews;
+    bool adminContactUs = ViewBag.AdminContactUs;
+    bool adminDiscount = ViewBag.AdminDiscount;
+    bool adminBlog = ViewBag.AdminBlog;
+    bool adminComment = ViewBag.AdminComment;
+    bool adminExam = ViewBag.AdminExam;
+}
 <ul class="nav sidebar-menu">
-    <!--Dashboard-->
     <li>
         <a asp-controller="AdminHome" asp-action="Home">
             <i class="menu-icon glyphicon glyphicon-home"></i>
             <span class="menu-text"> داشبورد </span>
         </a>
     </li>
-    @if (_permissionService.IsUserHaveRole(User.GetUserId(), RoleIds.Manager))
+    @if (adminTask)
     {
         <li>
             <a asp-controller="AdminTask" asp-action="Index">
@@ -21,7 +29,7 @@
             </a>
         </li>
     }
-    @if (_permissionService.CheckPermission(PerIds.AdminRoles, User.GetUserId()))
+    @if (adminRole)
     {
         <!--Roles-->
         <li>
@@ -31,7 +39,7 @@
             </a>
         </li>
     }
-    @if (_permissionService.CheckPermission(PerIds.AdminUsers, User.GetUserId()))
+    @if (adminUser)
     {
         <!--Users-->
         <li>
@@ -41,7 +49,7 @@
             </a>
         </li>
     }
-    @if (_permissionService.CheckPermission(PerIds.AdminTickets, User.GetUserId()))
+    @if (adminTicket)
     {
         <!--Tickets-->
         <li>
@@ -51,7 +59,7 @@
             </a>
         </li>
     }
-    @if (_permissionService.CheckPermission(PerIds.AdminGroups, User.GetUserId()))
+    @if (adminGroup)
     {
         <!--Groups-->
         <li>
@@ -61,7 +69,7 @@
             </a>
         </li>
     }
-    @if (_permissionService.CheckPermission(PerIds.AdminBooks, User.GetUserId()))
+    @if (adminBook)
     {
         <!--Books-->
         <li>
@@ -86,7 +94,7 @@
             </ul>
         </li>
     }
-    @if (_permissionService.CheckPermission(PerIds.AdminOrders, User.GetUserId()))
+    @if (adminOrder)
     {
         <!--Orders-->
         <li>
@@ -96,7 +104,7 @@
             </a>
         </li>
     }
-    @if (_permissionService.CheckPermission(PerIds.AdminNews, User.GetUserId()))
+    @if (adminNews)
     {
         <!--news letter-->
         <li>
@@ -106,7 +114,7 @@
             </a>
         </li>
     }
-    @if (_permissionService.CheckPermission(PerIds.AdminContactUses, User.GetUserId()))
+    @if (adminContactUs)
     {
         <!--news letter-->
         <li>
@@ -122,7 +130,7 @@
             </a>
         </li>
     }
-    @if (_permissionService.CheckPermission(PerIds.AdminDiscounts, User.GetUserId()))
+    @if (adminDiscount)
     {
         <!--news letter-->
         <li>
@@ -132,7 +140,7 @@
             </a>
         </li>
     }
-    @if (_permissionService.CheckPermission(PerIds.AdminBlogs, User.GetUserId()))
+    @if (adminBlog)
     {
         <!--news letter-->
         <li>
@@ -142,7 +150,7 @@
             </a>
         </li>
     }
-    @if (_permissionService.CheckPermission(PerIds.AdminComments, User.GetUserId()))
+    @if (adminComment)
     {
         <!--news letter-->
         <li>
@@ -152,6 +160,15 @@
             </a>
         </li>
     }
+    @if (adminExam)
+    {
+        <!--news letter-->
+        <li>
+            <a asp-area="AdminPanel" asp-controller="Exam" asp-action="Index">
+                <i class="menu-icon fa fa-question"></i>
+                <span class="menu-text"> مدیریت آزمون ها </span>
+            </a>
+        </li>
+    }
 
 </ul>
-<!-- /Sidebar Menu -->

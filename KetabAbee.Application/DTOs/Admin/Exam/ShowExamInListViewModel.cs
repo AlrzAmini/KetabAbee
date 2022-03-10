@@ -12,9 +12,9 @@ namespace KetabAbee.Application.DTOs.Admin.Exam
 
         public int BookId { get; set; }
 
-        public DateTime CreateDate { get; set; }
+        public string BookName { get; set; }
 
-        public DateTime ExpireDate { get; set; }
+        public int Time { get; set; }
 
         public bool IsActive { get; set; }
     }

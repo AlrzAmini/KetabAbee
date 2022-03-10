@@ -80,9 +80,14 @@ namespace KetabAbee.Application.Services.Permission
             return _permissionRepository.GetRoles();
         }
 
-        public bool IsUserHaveRole(int userId, int roleId)
+        public async Task<bool> IsUserHaveRole(int userId, int roleId)
         {
-            return _permissionRepository.IsUserHaveRole(userId, roleId);
+            return await _permissionRepository.IsUserHaveRole(userId, roleId);
+        }
+
+        public bool IsUserHaveRoleForCheckAttribute(int userId, int roleId)
+        {
+            return _permissionRepository.IsUserHaveRoleForCheckAttribute(userId, roleId);
         }
 
         public void UpdatePermissionOfRole(int roleId, List<int> selectedPermission)

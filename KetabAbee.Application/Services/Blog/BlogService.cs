@@ -130,7 +130,7 @@ namespace KetabAbee.Application.Services.Blog
                 BlogId = b.BlogId,
                 BlogTitle = b.BlogTitle,
                 Writer = b.User.UserName,
-                BlogDescription = b.PageDescription.TruncateLongString(50),
+                BlogDescription = b.PageDescription.TruncateLongString(120),
                 WriterAvatarName = b.User.AvatarName,
                 Tags = b.Tags
             });

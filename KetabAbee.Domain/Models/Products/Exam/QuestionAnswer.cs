@@ -23,6 +23,8 @@ namespace KetabAbee.Domain.Models.Products.Exam
         [MaxLength(300, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
         public string QAnswerBody { get; set; }
 
+        public bool IsCorrect { get; set; }
+
         public bool IsDelete { get; set; }
 
 

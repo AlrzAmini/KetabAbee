@@ -1,6 +1,87 @@
-﻿
+﻿@model List<KetabAbee.Application.DTOs.Admin.Exam.ShowExamInListViewModel>
 @{
     ViewData["Title"] = "آزمون ها";
 }
 
-
+<!-- Page Breadcrumb -->
+<div class="page-breadcrumbs margin-bottom-20">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
+<!-- /Page Breadcrumb -->
+<div class="row">
+    <div class="col-md-12 margin-bottom-20">
+        <a class="btn btn-success" asp-controller="Exam" asp-action="CreateExam">افزودن آزمون</a>
+    </div>
+</div>
+<div class="col-xs-12 col-md-12">
+    <div class="well with-header with-footer">
+        <div class="header bordered-pink">
+            @ViewData["Title"]
+        </div>
+        <form id="filterform" asp-controller="AdminRequestBranch" asp-action="Index" method="get">
+            @*<input type="hidden" asp-for="PageNum" />*@
+        </form>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        شماره
+                    </th>
+                    <th>
+                        برای کتاب
+                    </th>
+                    <th>
+                        زمان
+                    </th>
+                    <th>
+                        وضعیت
+                    </th>
+                    <th>
+                        دستورات
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var exam in Model)
+                    {
+                        <tr>
+                            <td>
+                                @exam.ExamId
+                            </td>
+                            <td>
+                                <a asp-controller="AdminBook" asp-action="BookInfo" asp-route-bookId="@exam.BookId">@exam.BookName</a>
+                            </td>
+                            <td>
+                                @exam.Time دقیقه
+                            </td>
+                            <td class="@(exam.IsActive ? "text-success":"text-danger")">
+                                @(exam.IsActive ? "فعال":"غیر فعال")
+                            </td>
+                            <td>
+                                <a class="btn btn-success" asp-controller="Exam" asp-action="ExamDetails" asp-route-examId="@exam.ExamId">مشاهده</a>
+                                <a class="btn btn-warning tooltip-warning" data-toggle="tooltip" data-placement="top" data-original-title="یک کتاب همزمان نمیتواند دو آزمون فعال داشته باشد" asp-controller="Exam" asp-action="ChangeIsActiveStatus" asp-route-examId="@exam.ExamId">فعال / غیر فعال</a>
+                                <a class="btn btn-info">ویرایش</a>
+                                <a class="btn btn-danger" asp-controller="Exam" asp-action="DeleteExam" asp-route-examId="@exam.ExamId" onclick="return confirm('از حذف این آزمون اطمینان دارید؟')">حذف</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="alert alert-info">آزمونی ثبت نشده است</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @*<partial name="_AdminPaging" model="@Model.GetCurrentPaging()" />*@
+    </div>
+</div>

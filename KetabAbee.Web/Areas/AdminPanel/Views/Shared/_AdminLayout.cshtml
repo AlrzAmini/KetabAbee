@@ -16,7 +16,7 @@
 <div class="main-container container-fluid">
         <div class="page-container">
             <div class="page-sidebar" id="sidebar">
-                <partial name="_AdminSideBar" />
+                @await Component.InvokeAsync("AdminSideBarComponent")
             </div>
             <partial name="_ChatBar" />
             <div class="page-header position-relative">

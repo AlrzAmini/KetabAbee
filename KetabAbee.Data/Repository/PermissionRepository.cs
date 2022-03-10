@@ -7,6 +7,7 @@ using KetabAbee.Data.Context;
 using KetabAbee.Domain.Interfaces;
 using KetabAbee.Domain.Models.Permission;
 using KetabAbee.Domain.Models.User;
+using Microsoft.EntityFrameworkCore;
 
 namespace KetabAbee.Data.Repository
 {
@@ -144,7 +145,12 @@ namespace KetabAbee.Data.Repository
                 .ToList();
         }
 
-        public bool IsUserHaveRole(int userId, int roleId)
+        public async Task<bool> IsUserHaveRole(int userId, int roleId)
+        {
+            return await _context.UserRoles.AnyAsync(r => r.UserId == userId && r.RoleId == roleId);
+        }
+
+        public bool IsUserHaveRoleForCheckAttribute(int userId, int roleId)
         {
             return _context.UserRoles.Any(r => r.UserId == userId && r.RoleId == roleId);
         }

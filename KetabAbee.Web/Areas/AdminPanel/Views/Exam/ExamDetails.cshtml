@@ -1,0 +1,94 @@
+﻿@model KetabAbee.Application.DTOs.Admin.Exam.ExamDetailsViewModel
+@{
+    ViewData["Title"] = "جزییات آزمون ";
+}
+<div class="page-breadcrumbs margin-bottom-20">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li>
+            <a asp-controller="Exam" asp-action="Index">آزمون ها</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
+<div class="row margin-bottom-20">
+    <div class="col-md-12">
+        <a class="btn btn-success" asp-controller="Exam" asp-action="CreateQuestion" asp-route-examId="@Model.ExamId">افزودن سوال جدید</a>
+    </div>
+</div>
+<div class="col-lg-12 col-sm-6 col-xs-12">
+    <div class="widget flat radius-bordered">
+        <div class="widget-header bg-info">
+            <span class="widget-caption">@ViewData["Title"]</span>
+        </div>
+        <div class="widget-body">
+            <div id="registration-form">
+                <div class="form-title">
+                    @ViewData["Title"]
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>کتاب :</label>
+                            <p class="font-120">@Model.BookName</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>
+                                زمان آزمون:
+                            </label>
+                            <p class="font-120">@Model.Time دقیقه</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>
+                                وضعیت:
+                            </label>
+                            <p class="font-120 @(Model.IsActive ? "text-success":"text-danger")">@(Model.IsActive ? "فعال":"غیر فعال")</p>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                @if (Model.Questions != null && Model.Questions.Any())
+                {
+                    @foreach (var q in Model.Questions)
+                    {
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>متن سوال:</label>
+                                    <p class="font-120">@q.QBody</p>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                @{
+                                    int counter = 0;
+                                }
+                                @foreach (var answer in q.QuestionAnswers)
+                                {
+                                    counter++;
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="@(answer.IsCorrect ? "text-success font-150":"")">پاسخ @counter:</label>
+                                            <p class="font-120 @(answer.IsCorrect ? "text-success":"")">@answer.QAnswerBody</p>
+                                            @if (!answer.IsCorrect)
+                                            {
+                                                <a class="font-120 text-white btn btn-success btn-sm" asp-controller="Exam" asp-action="AddCorrectAnswer" asp-route-examId="@Model.ExamId" asp-route-questionId="@q.QuestionId" asp-route-answerId="@answer.QAnswerId">صحیح</a>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <hr class="wide" />
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>

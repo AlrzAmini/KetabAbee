@@ -9,6 +9,7 @@ using KetabAbee.Application.Convertors;
 using KetabAbee.Application.Interfaces.Blog;
 using KetabAbee.Application.Interfaces.Comment;
 using KetabAbee.Application.Interfaces.Contact;
+using KetabAbee.Application.Interfaces.Exam;
 using KetabAbee.Application.Interfaces.Order;
 using KetabAbee.Application.Interfaces.Permission;
 using KetabAbee.Application.Interfaces.Product;
@@ -20,6 +21,7 @@ using KetabAbee.Application.Interfaces.Wallet;
 using KetabAbee.Application.Services.Blog;
 using KetabAbee.Application.Services.Comment;
 using KetabAbee.Application.Services.Contact;
+using KetabAbee.Application.Services.Exam;
 using KetabAbee.Application.Services.Order;
 using KetabAbee.Application.Services.Permission;
 using KetabAbee.Application.Services.Product;
@@ -53,6 +55,7 @@ namespace KetabAbee.IoC
             service.AddScoped<IDiscountService, DiscountService>();
             service.AddScoped<IBlogService, BlogService>();
             service.AddScoped<ITaskService, TaskService>();
+            service.AddScoped<IExamService, ExamService>();
 
             #endregion
 
@@ -69,6 +72,7 @@ namespace KetabAbee.IoC
             service.AddScoped<IDiscountRepository, DiscountRepository>();
             service.AddScoped<IBlogRepository, BlogRepository>();
             service.AddScoped<ITaskRepository, TaskRepository>();
+            service.AddScoped<IExamRepository, ExamRepository>();
 
             #endregion
 

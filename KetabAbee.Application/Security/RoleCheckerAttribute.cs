@@ -24,13 +24,20 @@ namespace KetabAbee.Application.Security
         {
             _permissionService = (IPermissionService)context.HttpContext.RequestServices.GetService(typeof(IPermissionService));
 
-            if (context.HttpContext.User.Identity.IsAuthenticated)
+            if (_permissionService != null)
             {
-                var userId = context.HttpContext.User.GetUserId();
-
-                if (!_permissionService.IsUserHaveRole(userId, _roleId))
+                if (context.HttpContext.User.Identity.IsAuthenticated)
                 {
-                    context.Result = new RedirectResult("/");
+                    var userId = context.HttpContext.User.GetUserId();
+
+                    if (!_permissionService.IsUserHaveRoleForCheckAttribute(userId, _roleId))
+                    {
+                        context.Result = new RedirectResult("/");
+                    }
+                }
+                else
+                {
+                    context.Result = new RedirectResult("/Login");
                 }
             }
             else

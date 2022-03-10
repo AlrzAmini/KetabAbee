@@ -39,7 +39,8 @@ namespace KetabAbee.Application.Interfaces.Permission
 
         bool CheckPermission(int permissionId, int userId);
 
-        bool IsUserHaveRole(int userId, int roleId);
+        Task<bool> IsUserHaveRole(int userId, int roleId);
+        bool IsUserHaveRoleForCheckAttribute(int userId, int roleId);
 
         #endregion
     }

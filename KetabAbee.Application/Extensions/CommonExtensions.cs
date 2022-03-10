@@ -60,7 +60,8 @@ namespace KetabAbee.Application.Extensions
 
         public static string TruncateLongString(this string str, int maxLength)
         {
-            return str?[..Math.Min(str.Length, maxLength)];
+            var res = str?[..Math.Min(str.Length, maxLength)];
+            return res + " ... ";
         }
 
         public static string NameFixerForUrl(this string str)

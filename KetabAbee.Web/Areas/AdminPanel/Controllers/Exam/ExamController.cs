@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KetabAbee.Application.Const;
+using KetabAbee.Application.DTOs.Admin.Exam;
+using KetabAbee.Application.Interfaces.Exam;
 using KetabAbee.Application.Security;
 
 namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Exam
@@ -12,9 +14,145 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Exam
     [Route("Admin/Exams")]
     public class ExamController : AdminBaseController
     {
-        public IActionResult Index()
+        #region constructor
+
+        private readonly IExamService _examService;
+
+        public ExamController(IExamService examService)
+        {
+            _examService = examService;
+        }
+
+        #endregion
+
+        #region index
+
+        public async Task<IActionResult> Index()
+        {
+            return View(await _examService.GetExamsForAdmin());
+        }
+
+        #endregion
+
+        #region add exam
+
+        [HttpGet("Create")]
+        public IActionResult CreateExam()
         {
             return View();
         }
+
+        [HttpPost("Create"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateExam(CreateExamViewModel exam)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(exam);
+            }
+
+            if (await _examService.CreateExam(exam))
+            {
+                TempData["SuccessMessage"] = "آزمون با موفقیت ایجاد شد";
+                return RedirectToAction("Index");
+            }
+            TempData["ErrorMessage"] = "مشکلی در ایجاد آزمون رخ داد";
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region delete exam
+
+        [HttpGet("Delete")]
+        public async Task<IActionResult> DeleteExam(int examId)
+        {
+            if (await _examService.DeleteExam(examId))
+            {
+                TempData["SuccessMessage"] = "آزمون با موفقیت حذف شد";
+                return RedirectToAction("Index");
+            }
+            TempData["ErrorMessage"] = "آزمون حذف نشد";
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region exam details
+
+        [HttpGet("Details")]
+        public async Task<IActionResult> ExamDetails(int examId)
+        {
+            var exam = await _examService.GetExamDetails(examId);
+            if (!string.IsNullOrEmpty(exam.BookName)) return View(exam);
+
+            TempData["WarningMessage"] = "آزمونی یافت نشد";
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region select correct answer
+
+        [HttpGet("CorrectAnswer/A/{answerId}/Q/{questionId}/E/{examId}")]
+        public async Task<IActionResult> AddCorrectAnswer(int answerId, int questionId, int examId)
+        {
+            if (await _examService.AddCorrectAnswer(answerId, questionId))
+            {
+                TempData["SuccessMessage"] = "پاسخ صحیح با موفقیت ثبت شد";
+                return RedirectToAction("ExamDetails", new { examId });
+            }
+            TempData["ErrorMessage"] = "مشکلی در ثبت پاسخ رخ داد";
+            return RedirectToAction("ExamDetails", new { examId });
+        }
+
+        #endregion
+
+        #region change is active status
+
+        [HttpGet("ChangeIsActive/examId")]
+        public async Task<IActionResult> ChangeIsActiveStatus(int examId)
+        {
+            if (await _examService.ChangeIsActiveStatus(examId))
+            {
+                TempData["SuccessMessage"] = "با موفقیت انجام شد";
+                return RedirectToAction("Index");
+            }
+
+            TempData["ErrorMessage"] = "با شکست مواجه شد";
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region Create New Question
+
+        [HttpGet("Create-Question/E/{examId}")]
+        public async Task<IActionResult> CreateQuestion(int examId)
+        {
+            var model = await _examService.GetCreateQuestionInfo(examId);
+            if (model != null) return View(model);
+
+            TempData["ErrorMessage"] = "آزمونی یافت نشد";
+            return RedirectToAction("ExamDetails", new { examId });
+        }
+
+        [HttpPost("Create-Question/E/{examId}"),ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateQuestion(CreateQuestionViewModel questionModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(questionModel);
+            }
+
+            if (await _examService.AddQuestionToExam(questionModel))
+            {
+                TempData["SuccessMessage"] = "سوال افزوده شد";
+                return RedirectToAction("ExamDetails", new { examId = questionModel.ExamId });
+            }
+            TempData["ErrorMessage"] = "مشکلی در ثبت سوال رخ داد";
+            return RedirectToAction("ExamDetails", new { examId = questionModel.ExamId });
+        }
+
+        #endregion
     }
 }

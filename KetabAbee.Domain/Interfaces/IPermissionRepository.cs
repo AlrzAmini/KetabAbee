@@ -42,7 +42,9 @@ namespace KetabAbee.Domain.Interfaces
 
         List<int> GetRolesOfPermissionByPermissionId(int permissionId);
 
-        bool IsUserHaveRole(int userId, int roleId);
+        Task<bool> IsUserHaveRole(int userId, int roleId);
+
+        bool IsUserHaveRoleForCheckAttribute(int userId, int roleId);
 
         #endregion
     }
