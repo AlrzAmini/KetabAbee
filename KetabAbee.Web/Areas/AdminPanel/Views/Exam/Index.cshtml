@@ -68,7 +68,7 @@
                             <td>
                                 <a class="btn btn-success" asp-controller="Exam" asp-action="ExamDetails" asp-route-examId="@exam.ExamId">مشاهده</a>
                                 <a class="btn btn-warning tooltip-warning" data-toggle="tooltip" data-placement="top" data-original-title="یک کتاب همزمان نمیتواند دو آزمون فعال داشته باشد" asp-controller="Exam" asp-action="ChangeIsActiveStatus" asp-route-examId="@exam.ExamId">فعال / غیر فعال</a>
-                                <a class="btn btn-info">ویرایش</a>
+                                <a class="btn btn-info" asp-controller="Exam" asp-action="EditExam" asp-route-examId="@exam.ExamId">ویرایش</a>
                                 <a class="btn btn-danger" asp-controller="Exam" asp-action="DeleteExam" asp-route-examId="@exam.ExamId" onclick="return confirm('از حذف این آزمون اطمینان دارید؟')">حذف</a>
                             </td>
                         </tr>

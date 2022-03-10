@@ -24,5 +24,11 @@ namespace KetabAbee.Application.Interfaces.Exam
         Task<CreateQuestionViewModel> GetCreateQuestionInfo(int examId);
 
         Task<bool> AddQuestionToExam(CreateQuestionViewModel question);
+
+        Task<bool> DeleteQuestion(int questionId);
+
+        Task<EditExamViewModel> GetInfoForEditExam(int examId);
+
+        Task<bool> EditExam(EditExamViewModel exam);
     }
 }

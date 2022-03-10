@@ -1,0 +1,80 @@
+﻿@model KetabAbee.Application.DTOs.Admin.Exam.EditExamViewModel
+@{
+    ViewData["Title"] = "ویرایش آزمون";
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="/lib/EasyAutocomplete/easy-autocomplete.min.css" />
+    <link rel="stylesheet" href="/lib/EasyAutocomplete/easy-autocomplete.themes.min.css" />
+    <link rel="stylesheet" href="/lib/EasyAutocomplete/maps/easy-autocomplete.min.css.map" />
+    <link rel="stylesheet" href="/lib/EasyAutocomplete/maps/easy-autocomplete.themes.min.css.map" />
+}
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+    <script src="/lib/EasyAutocomplete/jquery.easy-autocomplete.min.js"></script>
+    <script>
+        var options = {
+            url: function (phrase) {
+                return "/Admin/Books/Get/Products-autocomplete-Json?bookName=" + phrase;
+            },
+            getValue: function (element) {
+                return element.name;
+            },
+            list: {
+                match: {
+                    enabled: true
+                },
+                onSelectItemEvent: function () {
+                    var value = $("#Product--Name").getSelectedItemData().bookId;
+
+                    $("#productId").val(value).trigger("change");
+                }
+            },
+            theme: "round"
+        };
+
+        $("#Product--Name").easyAutocomplete(options);
+    </script>
+}
+<div class="col-lg-12 col-sm-6 col-xs-12">
+    <div class="widget flat radius-bordered">
+        <div class="widget-header bg-blue">
+            <span class="widget-caption">جزییات آزمون</span>
+        </div>
+        <div class="widget-body">
+            <div id="registration-form">
+                <form role="form" asp-controller="Exam" asp-action="EditExam" method="post">
+                    <div class="form-title">
+                        @ViewData["Title"]
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <input type="hidden" asp-for="productId" />
+                            <input type="hidden" asp-for="ExamId" />
+                            <div class="form-group">
+                                <label>کتاب :</label>
+                                <span class="input-icon icon-right">
+                                    <input type="text" class="form-control" id="Product--Name" value="@Model.ProductName" placeholder="نام کتاب مورد نظر" required="">
+                                    <i class="fa fa-book blue"></i>
+                                </span>
+                                <span asp-validation-for="productId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>
+                                    زمان آزمون:
+                                </label>
+                                <input type="number" class="form-control" asp-for="Time" placeholder="زمان به دقیقه">
+                                <span asp-validation-for="Time" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-info"><i class="fa fa-edit"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

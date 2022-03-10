@@ -136,7 +136,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Exam
             return RedirectToAction("ExamDetails", new { examId });
         }
 
-        [HttpPost("Create-Question/E/{examId}"),ValidateAntiForgeryToken]
+        [HttpPost("Create-Question/E/{examId}"), ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateQuestion(CreateQuestionViewModel questionModel)
         {
             if (!ModelState.IsValid)
@@ -151,6 +151,53 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Exam
             }
             TempData["ErrorMessage"] = "مشکلی در ثبت سوال رخ داد";
             return RedirectToAction("ExamDetails", new { examId = questionModel.ExamId });
+        }
+
+        #endregion
+
+        #region Edit Question
+
+        [HttpGet("Edit/{examId}")]
+        public async Task<IActionResult> EditExam(int examId)
+        {
+            var exam = await _examService.GetInfoForEditExam(examId);
+            if (exam != null) return View(exam);
+
+            TempData["ErrorMessage"] = "آزمونی یافت نشد";
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost("Edit/{examId}"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditExam(EditExamViewModel exam)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(exam);
+            }
+
+            if (await _examService.EditExam(exam))
+            {
+                TempData["SuccessMessage"] = "آزمون ویرایش شد";
+                return RedirectToAction("Index");
+            }
+            TempData["ErrorMessage"] = "مشکلی در ویرایش آزمون رخ داد";
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region delete question
+
+        [HttpGet("Delete/Q/{questionId}")]
+        public async Task<IActionResult> DeleteQuestion(int questionId, int examId)
+        {
+            if (await _examService.DeleteQuestion(questionId))
+            {
+                TempData["SuccessMessage"] = "سوال با موفقیت حذف شد";
+                return RedirectToAction("ExamDetails", new { examId });
+            }
+            TempData["ErrorMessage"] = "حذف سوال با مشکل مواجه شد";
+            return RedirectToAction("ExamDetails", new { examId });
         }
 
         #endregion

@@ -53,7 +53,7 @@
                         </div>
                     </div>
                 </div>
-                <hr />
+                <hr class="wide" />
                 @if (Model.Questions != null && Model.Questions.Any())
                 {
                     @foreach (var q in Model.Questions)
@@ -84,8 +84,11 @@
                                     </div>
                                 }
                             </div>
+                            <div class="col-md-1">
+                                <a class="btn btn-danger" asp-controller="Exam" asp-action="DeleteQuestion" asp-route-examId="@Model.ExamId" asp-route-questionId="@q.QuestionId">حذف</a>
+                            </div>
                         </div>
-                        <hr class="wide" />
+                        <hr/>
                     }
                 }
             </div>

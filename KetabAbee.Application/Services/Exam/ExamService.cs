@@ -136,6 +136,20 @@ namespace KetabAbee.Application.Services.Exam
             return await _examRepository.RemoveExam(exam);
         }
 
+        public async Task<bool> DeleteQuestion(int questionId)
+        {
+            var question = await _examRepository.GetQuestionWithIncludesById(questionId);
+            return await _examRepository.DeleteQuestion(question);
+        }
+
+        public async Task<bool> EditExam(EditExamViewModel exam)
+        {
+            var newExam = await _examRepository.GetExamById(exam.ExamId);
+            newExam.BookId = exam.productId;
+            newExam.Time = exam.Time;
+            return await _examRepository.UpdateExam(newExam);
+        }
+
         public async Task<CreateQuestionViewModel> GetCreateQuestionInfo(int examId)
         {
             return new CreateQuestionViewModel
@@ -180,6 +194,18 @@ namespace KetabAbee.Application.Services.Exam
                 IsActive = e.IsActive,
                 BookName = e.Book.Name
             }).ToList();
+        }
+
+        public async Task<EditExamViewModel> GetInfoForEditExam(int examId)
+        {
+            var exam = await _examRepository.GetExamByIdWithIncludes(examId);
+            return new EditExamViewModel
+            {
+                ProductName = exam.Book.Name,
+                Time = exam.Time,
+                productId = exam.BookId,
+                ExamId = exam.ExamId
+            };
         }
     }
 }

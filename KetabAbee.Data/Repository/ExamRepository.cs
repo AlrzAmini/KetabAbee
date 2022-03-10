@@ -57,6 +57,31 @@ namespace KetabAbee.Data.Repository
             await _context.SaveChangesAsync();
         }
 
+        public async Task<bool> DeleteQuestion(ExamQuestion question)
+        {
+            try
+            {
+                foreach (var answer in question.QuestionAnswers)
+                {
+                    answer.IsDelete = true;
+                }
+                
+
+                var correctAnswer = await GetCorrectAnswer(question.QuestionId);
+                correctAnswer.IsDelete = true;
+                await UpdateCorrectAnswer(correctAnswer);
+
+                question.IsDelete = true;
+                _context.ExamQuestions.Update(question);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public async Task<List<Exam>> GetAllIsActiveBookExams(int bookId)
         {
             return await _context.Exams.Where(e => e.BookId == bookId && e.IsActive).ToListAsync();
@@ -106,6 +131,13 @@ namespace KetabAbee.Data.Repository
                 .Include(e => e.Book)
                 .OrderByDescending(e => e.ExamId)
                 .ToListAsync();
+        }
+
+        public async Task<ExamQuestion> GetQuestionWithIncludesById(int questionId)
+        {
+            return await _context.ExamQuestions
+                .Include(q => q.QuestionAnswers)
+                .FirstOrDefaultAsync(q => q.QuestionId == questionId);
         }
 
         public async Task<bool> IsQuestionHaveCorrectAnswer(int questionId)
