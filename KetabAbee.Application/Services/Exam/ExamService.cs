@@ -230,6 +230,11 @@ namespace KetabAbee.Application.Services.Exam
             return await _examRepository.GetExamResultById(examResultId);
         }
 
+        public async Task<List<ExamResult>> GetExamResults()
+        {
+            return await _examRepository.GetExamResults();
+        }
+
         public async Task<int> GetExamResultScore(int questionsCount, int correctAnswersCount)
         {
             if (questionsCount == 0)

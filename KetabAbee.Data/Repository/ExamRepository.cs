@@ -151,6 +151,15 @@ namespace KetabAbee.Data.Repository
             return await _context.ExamResults.FindAsync(examResultId);
         }
 
+        public async Task<List<ExamResult>> GetExamResults()
+        {
+            return await _context.ExamResults
+                .Include(r=>r.Exam)
+                .ThenInclude(r=>r.Book)
+                .OrderByDescending(r=>r.ExamResultId)
+                .ToListAsync();
+        }
+
         public async Task<List<Exam>> GetExams()
         {
             return await _context.Exams

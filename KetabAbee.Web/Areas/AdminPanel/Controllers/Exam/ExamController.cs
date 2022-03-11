@@ -34,6 +34,16 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Exam
 
         #endregion
 
+        #region exam results
+
+        [HttpGet("Results")]
+        public async Task<IActionResult> IndexResults()
+        {
+            return View(await _examService.GetExamResults());
+        }
+
+        #endregion
+
         #region add exam
 
         [HttpGet("Create")]

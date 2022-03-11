@@ -1,0 +1,75 @@
+﻿@model List<KetabAbee.Domain.Models.Products.Exam.ExamResult>
+@{
+    ViewData["Title"] = "نتایج آزمون ها";
+}
+
+<!-- Page Breadcrumb -->
+<div class="page-breadcrumbs margin-bottom-20">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
+<!-- /Page Breadcrumb -->
+<div class="col-xs-12 col-md-12">
+    <div class="well with-header with-footer">
+        <div class="header bordered-pink">
+            @ViewData["Title"]
+        </div>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        شماره
+                    </th>
+                    <th>
+                        کتاب
+                    </th>
+                    <th>
+                        آی دی کاربر
+                    </th>
+                    <th>
+                        آی پی کاربر
+                    </th>
+                    <th>
+                        نمره
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var result in Model)
+                    {
+                        <tr>
+                            <td>
+                                @result.ExamResultId
+                            </td>
+                            <td>
+                                @result.Exam.Book.Name
+                            </td>
+                            <td>
+                                @result.UserId
+                            </td>
+                            <td>
+                                @result.UserIp
+                            </td>
+                            <td>
+                                @result.Score
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="alert alert-info">آزمونی ثبت نشده است</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
