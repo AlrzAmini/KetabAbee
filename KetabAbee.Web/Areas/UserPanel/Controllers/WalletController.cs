@@ -4,6 +4,7 @@ using GoogleReCaptcha.V3.Interface;
 using KetabAbee.Application.DTOs.Wallet;
 using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Wallet;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KetabAbee.Web.Areas.UserPanel.Controllers
 {
@@ -13,11 +14,13 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
 
         private readonly IWalletService _walletService;
         private readonly ICaptchaValidator _captchaValidator;
+        private readonly IPaymentService _paymentService;
 
-        public WalletController(IWalletService walletService, ICaptchaValidator captchaValidator)
+        public WalletController(IWalletService walletService, ICaptchaValidator captchaValidator, IPaymentService paymentService)
         {
             _walletService = walletService;
             _captchaValidator = captchaValidator;
+            _paymentService = paymentService;
         }
 
         #endregion
@@ -37,7 +40,7 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
             return View(_walletService.GetWalletsWithPagingByUserId(walletsWithPaging));
         }
 
-        [HttpPost("Wallet/Charge"),ValidateAntiForgeryToken]
+        [HttpPost("Wallet/Charge"), ValidateAntiForgeryToken]
         public async Task<IActionResult> ChargeWallet(ChargeWalletViewModel charge, string url)
         {
             if (!await _captchaValidator.IsCaptchaPassedAsync(charge.Captcha))
@@ -57,25 +60,56 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
             }
 
             // charge wallet
-            if (_walletService.ChargeWalletByUserId(User.GetUserId(), charge))
+            var callbackUrl = CommonExtensions.DomainAddress + Url.RouteUrl("ZarinPalPaymentResultWallet", new { amount = charge.Amount, behalf = charge.Behalf});
+            var redirectUrl = "";
+            var status = _paymentService.CreatePaymentRequest(null, int.Parse(charge.Amount.ToString()), charge.Behalf, callbackUrl, ref redirectUrl, User.GetUserEmail());
+
+            if (status == PaymentStatus.St100)
             {
-                TempData["SuccessSwal"] = "شارژ حساب شما با موفقیت انجام شد . لذت ببرید";
-                return Redirect(!string.IsNullOrEmpty(url) ? url : "/UserPanel/Dashboard");
+                return Redirect(redirectUrl);
             }
 
-            TempData["ErrorSwal"] = "عملیات شارژ حساب انجام نشد";
-            return Redirect("/Wallet/Charge");
+            return Redirect(!string.IsNullOrEmpty(url) ? url : "/UserPanel/Dashboard");
 
-            #region Payment
+        }
 
-            //var payment = new ZarinpalSandbox.Payment((int)charge.Amount);
-            //var res = payment.PaymentRequest(charge.Behalf, "https://localhost:44338/Wallet/OnlinePayment/" + walletId, "mranotmillion@gmail.com", "09300804882");
-            //if (res.Result.Status == 100)
-            //{
-            //    return Redirect("https://sandbox.zarinpal.com/pg/startpay/" + res.Result.Authority);
-            //}
+        #endregion
 
-            #endregion
+        #region zarin pal call back
+
+        [AllowAnonymous]
+        [HttpGet("zarin-wallet-pay-result", Name = "ZarinPalPaymentResultWallet")]
+        public IActionResult WalletCallBackZarinPal(int amount, string behalf)
+        {
+            var authority = _paymentService.GetAuthorityCodeFromCallback(HttpContext);
+            if (authority == "")
+            {
+                TempData["ErrorSwal"] = "پرداخت با شکست مواجه شد";
+                return View();
+            }
+            long refId = 0;
+            var res = _paymentService.PaymentVerification(null, authority, amount, ref refId);
+
+            if (res == PaymentStatus.St100)
+            {
+                var charge = new ChargeWalletViewModel
+                {
+                    Amount = amount,
+                    Behalf = behalf,
+                    IsPay = true
+                };
+                if (_walletService.ChargeWalletByUserId(User.GetUserId(), charge))
+                {
+                    TempData["SuccessSwal"] = "پرداخت موفق";
+                    ViewBag.refId = refId;
+                    return View();
+                }
+                TempData["ErrorSwal"] = "پرداخت ناموفق";
+                return View();
+            }
+
+            TempData["ErrorSwal"] = "پرداخت ناموفق";
+            return View();
         }
 
         #endregion

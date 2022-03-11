@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewData["Title"] = "نتیجه پرداخت از درگاه";
+}
+
+
+@if (ViewBag.refId == null)
+{
+    <main class="page-content mt-205">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-xl-9 col-lg-8 col-md-8 mb-md-0 mb-3">
+                    <div class="checkout-section shadow-around">
+                        <div class="checkout-step">
+                            <div class="checkout-message">
+                                <div class="checkout-message-failed mb-3">
+                                    <div class="icon-message failed-icon">
+                                        <i class="fas fa-times"></i>
+                                    </div>
+                                    <span class="order-code">پرداخت ناموفق بود</span>
+                                </div>
+                                <div class="text-center text-muted">
+                                    <p class="text-sm">
+                                        اگر مبلغ مورد نظر از حساب شما کسر گردیده است تا 24 ساعت آینده باز میگردد.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+}
+else
+{
+    <main class="page-content mt-205">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-xl-9 col-lg-8 col-md-8 mb-md-0 mb-3">
+                    <div class="checkout-section shadow-around">
+                        <div class="checkout-step">
+                            <div class="checkout-message">
+                                <div class="checkout-message-success mb-3">
+                                    <div class="icon-message success-icon">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    کد پیگیری : @ViewBag.refId
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+}

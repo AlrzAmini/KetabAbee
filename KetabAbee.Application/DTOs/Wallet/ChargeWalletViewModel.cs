@@ -19,5 +19,7 @@ namespace KetabAbee.Application.DTOs.Wallet
         [DisplayName("بابت")]
         [MaxLength(400, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
         public string Behalf { get; set; }
+
+        public bool IsPay { get; set; }
     }
 }

@@ -77,5 +77,7 @@ namespace KetabAbee.Application.Extensions
                              char.IsDigit(item) ||
                              char.IsWhiteSpace(item));
         }
+
+        public static string DomainAddress = "https://localhost:44338";
     }
 }

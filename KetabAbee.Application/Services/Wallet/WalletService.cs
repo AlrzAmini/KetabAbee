@@ -43,7 +43,7 @@ namespace KetabAbee.Application.Services.Wallet
             return deposit.Sum() - withdraw.Sum();
         }
 
-        public bool ChargeWalletByUserId(int userId, ChargeWalletViewModel charge, bool isPay = true)
+        public bool ChargeWalletByUserId(int userId, ChargeWalletViewModel charge)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace KetabAbee.Application.Services.Wallet
                     Behalf = charge.Behalf.Sanitizer(),
                     CreateDate = DateTime.Now,
                     UserId = userId,
-                    IsPay = isPay,
+                    IsPay = charge.IsPay,
                     WalletType = WalletType.Deposit
                 };
 
