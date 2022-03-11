@@ -292,5 +292,35 @@ namespace KetabAbee.Application.Services.Exam
         {
             return await _examRepository.GetQuestionCorrectAnswerId(questionId);
         }
+
+        public async Task<List<ExamResult>> GetUserExamResultsById(int userId)
+        {
+            return await _examRepository.GetUserExamResultsById(userId);
+        }
+
+        public async Task<List<ExamResult>> GetUserExamResultsByIp(string userIp)
+        {
+            return await _examRepository.GetUserExamResultsByIp(userIp);
+        }
+
+        public async Task<bool> IsCorrectAnswerIsExistForAllExamQuestions(int examId)
+        {
+            var exam = await _examRepository.GetExamByIdWithIncludes(examId);
+            foreach (var qId in exam.Questions.Select(q=>q.QuestionId))
+            {
+                if (!await _examRepository.IsQuestionHaveCorrectAnswer(qId))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public async Task<bool> IsUserCanDoExam(string userIp, int bookId)
+        {
+            var resultsCount = await _examRepository.GetUserBookExamResultsCount(userIp, bookId);
+            return resultsCount <= 2;
+        }
     }
 }

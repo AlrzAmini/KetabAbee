@@ -1,6 +1,7 @@
 ﻿@model KetabAbee.Application.DTOs.Admin.Exam.ExamDetailsViewModel
 @{
     ViewData["Title"] = "جزییات آزمون ";
+    bool isAllOfQuestionsHaveAnswer = ViewBag.IsAllOfQuestionsHaveAnswer;
 }
 <div class="page-breadcrumbs margin-bottom-20">
     <ul class="breadcrumb">
@@ -29,6 +30,14 @@
                 <div class="form-title">
                     @ViewData["Title"]
                 </div>
+                @if (!isAllOfQuestionsHaveAnswer)
+                {
+                    <div class="row col-md-12">
+                        <div class="alert alert-danger">
+                            توجه کنید که تمام سوالات این آزمون میبایست پاسخ صحیح داشته باشند وگرنه کاربر با مشکل مواجه می شود
+                        </div>
+                    </div>
+                }
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
@@ -88,7 +97,7 @@
                                 <a class="btn btn-danger" asp-controller="Exam" asp-action="DeleteQuestion" asp-route-examId="@Model.ExamId" asp-route-questionId="@q.QuestionId">حذف</a>
                             </div>
                         </div>
-                        <hr/>
+                        <hr />
                     }
                 }
             </div>

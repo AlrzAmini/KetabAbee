@@ -83,7 +83,12 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Exam
         public async Task<IActionResult> ExamDetails(int examId)
         {
             var exam = await _examService.GetExamDetails(examId);
-            if (!string.IsNullOrEmpty(exam.BookName)) return View(exam);
+            if (!string.IsNullOrEmpty(exam.BookName))
+            {
+                ViewBag.IsAllOfQuestionsHaveAnswer =
+                    await _examService.IsCorrectAnswerIsExistForAllExamQuestions(examId);
+                return View(exam);
+            }
 
             TempData["WarningMessage"] = "آزمونی یافت نشد";
             return RedirectToAction("Index");

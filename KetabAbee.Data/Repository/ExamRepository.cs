@@ -179,6 +179,31 @@ namespace KetabAbee.Data.Repository
                 .FirstOrDefaultAsync(q => q.QuestionId == questionId);
         }
 
+        public async Task<int> GetUserBookExamResultsCount(string userIp, int bookId)
+        {
+            return await _context.ExamResults
+                .Include(r => r.Exam)
+                .CountAsync(r => r.Exam.BookId == bookId && r.UserIp == userIp);
+        }
+
+        public async Task<List<ExamResult>> GetUserExamResultsById(int userId)
+        {
+            return await _context.ExamResults
+                .Include(r => r.Exam)
+                .ThenInclude(r => r.Book)
+                .Where(r => r.UserId == userId)
+                .ToListAsync();
+        }
+
+        public async Task<List<ExamResult>> GetUserExamResultsByIp(string userIp)
+        {
+            return await _context.ExamResults
+                .Include(r => r.Exam)
+                .ThenInclude(r => r.Book)
+                .Where(r => r.UserIp == userIp)
+                .ToListAsync();
+        }
+
         public async Task<bool> IsQuestionHaveCorrectAnswer(int questionId)
         {
             return await _context.CorrectAnswers.AnyAsync(a => a.QuestionId == questionId);

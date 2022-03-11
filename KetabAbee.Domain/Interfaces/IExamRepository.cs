@@ -58,5 +58,11 @@ namespace KetabAbee.Domain.Interfaces
         Task<int> CreateExamResult(ExamResult examResult);
 
         Task<ExamResult> GetExamResultById(int examResultId);
+
+        Task<int> GetUserBookExamResultsCount(string userIp, int bookId);
+
+        Task<List<ExamResult>> GetUserExamResultsByIp(string userIp);
+
+        Task<List<ExamResult>> GetUserExamResultsById(int userId);
     }
 }

@@ -352,8 +352,17 @@ namespace KetabAbee.Web.Controllers
         [HttpGet("Exam-Guide/Book/{bookId}/{bookName}")]
         public async Task<IActionResult> ExamGuide(int bookId, string bookName)
         {
+            if (!await _examService.IsUserCanDoExam(HttpContext.GetUserIp(), bookId))
+            {
+                TempData["WarningSwal"] = "نمیتوانید بیش از دوبار در آزمون هر کتاب شرکت کنید";
+                return RedirectToAction("BookInfo", new { bookId, bookName });
+            }
+
             var exam = await _examService.GetBookExamGuideInfo(bookId);
-            if (exam != null) return View(exam);
+            if (exam != null)
+            {
+                return View(exam);
+            }
 
             TempData["WarningSwal"] = "آزمونی برای این کتاب تعریف نشده است";
             return RedirectToAction("BookInfo", new { bookId, bookName });
@@ -368,7 +377,13 @@ namespace KetabAbee.Web.Controllers
                 return NotFound();
             }
 
-            return View(liveExam);
+            if (await _examService.IsUserCanDoExam(HttpContext.GetUserIp(), liveExam.Exam.BookId))
+                return View(liveExam);
+
+            TempData["WarningSwal"] = "اجازه دسترسی به این آزمون را ندارید";
+            return RedirectToAction("BookInfo",
+                new { bookId = liveExam.Exam.BookId, bookName = liveExam.Exam.Book.Name });
+
         }
 
         [HttpPost("Live-Exam/{examId}"), ValidateAntiForgeryToken]
@@ -447,6 +462,30 @@ namespace KetabAbee.Web.Controllers
             }
 
             return View("ExamResult", examResult);
+        }
+
+        [HttpGet("User-Exam-Results")]
+        public async Task<IActionResult> ShowExamResults()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                var results = await _examService.GetUserExamResultsByIp(HttpContext.GetUserIp());
+                if (results.Any())
+                {
+                    return View(results);
+                }
+
+                TempData["WarningMessage"] = "شما آزمونی انجام نداده اید";
+                return View();
+            }
+            var resultList = await _examService.GetUserExamResultsById(User.GetUserId());
+            if (resultList.Any())
+            {
+                return View(resultList);
+            }
+
+            TempData["WarningMessage"] = "شما آزمونی انجام نداده اید";
+            return View();
         }
 
         #endregion

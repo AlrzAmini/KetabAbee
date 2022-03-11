@@ -171,9 +171,16 @@
                     {
                         <div class="box-info-product border mb-3">
                             <div class="d-flex align-items-center">
-                                <a asp-controller="Book" asp-action="ExamGuide" asp-route-bookId="@Model.BookId" asp-route-bookName="@Model.Name.NameFixerForUrl()" class="btn btn-success btn-block">
-                                    آزمون 
-                                </a>
+                                <div class="col-md-5">
+                                    <a asp-controller="Book" asp-action="ExamGuide" asp-route-bookId="@Model.BookId" asp-route-bookName="@Model.Name.NameFixerForUrl()" class="btn btn-success btn-block">
+                                        آزمون
+                                    </a>
+                                </div>
+                                <div class="col-md-7">
+                                    <a asp-controller="Book" asp-action="ShowExamResults" class="btn btn-info btn-block">
+                                        آزمون های شما
+                                    </a>
+                                </div>
                             </div>
                         </div>
                         <div class="box-info-product border bg-light">
@@ -204,6 +211,20 @@
                     }
                     else
                     {
+                        <div class="box-info-product border mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="col-md-5">
+                                    <a asp-controller="Book" asp-action="ExamGuide" asp-route-bookId="@Model.BookId" asp-route-bookName="@Model.Name.NameFixerForUrl()" class="btn btn-success btn-block">
+                                        آزمون
+                                    </a>
+                                </div>
+                                <div class="col-md-7">
+                                    <a asp-controller="Book" asp-action="ShowExamResults" class="btn btn-info btn-block">
+                                        آزمون های شما
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                         <div class="box-info-product border border-danger bg-light">
                             <span class="d-block">
                                 اتمام موجودی:

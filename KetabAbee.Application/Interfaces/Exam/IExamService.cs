@@ -47,5 +47,13 @@ namespace KetabAbee.Application.Interfaces.Exam
         Task<int> CreateExamResult(ExamResult examResult);
 
         Task<ExamResult> GetExamResultById(int examResultId);
+
+        Task<bool> IsUserCanDoExam(string userIp, int bookId);
+
+        Task<bool> IsCorrectAnswerIsExistForAllExamQuestions(int examId);
+
+        Task<List<ExamResult>> GetUserExamResultsByIp(string userIp);
+
+        Task<List<ExamResult>> GetUserExamResultsById(int userId);
     }
 }
