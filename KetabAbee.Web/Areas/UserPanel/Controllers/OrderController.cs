@@ -59,10 +59,11 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         #region Cart
 
         [HttpGet("Cart/{orderId}")]
-        public IActionResult Cart(int orderId)
+        public async Task<IActionResult> Cart(int orderId)
         {
             var userId = User.GetUserId();
             var order = _orderService.GetOrderForShowToUser(userId, orderId);
+            ViewBag.UserWalleteBalance = await _userService.GetUserWalletBalance(userId);
 
             if (order == null)
             {

@@ -1,13 +1,12 @@
 ﻿@using KetabAbee.Application.Extensions
 @using KetabAbee.Application.Interfaces.Wallet
 @model KetabAbee.Domain.Models.Order.Order
-@inject IWalletService _walletService;
 @{
     ViewData["Title"] = "سبد خرید";
 
     var reqUrl = Context.GetCurrentUrl();
 
-    var userBalanceWallet = _walletService.BalanceUserWallet(User.GetUserId());
+    long userBalanceWallet = ViewBag.UserWalleteBalance;
 
     var moreThanWallet = Model.OrderSum - userBalanceWallet;
 
