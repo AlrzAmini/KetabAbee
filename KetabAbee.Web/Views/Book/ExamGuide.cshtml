@@ -1,0 +1,80 @@
+﻿@model KetabAbee.Application.DTOs.Admin.Exam.ExamGuideViewModel
+@{
+    ViewData["Title"] = "راهنمای آزمون";
+}
+
+<main class="page-content mt-205">
+    <div class="container container--md">
+        <div class="row mb-4">
+            <div class="col-lg-8 col-md-8 mb-md-0 mb-3">
+                <div class="row mb-1">
+                    <div class="col-12">
+                        <!-- breadcrumb -->
+                        <div class="breadcrumb mb-1">
+                            <nav>
+                                <a href="/">خانه</a>
+                                <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@Model.BookId" asp-route-bookName="@Model.BookName">کتاب @Model.BookName</a>
+                                <a> @ViewData["Title"] </a>
+                            </nav>
+                        </div>
+                        <!-- end breadcrumb -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="product-detail">
+                            <ul class="nav nav-tabs" id="product-tab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link active" id="productSupport-tab" data-toggle="tab" href="#productSupport" role="tab" aria-controls="productSupport" aria-selected="true">قوانین آزمون</a>
+                                </li>
+                            </ul>
+                            <div class="product-tab-content box box--rounded rounded--top-0">
+                                <div class="tab-content p-0" id="product-tab">
+                                    <div class="tab-pane fade active show" id="productSupport" role="tabpanel" aria-labelledby="productSupport-tab">
+                                        <h6>مواردی که باید در آزمون رعایت کنید</h6>
+                                        <div class="pb-2">
+                                            <hr>
+                                        </div>
+                                        <ul class="text-muted mb-3">
+                                            <li><i class="far fa-check"></i> در هنگام انجام آزمون به تایم خود دقت کنید</li>
+                                            <li><i class="far fa-check"></i> سوالات به صورت کلی از محتوای کتاب آمده اند</li>
+                                            <li><i class="far fa-check"></i> برای پاسخگویی نیاز است کتاب را یک بار خوانده باشید</li>
+                                            <li class="text-success"><i class="far fa-check"></i> برای قبولی در آزمون کتاب نیاز به نمره 75 به بالا دارید</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <div class="box box--rounded pt-3 mb-3">
+                    <div class="product-detail">
+                        <a asp-controller="Book" asp-action="LiveExam" asp-route-examId="@Model.ExamId" class="btn btn-success btn-block">شروع آزمون <i class="fad fa-question mr-2"></i></a>
+                    </div>
+                </div>
+                <div class="box box--rounded pt-3 mb-3">
+                    <div class="d-flex justify-content-between px-2 py-2">
+                        <span class="font-weight-bold">کتاب مورد نظر</span>
+                        <span class=" text-muted">
+                            @Model.BookName
+                        </span>
+                    </div>
+                    <div class="d-flex justify-content-between px-2 py-2">
+                        <span class="font-weight-bold">تعداد سوالات</span>
+                        <span class="text-muted">
+                            @Model.QuestionsCount
+                        </span>
+                    </div>
+                    <div class="d-flex justify-content-between px-2 py-2">
+                        <span class="font-weight-bold">زمان آزمون</span>
+                        <span class="text-muted">
+                            @Model.Time دقیقه
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

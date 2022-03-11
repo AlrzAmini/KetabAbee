@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Admin.Exam;
+using KetabAbee.Domain.Models.Products.Exam;
 
 namespace KetabAbee.Application.Interfaces.Exam
 {
@@ -30,5 +31,21 @@ namespace KetabAbee.Application.Interfaces.Exam
         Task<EditExamViewModel> GetInfoForEditExam(int examId);
 
         Task<bool> EditExam(EditExamViewModel exam);
+
+        Task<ExamGuideViewModel> GetBookExamGuideInfo(int bookId);
+
+        Task<LiveExamViewModel> GetLiveExamInfo(int examId);
+
+        Task<bool> CheckJustOneAnswerSelectedInQuestion(List<int> answerIds);
+
+        Task<int> GetQuestionCorrectAnswerId(int questionId);
+
+        Task<int> GetExamQuestionsCount(int examId);
+
+        Task<int> GetExamResultScore(int questionsCount, int correctAnswersCount);
+
+        Task<int> CreateExamResult(ExamResult examResult);
+
+        Task<ExamResult> GetExamResultById(int examResultId);
     }
 }

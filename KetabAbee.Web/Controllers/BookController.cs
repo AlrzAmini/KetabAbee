@@ -13,7 +13,11 @@ using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Comment;
 using GoogleReCaptcha.V3.Interface;
 using KetabAbee.Application.Const;
+using KetabAbee.Application.DTOs.Admin.Exam;
+using KetabAbee.Application.Interfaces.Exam;
 using KetabAbee.Application.Interfaces.Permission;
+using KetabAbee.Domain.Models.Products.Exam;
+using Microsoft.AspNetCore.Http;
 
 namespace KetabAbee.Web.Controllers
 {
@@ -25,13 +29,15 @@ namespace KetabAbee.Web.Controllers
         private readonly IOrderService _orderService;
         private readonly ICommentService _commentService;
         private readonly IPermissionService _permissionService;
+        private readonly IExamService _examService;
 
-        public BookController(IProductService productService, IOrderService orderService, ICommentService commentService, IPermissionService permissionService)
+        public BookController(IProductService productService, IOrderService orderService, ICommentService commentService, IPermissionService permissionService, IExamService examService)
         {
             _productService = productService;
             _orderService = orderService;
             _commentService = commentService;
             _permissionService = permissionService;
+            _examService = examService;
         }
 
         #endregion
@@ -337,6 +343,110 @@ namespace KetabAbee.Web.Controllers
         {
             var data = _commentService.ProductCommentCount(bookId);
             return new JsonResult(data);
+        }
+
+        #endregion
+
+        #region exam
+
+        [HttpGet("Exam-Guide/Book/{bookId}/{bookName}")]
+        public async Task<IActionResult> ExamGuide(int bookId, string bookName)
+        {
+            var exam = await _examService.GetBookExamGuideInfo(bookId);
+            if (exam != null) return View(exam);
+
+            TempData["WarningSwal"] = "آزمونی برای این کتاب تعریف نشده است";
+            return RedirectToAction("BookInfo", new { bookId, bookName });
+        }
+
+        [HttpGet("Live-Exam/{examId}")]
+        public async Task<IActionResult> LiveExam(int examId)
+        {
+            var liveExam = await _examService.GetLiveExamInfo(examId);
+            if (liveExam == null)
+            {
+                return NotFound();
+            }
+
+            return View(liveExam);
+        }
+
+        [HttpPost("Live-Exam/{examId}"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> LiveExam(IFormCollection iFormCollection, int examId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("LiveExam", new { examId });
+            }
+
+            try
+            {
+                var correctsCount = 0;
+                var wrongsCount = 0;
+                string[] questionIds = iFormCollection["questionId"];
+                foreach (var questionId in questionIds)
+                {
+                    var correctAnswerId = await _examService.GetQuestionCorrectAnswerId(int.Parse(questionId));
+                    if (correctAnswerId == int.Parse(iFormCollection["question_" + questionId]))
+                    {
+                        correctsCount++;
+                    }
+                    else
+                    {
+                        wrongsCount++;
+                    }
+                }
+                var examResult = new ExamResult
+                {
+                    UserIp = HttpContext.GetUserIp(),
+                    ExamId = examId,
+                    CorrectAnswersCount = correctsCount,
+                    WrongAnswersCount = wrongsCount,
+                    AllQuestionsCount = await _examService.GetExamQuestionsCount(examId)
+                };
+
+                var allAnswerCount = correctsCount + wrongsCount;
+
+                if (examResult.AllQuestionsCount != allAnswerCount)
+                {
+                    TempData["WarningSwal"] = "برای ثبت آزمون میبایست تمام سوالات را پاسخ دهید";
+                    return RedirectToAction("LiveExam", new { examId });
+                }
+
+                if (User.Identity.IsAuthenticated)
+                {
+                    examResult.UserId = User.GetUserId();
+                }
+
+                examResult.Score = await _examService.GetExamResultScore(examResult.AllQuestionsCount, correctsCount);
+                var examResultId = await _examService.CreateExamResult(examResult);
+
+                return RedirectToAction("ShowExamResult", new { examResultId });
+            }
+            catch
+            {
+                TempData["ErrorSwal"] = "زمان شما به اتمام رسید";
+                return RedirectToAction("LiveExam", new { examId });
+            }
+        }
+
+        [HttpGet("Exam-Result")]
+        public async Task<IActionResult> ShowExamResult(int examResultId)
+        {
+            var examResult = await _examService.GetExamResultById(examResultId);
+            if (examResult.UserIp != HttpContext.GetUserIp())
+            {
+                return Forbid();
+            }
+
+            if (!User.Identity.IsAuthenticated) return View("ExamResult", examResult);
+
+            if (examResult.UserId != null && examResult.UserId != User.GetUserId())
+            {
+                return Forbid();
+            }
+
+            return View("ExamResult", examResult);
         }
 
         #endregion

@@ -108,8 +108,8 @@ namespace KetabAbee.Web.Controllers
                         if (await _contactService.AddEmailToNewsEmails(email))
                         {
                             //send email
-                            string body = _renderService.RenderToStringAsync("_JoinToNews", email);
-                            SendEmail.Send(email, "عضویت در خبرنامه کتاب آبی", body);
+                            var body = _renderService.RenderToStringAsync("_JoinToNews", email);
+                            await SendEmail.Send(email, "عضویت در خبرنامه کتاب آبی", body);
                             TempData["SuccessSwal"] = "با موفقیت به خبرنامه افزوده شد";
 
                             return Redirect(url);
@@ -123,7 +123,7 @@ namespace KetabAbee.Web.Controllers
                 TempData["WarningSwal"] = "ایمیل را وارد کنید";
                 return Redirect(url);
             }
-            catch 
+            catch
             {
                 TempData["ErrorSwal"] = "مشکلی رخ داد";
                 return Redirect(url);

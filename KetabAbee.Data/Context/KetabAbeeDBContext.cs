@@ -120,6 +120,7 @@ namespace KetabAbee.Data.Context
         public DbSet<ExamQuestion> ExamQuestions { get; set; }
         public DbSet<QuestionAnswer> QuestionAnswers { get; set; }
         public DbSet<CorrectAnswer> CorrectAnswers { get; set; }
+        public DbSet<ExamResult> ExamResults { get; set; }
 
         #endregion
 

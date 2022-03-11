@@ -102,6 +102,17 @@ namespace KetabAbee.Application.Services.Exam
             return await _examRepository.UpdateExam(exam);
         }
 
+        public async Task<bool> CheckJustOneAnswerSelectedInQuestion(List<int> answerIds)
+        {
+            var qIds = new List<int>();
+            foreach (var id in answerIds)
+            {
+                var qId = await _examRepository.GetQuestionIdByAnswerId(id);
+                qIds.Add(qId);
+            }
+            return qIds.Distinct().Count() == qIds.Count;
+        }
+
         public async Task<bool> CreateExam(CreateExamViewModel exam)
         {
             var newExam = new Domain.Models.Products.Exam.Exam
@@ -126,6 +137,19 @@ namespace KetabAbee.Application.Services.Exam
             return await _examRepository.AddExam(newExam);
         }
 
+        public async Task<int> CreateExamResult(ExamResult examResult)
+        {
+            try
+            {
+                examResult.ResultStatus = examResult.Score >= 75 ? ExamResultStatus.Pass : ExamResultStatus.Failed;
+                return await _examRepository.CreateExamResult(examResult);
+            }
+            catch
+            {
+                return default;
+            }
+        }
+
         public async Task<bool> DeleteExam(int examId)
         {
             var exam = await _examRepository.GetExamById(examId);
@@ -148,6 +172,24 @@ namespace KetabAbee.Application.Services.Exam
             newExam.BookId = exam.productId;
             newExam.Time = exam.Time;
             return await _examRepository.UpdateExam(newExam);
+        }
+
+        public async Task<ExamGuideViewModel> GetBookExamGuideInfo(int bookId)
+        {
+            var exam = await _examRepository.GetBookLiveExam(bookId);
+            if (exam == null)
+            {
+                return null;
+            }
+
+            return new ExamGuideViewModel
+            {
+                BookName = exam.Book.Name,
+                QuestionsCount = exam.Questions.Count,
+                Time = exam.Time,
+                BookId = exam.BookId,
+                ExamId = exam.ExamId
+            };
         }
 
         public async Task<CreateQuestionViewModel> GetCreateQuestionInfo(int examId)
@@ -178,6 +220,30 @@ namespace KetabAbee.Application.Services.Exam
             };
         }
 
+        public async Task<int> GetExamQuestionsCount(int examId)
+        {
+            return await _examRepository.GetExamQuestionsCount(examId);
+        }
+
+        public async Task<ExamResult> GetExamResultById(int examResultId)
+        {
+            return await _examRepository.GetExamResultById(examResultId);
+        }
+
+        public async Task<int> GetExamResultScore(int questionsCount, int correctAnswersCount)
+        {
+            if (questionsCount == 0)
+            {
+                return default;
+            }
+            if (questionsCount == correctAnswersCount)
+            {
+                return 100;
+            }
+            var coefficient = 100.0 / questionsCount;
+            return await System.Threading.Tasks.Task.Run(() => (int)Math.Round(correctAnswersCount * coefficient));
+        }
+
         public async Task<List<ShowExamInListViewModel>> GetExamsForAdmin()
         {
             var exams = await _examRepository.GetExams();
@@ -206,6 +272,25 @@ namespace KetabAbee.Application.Services.Exam
                 productId = exam.BookId,
                 ExamId = exam.ExamId
             };
+        }
+
+        public async Task<LiveExamViewModel> GetLiveExamInfo(int examId)
+        {
+            var exam = await _examRepository.GetExamByIdWithIncludes(examId);
+            if (exam == null)
+            {
+                return null;
+            }
+
+            return new LiveExamViewModel
+            {
+                Exam = exam
+            };
+        }
+
+        public async Task<int> GetQuestionCorrectAnswerId(int questionId)
+        {
+            return await _examRepository.GetQuestionCorrectAnswerId(questionId);
         }
     }
 }

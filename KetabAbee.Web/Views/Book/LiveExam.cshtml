@@ -1,0 +1,95 @@
+﻿@model KetabAbee.Application.DTOs.Admin.Exam.LiveExamViewModel
+@{
+    ViewData["Title"] = "آزمون";
+}
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Set the date we're counting down to
+
+        var oldDateObj = new Date();
+        oldDateObj = Date.now();
+        var countDownDate = new Date();
+        countDownDate.setTime(oldDateObj + (@Model.Exam.Time * 60 * 1000));
+
+        // Update the count down every 1 second
+        var x = setInterval(function () {
+
+            // Get today's date and time
+            var now = new Date().getTime();
+
+            // Find the distance between now and the count down date
+            var distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result in the element with id="demo"
+            document.getElementById("demo").innerHTML = minutes + " دقیقه " + seconds + " ثانیه ";
+
+            // If the count down is finished, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("demo").innerHTML = "اتمام زمان";
+                document.getElementById("subForm").submit();
+            }
+        }, 1000);
+    </script>
+}
+<main class="page-content mt-205 none-transform">
+    <div class="container none-transform">
+        <div class="row mb-5 none-transform">
+            <div class="row col-md-12">
+                <div class="alert alert-info mt-2">
+                    توجه کنید ! شما میبایست به تمامی سوالات مطرح شده پاسخ دهید
+                </div>
+                <div class="col-md-4"></div>
+                <div class="alert alert-warning mt-2">
+                    <p id="demo"></p>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-8">
+                <section class="section">
+                    <form id="subForm" asp-controller="Book" asp-action="LiveExam" method="post">
+                        <input type="hidden" asp-for="Exam.ExamId" />
+                        <div class="row">
+                            @if (Model.Exam.Questions != null && Model.Exam.Questions.Any())
+                            {
+                                var counter = 0;
+                                foreach (var q in Model.Exam.Questions)
+                                {
+                                    counter++;
+                                    <div class="col-md-12">
+                                        <input type="hidden" name="questionId" value="@q.QuestionId" />
+                                        <input type="hidden" name="examId" value="@Model.Exam.ExamId" />
+                                        <div class="form-element-row p-4">
+                                            <label class="label-element">@counter. @q.QBody</label>
+                                            @if (q.QuestionAnswers != null && q.QuestionAnswers.Any())
+                                            {
+                                                foreach (var answer in q.QuestionAnswers)
+                                                {
+                                                    <label class="container-checkbox mr-3">
+                                                        @answer.QAnswerBody
+                                                        <input type="radio" name="question_@q.QuestionId" value="@answer.QAnswerId" required>
+                                                        <span class="checkmark"></span>
+                                                    </label>
+                                                }
+                                            }
+                                        </div>
+                                        <hr />
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 mt-3">
+                                <button type="submit" class="btn btn-success">پایان آزمون</button>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
+</main>

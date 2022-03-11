@@ -171,7 +171,7 @@
                     {
                         <div class="box-info-product border mb-3">
                             <div class="d-flex align-items-center">
-                                <a asp-controller="Book" asp-action="AddToCart" asp-route-productId="@Model.BookId" target="_blank" class="btn btn-success btn-block">
+                                <a asp-controller="Book" asp-action="ExamGuide" asp-route-bookId="@Model.BookId" asp-route-bookName="@Model.Name.NameFixerForUrl()" class="btn btn-success btn-block">
                                     آزمون 
                                 </a>
                             </div>

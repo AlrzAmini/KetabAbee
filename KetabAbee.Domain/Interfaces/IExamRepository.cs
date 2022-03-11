@@ -46,5 +46,17 @@ namespace KetabAbee.Domain.Interfaces
         Task<bool> DeleteQuestion(ExamQuestion question);
 
         Task<ExamQuestion> GetQuestionWithIncludesById(int questionId);
+
+        Task<Exam> GetBookLiveExam(int bookId);
+
+        Task<int> GetQuestionIdByAnswerId(int answerId);
+
+        Task<int> GetQuestionCorrectAnswerId(int questionId);
+
+        Task<int> GetExamQuestionsCount(int examId);
+
+        Task<int> CreateExamResult(ExamResult examResult);
+
+        Task<ExamResult> GetExamResultById(int examResultId);
     }
 }

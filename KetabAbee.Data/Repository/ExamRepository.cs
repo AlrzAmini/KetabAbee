@@ -57,6 +57,13 @@ namespace KetabAbee.Data.Repository
             await _context.SaveChangesAsync();
         }
 
+        public async Task<int> CreateExamResult(ExamResult examResult)
+        {
+            await _context.ExamResults.AddAsync(examResult);
+            await _context.SaveChangesAsync();
+            return examResult.ExamResultId;
+        }
+
         public async Task<bool> DeleteQuestion(ExamQuestion question)
         {
             try
@@ -65,7 +72,7 @@ namespace KetabAbee.Data.Repository
                 {
                     answer.IsDelete = true;
                 }
-                
+
 
                 var correctAnswer = await GetCorrectAnswer(question.QuestionId);
                 correctAnswer.IsDelete = true;
@@ -90,6 +97,14 @@ namespace KetabAbee.Data.Repository
         public async Task<QuestionAnswer> GetAnswerById(int answerId)
         {
             return await _context.QuestionAnswers.FindAsync(answerId);
+        }
+
+        public async Task<Exam> GetBookLiveExam(int bookId)
+        {
+            return await _context.Exams
+                .Include(e => e.Book)
+                .Include(e => e.Questions)
+                .FirstOrDefaultAsync(e => e.BookId == bookId && e.IsActive);
         }
 
         public async Task<CorrectAnswer> GetCorrectAnswer(int questionId)
@@ -125,12 +140,36 @@ namespace KetabAbee.Data.Repository
                 .ToListAsync();
         }
 
+        public async Task<int> GetExamQuestionsCount(int examId)
+        {
+            var exam = await GetExamByIdWithIncludes(examId);
+            return exam.Questions.Count;
+        }
+
+        public async Task<ExamResult> GetExamResultById(int examResultId)
+        {
+            return await _context.ExamResults.FindAsync(examResultId);
+        }
+
         public async Task<List<Exam>> GetExams()
         {
             return await _context.Exams
                 .Include(e => e.Book)
                 .OrderByDescending(e => e.ExamId)
                 .ToListAsync();
+        }
+
+        public async Task<int> GetQuestionCorrectAnswerId(int questionId)
+        {
+            var correctAnswer = await _context.CorrectAnswers
+                .FirstOrDefaultAsync(c => c.QuestionId == questionId);
+            return correctAnswer.QuestionAnswerId;
+        }
+
+        public async Task<int> GetQuestionIdByAnswerId(int answerId)
+        {
+            var qAnswer = await _context.QuestionAnswers.FirstOrDefaultAsync(q => q.QAnswerId == answerId);
+            return qAnswer.QuestionId;
         }
 
         public async Task<ExamQuestion> GetQuestionWithIncludesById(int questionId)

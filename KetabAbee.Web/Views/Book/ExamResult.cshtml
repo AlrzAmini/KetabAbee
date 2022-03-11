@@ -1,0 +1,54 @@
+﻿@using KetabAbee.Domain.Models.Products.Exam
+@model KetabAbee.Domain.Models.Products.Exam.ExamResult
+@{
+    ViewData["Title"] = "نتیجه آزمون";
+}
+
+<div class="page-wrapper auth-page-wrapper">
+    <!-- Page Content -->
+    <main class="page-content">
+        <div class="container">
+            <div class="auth-wrapper">
+                <div class="auth-form shadow-around">
+                    <div class="row align-items-center justify-content-center">
+                        @if (Model.ResultStatus == ExamResultStatus.Pass)
+                        {
+                            <div class="col-md-8 col-sm-8 col-lg-8 alert alert-success m-4">
+                                قبول شدید !
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-8 col-sm-8 col-lg-8 alert alert-danger m-4">
+                                رد شدید !
+                            </div>
+                        }
+                        <div class="col-md-8 col-sm-8 col-lg-8 alert alert-secondary m-4">
+                            <div class="form-element-row">
+                                <label class="label-element">نمره :</label>
+                                <p class="font-weight-bold">@Model.Score از 100</p>
+                            </div>
+                            <div class="form-element-row">
+                                <label class="label-element">تعداد سوالات :</label>
+                                <p class="font-weight-bold">@Model.AllQuestionsCount</p>
+                            </div>
+                            <div class="form-element-row">
+                                <label class="label-element text-success">جواب صحیح :</label>
+                                <p class="font-weight-bold text-success">@Model.CorrectAnswersCount</p>
+                            </div>
+                            <div class="form-element-row">
+                                <label class="label-element text-danger">جواب غلط :</label>
+                                <p class="font-weight-bold text-danger">@Model.WrongAnswersCount</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-md-8 col-sm-8 col-lg-8">
+                            <a class="btn btn-info btn-block" href="/"><i class="fa fa-home"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
