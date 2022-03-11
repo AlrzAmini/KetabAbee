@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using KetabAbee.Application.DTOs.Book;
 using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Comment;
@@ -470,7 +471,7 @@ namespace KetabAbee.Web.Controllers
             if (!User.Identity.IsAuthenticated)
             {
                 var results = await _examService.GetUserExamResultsByIp(HttpContext.GetUserIp());
-                if (results.Any())
+                if (results != null && results.Any())
                 {
                     return View(results);
                 }
@@ -478,10 +479,19 @@ namespace KetabAbee.Web.Controllers
                 TempData["WarningMessage"] = "شما آزمونی انجام نداده اید";
                 return View();
             }
+
+            var list = new List<ExamResult>();
+            var lResults = await _examService.GetUserExamResultsByIp(HttpContext.GetUserIp());
             var resultList = await _examService.GetUserExamResultsById(User.GetUserId());
-            if (resultList.Any())
+            if (resultList != null && resultList.Any())
             {
-                return View(resultList);
+                list.AddRange(resultList);
+                if (lResults != null && lResults.Any())
+                {
+                    list.AddRange(lResults);
+                }
+                
+                return View(list);
             }
 
             TempData["WarningMessage"] = "شما آزمونی انجام نداده اید";

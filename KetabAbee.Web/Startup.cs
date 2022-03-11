@@ -11,6 +11,7 @@ using KetabAbee.IoC;
 using KetabAbee.Web.Models;
 using KetabAbee.Web.PresentationExtensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 
@@ -118,10 +119,52 @@ namespace KetabAbee.Web
                 app.UseHsts();
             }
 
-            
-
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+
+            #region Cach Static Files
+
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                OnPrepareResponse =
+                    r =>
+                    {
+                        string path = r.File.PhysicalPath;
+                        if (path.EndsWith(".css") || path.EndsWith(".js") || path.EndsWith(".gif") || path.EndsWith(".jpg")
+                            || path.EndsWith(".png") || path.EndsWith(".svg") || path.EndsWith(".woff2") || path.EndsWith(".ico") || path.EndsWith(".ttf") || path.EndsWith(".webp"))
+                        {
+                            TimeSpan maxAge = new TimeSpan(7, 0, 0, 0);
+                            r.Context.Response.Headers.Append("Cache-Control", "max-age=" + maxAge.TotalSeconds.ToString("0"));
+                        }
+                    }
+            });
+            app.Use(async (context, next) =>
+            {
+                string path = context.Request.Path;
+
+                if (path.EndsWith(".css") || path.EndsWith(".js"))
+                {
+
+                    //Set css and js files to be cached for 7 days
+                    TimeSpan maxAge = new TimeSpan(7, 0, 0, 0);     //7 days
+                    context.Response.Headers.Append("Cache-Control", "max-age=" + maxAge.TotalSeconds.ToString("0"));
+
+                }
+                else if (path.EndsWith(".gif") || path.EndsWith(".jpg") || path.EndsWith(".png"))
+                {
+                    //custom headers for images goes here if needed
+
+                }
+                else
+                {
+                    //Request for views fall here.
+                    context.Response.Headers.Append("Cache-Control", "no-cache");
+                    context.Response.Headers.Append("Cache-Control", "private, no-store");
+
+                }
+                await next();
+            });
+
+            #endregion
 
             app.UseRouting();
 

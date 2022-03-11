@@ -72,7 +72,7 @@ namespace KetabAbee.Application.Interfaces.User
 
         FilterUsersViewModel GetAllFilteredUsersInAdmin(FilterUsersViewModel filter);
 
-        bool DeleteUserById(int userId);
+        Task<bool> DeleteUserById(int userId);
 
         Task<string> GetAvatarNameByUserId(int userId);
 
@@ -98,7 +98,7 @@ namespace KetabAbee.Application.Interfaces.User
 
         Task<List<int>> GetUserRoleIds(int userId);
 
-        UserInfoViewModel GetUserForShowInUserInfo(int userId);
+        Task<UserInfoViewModel> GetUserForShowInUserInfo(int userId);
 
         List<string> GetUserIps(int userId);
 

@@ -22,10 +22,10 @@ namespace KetabAbee.Application.Senders
             SmtpServer.Credentials = new System.Net.NetworkCredential("dahakdolatabad@yahoo.com", "dbfjlckbrfrbfsyw");
             SmtpServer.EnableSsl = true;
 
-           await Task.Run(() =>
-           {
-               SmtpServer.SendAsync(mail, null);
-           });
+            await Task.Run(() =>
+            {
+                SmtpServer.SendAsync(mail, null);
+            });
         }
     }
 }

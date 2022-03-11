@@ -222,9 +222,9 @@ namespace KetabAbee.Data.Repository
                 .Select(r => r.RoleId).ToListAsync();
         }
 
-        public User GetUserByIdWithIncludes(int userId)
+        public async Task<User> GetUserByIdWithIncludes(int userId)
         {
-            return _context.Users
+            return await _context.Users
                 .Include(u => u.UserRoles)
                 .Include(u => u.Tickets)
                 .Include(u => u.TicketAnswers)
@@ -235,7 +235,7 @@ namespace KetabAbee.Data.Repository
                 .Include(u => u.BookScores)
                 .Include(u => u.ProductComments)
                 .Include(u => u.UserIps)
-                .FirstOrDefault(u => u.UserId == userId);
+                .FirstOrDefaultAsync(u => u.UserId == userId);
         }
 
         public List<string> GetUserIps(int userId)
@@ -443,7 +443,7 @@ namespace KetabAbee.Data.Repository
                 await _context.SaveChangesAsync();
                 return true;
             }
-            catch 
+            catch
             {
                 return false;
             }
@@ -452,6 +452,13 @@ namespace KetabAbee.Data.Repository
         public async Task<bool> IsIpExistInBanneds(string ip)
         {
             return await _context.BannedIps.AnyAsync(i => i.Ip == ip);
+        }
+
+        public async Task<User> GetUserByIdWithIncludeIps(int userId)
+        {
+            return await _context.Users
+                .Include(u => u.UserIps)
+                .FirstOrDefaultAsync(u => u.UserId == userId);
         }
     }
 }

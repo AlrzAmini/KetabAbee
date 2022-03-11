@@ -48,14 +48,6 @@ namespace KetabAbee.Web.Controllers
 
         public IActionResult Index()
         {
-            //string redirectUrl = "";
-            //var paymentResult = _paymentService.CreatePaymentRequest(null, 20000, "TestMe Behalf", "https://localhost:44338/Page/About", ref redirectUrl,
-            //     "mranotmillion@gmail.com");
-
-            //if (paymentResult == PaymentStatus.St100)
-            //{
-            //    return Redirect(redirectUrl);
-            //}
             return View();
         }
 

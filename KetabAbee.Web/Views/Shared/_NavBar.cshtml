@@ -1,23 +1,25 @@
 ﻿<nav class="nav-wrapper">
-    <ul>
-        @await Component.InvokeAsync("ProductGroupComponent")
-        <li>
-            <a href="/"><i class="fal fa-home text-warning"></i>خانه</a>
-        </li>
-        <li>
-            <a asp-controller="Blog" asp-action="Index"><i class="fal fa-blog text-primary"></i>مجله آبی</a>
-        </li>
-        <li>
-            <a asp-controller="Home" asp-action="RequestBranch"><i class="fal fa-store text-info"></i>درخواست شعبه</a>
-        </li>
-        <li>
-            <a asp-controller="Home" asp-action="ContactUs"><i class="fal fa-send-back text-primary"></i>ارتباط با ما</a>
-        </li>
-        <li>
-            <a asp-controller="Home" asp-action="AboutUs"><i class="fal fa-file text-primary"></i>درباره ما</a>
-        </li>
-        <li>
-            <a id="go--search"><i></i>سوال دارید؟</a>
-        </li>
-    </ul>
+    <cache expires-after="TimeSpan.FromMinutes(30)">
+        <ul>
+            @await Component.InvokeAsync("ProductGroupComponent")
+            <li>
+                <a href="/"><i class="fal fa-home text-warning"></i>خانه</a>
+            </li>
+            <li>
+                <a asp-controller="Blog" asp-action="Index"><i class="fal fa-blog text-primary"></i>مجله آبی</a>
+            </li>
+            <li>
+                <a asp-controller="Home" asp-action="RequestBranch"><i class="fal fa-store text-info"></i>درخواست شعبه</a>
+            </li>
+            <li>
+                <a asp-controller="Home" asp-action="ContactUs"><i class="fal fa-send-back text-primary"></i>ارتباط با ما</a>
+            </li>
+            <li>
+                <a asp-controller="Home" asp-action="AboutUs"><i class="fal fa-file text-primary"></i>درباره ما</a>
+            </li>
+            <li>
+                <a id="go--search"><i></i>سوال دارید؟</a>
+            </li>
+        </ul>
+    </cache>
 </nav>

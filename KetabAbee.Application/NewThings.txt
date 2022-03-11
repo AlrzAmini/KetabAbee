@@ -8,3 +8,7 @@ historicoCookie.EnderecoIp = this.HttpContext.Connection.RemoteIpAddress.ToStrin
 
 // phone checker
  [RegularExpression(@"^([0-9]{11})$", ErrorMessage = "موبایل وارد شده معتبر نمی باشد")]
+
+ // local host site key
+ "googleReCaptcha:SiteKey": "6LdGw6cdAAAAAPp8Lmbu5khCOpDwwZ515hNCS89I",
+  "googleReCaptcha:SecretKey": "6LdGw6cdAAAAALbyw0TfoyX12Vu1esMQJpvBYa8m"

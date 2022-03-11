@@ -64,9 +64,9 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Contact
         #region Send to all
 
         [HttpGet("Send/ToAll")]
-        public IActionResult SendToAll(int newsId)
+        public async Task<IActionResult> SendToAll(int newsId)
         {
-            if (_contactService.SendNewsLetterToAll(newsId))
+            if (await _contactService.SendNewsLetterToAll(newsId))
             {
                 TempData["SuccessMessage"] = "به تمامی ایمیل های موجود در خبرنامه ارسال شد";
                 return RedirectToAction("Index");

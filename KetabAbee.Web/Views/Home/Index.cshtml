@@ -33,22 +33,22 @@
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
                                 <a href="/Books?SearchCategory=6">
-                                    <img src="/images/banner/Slider-2-min.jpg" alt="تصویر هنری">
+                                    <img src="/images/banner/wp/Slider-2-min.webp" alt="تصویر هنری">
                                 </a>
                             </div>
                             <div class="swiper-slide">
                                 <a href="/Books?SearchCategory=7">
-                                    <img src="/images/banner/Slider-3-min.jpg" alt="تصویر منظره فلسفی">
+                                    <img src="/images/banner/wp/Slider-3-min.webp" alt="تصویر منظره فلسفی">
                                 </a>
                             </div>
                             <div class="swiper-slide">
                                 <a href="/Books?SearchCategory=8">
-                                    <img src="/images/banner/Slider-4-min.jpg" alt="تصویر کتاب های رشد شخصی">
+                                    <img src="/images/banner/wp/Slider-4-min.webp" alt="تصویر کتاب های رشد شخصی">
                                 </a>
                             </div>
                             <div class="swiper-slide">
                                 <a href="/Books?SearchCategory=25">
-                                    <img src="/images/banner/Slider-5-min.jpg" alt=" تصویر کتاب خواندن">
+                                    <img src="/images/banner/wp/Slider-5-min.webp" alt=" تصویر کتاب خواندن">
                                 </a>
                             </div>
                         </div>
@@ -66,14 +66,14 @@
                     <div class="col-lg-12 col-sm-6 col-12">
                         <div class="banner mb-3">
                             <a href="/Books?SearchCategory=1">
-                                <img src="/images/banner/Banner2-min.jpg" alt="کتابهای بزرگسال">
+                                <img src="/images/banner/wp/Banner2-min.webp" alt="کتابهای بزرگسال">
                             </a>
                         </div>
                     </div>
                     <div class="col-lg-12 col-sm-6 col-12">
                         <div class="banner">
                             <a href="/Books?SearchCategory=2">
-                                <img src="/images/banner/Banner3.jpg" alt="کتابهای کودک و نوجوان">
+                                <img src="/images/banner/wp/Banner3.webp" alt="کتابهای کودک و نوجوان">
                             </a>
                         </div>
                     </div>
@@ -86,7 +86,9 @@
                 تازه ها
             </div>
             <div class="swiper-container slider-lg">
-                @await Component.InvokeAsync("LatestBooksComponent")
+                <cache expires-after="TimeSpan.FromMinutes(5)">
+                    @await Component.InvokeAsync("LatestBooksComponent")
+                </cache>
                 <!-- Add Arrows -->
                 <div class="swiper-button-next"></div>
                 <div class="swiper-button-prev"></div>
@@ -126,19 +128,21 @@
             <div class="col-md-6 mb-lg-0 mb-3">
                 <div class="banner">
                     <a href="/Books?MaxPrice=100000">
-                        <img src="/images/banner/banner-md-01-min.jpg" alt="کتابهای کمتر از صد هزار تومان">
+                        <img src="/images/banner/wp/banner-md-01-min.webp" alt="کتابهای کمتر از صد هزار تومان">
                     </a>
                 </div>
             </div>
             <div class="col-md-6 mb-lg-0 mb-3">
                 <div class="banner">
                     <a href="/Books?SearchCategory=8">
-                        <img src="/images/banner/banner-md-02-min.jpg" alt="کتابهایی برای رشد شخصی">
+                        <img src="/images/banner/wp/banner-md-02-min.webp" alt="کتابهایی برای رشد شخصی">
                     </a>
                 </div>
             </div>
         </div>
-        @await Component.InvokeAsync("BestSellingBooksComponent")
+        <cache expires-after="TimeSpan.FromMinutes(15)">
+            @await Component.InvokeAsync("BestSellingBooksComponent")
+        </cache>
         <hr />
         <div class="row mb-3 mt-4">
             <div class="col-12 mb-4">
@@ -147,7 +151,9 @@
                     مجله آبی
                 </div>
             </div>
-            @await Component.InvokeAsync("LatestBlogsComponent")
+            <cache expires-after="TimeSpan.FromMinutes(15)">
+                @await Component.InvokeAsync("LatestBlogsComponent")
+            </cache>
         </div>
     </div>ـ
 </main>

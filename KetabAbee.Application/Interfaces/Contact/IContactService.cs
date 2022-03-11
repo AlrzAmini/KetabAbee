@@ -22,7 +22,7 @@ namespace KetabAbee.Application.Interfaces.Contact
 
         bool AddNewsLetter(CreateNewsLetterViewModel letter);
 
-        bool SendNewsLetterToAll(int newsId);
+        Task<bool> SendNewsLetterToAll(int newsId);
 
         IEnumerable<NewsEmail> GetNewsLetterEmails();
 
@@ -36,7 +36,7 @@ namespace KetabAbee.Application.Interfaces.Contact
 
         ContactUsesForAdminViewModel GetContactUsesForShowInAdmin(ContactUsesForAdminViewModel model);
 
-        bool SendAnswerForContactUs(int contactId, string subject, string body);
+        Task<bool> SendAnswerForContactUs(int contactId, string subject, string body);
 
         Task<bool> AddRequestBranch(CreateRequestBranchViewModel model);
 

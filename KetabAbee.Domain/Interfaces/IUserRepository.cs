@@ -87,7 +87,8 @@ namespace KetabAbee.Domain.Interfaces
 
         Task<List<int>> GetUserRoleIds(int userId);
 
-        User GetUserByIdWithIncludes(int userId);
+        Task<User> GetUserByIdWithIncludes(int userId);
+        Task<User> GetUserByIdWithIncludeIps(int userId);
 
         List<string> GetUserIps(int userId);
 

@@ -37,12 +37,12 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Contact
         #region answer to contact
 
         [HttpPost("Admin/Contact/Add/Answer"),ValidateAntiForgeryToken]
-        public IActionResult Answer(int contactId, string subject, string body)
+        public async Task<IActionResult> Answer(int contactId, string subject, string body)
         {
             if (string.IsNullOrEmpty(subject) || string.IsNullOrEmpty(contactId.ToString())) return BadRequest();
             if (!string.IsNullOrEmpty(body))
             {
-                if (_contactService.SendAnswerForContactUs(contactId,subject,body))
+                if (await _contactService.SendAnswerForContactUs(contactId,subject,body))
                 {
                     TempData["SuccessMessage"] = "پاسخ با موفقیت ارسال شد";
                     return RedirectToAction("Index");

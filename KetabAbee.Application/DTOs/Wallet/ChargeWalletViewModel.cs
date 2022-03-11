@@ -13,7 +13,7 @@ namespace KetabAbee.Application.DTOs.Wallet
     {
         [DisplayName("مبلغ")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
-        [Range(1000, 999999, ErrorMessage = "{0} باید بین {1} و {2} باشد")]
+        [Range(1000, 10000000, ErrorMessage = "{0} باید بین {1} و {2} باشد")]
         public long Amount { get; set; }
 
         [DisplayName("بابت")]

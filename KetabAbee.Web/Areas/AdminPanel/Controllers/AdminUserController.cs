@@ -52,9 +52,9 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
         #region Delete User
 
         [HttpGet("Admin/Users/DeleteUser/{id}")]
-        public IActionResult DeleteUser(int id)
+        public async Task<IActionResult> DeleteUser(int id)
         {
-            if (_userService.DeleteUserById(id))
+            if (await _userService.DeleteUserById(id))
             {
                 TempData["SuccessMessage"] = "حذف کاربر با موفقیت انجام شد";
                 return RedirectToAction("Index");
@@ -306,9 +306,9 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
         #region user info
 
         [HttpGet("Admin/Users/Info/{userId}")]
-        public IActionResult UserInfo(int userId)
+        public async Task<IActionResult> UserInfo(int userId)
         {
-            var user = _userService.GetUserForShowInUserInfo(userId);
+            var user = await _userService.GetUserForShowInUserInfo(userId);
             if (!string.IsNullOrEmpty(user.UserName)) return View(user);
 
             TempData["ErrorMessage"] = "کاربری یافت نشد";
@@ -435,10 +435,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
 
         #region reports
 
-        public IActionResult CommentReports()
-        {
-            return View();
-        }
+
 
         #endregion
 
@@ -460,7 +457,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
         #region send email
 
         [HttpGet("Admin/Users/{userId}/SendE")]
-        public IActionResult SendActiveEmail(int userId)
+        public async Task<IActionResult> SendActiveEmail(int userId)
         {
             var user = _userService.CreateNewEmailActiveCodeForUser(userId);
 
@@ -472,7 +469,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
 
             //send active email
             var body = _renderService.RenderToStringAsync("_ActivationEmail", user);
-            SendEmail.Send(user.Email, "کد تایید حساب کاربری در کتاب آبی", body);
+            await SendEmail.Send(user.Email, "کد تایید حساب کاربری در کتاب آبی", body);
 
             TempData["SuccessMessage"] = "ایمیل کد تایید با موفقیت ارسال شد";
             return RedirectToAction("UserInfo", new { userId });
@@ -540,9 +537,9 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
         #region delete user
 
         [HttpGet("Admin/Users/{userId}/Del")]
-        public IActionResult DeleteUserInInfo(int userId)
+        public async Task<IActionResult> DeleteUserInInfo(int userId)
         {
-            if (_userService.DeleteUserById(userId))
+            if (await _userService.DeleteUserById(userId))
             {
                 TempData["SuccessMessage"] = "کاربر با موفقیت حذف شد";
                 return RedirectToAction("Index");

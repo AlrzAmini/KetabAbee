@@ -40,10 +40,10 @@ namespace KetabAbee.Web.Controllers
         public IActionResult Register()
         {
             if (User.Identity.IsAuthenticated) return Redirect("/");
-            
+
             return View();
         }
-        
+
         [HttpPost("Register"), ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel register)
         {
@@ -90,7 +90,7 @@ namespace KetabAbee.Web.Controllers
 
             //send active email
             string body = _renderService.RenderToStringAsync("_ActivationEmail", user);
-            SendEmail.Send(user.Email, "کد تایید حساب کاربری در کتاب آبی", body);
+            await SendEmail.Send(user.Email, "کد تایید حساب کاربری در کتاب آبی", body);
 
             return RedirectToAction("Activator");
         }
@@ -123,7 +123,7 @@ namespace KetabAbee.Web.Controllers
                 ViewData["returnUrl"] = returnUrl;
                 return View(login);
             }
-            
+
             var user = await _userService.GetUserForLogin(login);
 
             if (user != null)
@@ -155,7 +155,7 @@ namespace KetabAbee.Web.Controllers
                 {
                     IsPersistent = login.RememberMe
                 };
-                
+
                 // command for login user
                 await HttpContext.SignInAsync(principal, properties);
 
@@ -166,7 +166,7 @@ namespace KetabAbee.Web.Controllers
                 });
                 user.IsOnline = true;
                 _userService.UpdateUser(user);
-                
+
                 if (returnUrl != "/")
                 {
                     return Redirect(returnUrl);
@@ -266,7 +266,7 @@ namespace KetabAbee.Web.Controllers
             }
 
             string body = _renderService.RenderToStringAsync("_ForgotPasswordEmail", user);
-            SendEmail.Send(user.Email, "بازیابی رمز عبور", body);
+            await SendEmail.Send(user.Email, "بازیابی رمز عبور", body);
             TempData["SuccessSwal"] = "ایمیل بازیابی رمز عبور برای شما ارسال گردید";
 
             return View();

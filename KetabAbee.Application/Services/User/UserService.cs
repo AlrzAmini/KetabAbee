@@ -262,11 +262,11 @@ namespace KetabAbee.Application.Services.User
                 });
         }
 
-        public bool DeleteUserById(int userId)
+        public async Task<bool> DeleteUserById(int userId)
         {
             try
             {
-                var user = _userRepository.GetUserByIdWithIncludes(userId);
+                var user = await _userRepository.GetUserByIdWithIncludes(userId);
 
                 #region Delete Avatar
 
@@ -661,9 +661,9 @@ namespace KetabAbee.Application.Services.User
             return await _userRepository.GetUserRoleIds(userId);
         }
 
-        public UserInfoViewModel GetUserForShowInUserInfo(int userId)
+        public async Task<UserInfoViewModel> GetUserForShowInUserInfo(int userId)
         {
-            var user = _userRepository.GetUserByIdWithIncludes(userId);
+            var user = await _userRepository.GetUserByIdWithIncludeIps(userId);
             if (user == null)
             {
                 return new UserInfoViewModel();
@@ -686,7 +686,7 @@ namespace KetabAbee.Application.Services.User
                 RegisterDate = user.RegisterDate,
                 UserId = user.UserId,
                 LatestUserIp = user.UserIps.OrderByDescending(i => i.UserIpId).FirstOrDefault()?.Ip,
-                WalletBalance = _walletService.BalanceUserWallet(user.UserId),
+                WalletBalance = user.WalletBalance,
                 IsBanned = user.IsBanned
             };
         }

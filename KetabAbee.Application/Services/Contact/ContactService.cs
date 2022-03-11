@@ -118,7 +118,7 @@ namespace KetabAbee.Application.Services.Contact
             return model.SetPaging(pager).SetRequests(requests);
         }
 
-        public bool SendAnswerForContactUs(int contactId, string subject, string body)
+        public async Task<bool> SendAnswerForContactUs(int contactId, string subject, string body)
         {
             try
             {
@@ -127,7 +127,7 @@ namespace KetabAbee.Application.Services.Contact
                 {
                     return false;
                 }
-                SendEmail.Send(contact.Email, subject, body);
+                await SendEmail.Send(contact.Email, subject, body);
                 contact.IsAnswered = true;
                 return _contactRepository.UpdateContactUs(contact);
             }
@@ -137,7 +137,7 @@ namespace KetabAbee.Application.Services.Contact
             }
         }
 
-        public bool SendNewsLetterToAll(int newsId)
+        public async Task<bool> SendNewsLetterToAll(int newsId)
         {
             try
             {
@@ -145,7 +145,7 @@ namespace KetabAbee.Application.Services.Contact
 
                 foreach (var email in _contactRepository.GetNewsEmailEmails())
                 {
-                    SendEmail.Send(email, news.Subject, news.Body);
+                    await SendEmail.Send(email, news.Subject, news.Body);
                 }
 
                 news.IsSend = true;
