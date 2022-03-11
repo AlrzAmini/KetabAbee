@@ -11,9 +11,11 @@ using GoogleReCaptcha.V3.Interface;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs.Book;
 using KetabAbee.Application.DTOs.Contact;
+using KetabAbee.Application.DTOs.Wallet;
 using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Contact;
 using KetabAbee.Application.Interfaces.Product;
+using KetabAbee.Application.Interfaces.Wallet;
 using KetabAbee.Application.Senders;
 using KetabAbee.Domain.Models.Products;
 using Microsoft.AspNetCore.Http;
@@ -29,13 +31,15 @@ namespace KetabAbee.Web.Controllers
         private readonly ICaptchaValidator _captchaValidator;
         private readonly IViewRenderService _renderService;
         private readonly IProductService _productService;
+        private readonly IPaymentService _paymentService;
 
-        public HomeController(IContactService contactService, ICaptchaValidator captchaValidator, IViewRenderService renderService, IProductService productService)
+        public HomeController(IContactService contactService, ICaptchaValidator captchaValidator, IViewRenderService renderService, IProductService productService, IPaymentService paymentService)
         {
             _contactService = contactService;
             _captchaValidator = captchaValidator;
             _renderService = renderService;
             _productService = productService;
+            _paymentService = paymentService;
         }
 
         #endregion
@@ -44,6 +48,14 @@ namespace KetabAbee.Web.Controllers
 
         public IActionResult Index()
         {
+            string redirectUrl = "";
+            var paymentResult = _paymentService.CreatePaymentRequest(null, 20000, "TestMe Behalf", "https://localhost:44338/Page/About", ref redirectUrl,
+                 "mranotmillion@gmail.com");
+
+            if (paymentResult == PaymentStatus.St100)
+            {
+                return Redirect(redirectUrl);
+            }
             return View();
         }
 
@@ -75,6 +87,12 @@ namespace KetabAbee.Web.Controllers
 
         //    return View();
         //}
+
+        #endregion
+
+        #region payment
+
+
 
         #endregion
 

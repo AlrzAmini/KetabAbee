@@ -56,6 +56,7 @@ namespace KetabAbee.IoC
             service.AddScoped<IBlogService, BlogService>();
             service.AddScoped<ITaskService, TaskService>();
             service.AddScoped<IExamService, ExamService>();
+            service.AddScoped<IPaymentService, PaymentService>();
 
             #endregion
 
