@@ -49,12 +49,9 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
 
             #region last users box
 
-            var lastMonthUsers = _userService.GetLastNDaysUsers(30).Count();
-            ViewBag.LastMonthUsers = lastMonthUsers;
-            var lastWeekUsers = _userService.GetLastNDaysUsers(7).Count();
-            ViewBag.LastWeekUsers = lastWeekUsers;
-            var lastDayUsers = _userService.GetLastNDaysUsers(1).Count();
-            ViewBag.LastDayUsers = lastDayUsers;
+            ViewBag.LastMonthUsers = _userService.GetLastNDaysUsersCount(30);
+            ViewBag.LastWeekUsers = _userService.GetLastNDaysUsersCount(7);
+            ViewBag.LastDayUsers = _userService.GetLastNDaysUsersCount(1);
 
             #endregion
 

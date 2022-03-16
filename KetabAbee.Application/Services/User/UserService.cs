@@ -621,9 +621,9 @@ namespace KetabAbee.Application.Services.User
             return _userRepository.GetUserAddressByUserId(userId);
         }
 
-        public IEnumerable<Domain.Models.User.User> GetLastNDaysUsers(int n)
+        public int GetLastNDaysUsersCount(int n)
         {
-            return _userRepository.GetLastNDaysUsers(n);
+            return _userRepository.GetLastNDaysUsersCount(n);
         }
 
         public IEnumerable<UserForAutoCompleteViewModel> GetUsersForAutoComplete()

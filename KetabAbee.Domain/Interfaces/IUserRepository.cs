@@ -75,7 +75,8 @@ namespace KetabAbee.Domain.Interfaces
 
         string GetMobileByUserId(int userId);
 
-        IEnumerable<User> GetLastNDaysUsers(int n);
+        int GetLastNDaysUsersCount(int n);
+
         IEnumerable<User> GetLastNHoursUsers(int n);
 
         int AllUsersCount();
