@@ -12,3 +12,8 @@ historicoCookie.EnderecoIp = this.HttpContext.Connection.RemoteIpAddress.ToStrin
  // local host site key
  "googleReCaptcha:SiteKey": "6LdGw6cdAAAAAPp8Lmbu5khCOpDwwZ515hNCS89I",
   "googleReCaptcha:SecretKey": "6LdGw6cdAAAAALbyw0TfoyX12Vu1esMQJpvBYa8m"
+
+
+  // web site key
+  "googleReCaptcha:SiteKey": "6Lc9wdAeAAAAADl1JvWLMFsVN6G7H8WnJInjLTmf",
+  "googleReCaptcha:SecretKey": "6Lc9wdAeAAAAAJQ5bPPjBrdgyuIZko_wZccYkKLN"

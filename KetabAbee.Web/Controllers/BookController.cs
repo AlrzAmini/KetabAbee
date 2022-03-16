@@ -82,6 +82,15 @@ namespace KetabAbee.Web.Controllers
 
             #endregion
 
+            #region exam results
+
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewBag.IsCurrentUserHaveResult = _examService.IsUserIpHaveAnyExam(HttpContext.GetUserIp());
+            }
+
+            #endregion
+
             if (!User.Identity.IsAuthenticated) return View(model);
 
             var userId = User.GetUserId();
@@ -442,7 +451,24 @@ namespace KetabAbee.Web.Controllers
             catch
             {
                 TempData["ErrorSwal"] = "زمان شما به اتمام رسید";
-                return RedirectToAction("LiveExam", new { examId });
+                var eRes = new ExamResult
+                {
+                    AllQuestionsCount = 0,
+                    CorrectAnswersCount = 0,
+                    ExamId = examId,
+                    WrongAnswersCount = 0,
+                    ResultStatus = ExamResultStatus.Failed,
+                    Score = 0,
+                    UserIp = HttpContext.GetUserIp()
+                };
+                if (User.Identity.IsAuthenticated)
+                {
+                    eRes.UserId = User.GetUserId();
+                }
+
+                await _examService.CreateExamResult(eRes);
+
+                return RedirectToAction("Index", "Home");
             }
         }
 

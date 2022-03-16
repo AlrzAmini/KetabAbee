@@ -24,12 +24,12 @@ namespace KetabAbee.Data.Repository
             _context = context;
         }
 
-        public async Task<bool> RegisterUser(User user)
+        public async Task<int> RegisterUser(User user)
         {
-            _context.Users.Add(user);
+            await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
 
-            return true;
+            return user.UserId;
         }
 
         public IEnumerable<User> GetUsers()

@@ -57,5 +57,7 @@ namespace KetabAbee.Application.Interfaces.Exam
         Task<List<ExamResult>> GetUserExamResultsById(int userId);
 
         Task<List<ExamResult>> GetExamResults();
+
+        bool IsUserIpHaveAnyExam(string userIp);
     }
 }

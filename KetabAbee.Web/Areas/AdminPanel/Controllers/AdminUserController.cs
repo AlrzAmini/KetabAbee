@@ -77,7 +77,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
         }
 
         [HttpPost("Admin/Users/AddUser"), ValidateAntiForgeryToken]
-        public IActionResult AddUser(AddUserFromAdminViewModel user, IFormFile imgFile, List<int> selectedRoles)
+        public async Task<IActionResult> AddUser(AddUserFromAdminViewModel user, IFormFile imgFile, List<int> selectedRoles)
         {
             #region Validations
 
@@ -128,7 +128,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
             #endregion
 
             //register user
-            var userId = _userService.AddUser(user, imgFile);
+            var userId = await _userService.AddUser(user, imgFile);
             if (userId == 0) return View(user);
 
             // add roles to user

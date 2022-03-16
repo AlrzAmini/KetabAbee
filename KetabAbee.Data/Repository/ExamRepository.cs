@@ -218,6 +218,11 @@ namespace KetabAbee.Data.Repository
             return await _context.CorrectAnswers.AnyAsync(a => a.QuestionId == questionId);
         }
 
+        public bool IsUserIpHaveAnyExamResult(string userIp)
+        {
+            return _context.ExamResults.Any(r=>r.UserIp == userIp);
+        }
+
         public async Task<bool> RemoveExam(Exam exam)
         {
             exam.IsDelete = true;

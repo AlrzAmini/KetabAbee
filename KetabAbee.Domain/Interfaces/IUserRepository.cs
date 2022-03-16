@@ -18,7 +18,7 @@ namespace KetabAbee.Domain.Interfaces
 
         #region Account
 
-        Task<bool> RegisterUser(User user);
+        Task<int> RegisterUser(User user);
 
         bool IsEmailExist(string email);
 

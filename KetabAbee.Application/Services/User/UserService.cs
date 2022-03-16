@@ -419,7 +419,7 @@ namespace KetabAbee.Application.Services.User
             return await _userRepository.GetAvatarNameByUserId(userId);
         }
 
-        public int AddUser(AddUserFromAdminViewModel user, IFormFile imgFile)
+        public async Task<int> AddUser(AddUserFromAdminViewModel user, IFormFile imgFile)
         {
             Domain.Models.User.User newUser = new();
 
@@ -442,9 +442,7 @@ namespace KetabAbee.Application.Services.User
             newUser.MobileActivationCode = new Random().Next(100000, 999998).ToString();
             newUser.IsMobileActive = true;
             newUser.RegisterDate = DateTime.Now;
-            _userRepository.RegisterUser(newUser);
-
-            return newUser.UserId;
+            return await _userRepository.RegisterUser(newUser);
         }
 
         private static void AddAvatar(IFormFile imgFile, Domain.Models.User.User newUser)

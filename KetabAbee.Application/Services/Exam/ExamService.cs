@@ -327,5 +327,10 @@ namespace KetabAbee.Application.Services.Exam
             var resultsCount = await _examRepository.GetUserBookExamResultsCount(userIp, bookId);
             return resultsCount <= 2;
         }
+
+        public bool IsUserIpHaveAnyExam(string userIp)
+        {
+            return _examRepository.IsUserIpHaveAnyExamResult(userIp);
+        }
     }
 }

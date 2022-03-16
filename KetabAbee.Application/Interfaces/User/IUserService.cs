@@ -76,7 +76,7 @@ namespace KetabAbee.Application.Interfaces.User
 
         Task<string> GetAvatarNameByUserId(int userId);
 
-        int AddUser(AddUserFromAdminViewModel user, IFormFile imgFile);
+        Task<int> AddUser(AddUserFromAdminViewModel user, IFormFile imgFile);
 
         EditUserViewModel GetUserForEditInAdmin(int userId);
 
