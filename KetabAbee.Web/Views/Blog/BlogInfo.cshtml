@@ -3,6 +3,7 @@
 @model KetabAbee.Application.DTOs.Blog.ShowBlogInfoViewModel
 @{
     ViewData["Title"] = " بلاگ " + Model.BlogTitle;
+    var domainAddress = CommonExtensions.DomainAddress;
 }
 
 @section MetaTag
@@ -12,7 +13,7 @@
     <meta name="description" content="@Model.PageDescription" />
     <meta property=og:site_name value="کتابفروشی کتاب آبی">
     <meta property=og:title content="@Model.BlogTitle">
-    <meta property=og:url content="https://haamechitamoom.ir/Blogs/Blog/@Model.BlogId" />
+    <meta property=og:url content="@domainAddress/Blogs/Blog/@Model.BlogId" />
     <meta property=og:image content="/images/blog/image/@Model.ImageName">
     <meta property=og:image:url content="/images/blog/image/@Model.ImageName" />
     <meta property=og:image:width content="700">
@@ -73,7 +74,7 @@
                         <div class="widget widget-tags shadow-around">
                             <div class="widget-title">لینک اشتراک گذاری</div>
                             <div class="widget-content">
-                                <span id="page-Link" class="text-center mr-2" hidden="hidden">@CommonExtensions.DomainAddress/blogs/blog/@Model.BlogId/@Model.BlogTitle.NameFixerForUrl()</span>
+                                <span id="page-Link" class="text-center mr-2" hidden="hidden">@domainAddress/blogs/blog/@Model.BlogId/@Model.BlogTitle.NameFixerForUrl()</span>
                                 <button onclick="copyToClipboard('#page-Link')" class="btn btn-outline-primary btn-block">کپی کردن لینک</button>
                             </div>
                         </div>

@@ -936,5 +936,10 @@ namespace KetabAbee.Application.Services.User
                 return BanIpResult.Error;
             }
         }
+
+        public IEnumerable<Domain.Models.User.User> GetLastNHoursUsers(int n)
+        {
+            return _userRepository.GetLastNHoursUsers(n);
+        }
     }
 }

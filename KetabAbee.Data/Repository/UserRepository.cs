@@ -184,7 +184,7 @@ namespace KetabAbee.Data.Repository
 
         public IEnumerable<User> GetLastNDaysUsers(int n)
         {
-            return _context.Users.Where(u => u.RegisterDate > DateTime.Today.AddDays(-n));
+            return _context.Users.Where(u => u.RegisterDate > DateTime.Now.AddDays(-n));
         }
 
         public int ValidUsersCount()
@@ -459,6 +459,11 @@ namespace KetabAbee.Data.Repository
             return await _context.Users
                 .Include(u => u.UserIps)
                 .FirstOrDefaultAsync(u => u.UserId == userId);
+        }
+
+        public IEnumerable<User> GetLastNHoursUsers(int n)
+        {
+            return _context.Users.Where(u => u.RegisterDate > DateTime.Now.AddHours(-n));
         }
     }
 }
