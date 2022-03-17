@@ -269,15 +269,15 @@ namespace KetabAbee.Application.Services.Ticket
             return _ticketRepository.UserHaveUnReadTicket(userId);
         }
 
-        public TicketStaticsViewModel GetTicketStaticInfo()
+        public async Task<TicketStaticsViewModel> GetTicketStaticInfo()
         {
             return new TicketStaticsViewModel
             {
-                AllTicketsCount = _ticketRepository.GetTicketsCount(),
-                IsReadTicketsCount = _ticketRepository.GetIsReadTicketsCount(),
-                ImportantUnReadTicketsCount = _ticketRepository.GetUnReadImportantTicketsCount(),
-                UnReadTicketsCount = _ticketRepository.GetUnReadTicketsCount(),
-                IsClosedTicketsCount = _ticketRepository.GetClosedTicketsCount()
+                AllTicketsCount = await _ticketRepository.GetTicketsCount(),
+                IsReadTicketsCount = await _ticketRepository.GetIsReadTicketsCount(),
+                ImportantUnReadTicketsCount = await _ticketRepository.GetUnReadImportantTicketsCount(),
+                UnReadTicketsCount = await _ticketRepository.GetUnReadTicketsCount(),
+                IsClosedTicketsCount = await _ticketRepository.GetClosedTicketsCount()
             };
         }
     }

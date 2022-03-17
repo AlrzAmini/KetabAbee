@@ -62,19 +62,19 @@ namespace KetabAbee.Domain.Interfaces
 
         #region admin
 
-        int GetLastNDaysOrdersCount(int n);
+        Task<int> GetLastNDaysOrdersCount(int n);
 
-        float GetLastNDaysOrdersIncome(int n);
+        Task<float> GetLastNDaysOrdersIncome(int n);
 
-        IEnumerable<string> GetMostSellingBooks();
+        Task<List<string>> GetMostSellingBooks();
 
-        IEnumerable<string> GetMostSellingBookCategories();
+        Task<List<string>> GetMostSellingBookCategories();
 
-        int AllOrdersCount();
+        Task<int> AllOrdersCount();
 
-        int IsSendOrdersCount();
+        Task<int> IsSendOrdersCount();
 
-        int IsNotSendOrderPercentCount();
+        Task<int> IsNotSendOrderPercentCount();
 
         #endregion
 

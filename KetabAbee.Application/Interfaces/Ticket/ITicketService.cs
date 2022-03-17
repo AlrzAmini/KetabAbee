@@ -33,7 +33,7 @@ namespace KetabAbee.Application.Interfaces.Ticket
 
         bool CloseTicket(int ticketId);
 
-        TicketStaticsViewModel GetTicketStaticInfo();
+        Task<TicketStaticsViewModel> GetTicketStaticInfo();
 
         #endregion
 

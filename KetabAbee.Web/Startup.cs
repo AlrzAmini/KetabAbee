@@ -69,10 +69,12 @@ namespace KetabAbee.Web
 
             #region Context
 
+
             services.AddDbContext<KetabAbeeDBContext>(option =>
             {
                 option.UseSqlServer(Configuration.GetConnectionString("KetabAbeeDBConnection"));
-            });
+
+            }, ServiceLifetime.Transient);
 
             #endregion
 

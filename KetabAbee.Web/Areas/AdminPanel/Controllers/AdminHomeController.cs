@@ -49,34 +49,34 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
 
             #region last users box
 
-            ViewBag.LastMonthUsers = _userService.GetLastNDaysUsersCount(30);
-            ViewBag.LastWeekUsers = _userService.GetLastNDaysUsersCount(7);
-            ViewBag.LastDayUsers = _userService.GetLastNDaysUsersCount(1);
+            ViewBag.LastMonthUsers = await _userService.GetLastNDaysUsersCount(30);
+            ViewBag.LastWeekUsers = await _userService.GetLastNDaysUsersCount(7);
+            ViewBag.LastDayUsers = await _userService.GetLastNDaysUsersCount(1);
 
             #endregion
 
             #region user statistics
 
-            ViewBag.UserStatics = _userService.GetUsersStaticsForAdmin();
+            ViewBag.UserStatics = await _userService.GetUsersStaticsForAdmin();
 
             #endregion
 
             #region ticket statistics
 
-            ViewBag.TicketStatics = _ticketService.GetTicketStaticInfo();
+            ViewBag.TicketStatics = await _ticketService.GetTicketStaticInfo();
 
             #endregion
 
             #region sell statics
 
-            ViewBag.SellStatics = _orderService.GetSellInfo();
+            ViewBag.SellStatics = await _orderService.GetSellInfo();
 
             #endregion
 
             #region tasks
 
             var roleIds = await _userService.GetUserRoleIds(User.GetUserId());
-            ViewBag.CurrentAdminTasks = _taskService.GetTasksForAdmin(roleIds);
+            ViewBag.CurrentAdminTasks = await _taskService.GetTasksForAdmin(roleIds);
 
             #endregion
 

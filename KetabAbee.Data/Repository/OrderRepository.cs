@@ -186,52 +186,54 @@ namespace KetabAbee.Data.Repository
                 .FirstOrDefaultAsync(o => o.UserId == userId && !o.IsFinally);
         }
 
-        public int GetLastNDaysOrdersCount(int n)
+        public async Task<int> GetLastNDaysOrdersCount(int n)
         {
-            return _context.Orders.Count(o => o.IsFinally && o.CreateDate >= DateTime.Today.AddDays(-n));
+            return await _context.Orders.CountAsync(o => o.IsFinally && o.CreateDate >= DateTime.Now.AddDays(-n));
         }
 
-        public float GetLastNDaysOrdersIncome(int n)
+        public async Task<float> GetLastNDaysOrdersIncome(int n)
         {
-            return _context.Orders
-                .Where(o => o.IsFinally && o.CreateDate >= DateTime.Today.AddDays(-n))
-                .Sum(o => o.OrderSum);
+            return await _context.Orders
+                .Where(o => o.IsFinally && o.CreateDate >= DateTime.Now.AddDays(-n))
+                .SumAsync(o => o.OrderSum);
         }
 
-        public IEnumerable<string> GetMostSellingBooks()
+        public async Task<List<string>> GetMostSellingBooks()
         {
-            return _context.Books
+            return await _context.Books
                 .Include(b => b.OrderDetails)
                 .ThenInclude(d => d.Order)
                 .Where(b => b.OrderDetails.Any())
                 .OrderByDescending(d => d.OrderDetails.Count)
-                .Select(b => b.Name).Take(4);
+                .Select(b => b.Name).Take(4).ToListAsync();
         }
 
-        public IEnumerable<string> GetMostSellingBookCategories()
+        public async Task<List<string>> GetMostSellingBookCategories()
         {
-            return _context.Books
+            return await _context.Books
                 .Include(b=>b.SubGroup)
                 .Include(b => b.OrderDetails)
                 .ThenInclude(d => d.Order)
                 .Where(b => b.OrderDetails.Any())
                 .OrderByDescending(d => d.OrderDetails.Count)
-                .Select(b => b.SubGroup.GroupTitle).Distinct().Take(4);
+                .Select(b => b.SubGroup.GroupTitle).Distinct()
+                .Take(4)
+                .ToListAsync();
         }
 
-        public int IsSendOrdersCount()
+        public async Task<int> IsSendOrdersCount()
         {
-            return _context.Orders.Count(o => o.SendingProcessIsCompleted);
+            return await _context.Orders.CountAsync(o => o.SendingProcessIsCompleted);
         }
 
-        public int IsNotSendOrderPercentCount()
+        public async Task<int> IsNotSendOrderPercentCount()
         {
-            return _context.Orders.Count(o => !o.SendingProcessIsCompleted);
+            return await _context.Orders.CountAsync(o => !o.SendingProcessIsCompleted);
         }
 
-        public int AllOrdersCount()
+        public async Task<int> AllOrdersCount()
         {
-            return _context.Orders.Count();
+            return await _context.Orders.CountAsync();
         }
     }
 }

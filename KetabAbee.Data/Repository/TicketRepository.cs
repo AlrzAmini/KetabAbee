@@ -56,14 +56,14 @@ namespace KetabAbee.Data.Repository
                 .Include(a => a.Sender);
         }
 
-        public int GetClosedTicketsCount()
+        public async Task<int> GetClosedTicketsCount()
         {
-            return _context.Tickets.Count(t => t.TicketState == TicketState.Closed);
+            return await _context.Tickets.CountAsync(t => t.TicketState == TicketState.Closed);
         }
 
-        public int GetIsReadTicketsCount()
+        public async Task<int> GetIsReadTicketsCount()
         {
-            return _context.Tickets.Count(t => t.IsReadByAdmin);
+            return await _context.Tickets.CountAsync(t => t.IsReadByAdmin);
         }
 
         public Ticket GetTicketById(int ticketId)
@@ -78,9 +78,9 @@ namespace KetabAbee.Data.Repository
             return _context.Tickets;
         }
 
-        public int GetTicketsCount()
+        public async Task<int> GetTicketsCount()
         {
-            return _context.Tickets.Count();
+            return await _context.Tickets.CountAsync();
         }
 
         public IEnumerable<Ticket> GetTicketsForFilter()
@@ -97,14 +97,14 @@ namespace KetabAbee.Data.Repository
                   .Include(t => t.Answers);
         }
 
-        public int GetUnReadImportantTicketsCount()
+        public async Task<int> GetUnReadImportantTicketsCount()
         {
-            return _context.Tickets.Count(t => !t.IsReadByAdmin && t.TicketPriority == TicketPriority.High);
+            return await _context.Tickets.CountAsync(t => !t.IsReadByAdmin && t.TicketPriority == TicketPriority.High);
         }
 
-        public int GetUnReadTicketsCount()
+        public async Task<int> GetUnReadTicketsCount()
         {
-            return _context.Tickets.Count(t => !t.IsReadByAdmin);
+            return await _context.Tickets.CountAsync(t => !t.IsReadByAdmin);
         }
 
         public void UpdateTicket(Ticket ticket)

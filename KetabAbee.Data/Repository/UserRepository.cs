@@ -167,9 +167,9 @@ namespace KetabAbee.Data.Repository
                 .Select(f => f.BookId).ToListAsync();
         }
 
-        public int AllUsersCount()
+        public async Task<int> AllUsersCount()
         {
-            return _context.Users.Count();
+            return await _context.Users.CountAsync();
         }
 
         public int GetUserIdByUserName(string userName)
@@ -182,26 +182,26 @@ namespace KetabAbee.Data.Repository
             return GetUserById(userId).Address;
         }
 
-        public int GetLastNDaysUsersCount(int n)
+        public async Task<int> GetLastNDaysUsersCount(int n)
         {
-            return _context.Users.Count(u => u.RegisterDate > DateTime.Now.AddDays(-n));
+            return await _context.Users.CountAsync(u => u.RegisterDate > DateTime.Now.AddDays(-n));
         }
 
-        public int ValidUsersCount()
+        public async Task<int> ValidUsersCount()
         {
-            return _context.Users.Count(u => u.IsEmailActive);
+            return await _context.Users.CountAsync(u => u.IsEmailActive);
         }
 
-        public int AdminsCount()
+        public async Task<int> AdminsCount()
         {
-            return _context.UserRoles
+            return await _context.UserRoles
                 .Select(r => r.UserId)
-                .Distinct().Count();
+                .Distinct().CountAsync();
         }
 
-        public int OnlineUsersCount()
+        public async Task<int> OnlineUsersCount()
         {
-            return _context.Users.Count(u => u.IsOnline);
+            return await _context.Users.CountAsync(u => u.IsOnline);
         }
 
         public void AddUserIp(UserIp userIp)

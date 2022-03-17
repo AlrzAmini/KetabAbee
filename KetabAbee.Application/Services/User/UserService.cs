@@ -621,9 +621,9 @@ namespace KetabAbee.Application.Services.User
             return _userRepository.GetUserAddressByUserId(userId);
         }
 
-        public int GetLastNDaysUsersCount(int n)
+        public async Task<int> GetLastNDaysUsersCount(int n)
         {
-            return _userRepository.GetLastNDaysUsersCount(n);
+            return await _userRepository.GetLastNDaysUsersCount(n);
         }
 
         public IEnumerable<UserForAutoCompleteViewModel> GetUsersForAutoComplete()
@@ -635,14 +635,14 @@ namespace KetabAbee.Application.Services.User
             });
         }
 
-        public UsersStatisticsViewModel GetUsersStaticsForAdmin()
+        public async  Task<UsersStatisticsViewModel> GetUsersStaticsForAdmin()
         {
             return new UsersStatisticsViewModel
             {
-                AllUsersCount = _userRepository.AllUsersCount(),
-                ValidUsersCount = _userRepository.ValidUsersCount(),
-                OnlineUsersCount = _userRepository.OnlineUsersCount(),
-                AdminsCount = _userRepository.AdminsCount(),
+                AllUsersCount = await _userRepository.AllUsersCount(),
+                ValidUsersCount = await _userRepository.ValidUsersCount(),
+                OnlineUsersCount = await _userRepository.OnlineUsersCount(),
+                AdminsCount = await _userRepository.AdminsCount()
             };
         }
 

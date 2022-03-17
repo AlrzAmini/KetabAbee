@@ -129,10 +129,10 @@ namespace KetabAbee.Application.Services.Order
 
         }
 
-        public int GetIsNotSendOrdersPercent()
+        public async Task<int> GetIsNotSendOrdersPercent()
         {
-            var allOrdersCount = _orderRepository.AllOrdersCount();
-            var isNotSendOrdersCount = _orderRepository.IsNotSendOrderPercentCount();
+            var allOrdersCount = await _orderRepository.AllOrdersCount();
+            var isNotSendOrdersCount = await _orderRepository.IsNotSendOrderPercentCount();
             if (isNotSendOrdersCount == 0)
             {
                 return 0;
@@ -141,10 +141,10 @@ namespace KetabAbee.Application.Services.Order
             return (isNotSendOrdersCount * 100) / allOrdersCount;
         }
 
-        public int GetIsSendOrdersPercent()
+        public async Task<int> GetIsSendOrdersPercent()
         {
-            var allOrdersCount = _orderRepository.AllOrdersCount();
-            var isSendOrdersCount = _orderRepository.IsSendOrdersCount();
+            var allOrdersCount = await _orderRepository.AllOrdersCount();
+            var isSendOrdersCount = await _orderRepository.IsSendOrdersCount();
             if (isSendOrdersCount == 0)
             {
                 return 0;
@@ -185,22 +185,22 @@ namespace KetabAbee.Application.Services.Order
             return ordersViewModel.SetPaging(pager).SetOrders(orders);
         }
 
-        public SellStaticsViewModel GetSellInfo()
+        public async Task<SellStaticsViewModel> GetSellInfo()
         {
             return new SellStaticsViewModel
             {
-                LastDayOrdersCount = _orderRepository.GetLastNDaysOrdersCount(1),
-                LastWeekOrdersCount = _orderRepository.GetLastNDaysOrdersCount(7),
-                LastMonthOrdersCount = _orderRepository.GetLastNDaysOrdersCount(30),
-                LastYearOrdersCount = _orderRepository.GetLastNDaysOrdersCount(365),
-                LastDayOrdersIncome = _orderRepository.GetLastNDaysOrdersIncome(1),
-                LastWeekOrdersIncome = _orderRepository.GetLastNDaysOrdersIncome(7),
-                LastMonthOrdersIncome = _orderRepository.GetLastNDaysOrdersIncome(30),
-                LastYearOrdersIncome = _orderRepository.GetLastNDaysOrdersIncome(365),
-                MostSellingBook = _orderRepository.GetMostSellingBooks().ToList(),
-                MostSellingBookCategories = _orderRepository.GetMostSellingBookCategories().ToList(),
-                IsSendPercent = GetIsSendOrdersPercent(),
-                IsNotSendPercent = GetIsNotSendOrdersPercent()
+                LastDayOrdersCount = await _orderRepository.GetLastNDaysOrdersCount(1),
+                LastWeekOrdersCount = await _orderRepository.GetLastNDaysOrdersCount(7),
+                LastMonthOrdersCount = await _orderRepository.GetLastNDaysOrdersCount(30),
+                LastYearOrdersCount = await _orderRepository.GetLastNDaysOrdersCount(365),
+                LastDayOrdersIncome = await _orderRepository.GetLastNDaysOrdersIncome(1),
+                LastWeekOrdersIncome = await _orderRepository.GetLastNDaysOrdersIncome(7),
+                LastMonthOrdersIncome = await _orderRepository.GetLastNDaysOrdersIncome(30),
+                LastYearOrdersIncome = await _orderRepository.GetLastNDaysOrdersIncome(365),
+                MostSellingBook = await _orderRepository.GetMostSellingBooks(),
+                MostSellingBookCategories = await _orderRepository.GetMostSellingBookCategories(),
+                IsSendPercent = await GetIsSendOrdersPercent(),
+                IsNotSendPercent = await GetIsNotSendOrdersPercent()
             };
         }
 

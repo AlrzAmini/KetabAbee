@@ -43,11 +43,11 @@ namespace KetabAbee.Application.Interfaces.Order
 
         #region Admin
 
-        SellStaticsViewModel GetSellInfo();
+        Task<SellStaticsViewModel> GetSellInfo();
 
-        int GetIsSendOrdersPercent();
+        Task<int> GetIsSendOrdersPercent();
 
-        int GetIsNotSendOrdersPercent();
+        Task<int> GetIsNotSendOrdersPercent();
 
         #endregion
     }

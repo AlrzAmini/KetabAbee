@@ -90,13 +90,13 @@ namespace KetabAbee.Application.Interfaces.User
 
         ChargeWalletFromAdminViewModel GetChargeInfoForAdmin(int userId);
 
-        int GetLastNDaysUsersCount(int n);
+        Task<int> GetLastNDaysUsersCount(int n);
 
         IEnumerable<Domain.Models.User.User> GetLastNHoursUsers(int n);
 
         IEnumerable<UserForAutoCompleteViewModel> GetUsersForAutoComplete();
 
-        UsersStatisticsViewModel GetUsersStaticsForAdmin();
+        Task<UsersStatisticsViewModel> GetUsersStaticsForAdmin();
 
         Task<List<int>> GetUserRoleIds(int userId);
 

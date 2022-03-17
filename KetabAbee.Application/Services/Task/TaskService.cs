@@ -244,10 +244,10 @@ namespace KetabAbee.Application.Services.Task
                 }).ToList();
         }
 
-        public List<TaskForEachAdminViewModel> GetTasksForAdmin(List<int> roleIds)
+        public async Task<List<TaskForEachAdminViewModel>> GetTasksForAdmin(List<int> roleIds)
         {
-            return _taskRepository.GetTasksByRoleIds(roleIds)
-                .Select(t => new TaskForEachAdminViewModel
+            var tasks = await _taskRepository.GetTasksByRoleIds(roleIds);
+               return tasks.Select(t => new TaskForEachAdminViewModel
                 {
                     CreateDate = t.CreateDate,
                     DeadLine = t.DeadLine,

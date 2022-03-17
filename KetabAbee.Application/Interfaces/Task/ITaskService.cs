@@ -28,7 +28,7 @@ namespace KetabAbee.Application.Interfaces.Task
 
         EditTaskResult EditTask(EditTaskViewModel task);
 
-        List<TaskForEachAdminViewModel> GetTasksForAdmin(List<int> roleIds);
+        Task<List<TaskForEachAdminViewModel>> GetTasksForAdmin(List<int> roleIds);
 
         bool ChangeTaskIsCompleted(int taskId);
     }

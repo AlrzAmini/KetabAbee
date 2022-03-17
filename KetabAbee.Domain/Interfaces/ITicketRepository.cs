@@ -25,15 +25,15 @@ namespace KetabAbee.Domain.Interfaces
 
         bool UserHaveUnReadTicket(int userId);
 
-        int GetTicketsCount();
+        Task<int> GetTicketsCount();
 
-        int GetIsReadTicketsCount();
+        Task<int> GetIsReadTicketsCount();
 
-        int GetUnReadTicketsCount();
+        Task<int> GetUnReadTicketsCount();
 
-        int GetUnReadImportantTicketsCount();
+        Task<int> GetUnReadImportantTicketsCount();
 
-        int GetClosedTicketsCount();
+        Task<int> GetClosedTicketsCount();
 
         #region Answer
 

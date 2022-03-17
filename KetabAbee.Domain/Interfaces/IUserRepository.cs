@@ -75,17 +75,17 @@ namespace KetabAbee.Domain.Interfaces
 
         string GetMobileByUserId(int userId);
 
-        int GetLastNDaysUsersCount(int n);
+        Task<int> GetLastNDaysUsersCount(int n);
 
         IEnumerable<User> GetLastNHoursUsers(int n);
 
-        int AllUsersCount();
+        Task<int> AllUsersCount();
 
-        int ValidUsersCount();
+        Task<int> ValidUsersCount();
 
-        int AdminsCount();
+        Task<int> AdminsCount();
 
-        int OnlineUsersCount();
+        Task<int> OnlineUsersCount();
 
         Task<List<int>> GetUserRoleIds(int userId);
 

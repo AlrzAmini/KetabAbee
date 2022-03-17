@@ -62,15 +62,15 @@ namespace KetabAbee.Data.Repository
                 .Include(t => t.Role).OrderByDescending(t => t.TaskId);
         }
 
-        public List<Task> GetTasksByRoleIds(List<int> roleIds)
+        public async Task<List<Task>> GetTasksByRoleIds(List<int> roleIds)
         {
             var listTasks = new List<Task>();
 
             foreach (var roleId in roleIds)
             {
-                var tasks = _context.Tasks.Include(t => t.Creator)
+                var tasks = await _context.Tasks.Include(t => t.Creator)
                     .OrderByDescending(t => t.TaskId)
-                    .Where(t => t.RoleId == roleId && !t.IsCompleted);
+                    .Where(t => t.RoleId == roleId && !t.IsCompleted).ToListAsync();
                 if (tasks.Any())
                 {
                     listTasks.AddRange(tasks);

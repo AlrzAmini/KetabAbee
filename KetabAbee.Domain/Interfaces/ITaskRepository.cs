@@ -24,6 +24,6 @@ namespace KetabAbee.Domain.Interfaces
 
         IEnumerable<Task> GetTaskForEachAdmin(int roleId);
 
-        List<Task> GetTasksByRoleIds(List<int> roleIds);
+        Task<List<Task>> GetTasksByRoleIds(List<int> roleIds);
     }
 }
