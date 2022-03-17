@@ -28,7 +28,7 @@
                         <div class="form-element-row">
                             <label for="phone-number" class="label-element">ایمیل</label>
                             <div class="form-element-with-icon">
-                                <input type="text" asp-for="Email" class="input-element" id="phone-number">
+                                <input type="email" asp-for="Email" autocomplete="on" class="input-element" id="phone-number">
                                 <i class="fad fa-mail-bulk"></i>
                             </div>
                             <span asp-validation-for="Email" class="text-danger"></span>
