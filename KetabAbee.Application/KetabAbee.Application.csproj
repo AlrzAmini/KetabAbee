@@ -7,6 +7,10 @@
   <ItemGroup>
     <PackageReference Include="HtmlSanitizer" Version="6.0.453" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.2.0" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="System.Drawing.Common" Version="5.0.3" />
     <PackageReference Include="Zarinpal" Version="2.0.4" />
     <PackageReference Include="ZarinpalSandbox" Version="2.0.4" />

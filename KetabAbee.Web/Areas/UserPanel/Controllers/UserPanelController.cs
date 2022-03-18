@@ -91,7 +91,11 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         [HttpGet("UserPanel/ChangePassword")]
         public IActionResult ChangePassword()
         {
-            return View();
+            var model = new ChangePasswordViewModel
+            {
+                StrongPassword = PasswordGenerator.GenerateStrongPassword()
+            };
+            return View(model);
         }
 
         [HttpPost("UserPanel/ChangePassword") , ValidateAntiForgeryToken]

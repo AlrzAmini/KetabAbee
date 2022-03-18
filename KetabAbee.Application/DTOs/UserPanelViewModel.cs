@@ -97,5 +97,11 @@ namespace KetabAbee.Application.DTOs
         public string ConfirmPassword { get; set; }
 
         #endregion
+
+        #region strong password
+
+        public string StrongPassword { get; set; }
+
+        #endregion
     }
 }
