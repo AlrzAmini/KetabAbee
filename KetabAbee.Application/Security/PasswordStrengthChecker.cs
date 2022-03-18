@@ -85,7 +85,10 @@ namespace KetabAbee.Application.Security
             //{
             //    return PasswordScore.RequirementsNotMet;
             //}
-
+            if (score >= 5)
+            {
+                return PasswordScore.VeryStrong;
+            }
             return (PasswordScore)score;
         }
     }
