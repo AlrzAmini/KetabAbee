@@ -22,6 +22,8 @@
 
   <ItemGroup>
     <Folder Include="DTOs\Admin\Ticket\" />
+    <Folder Include="Interfaces\Banner\" />
+    <Folder Include="Services\Banner\" />
   </ItemGroup>
 
 </Project>

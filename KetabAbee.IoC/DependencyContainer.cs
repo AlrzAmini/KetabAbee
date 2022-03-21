@@ -6,6 +6,7 @@ using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using System.Threading.Tasks;
 using KetabAbee.Application.Convertors;
+using KetabAbee.Application.Interfaces.Banner;
 using KetabAbee.Application.Interfaces.Blog;
 using KetabAbee.Application.Interfaces.Comment;
 using KetabAbee.Application.Interfaces.Contact;
@@ -18,6 +19,7 @@ using KetabAbee.Application.Interfaces.Task;
 using KetabAbee.Application.Interfaces.Ticket;
 using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Interfaces.Wallet;
+using KetabAbee.Application.Services.Banner;
 using KetabAbee.Application.Services.Blog;
 using KetabAbee.Application.Services.Comment;
 using KetabAbee.Application.Services.Contact;
@@ -57,6 +59,7 @@ namespace KetabAbee.IoC
             service.AddScoped<ITaskService, TaskService>();
             service.AddScoped<IExamService, ExamService>();
             service.AddScoped<IPaymentService, PaymentService>();
+            service.AddScoped<IBannerService, BannerService>();
 
             #endregion
 
@@ -74,6 +77,7 @@ namespace KetabAbee.IoC
             service.AddScoped<IBlogRepository, BlogRepository>();
             service.AddScoped<ITaskRepository, TaskRepository>();
             service.AddScoped<IExamRepository, ExamRepository>();
+            service.AddScoped<IBannerRepository, BannerRepository>();
 
             #endregion
 
