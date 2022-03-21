@@ -25,7 +25,7 @@
                     </div>
                     <hr class="mb-4"/>
                     <form asp-controller="Account" asp-action="Login" asp-route-returnUrl="@ViewData["returnUrl"]" method="post">
-                        <partial name="_CaptchaInput"/>
+                        <partial name="_CaptchaInput" />
                         <div class="form-element-row">
                             <label for="phone-number" class="label-element">ایمیل</label>
                             <div class="form-element-with-icon">
@@ -51,6 +51,13 @@
                             <label class="container-checkbox">
                                 مرا به خاطر داشته باش
                                 <input type="checkbox" asp-for="RememberMe" checked="checked">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <div class="form-element-row">
+                            <label class="container-checkbox text-muted">
+                                <a href="/files/SiteRules.pdf">شرایط و قوانین</a> استفاده از سایت کتاب آبی را مطالعه کرده ام و میپذیرم
+                                <input type="checkbox" asp-for="AcceptRules" checked="checked">
                                 <span class="checkmark"></span>
                             </label>
                         </div>

@@ -124,6 +124,13 @@ namespace KetabAbee.Web.Controllers
                 return View(login);
             }
 
+            if (!login.AcceptRules)
+            {
+                TempData["WarningSwal"] = "برای ورود به سایت میبایست با قوانین سایت موافقت کنید";
+                ViewData["returnUrl"] = returnUrl;
+                return View(login);
+            }
+
             var user = await _userService.GetUserForLogin(login);
 
             if (user != null)

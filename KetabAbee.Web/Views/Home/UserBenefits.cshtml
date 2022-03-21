@@ -1,6 +1,46 @@
 ﻿
 @{
-    ViewData["Title"] = "مزایای کاربری";
+    ViewData["Title"] = "مزایای کاربران";
 }
-
-
+<main class="page-content mt-205">
+    <div class="container container--md">
+        <div class="row mb-4">
+            <div class="col-lg-8 col-md-8 mb-md-0 mb-3">
+                <div class="row mb-1">
+                    <div class="col-12">
+                        <!-- breadcrumb -->
+                        <div class="breadcrumb mb-1">
+                            <nav>
+                                <a href="/">کتاب آبی</a>
+                                <a asp-controller="Home" asp-action="UserBenefits">مزایای کاربران</a>
+                            </nav>
+                        </div>
+                        <!-- end breadcrumb -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8 col-md-8">
+                        <div class="box box--rounded pt-3 mb-3">
+                            <div class="product-detail">
+                                <ul class="text-muted mb-3">
+                                    <li><i class="far fa-check"></i> امکان خرید امن</li>
+                                    <li><i class="far fa-check"></i> گارانتی معتبر محصولاتی که می خرید</li>
+                                    <li><i class="far fa-check"></i> کنترل خرید ها در سبد خرید</li>
+                                    <li><i class="far fa-check"></i> امکان ارسال تیکت در صورت ایجاد هر مشکلی و دریافت پشتیبانی سریع</li>
+                                </ul>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <a href="/" class="btn btn-success btn-block">خانه <i class="fad fa-home mr-2"></i></a>
+                                }
+                                else
+                                {
+                                    <a asp-controller="Account" asp-action="Login" class="btn btn-success btn-block">ورود</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

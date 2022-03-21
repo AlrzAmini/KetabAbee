@@ -163,7 +163,7 @@ namespace KetabAbee.Web.Controllers
         #region User benefits
 
         [HttpGet("Page/UserBenefits")]
-        public async Task<IActionResult> UserBenefits()
+        public IActionResult UserBenefits()
         {
             return View();
         }

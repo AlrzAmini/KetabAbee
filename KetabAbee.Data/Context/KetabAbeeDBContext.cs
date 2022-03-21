@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using KetabAbee.Domain.Models.Banner;
 using KetabAbee.Domain.Models.Blog;
 using KetabAbee.Domain.Models.Comment.ProductComment;
 using KetabAbee.Domain.Models.ContactUs;
@@ -124,6 +125,12 @@ namespace KetabAbee.Data.Context
 
         #endregion
 
+        #region banner
+
+        public DbSet<Banner> Banners { get; set; }
+
+        #endregion
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach (var rel in modelBuilder.Model.GetEntityTypes().SelectMany(s => s.GetForeignKeys()))
@@ -203,6 +210,9 @@ namespace KetabAbee.Data.Context
             modelBuilder.Entity<QuestionAnswer>()
                 .HasQueryFilter(e => !e.IsDelete);
             modelBuilder.Entity<CorrectAnswer>()
+                .HasQueryFilter(e => !e.IsDelete);
+
+            modelBuilder.Entity<Banner>()
                 .HasQueryFilter(e => !e.IsDelete);
 
             #endregion

@@ -387,8 +387,7 @@ namespace KetabAbee.Web.Controllers
                 return NotFound();
             }
 
-            if (await _examService.IsUserCanDoExam(HttpContext.GetUserIp(), liveExam.Exam.BookId))
-                return View(liveExam);
+            if (await _examService.IsUserCanDoExam(HttpContext.GetUserIp(), liveExam.Exam.BookId)) return View(liveExam);
 
             TempData["WarningSwal"] = "اجازه دسترسی به این آزمون را ندارید";
             return RedirectToAction("BookInfo",

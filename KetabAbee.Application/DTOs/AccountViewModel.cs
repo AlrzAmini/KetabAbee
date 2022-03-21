@@ -82,6 +82,8 @@ namespace KetabAbee.Application.DTOs
 
         public bool RememberMe { get; set; }
 
+        public bool AcceptRules { get; set; }
+
     }
 
     public class ForgotPasswordViewModel : CaptchaViewModel
