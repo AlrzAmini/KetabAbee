@@ -32,7 +32,16 @@ namespace KetabAbee.Domain.Models.Banner
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
         public BannerLocation BannerLocation { get; set; }
 
+        [DisplayName("تاریخ شروع")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
+        public DateTime StartDate { get; set; }
+
+        [DisplayName("تاریخ پایان")]
+        public DateTime? EndDate { get; set; }
+
         public bool IsDelete { get; set; }
+
+        public bool IsActive { get; set; }
 
         #endregion
     }
