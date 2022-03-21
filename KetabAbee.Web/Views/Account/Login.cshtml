@@ -16,13 +16,14 @@
             <div class="auth-wrapper">
                 <div class="auth-form shadow-around">
                     <div class="site-logo">
-                        <a href="#">
+                        <a href="/">
                             <img src="/images/logo.png" alt="logo">
                         </a>
                     </div>
-                    <div class="auth-form-title">
-                        ورود به کتاب <span class="text-primary">آبی</span>
+                    <div class="text-muted text-center">
+                        با ورود به حساب کاربری خود ، از <a asp-controller="Home" asp-action="UserBenefits">مزایای کاربران سایت</a> بهره مند شوید
                     </div>
+                    <hr class="mb-4"/>
                     <form asp-controller="Account" asp-action="Login" asp-route-returnUrl="@ViewData["returnUrl"]" method="post">
                         <partial name="_CaptchaInput"/>
                         <div class="form-element-row">

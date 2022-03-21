@@ -38,7 +38,7 @@ namespace KetabAbee.Domain.Interfaces
 
         User GetUserByEmailActive5ThCode(string emailActiveCode);
 
-        void AddUserIp(UserIp userIp);
+        Task AddUserIp(UserIp userIp);
 
         bool CheckUserIpIsNotRepetitious(UserIp userIp);
 

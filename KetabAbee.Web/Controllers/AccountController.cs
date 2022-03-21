@@ -159,7 +159,7 @@ namespace KetabAbee.Web.Controllers
                 // command for login user
                 await HttpContext.SignInAsync(principal, properties);
 
-                _userService.AddUserIp(new UserIp
+                await _userService.AddUserIp(new UserIp
                 {
                     Ip = HttpContext.GetUserIp(),
                     UserId = user.UserId
@@ -221,6 +221,11 @@ namespace KetabAbee.Web.Controllers
         [HttpPost("Activator"), ValidateAntiForgeryToken]
         public IActionResult Activator(ActiveEmailBy5ThCodeViewModel actCode)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(actCode);
+            }
+
             if (_userService.EmailActivatorBy5ThCode(actCode.ActiveCode))
             {
                 TempData["SuccessSwal"] = "حساب شما با موفقیت فعالسازی شد";

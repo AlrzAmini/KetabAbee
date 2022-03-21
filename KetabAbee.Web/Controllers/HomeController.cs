@@ -53,41 +53,6 @@ namespace KetabAbee.Web.Controllers
 
         #endregion
 
-        #region Online Pament
-
-        //[HttpGet("Wallet/OnlinePayment/{id}")]
-        //public IActionResult OnlinePayment(int id) // wallet Id
-        //{
-        //    if (HttpContext.Request.Query["Status"] != "" &&
-        //        HttpContext.Request.Query["Status"].ToString().ToLower() == "ok" &&
-        //        HttpContext.Request.Query["Authority"] != "")
-        //    {
-        //        string auth = HttpContext.Request.Query["Authority"];
-
-        //        var wallet = _walletService.GetWalletById(id);
-        //        var payment = new ZarinpalSandbox.Payment((int) wallet.Amount);
-        //        var res = payment.Verification(auth).Result;
-
-        //        if (res.Status == 100)
-        //        {
-        //            ViewBag.Code = res.RefId;
-        //            ViewBag.IsSuccess = true;
-        //            wallet.IsPay = true;
-        //            _walletService.UpdateWallet(wallet);
-        //        }
-        //    }
-
-        //    return View();
-        //}
-
-        #endregion
-
-        #region payment
-
-
-
-        #endregion
-
         #region how to shop
 
         [HttpGet("Purchase/Guide")]
@@ -191,6 +156,16 @@ namespace KetabAbee.Web.Controllers
             }
             TempData["ErrorSwal"] = "خطایی در ارسال پیام رخ داده است";
             return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region User benefits
+
+        [HttpGet("Page/UserBenefits")]
+        public async Task<IActionResult> UserBenefits()
+        {
+            return View();
         }
 
         #endregion

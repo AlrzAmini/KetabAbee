@@ -204,10 +204,10 @@ namespace KetabAbee.Data.Repository
             return await _context.Users.CountAsync(u => u.IsOnline);
         }
 
-        public void AddUserIp(UserIp userIp)
+        public async Task AddUserIp(UserIp userIp)
         {
-            _context.UserIps.Add(userIp);
-            _context.SaveChanges();
+            await _context.UserIps.AddAsync(userIp);
+            await _context.SaveChangesAsync();
         }
 
         public bool CheckUserIpIsNotRepetitious(UserIp userIp)

@@ -635,7 +635,7 @@ namespace KetabAbee.Application.Services.User
             });
         }
 
-        public async  Task<UsersStatisticsViewModel> GetUsersStaticsForAdmin()
+        public async Task<UsersStatisticsViewModel> GetUsersStaticsForAdmin()
         {
             return new UsersStatisticsViewModel
             {
@@ -646,11 +646,11 @@ namespace KetabAbee.Application.Services.User
             };
         }
 
-        public void AddUserIp(UserIp userIp)
+        public async System.Threading.Tasks.Task AddUserIp(UserIp userIp)
         {
             if (!_userRepository.CheckUserIpIsNotRepetitious(userIp))
             {
-                _userRepository.AddUserIp(userIp);
+                await _userRepository.AddUserIp(userIp);
             }
         }
 

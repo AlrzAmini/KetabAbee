@@ -40,7 +40,7 @@ namespace KetabAbee.Application.Interfaces.User
 
         bool EmailActivatorBy5ThCode(string activateCode);
 
-        void AddUserIp(UserIp userIp);
+        System.Threading.Tasks.Task AddUserIp(UserIp userIp);
 
         #endregion
 
