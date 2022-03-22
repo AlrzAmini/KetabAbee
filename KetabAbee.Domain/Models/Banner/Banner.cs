@@ -64,4 +64,11 @@ namespace KetabAbee.Domain.Models.Banner
         ImageError,
         NotFounded
     }
+
+    public enum CreateBannerResult
+    {
+        Success,
+        Error,
+        OutOfRangeBanner
+    }
 }

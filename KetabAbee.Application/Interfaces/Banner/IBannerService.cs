@@ -9,8 +9,10 @@ namespace KetabAbee.Application.Interfaces.Banner
     {
         PagingBannersViewModel GetBannersWithPaging(PagingBannersViewModel model);
 
-        Task<bool> CreateBanner(CreateBannerViewModel banner);
+        Task<CreateBannerResult> CreateBanner(CreateBannerViewModel banner);
 
         Task<DeleteBannerResult> DeleteBannerById(int bannerId);
+
+        Task<bool> CheckBannerLimitations(BannerLocation bannerLocation);
     }
 }

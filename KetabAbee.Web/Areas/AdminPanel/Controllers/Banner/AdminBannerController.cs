@@ -53,13 +53,22 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Banner
                 return View(banner);
             }
 
-            if (await _bannerService.CreateBanner(banner))
+            var res = await _bannerService.CreateBanner(banner);
+            switch (res)
             {
-                TempData["SuccessMessage"] = "بنر با موفقیت افزوده شد";
-                return RedirectToAction("Index");
+                case CreateBannerResult.Success:
+                    TempData["SuccessMessage"] = "بنر با موفقیت افزوده شد";
+                    return RedirectToAction("Index");
+                case CreateBannerResult.Error:
+                    TempData["SuccessMessage"] = "بنر با موفقیت افزوده شد";
+                    return RedirectToAction("Index");
+                case CreateBannerResult.OutOfRangeBanner:
+                    TempData["WarningMessage"] = "تعداد بنر های فعال در ناحیه مکانی انتخابی شما نمیتواند بیش از مقدار کنونی باشد";
+                    return RedirectToAction("Index");
+                default:
+                    TempData["ErrorMessage"] = "بنر افزوده نشد";
+                    return RedirectToAction("Index");
             }
-            TempData["ErrorMessage"] = "بنر افزوده نشد";
-            return RedirectToAction("Index");
         }
 
         #endregion

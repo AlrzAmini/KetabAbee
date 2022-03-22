@@ -15,5 +15,7 @@ namespace KetabAbee.Domain.Interfaces
         IEnumerable<Banner> GetBanners();
 
         Task<Banner> GetBannerById(int bannerId);
+
+        Task<int> GetActiveBannersCountByLocation(BannerLocation bannerLocation);
     }
 }

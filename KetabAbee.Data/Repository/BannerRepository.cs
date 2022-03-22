@@ -67,5 +67,10 @@ namespace KetabAbee.Data.Repository
                 return false;
             }
         }
+
+        public async Task<int> GetActiveBannersCountByLocation(BannerLocation bannerLocation)
+        {
+            return await _context.Banners.CountAsync(b => b.BannerLocation == bannerLocation);
+        }
     }
 }

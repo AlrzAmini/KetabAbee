@@ -23,7 +23,7 @@ namespace KetabAbee.Application.Services.Banner
             _bannerRepository = bannerRepository;
         }
 
-        public async Task<bool> CreateBanner(CreateBannerViewModel banner)
+        public async Task<CreateBannerResult> CreateBanner(CreateBannerViewModel banner)
         {
             try
             {
@@ -39,22 +39,41 @@ namespace KetabAbee.Application.Services.Banner
                 {
                     newBanner.EndDate = banner.EndDate.ToMiladiDateTime();
                 }
-                if (banner.Image == null) return await _bannerRepository.AddBanner(newBanner);
 
-                newBanner.ImageName = CodeGenerator.GenerateUniqCode() + Path.GetExtension(banner.Image.FileName);
-                var imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot" + newBanner.GetBannerAddress());
-
-                // save image in file
-                await using (var stream = new FileStream(imgPath, FileMode.Create))
+                if (await CheckBannerLimitations(newBanner.BannerLocation))
                 {
-                    await banner.Image.CopyToAsync(stream);
+                    if (banner.Image == null)
+                    {
+                        if (await _bannerRepository.AddBanner(newBanner))
+                        {
+                            return CreateBannerResult.Success;
+                        }
+
+                        return CreateBannerResult.Error;
+                    }
+
+                    newBanner.ImageName = CodeGenerator.GenerateUniqCode() + Path.GetExtension(banner.Image.FileName);
+                    var imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot" + newBanner.GetBannerAddress());
+
+                    // save image in file
+                    await using (var stream = new FileStream(imgPath, FileMode.Create))
+                    {
+                        await banner.Image.CopyToAsync(stream);
+                    }
+
+                    if (await _bannerRepository.AddBanner(newBanner))
+                    {
+                        return CreateBannerResult.Success;
+                    }
+
+                    return CreateBannerResult.Error;
                 }
 
-                return await _bannerRepository.AddBanner(newBanner);
+                return CreateBannerResult.OutOfRangeBanner;
             }
             catch
             {
-                return false;
+                return CreateBannerResult.Error;
             }
         }
 
@@ -86,7 +105,7 @@ namespace KetabAbee.Application.Services.Banner
             return DeleteBannerResult.Error;
         }
 
-        private bool DeleteBannerImage(Domain.Models.Banner.Banner banner)
+        private static bool DeleteBannerImage(Domain.Models.Banner.Banner banner)
         {
             try
             {
@@ -113,6 +132,36 @@ namespace KetabAbee.Application.Services.Banner
             var banners = result.Paging(pager).ToList();
 
             return model.SetPaging(pager).SetBanners(banners);
+        }
+
+        public async Task<bool> CheckBannerLimitations(BannerLocation bannerLocation)
+        {
+            var currentBannersCount = await _bannerRepository.GetActiveBannersCountByLocation(bannerLocation);
+
+            switch (bannerLocation)
+            {
+                case BannerLocation.Slider:
+                    return true;
+
+                case BannerLocation.LongHead:
+                    // long head banner limitation is 1
+                    return currentBannersCount < 1;
+
+                case BannerLocation.ShortHead:
+                    // short head banners limitation is 2
+                    return currentBannersCount < 2;
+
+                case BannerLocation.MainAndProfile:
+                    // main & profile banner limitation is 4
+                    return currentBannersCount < 4;
+
+                case BannerLocation.Main:
+                    // main & profile banner limitation is 2
+                    return currentBannersCount < 2;
+
+                default:
+                    return false;
+            }
         }
     }
 }
