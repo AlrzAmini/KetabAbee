@@ -24,10 +24,6 @@ namespace KetabAbee.Domain.Models.Banner
         [MaxLength(500)]
         public string Link { get; set; }
 
-        [DisplayName("مسیر ذخیره سازی تصویر")]
-        [MaxLength(300)]
-        public string ImagePath { get; set; }
-
         [DisplayName("محل بنر در سایت")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
         public BannerLocation BannerLocation { get; set; }
@@ -41,6 +37,7 @@ namespace KetabAbee.Domain.Models.Banner
 
         public bool IsDelete { get; set; }
 
+        [DisplayName("وضعیت")]
         public bool IsActive { get; set; }
 
         #endregion
@@ -58,5 +55,13 @@ namespace KetabAbee.Domain.Models.Banner
         Main,
         [Display(Name = "اسلایدر")]
         Slider
+    }
+
+    public enum DeleteBannerResult
+    {
+        Success,
+        Error,
+        ImageError,
+        NotFounded
     }
 }

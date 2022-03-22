@@ -35,6 +35,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.ViewComponents
             ViewBag.AdminBlog = _permissionService.CheckPermission(PerIds.AdminBlogs, userId);
             ViewBag.AdminComment = _permissionService.CheckPermission(PerIds.AdminComments, userId);
             ViewBag.AdminExam = _permissionService.CheckPermission(PerIds.AdminExams, userId);
+            ViewBag.AdminBanner = _permissionService.CheckPermission(PerIds.AdminBanners, userId);
 
 
             return View("AdminSideBar");

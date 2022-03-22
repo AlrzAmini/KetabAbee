@@ -12,6 +12,7 @@
     bool adminBlog = ViewBag.AdminBlog;
     bool adminComment = ViewBag.AdminComment;
     bool adminExam = ViewBag.AdminExam;
+    bool adminBanner = ViewBag.AdminBanner;
 }
 <ul class="nav sidebar-menu">
     <li>
@@ -167,6 +168,16 @@
             <a asp-area="AdminPanel" asp-controller="Exam" asp-action="Index">
                 <i class="menu-icon fa fa-question"></i>
                 <span class="menu-text"> مدیریت آزمون ها </span>
+            </a>
+        </li>
+    }
+    @if (adminBanner)
+    {
+        <!--news letter-->
+        <li>
+            <a asp-area="AdminPanel" asp-controller="AdminBanner" asp-action="Index">
+                <i class="menu-icon fa fa-picture-o"></i>
+                <span class="menu-text"> مدیریت بنر ها </span>
             </a>
         </li>
     }

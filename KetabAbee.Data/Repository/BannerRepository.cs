@@ -44,9 +44,14 @@ namespace KetabAbee.Data.Repository
             }
         }
 
-        public async Task<List<Banner>> GetBanners()
+        public IEnumerable<Banner> GetBanners()
         {
-            return await _context.Banners.ToListAsync();
+            return _context.Banners;
+        }
+
+        public async Task<Banner> GetBannerById(int bannerId)
+        {
+            return await _context.Banners.FindAsync(bannerId);
         }
 
         public async Task<bool> UpdateBanner(Banner banner)

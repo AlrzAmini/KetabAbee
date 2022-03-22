@@ -11,6 +11,10 @@
     width: 50px;
 }
 
+.width-200 {
+    width: 350px;
+}
+
 .border-gr {
     border: green 1px solid;
 }

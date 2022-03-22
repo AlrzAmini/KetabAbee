@@ -1,0 +1,125 @@
+﻿@using KetabAbee.Application.Extensions
+@using KetabAbee.Application.Convertors
+@model KetabAbee.Application.DTOs.Admin.Banner.PagingBannersViewModel
+@{
+    ViewData["Title"] = "بنر ها";
+}
+
+<!-- Page Content -->
+<!-- Page Breadcrumb -->
+<div class="page-breadcrumbs margin-bottom-20">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
+<!-- /Page Breadcrumb -->
+<div class="col-12 col-md-12 row margin-bottom-10">
+    <a asp-area="AdminPanel" asp-controller="AdminBanner" asp-action="AddBanner" class="btn btn-success col-md-4 margin-left-10">افزودن بنر جدید </a>
+</div>
+<form id="filterform" asp-controller="AdminBanner" asp-action="Index">
+    <input type="hidden" asp-for="PageNum"/>
+</form>
+<div class="col-xs-12 col-md-9">
+    <div class="well with-header with-footer">
+        <div class="header bordered-sky">
+            <i class="fa fa-picture-o"></i>
+            @ViewData["Title"]
+        </div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        شماره
+                    </th>
+                    <th>
+                        لینک
+                    </th>
+                    <th>
+                        مکان قرار گیری
+                    </th>
+                    <th>
+                        تاریخ شروع
+                    </th>
+                    <th>
+                        تاریخ پایان
+                    </th>
+                    <th>
+                        وضعیت
+                    </th>
+                    <th>
+                        تصویر
+                    </th>
+                    <th>
+                        دستورات
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Banners != null && Model.Banners.Any())
+                {
+                    foreach (var banner in Model.Banners)
+                    {
+                        <tr>
+                            <td>
+                                @banner.BannerId
+                            </td>
+                            <td>
+                                @banner.Link
+                            </td>
+                            <td>
+                                @banner.BannerLocation.GetEnumName()
+                            </td>
+                            <td>
+                                @banner.StartDate.ToShamsi()
+                            </td>
+                            <td>
+                                @if (banner.EndDate != null)
+                                {
+                                    @banner.EndDate.ToShamsi()
+                                }
+                                else
+                                {
+                                    <p>-</p>
+                                }
+                            </td>
+                            @if (banner.IsActive)
+                            {
+                                <td class="text-success">
+                                    فعال
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="text-danger">
+                                    غیرفعال
+                                </td>
+                            }
+                            <td class="text-align-center">
+                                <img alt="بنر" src="@banner.GetBannerAddress()" class="img-fluid width-200" />
+                            </td>
+                            <td>
+                                @if (banner.IsActive)
+                                {
+                                    <a class="btn btn-info" asp-controller="AdminBlog" asp-action="EditBlog" asp-route-blogId="٬">غیرفعال</a>
+                                }
+                                <a class="btn btn-info" asp-controller="AdminBlog" asp-action="EditBlog" asp-route-blogId="٬">ویرایش</a>
+                                <a class="btn btn-danger" asp-controller="AdminBanner" asp-action="DeleteBanner" asp-route-bannerId="@banner.BannerId" onclick="return confirm('از حذف این بنر اطمینان دارید ؟')">حذف</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="alert alert-info">بنری ثبت نشده است</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <partial name="_AdminPaging" model="Model.GetCurrentPaging()" />
+    </div>
+</div>

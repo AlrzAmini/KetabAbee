@@ -54,7 +54,7 @@ namespace KetabAbee.Application.Services.User
             };
 
             await _userRepository.RegisterUser(newUser);
-            _userRepository.AddUserIp(new UserIp
+            await _userRepository.AddUserIp(new UserIp
             {
                 UserId = newUser.UserId,
                 Ip = user.UserIp

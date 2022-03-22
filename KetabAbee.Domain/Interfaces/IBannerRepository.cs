@@ -12,6 +12,8 @@ namespace KetabAbee.Domain.Interfaces
 
         Task<bool> DeleteBanner(Banner banner);
 
-        Task<List<Banner>> GetBanners();
+        IEnumerable<Banner> GetBanners();
+
+        Task<Banner> GetBannerById(int bannerId);
     }
 }

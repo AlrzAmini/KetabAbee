@@ -1,0 +1,110 @@
+﻿@using KetabAbee.Domain.Models.Banner
+@model KetabAbee.Application.DTOs.Admin.Banner.CreateBannerViewModel
+@{
+    ViewData["Title"] = "افزودن بنر";
+}
+
+<!-- Page Breadcrumb -->
+<div class="page-breadcrumbs margin-bottom-20">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li>
+            <a asp-controller="AdminBanner" asp-action="Index">بنر ها</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
+<!-- /Page Breadcrumb -->
+<form asp-area="AdminPanel" asp-controller="AdminBanner" asp-action="AddBanner" method="post" role="form" enctype="multipart/form-data">
+    <div class="col-lg-8 col-sm-8 col-xs-12">
+        <div class="widget flat radius-bordered">
+            <div class="widget-header bg-blue">
+                <span class="widget-caption">@ViewData["Title"]</span>
+            </div>
+            <div class="widget-body">
+                <div id="registration-form">
+                    <div class="form-title">
+                        مشخصات بنر
+                    </div>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input type="text" class="form-control" asp-for="Link" placeholder="لینک بنر">
+                            <i class="glyphicon glyphicon-link circular"></i>
+                        </span>
+                        <span asp-validation-for="Link" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input data-jdp type="text" class="form-control" asp-for="StartDate" placeholder="تاریخ شروع">
+                        </span>
+                        <span asp-validation-for="StartDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input data-jdp type="text" class="form-control" asp-for="EndDate" placeholder="تاریخ پایان">
+                        </span>
+                        <span asp-validation-for="EndDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>محل بنر در سایت</label>
+                        <span class="input-icon icon-right">
+                            <select class="form-control" asp-for="BannerLocation" asp-items="@Html.GetEnumSelectList<BannerLocation>()"></select>
+                        </span>
+                        <span asp-validation-for="BannerLocation" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-4 col-xs-12">
+        <div class="widget flat radius-bordered">
+            <div class="widget-header bg-azure">
+                <span class="widget-caption">تصویر بنر</span>
+            </div>
+            <div class="widget-body">
+                <div id="registration-form">
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input type="file" asp-for="Image" class="form-control">
+                            <i class="fa fa-image circular"></i>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <img class="thumbnail img-fluid max-width100" id="imageUp" src="/images/Defualt.jpg" alt="book" />
+                    </div>
+                    <p class="help-block">سایز مناسب تصویر 852 * 540 است</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <button type="submit" class="btn btn-success btn-lg btn-block">ثبت بنر</button>
+    </div>
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imageUp').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#Image").change(function () {
+            readURL(this);
+        });
+    </script>
+    <script type="text/javascript" src="/js/JalaliDataPicker-min.js"></script>
+    <script>
+        jalaliDatepicker.startWatch();
+    </script>
+}
