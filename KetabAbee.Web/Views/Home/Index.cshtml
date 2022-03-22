@@ -17,69 +17,7 @@
 }
 <main class="page-content">
     <div class="container">
-        <div class="row d-none d-sm-block">
-            <div class="col-12 mb-3">
-                <div class="banner">
-                    <a href="/">
-                        <img src="/images/banner/BannerAbee-min.jpg" alt="banner">
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="row mb-4">
-            <div class="col-lg-8 ml-lg-0 mb-3">
-                <div class="main-slider">
-                    <div class="swiper-container main-page-slider">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <a href="/Books?SearchCategory=6">
-                                    <img src="/images/banner/wp/Slider-2-min.webp" alt="تصویر هنری">
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="/Books?SearchCategory=7">
-                                    <img src="/images/banner/wp/Slider-3-min.webp" alt="تصویر منظره فلسفی">
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="/Books?SearchCategory=8">
-                                    <img src="/images/banner/wp/Slider-4-min.webp" alt="تصویر کتاب های رشد شخصی">
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="/Books?SearchCategory=25">
-                                    <img src="/images/banner/wp/Slider-5-min.webp" alt=" تصویر کتاب خواندن">
-                                </a>
-                            </div>
-                        </div>
-                        <!-- Add Arrows -->
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
-                    </div>
-                    <div class="swiper-container main-page-slider-thumbs d-none d-sm-block">
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="row">
-                    <div class="col-lg-12 col-sm-6 col-12">
-                        <div class="banner mb-3">
-                            <a href="/Books?SearchCategory=1">
-                                <img src="/images/banner/wp/Banner2-min.webp" alt="کتابهای بزرگسال">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 col-sm-6 col-12">
-                        <div class="banner">
-                            <a href="/Books?SearchCategory=2">
-                                <img src="/images/banner/wp/Banner3.webp" alt="کتابهای کودک و نوجوان">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @await Component.InvokeAsync("HeadBannersComponent")
         <section class="product-carousel in-box">
             <div class="section-title">
                 <i class="fad fa-pen-nib text-info"></i>

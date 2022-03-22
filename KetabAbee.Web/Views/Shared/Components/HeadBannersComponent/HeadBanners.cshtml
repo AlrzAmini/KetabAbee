@@ -1,0 +1,66 @@
+﻿@model KetabAbee.Application.DTOs.Banner.HeadBannersViewModel
+@if (Model != null)
+{
+    @if (Model.LongHead != null)
+    {
+        <div class="row d-none d-sm-block">
+            <div class="col-12 mb-3">
+                <div class="banner">
+                    <a href="@Model.LongHead.Link">
+                        <img src="@Model.LongHead.ImageSavePath" alt="@Model.LongHead.Alt">
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+    <div class="row mb-4">
+        @if (Model.Sliders != null && Model.Sliders.Any())
+        {
+            <div class="col-lg-8 ml-lg-0 mb-3">
+                <div class="main-slider">
+                    <div class="swiper-container main-page-slider">
+                        <div class="swiper-wrapper">
+                            @foreach (var slider in Model.Sliders)
+                            {
+                                <div class="swiper-slide">
+                                    <a href="@slider.Link">
+                                        <img src="@slider.ImageSavePath" alt="@slider.Alt">
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                    <div class="swiper-container main-page-slider-thumbs d-none d-sm-block">
+
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="col-lg-4">
+            <div class="row">
+                @if (Model.FirstShortHead != null)
+                {
+                    <div class="col-lg-12 col-sm-6 col-12">
+                        <div class="banner mb-3">
+                            <a href="@Model.FirstShortHead.Link">
+                                <img src="@Model.FirstShortHead.ImageSavePath" alt="@Model.FirstShortHead.Alt">
+                            </a>
+                        </div>
+                    </div>
+                }
+                @if (Model.SecondShortHead != null)
+                {
+                    <div class="col-lg-12 col-sm-6 col-12">
+                        <div class="banner mb-3">
+                            <a href="@Model.SecondShortHead.Link">
+                                <img src="@Model.SecondShortHead.ImageSavePath" alt="@Model.SecondShortHead.Alt">
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

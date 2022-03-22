@@ -11,6 +11,7 @@ using KetabAbee.Application.DTOs.Paging;
 using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Generators;
 using KetabAbee.Domain.Models.Banner;
+using KetabAbee.Application.DTOs.Banner;
 
 namespace KetabAbee.Application.Services.Banner
 {
@@ -33,7 +34,8 @@ namespace KetabAbee.Application.Services.Banner
                     BannerLocation = banner.BannerLocation,
                     Link = banner.Link,
                     StartDate = banner.StartDate.ToMiladiDateTime(),
-                    ImageName = "Defualt.jpg"
+                    ImageName = "Defualt.jpg",
+                    Alt = banner.Alt
                 };
                 if (banner.EndDate != null)
                 {
@@ -162,6 +164,34 @@ namespace KetabAbee.Application.Services.Banner
                 default:
                     return false;
             }
+        }
+
+        public async Task<HeadBannersViewModel> GetHeadBanners()
+        {
+            var longHeadBanners = await _bannerRepository.GetAllIsActiveHeadBanners();
+            if (longHeadBanners == null)
+            {
+                return new HeadBannersViewModel();
+            }
+
+            var longHeadBannersInfo = longHeadBanners
+                .Select(b => new BannerInfoViewModel
+                {
+                    Link = b.Link,
+                    Alt = b.Alt,
+                    BannerId = b.BannerId,
+                    BannerLocation = b.BannerLocation,
+                    ImageName = b.ImageName,
+                    ImageSavePath = PathExtensions.BannerFullAddress(b.ImageName)
+                }).AsQueryable();
+
+            return new HeadBannersViewModel
+            {
+                LongHead = longHeadBannersInfo.FirstOrDefault(b => b.BannerLocation == BannerLocation.LongHead),
+                FirstShortHead = longHeadBannersInfo.Where(b => b.BannerLocation == BannerLocation.ShortHead).ElementAt(0),
+                SecondShortHead = longHeadBannersInfo.Where(b => b.BannerLocation == BannerLocation.ShortHead).ElementAt(1),
+                Sliders = longHeadBannersInfo.Where(b => b.BannerLocation == BannerLocation.Slider).ToList()
+            };
         }
     }
 }

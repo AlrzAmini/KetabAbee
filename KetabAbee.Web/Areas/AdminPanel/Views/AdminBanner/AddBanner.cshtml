@@ -38,6 +38,13 @@
                     </div>
                     <div class="form-group">
                         <span class="input-icon icon-right">
+                            <input type="text" class="form-control" asp-for="Alt" placeholder="توضیحات بنر">
+                            <i class="glyphicon glyphicon-text-background circular"></i>
+                        </span>
+                        <span asp-validation-for="Alt" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
                             <input data-jdp type="text" class="form-control" asp-for="StartDate" placeholder="تاریخ شروع">
                         </span>
                         <span asp-validation-for="StartDate" class="text-danger"></span>

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Admin;
 using KetabAbee.Application.DTOs.Admin.Banner;
+using KetabAbee.Application.DTOs.Banner;
 using KetabAbee.Domain.Models.Banner;
 
 namespace KetabAbee.Application.Interfaces.Banner
@@ -14,5 +15,7 @@ namespace KetabAbee.Application.Interfaces.Banner
         Task<DeleteBannerResult> DeleteBannerById(int bannerId);
 
         Task<bool> CheckBannerLimitations(BannerLocation bannerLocation);
+
+        Task<HeadBannersViewModel> GetHeadBanners();
     }
 }

@@ -4,6 +4,7 @@ using KetabAbee.Domain.Models.Banner;
 using System.Threading.Tasks;
 using KetabAbee.Data.Context;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
 namespace KetabAbee.Data.Repository
@@ -71,6 +72,24 @@ namespace KetabAbee.Data.Repository
         public async Task<int> GetActiveBannersCountByLocation(BannerLocation bannerLocation)
         {
             return await _context.Banners.CountAsync(b => b.BannerLocation == bannerLocation);
+        }
+
+        public async Task<List<Banner>> GetAllIsActiveBanners()
+        {
+            return await _context.Banners.AsQueryable()
+                .Where(b => b.IsActive)
+                .ToListAsync();
+        }
+
+        public async Task<List<Banner>> GetAllIsActiveHeadBanners()
+        {
+            return await _context.Banners.AsQueryable()
+                .Where(b => b.IsActive)
+                .Where(b =>
+                    b.BannerLocation == BannerLocation.LongHead ||
+                    b.BannerLocation == BannerLocation.ShortHead ||
+                    b.BannerLocation == BannerLocation.Slider)
+                .ToListAsync();
         }
     }
 }

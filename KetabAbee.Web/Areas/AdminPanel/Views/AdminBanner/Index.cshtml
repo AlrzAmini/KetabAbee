@@ -23,7 +23,7 @@
 <form id="filterform" asp-controller="AdminBanner" asp-action="Index" method="get">
     <input type="hidden" asp-for="PageNum"/>
 </form>
-<div class="col-xs-12 col-md-9">
+<div class="col-xs-12 col-md-12">
     <div class="well with-header with-footer">
         <div class="header bordered-sky">
             <i class="fa fa-picture-o"></i>
@@ -99,7 +99,7 @@
                                 </td>
                             }
                             <td class="text-align-center">
-                                <img alt="بنر" src="@banner.GetBannerAddress()" class="img-fluid width-200" />
+                                <img alt="بنر" src="@banner.GetBannerAddress()" class="img-fluid width-200 thumbnail rounded" />
                             </td>
                             <td>
                                 @if (banner.IsActive)

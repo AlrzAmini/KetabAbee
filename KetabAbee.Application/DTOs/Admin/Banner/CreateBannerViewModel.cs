@@ -19,6 +19,11 @@ namespace KetabAbee.Application.DTOs.Admin.Banner
         [MaxLength(500)]
         public string Link { get; set; }
 
+        [DisplayName("توضیح بنر")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
+        [MaxLength(250)]
+        public string Alt { get; set; }
+
         [DisplayName("محل بنر در سایت")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
         public BannerLocation BannerLocation { get; set; }

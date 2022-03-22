@@ -12,5 +12,9 @@ namespace KetabAbee.Application.Extensions
         {
             return BannerImageSavePath + "/" + banner.ImageName;
         }
+        public static string BannerFullAddress(string imageName)
+        {
+            return BannerImageSavePath + "/" + imageName;
+        }
     }
 }

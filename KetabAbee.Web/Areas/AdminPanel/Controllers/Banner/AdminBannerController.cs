@@ -54,17 +54,18 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Banner
             }
 
             var res = await _bannerService.CreateBanner(banner);
+
             switch (res)
             {
                 case CreateBannerResult.Success:
                     TempData["SuccessMessage"] = "بنر با موفقیت افزوده شد";
                     return RedirectToAction("Index");
                 case CreateBannerResult.Error:
-                    TempData["SuccessMessage"] = "بنر با موفقیت افزوده شد";
+                    TempData["ErrorMessage"] = "بنر افزوده نشد";
                     return RedirectToAction("Index");
                 case CreateBannerResult.OutOfRangeBanner:
                     TempData["WarningMessage"] = "تعداد بنر های فعال در ناحیه مکانی انتخابی شما نمیتواند بیش از مقدار کنونی باشد";
-                    return RedirectToAction("Index");
+                    return RedirectToAction("AddBanner");
                 default:
                     TempData["ErrorMessage"] = "بنر افزوده نشد";
                     return RedirectToAction("Index");

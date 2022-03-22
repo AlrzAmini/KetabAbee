@@ -17,5 +17,10 @@ namespace KetabAbee.Domain.Interfaces
         Task<Banner> GetBannerById(int bannerId);
 
         Task<int> GetActiveBannersCountByLocation(BannerLocation bannerLocation);
+
+        Task<List<Banner>> GetAllIsActiveBanners();
+
+        Task<List<Banner>> GetAllIsActiveHeadBanners();
+
     }
 }
