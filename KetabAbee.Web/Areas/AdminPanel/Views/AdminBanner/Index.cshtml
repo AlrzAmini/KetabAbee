@@ -110,7 +110,7 @@
                                 {
                                     <a class="btn btn-warning" asp-controller="AdminBanner" asp-action="ActiveBanner" asp-route-bannerId="@banner.BannerId">فعال</a>
                                 }
-                                <a class="btn btn-info" asp-controller="AdminBlog" asp-action="EditBlog" asp-route-blogId="٬">ویرایش</a>
+                                <a class="btn btn-info" asp-controller="AdminBanner" asp-action="EditBanner" asp-route-bannerId="@banner.BannerId">ویرایش</a>
                                 <a class="btn btn-danger" asp-controller="AdminBanner" asp-action="DeleteBanner" asp-route-bannerId="@banner.BannerId" onclick="return confirm('از حذف این بنر اطمینان دارید ؟')">حذف</a>
                             </td>
                         </tr>

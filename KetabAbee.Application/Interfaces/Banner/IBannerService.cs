@@ -14,11 +14,11 @@ namespace KetabAbee.Application.Interfaces.Banner
 
         Task<DeleteBannerResult> DeleteBannerById(int bannerId);
 
-        Task<bool> CheckBannerLimitations(BannerLocation bannerLocation);
+        Task<bool> CheckBannerLimitations(BannerLocation bannerLocation, int? increaseValue);
 
         Task<HeadBannersViewModel> GetHeadBanners();
 
-        Task<bool> ActiveBanner(int bannerId);
+        Task<ActiveBannerResult> ActiveBanner(int bannerId);
         Task<bool> DeActiveBanner(int bannerId);
     }
 }

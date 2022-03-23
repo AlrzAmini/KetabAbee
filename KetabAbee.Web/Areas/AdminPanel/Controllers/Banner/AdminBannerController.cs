@@ -106,13 +106,24 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Banner
         [HttpGet("Active/{bannerId}")]
         public async Task<IActionResult> ActiveBanner(int bannerId)
         {
-            if (await _bannerService.ActiveBanner(bannerId))
+            var res = await _bannerService.ActiveBanner(bannerId);
+            switch (res)
             {
-                TempData["SuccessMessage"] = "فعال شد";
-                return RedirectToAction("Index");
+                case ActiveBannerResult.Success:
+                    TempData["SuccessMessage"] = "فعال شد";
+                    return RedirectToAction("Index");
+                case ActiveBannerResult.Error:
+                    TempData["ErrorMessage"] = "فعال نشد";
+                    return RedirectToAction("Index");
+                case ActiveBannerResult.NotFounded:
+                    TempData["ErrorMessage"] = "یافت نشد";
+                    return RedirectToAction("Index");
+                case ActiveBannerResult.OutOfRange:
+                    TempData["WarningMessage"] = "تعداد بنر های فعال در ناحیه مکانی انتخابی شما نمیتواند بیش از مقدار کنونی باشد";
+                    return RedirectToAction("Index");
+                default:
+                    return RedirectToAction("Index");
             }
-            TempData["ErrorMessage"] = "فعال نشد";
-            return RedirectToAction("Index");
         }
 
         #endregion
@@ -129,6 +140,16 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Banner
             }
             TempData["ErrorMessage"] = "غیرفعال نشد";
             return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region edit banner
+
+        [HttpGet("Edit/{bannerId}")]
+        public IActionResult EditBanner(int bannerId)
+        {
+            return View();
         }
 
         #endregion

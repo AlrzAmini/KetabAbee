@@ -42,7 +42,36 @@ namespace KetabAbee.Application.Services.Banner
                     newBanner.EndDate = banner.EndDate.ToMiladiDateTime();
                 }
 
-                if (await CheckBannerLimitations(newBanner.BannerLocation))
+                if (!banner.IsActive)
+                {
+                    if (banner.Image == null)
+                    {
+                        if (await _bannerRepository.AddBanner(newBanner))
+                        {
+                            return CreateBannerResult.Success;
+                        }
+
+                        return CreateBannerResult.Error;
+                    }
+
+                    newBanner.ImageName = CodeGenerator.GenerateUniqCode() + Path.GetExtension(banner.Image.FileName);
+                    var imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot" + newBanner.GetBannerAddress());
+
+                    // save image in file
+                    await using (var stream = new FileStream(imgPath, FileMode.Create))
+                    {
+                        await banner.Image.CopyToAsync(stream);
+                    }
+
+                    if (await _bannerRepository.AddBanner(newBanner))
+                    {
+                        return CreateBannerResult.Success;
+                    }
+
+                    return CreateBannerResult.Error;
+                }
+
+                if (await CheckBannerLimitations(newBanner.BannerLocation,null))
                 {
                     if (banner.Image == null)
                     {
@@ -136,9 +165,13 @@ namespace KetabAbee.Application.Services.Banner
             return model.SetPaging(pager).SetBanners(banners);
         }
 
-        public async Task<bool> CheckBannerLimitations(BannerLocation bannerLocation)
+        public async Task<bool> CheckBannerLimitations(BannerLocation bannerLocation, int? increaseValue)
         {
             var currentBannersCount = await _bannerRepository.GetActiveBannersCountByLocation(bannerLocation);
+            if (increaseValue != null)
+            {
+                currentBannersCount++;
+            }
 
             switch (bannerLocation)
             {
@@ -220,16 +253,31 @@ namespace KetabAbee.Application.Services.Banner
             return headBanners;
         }
 
-        public async Task<bool> ActiveBanner(int bannerId)
+        public async Task<ActiveBannerResult> ActiveBanner(int bannerId)
         {
-            var banner = await _bannerRepository.GetBannerById(bannerId);
-            if (banner == null)
+            try
             {
-                return false;
-            }
+                var banner = await _bannerRepository.GetBannerById(bannerId);
+                if (banner == null)
+                {
+                    return ActiveBannerResult.NotFounded;
+                }
 
-            banner.IsActive = true;
-            return await _bannerRepository.UpdateBanner(banner);
+                if (await CheckBannerLimitations(banner.BannerLocation,1))
+                {
+                    banner.IsActive = true;
+                    if (await _bannerRepository.UpdateBanner(banner))
+                    {
+                        return ActiveBannerResult.Success;
+                    }
+                }
+
+                return ActiveBannerResult.OutOfRange;
+            }
+            catch
+            {
+                return ActiveBannerResult.Error;
+            }
         }
 
         public async Task<bool> DeActiveBanner(int bannerId)
