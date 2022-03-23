@@ -21,4 +21,17 @@ namespace KetabAbee.Application.DTOs.Banner
 
         #endregion
     }
+
+    public class LittleBannerInfoViewModel
+    {
+        #region properties
+
+        public string Link { get; set; }
+
+        public string Alt { get; set; }
+
+        public string ImageSavePath { get; set; }
+
+        #endregion
+    }
 }

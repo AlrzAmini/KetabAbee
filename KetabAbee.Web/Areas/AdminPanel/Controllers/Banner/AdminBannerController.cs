@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using KetabAbee.Application.Const;
-using KetabAbee.Application.DTOs.Admin;
 using KetabAbee.Application.DTOs.Admin.Banner;
 using KetabAbee.Application.Interfaces.Banner;
 using KetabAbee.Application.Security;

@@ -22,5 +22,7 @@ namespace KetabAbee.Domain.Interfaces
 
         Task<List<Banner>> GetAllIsActiveHeadBanners();
 
+        Task<List<Banner>> GetAllActiveMainAndProfileBanners();
+
     }
 }

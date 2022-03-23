@@ -1,0 +1,16 @@
+﻿@model List<KetabAbee.Application.DTOs.Banner.LittleBannerInfoViewModel>
+@if (Model != null && Model.Any())
+{
+    <div class="row mb-5">
+        @foreach (var banner in Model)
+        {
+            <div class="col-md-3 col-6 mb-lg-0 mb-3">
+                <div class="banner">
+                    <a href="@banner.Link">
+                        <img src="@banner.ImageSavePath" alt="@banner.Alt">
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+}

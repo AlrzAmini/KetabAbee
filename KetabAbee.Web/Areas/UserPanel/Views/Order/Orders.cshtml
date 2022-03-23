@@ -7,7 +7,7 @@
 <main class="page-content mt-205 none-transform">
     <div class="container none-transform">
         <div class="row mb-5 none-transform">
-            <partial name="_UserPanelSideBar_Col3_205px"/>
+            <partial name="_UserPanelSideBar_Col3_205px" />
             <div class="col-lg-9 col-md-8">
                 <div class="row mb-4">
                     <div class="col-12">
@@ -152,7 +152,7 @@
                 </div>
             </div>
         </div>
-        <partial name="_Banner" />
+        @await Component.InvokeAsync("MainAndProfileBannersComponent")
     </div>
 </main>
 

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Admin;
 using KetabAbee.Application.DTOs.Admin.Banner;
 using KetabAbee.Application.DTOs.Banner;
@@ -24,5 +25,7 @@ namespace KetabAbee.Application.Interfaces.Banner
         Task<EditBannerViewModel> GetBannerForEdit(int bannerId);
 
         Task<EditBannerResult> EditBanner(EditBannerViewModel banner);
+
+        Task<List<LittleBannerInfoViewModel>> GetMainAndProfileBannersForShow();
     }
 }

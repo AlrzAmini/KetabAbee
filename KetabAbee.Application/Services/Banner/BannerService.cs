@@ -12,6 +12,7 @@ using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Generators;
 using KetabAbee.Domain.Models.Banner;
 using KetabAbee.Application.DTOs.Banner;
+using System.Collections.Generic;
 
 namespace KetabAbee.Application.Services.Banner
 {
@@ -378,6 +379,18 @@ namespace KetabAbee.Application.Services.Banner
                     await banner.Image.CopyToAsync(stream);
                 }
             }
+        }
+
+        public async Task<List<LittleBannerInfoViewModel>> GetMainAndProfileBannersForShow()
+        {
+            var banners = await _bannerRepository.GetAllActiveMainAndProfileBanners();
+
+            return banners.Select(b => new LittleBannerInfoViewModel
+            {
+                Alt = b.Alt,
+                ImageSavePath = PathExtensions.BannerFullAddress(b.ImageName),
+                Link = b.Link
+            }).ToList();
         }
     }
 }

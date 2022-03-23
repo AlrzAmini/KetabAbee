@@ -142,6 +142,6 @@
                 </div>
             </div>
         </div>
-        <partial name="_Banner" />
+        @await Component.InvokeAsync("MainAndProfileBannersComponent")
     </div>
 </main>
