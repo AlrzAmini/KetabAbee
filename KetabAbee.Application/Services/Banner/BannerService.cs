@@ -185,13 +185,63 @@ namespace KetabAbee.Application.Services.Banner
                     ImageSavePath = PathExtensions.BannerFullAddress(b.ImageName)
                 }).AsQueryable();
 
-            return new HeadBannersViewModel
+            var headBanners = new HeadBannersViewModel();
+
+            var longHead = longHeadBannersInfo.FirstOrDefault(b => b.BannerLocation == BannerLocation.LongHead);
+            if (longHead != null)
             {
-                LongHead = longHeadBannersInfo.FirstOrDefault(b => b.BannerLocation == BannerLocation.LongHead),
-                FirstShortHead = longHeadBannersInfo.Where(b => b.BannerLocation == BannerLocation.ShortHead).ElementAt(0),
-                SecondShortHead = longHeadBannersInfo.Where(b => b.BannerLocation == BannerLocation.ShortHead).ElementAt(1),
-                Sliders = longHeadBannersInfo.Where(b => b.BannerLocation == BannerLocation.Slider).ToList()
-            };
+                headBanners.LongHead = longHead;
+            }
+
+            var shortHeads = longHeadBannersInfo.Where(b => b.BannerLocation == BannerLocation.ShortHead);
+            if (shortHeads.Any())
+            {
+                var firstShortHead = shortHeads.ElementAt(0);
+                if (firstShortHead != null)
+                {
+                    headBanners.FirstShortHead = firstShortHead;
+                }
+            }
+            if (shortHeads.Count() > 1)
+            {
+                var secondShortHead = shortHeads.ElementAt(1);
+                if (secondShortHead != null)
+                {
+                    headBanners.SecondShortHead = secondShortHead;
+                }
+            }
+
+            var sliders = longHeadBannersInfo.Where(b => b.BannerLocation == BannerLocation.Slider).ToList();
+            if (sliders.Any())
+            {
+                headBanners.Sliders = sliders;
+            }
+
+            return headBanners;
+        }
+
+        public async Task<bool> ActiveBanner(int bannerId)
+        {
+            var banner = await _bannerRepository.GetBannerById(bannerId);
+            if (banner == null)
+            {
+                return false;
+            }
+
+            banner.IsActive = true;
+            return await _bannerRepository.UpdateBanner(banner);
+        }
+
+        public async Task<bool> DeActiveBanner(int bannerId)
+        {
+            var banner = await _bannerRepository.GetBannerById(bannerId);
+            if (banner == null)
+            {
+                return false;
+            }
+
+            banner.IsActive = false;
+            return await _bannerRepository.UpdateBanner(banner);
         }
     }
 }

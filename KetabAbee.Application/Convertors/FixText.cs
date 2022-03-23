@@ -10,7 +10,7 @@ namespace KetabAbee.Application.Convertors
     {
         public static string EmailFixer(string email)
         {
-            return email.Trim().ToLower();
+            return email.ToLower().Replace(" ", "");
         }
     }
 }

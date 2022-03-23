@@ -17,5 +17,8 @@ namespace KetabAbee.Application.Interfaces.Banner
         Task<bool> CheckBannerLimitations(BannerLocation bannerLocation);
 
         Task<HeadBannersViewModel> GetHeadBanners();
+
+        Task<bool> ActiveBanner(int bannerId);
+        Task<bool> DeActiveBanner(int bannerId);
     }
 }

@@ -100,5 +100,37 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Banner
         }
 
         #endregion
+
+        #region active banner
+
+        [HttpGet("Active/{bannerId}")]
+        public async Task<IActionResult> ActiveBanner(int bannerId)
+        {
+            if (await _bannerService.ActiveBanner(bannerId))
+            {
+                TempData["SuccessMessage"] = "فعال شد";
+                return RedirectToAction("Index");
+            }
+            TempData["ErrorMessage"] = "فعال نشد";
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region de active banner
+
+        [HttpGet("DeActive/{bannerId}")]
+        public async Task<IActionResult> DeActiveBanner(int bannerId)
+        {
+            if (await _bannerService.DeActiveBanner(bannerId))
+            {
+                TempData["SuccessMessage"] = "غیرفعال شد";
+                return RedirectToAction("Index");
+            }
+            TempData["ErrorMessage"] = "غیرفعال نشد";
+            return RedirectToAction("Index");
+        }
+
+        #endregion
     }
 }

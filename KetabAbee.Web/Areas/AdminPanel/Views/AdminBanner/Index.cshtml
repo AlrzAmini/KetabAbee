@@ -21,7 +21,7 @@
     <a asp-area="AdminPanel" asp-controller="AdminBanner" asp-action="AddBanner" class="btn btn-success col-md-4 margin-left-10">افزودن بنر جدید </a>
 </div>
 <form id="filterform" asp-controller="AdminBanner" asp-action="Index" method="get">
-    <input type="hidden" asp-for="PageNum"/>
+    <input type="hidden" asp-for="PageNum" />
 </form>
 <div class="col-xs-12 col-md-12">
     <div class="well with-header with-footer">
@@ -104,7 +104,11 @@
                             <td>
                                 @if (banner.IsActive)
                                 {
-                                    <a class="btn btn-info" asp-controller="AdminBlog" asp-action="EditBlog" asp-route-blogId="٬">غیرفعال</a>
+                                    <a class="btn btn-warning" asp-controller="AdminBanner" asp-action="DeActiveBanner" asp-route-bannerId="@banner.BannerId">غیرفعال</a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-warning" asp-controller="AdminBanner" asp-action="ActiveBanner" asp-route-bannerId="@banner.BannerId">فعال</a>
                                 }
                                 <a class="btn btn-info" asp-controller="AdminBlog" asp-action="EditBlog" asp-route-blogId="٬">ویرایش</a>
                                 <a class="btn btn-danger" asp-controller="AdminBanner" asp-action="DeleteBanner" asp-route-bannerId="@banner.BannerId" onclick="return confirm('از حذف این بنر اطمینان دارید ؟')">حذف</a>
