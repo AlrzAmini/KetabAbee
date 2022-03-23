@@ -147,9 +147,14 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Banner
         #region edit banner
 
         [HttpGet("Edit/{bannerId}")]
-        public IActionResult EditBanner(int bannerId)
+        public async Task<IActionResult> EditBanner(int bannerId)
         {
-            return View();
+            var banner = await _bannerService.GetBannerForEdit(bannerId);
+
+            if (banner != null) return View(banner);
+
+            TempData["ErrorMessage"] = "یافت نشد";
+            return RedirectToAction("Index");
         }
 
         #endregion

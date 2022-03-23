@@ -35,12 +35,9 @@ namespace KetabAbee.Application.Services.Banner
                     Link = banner.Link,
                     StartDate = banner.StartDate.ToMiladiDateTime(),
                     ImageName = "Defualt.jpg",
-                    Alt = banner.Alt
+                    Alt = banner.Alt,
+                    EndDate = banner.EndDate?.ToMiladiDateTime()
                 };
-                if (banner.EndDate != null)
-                {
-                    newBanner.EndDate = banner.EndDate.ToMiladiDateTime();
-                }
 
                 if (!banner.IsActive)
                 {
@@ -71,7 +68,7 @@ namespace KetabAbee.Application.Services.Banner
                     return CreateBannerResult.Error;
                 }
 
-                if (await CheckBannerLimitations(newBanner.BannerLocation,null))
+                if (await CheckBannerLimitations(newBanner.BannerLocation, null))
                 {
                     if (banner.Image == null)
                     {
@@ -263,7 +260,7 @@ namespace KetabAbee.Application.Services.Banner
                     return ActiveBannerResult.NotFounded;
                 }
 
-                if (await CheckBannerLimitations(banner.BannerLocation,1))
+                if (await CheckBannerLimitations(banner.BannerLocation, 1))
                 {
                     banner.IsActive = true;
                     if (await _bannerRepository.UpdateBanner(banner))
@@ -290,6 +287,28 @@ namespace KetabAbee.Application.Services.Banner
 
             banner.IsActive = false;
             return await _bannerRepository.UpdateBanner(banner);
+        }
+
+        public async Task<EditBannerViewModel> GetBannerForEdit(int bannerId)
+        {
+            var banner = await _bannerRepository.GetBannerById(bannerId);
+            if (banner == null)
+            {
+                return null;
+            }
+
+            return new EditBannerViewModel
+            {
+                ImageName = banner.ImageName,
+                BannerLocation = banner.BannerLocation,
+                IsActive = banner.IsActive,
+                Alt = banner.Alt,
+                BannerId = banner.BannerId,
+                EndDate = banner.EndDate?.ToShamsi(),
+                ImageSavePath = PathExtensions.BannerFullAddress(banner.ImageName),
+                Link = banner.Link,
+                StartDate = banner.StartDate.ToShamsi()
+            };
         }
     }
 }
