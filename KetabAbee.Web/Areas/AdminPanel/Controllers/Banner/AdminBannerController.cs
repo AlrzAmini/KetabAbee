@@ -157,6 +157,39 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Banner
             return RedirectToAction("Index");
         }
 
+        [HttpPost("Edit/{bannerId}"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditBanner(EditBannerViewModel banner)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(banner);
+            }
+
+            var res = await _bannerService.EditBanner(banner);
+
+            switch (res)
+            {
+                case EditBannerResult.Success:
+                    TempData["SuccessMessage"] = "بنر با موفقیت ویرایش شد";
+                    return RedirectToAction("Index");
+                case EditBannerResult.Error:
+                    TempData["ErrorMessage"] = "بنر ویرایش نشد";
+                    return RedirectToAction("Index");
+                case EditBannerResult.OutOfRange:
+                    TempData["WarningMessage"] = "تعداد بنر های فعال در ناحیه مکانی انتخابی شما نمیتواند بیش از مقدار کنونی باشد";
+                    return RedirectToAction("EditBanner", new { bannerId = banner.BannerId });
+                case EditBannerResult.ImageError:
+                    TempData["WarningMessage"] = "مشکلی در ذخیره سازی تصویر بوجود آمد";
+                    return RedirectToAction("EditBanner", new { bannerId = banner.BannerId });
+                case EditBannerResult.NotFounded:
+                    TempData["ErrorMessage"] = "بنر مورد نظر یافت نشد";
+                    return RedirectToAction("EditBanner", new { bannerId = banner.BannerId });
+                default:
+                    TempData["ErrorMessage"] = "بنر ویرایش نشد";
+                    return RedirectToAction("Index");
+            }
+        }
+
         #endregion
     }
 }

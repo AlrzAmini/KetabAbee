@@ -310,5 +310,72 @@ namespace KetabAbee.Application.Services.Banner
                 StartDate = banner.StartDate.ToShamsi()
             };
         }
+
+        public async Task<EditBannerResult> EditBanner(EditBannerViewModel banner)
+        {
+            if (banner.IsActive)
+            {
+                if (!await CheckBannerLimitations(banner.BannerLocation, 1))
+                {
+                    return EditBannerResult.OutOfRange;
+                }
+            }
+
+            var newBanner = await _bannerRepository.GetBannerById(banner.BannerId);
+            if (newBanner == null)
+            {
+                return EditBannerResult.NotFounded;
+            }
+
+
+            newBanner.IsActive = banner.IsActive;
+            newBanner.Alt = banner.Alt;
+            newBanner.BannerLocation = banner.BannerLocation;
+            newBanner.EndDate = banner.EndDate?.ToMiladiDateTime();
+            newBanner.StartDate = banner.StartDate.ToMiladiDateTime();
+            newBanner.Link = banner.Link;
+            newBanner.BannerId = banner.BannerId;
+
+            try
+            {
+                await EditBannerImage(banner, newBanner);
+            }
+            catch
+            {
+                return EditBannerResult.ImageError;
+            }
+
+            if (await _bannerRepository.UpdateBanner(newBanner))
+            {
+                return EditBannerResult.Success;
+            }
+
+            return EditBannerResult.Error;
+        }
+
+        public async System.Threading.Tasks.Task EditBannerImage(EditBannerViewModel banner, Domain.Models.Banner.Banner newBanner)
+        {
+            if (banner.Image != null)
+            {
+                if (banner.ImageName != "Default.jpg")
+                {
+                    // delete current image
+                    DeleteBannerImage(newBanner);
+                }
+
+                // add new image
+
+                // generate new image path and name
+                banner.ImageName = CodeGenerator.GenerateUniqCode() + Path.GetExtension(banner.Image.FileName);
+
+                var imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot" + newBanner.GetBannerAddress());
+
+                // save image in file
+                await using (var stream = new FileStream(imgPath, FileMode.Create))
+                {
+                    await banner.Image.CopyToAsync(stream);
+                }
+            }
+        }
     }
 }

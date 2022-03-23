@@ -22,5 +22,7 @@ namespace KetabAbee.Application.Interfaces.Banner
         Task<bool> DeActiveBanner(int bannerId);
 
         Task<EditBannerViewModel> GetBannerForEdit(int bannerId);
+
+        Task<EditBannerResult> EditBanner(EditBannerViewModel banner);
     }
 }

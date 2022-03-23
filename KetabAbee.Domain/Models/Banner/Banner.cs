@@ -84,4 +84,13 @@ namespace KetabAbee.Domain.Models.Banner
         OutOfRange,
         NotFounded
     }
+
+    public enum EditBannerResult
+    {
+        Success,
+        Error,
+        OutOfRange,
+        NotFounded,
+        ImageError
+    }
 }
