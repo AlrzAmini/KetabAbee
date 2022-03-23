@@ -7,18 +7,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KetabAbee.Web.ViewComponents
 {
-    public class MainAndProfileBannersComponent : ViewComponent
+    public class MainBannersComponent : ViewComponent
     {
         private readonly IBannerService _bannerService;
 
-        public MainAndProfileBannersComponent(IBannerService bannerService)
+        public MainBannersComponent(IBannerService bannerService)
         {
             _bannerService = bannerService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            return View("MainAndProfileBanners", await _bannerService.GetMainAndProfileBannersForShow());
+            return View("MainBannersComponent", await _bannerService.GetMainBannersForShow());
         }
     }
 }

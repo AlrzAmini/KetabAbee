@@ -38,7 +38,8 @@ namespace KetabAbee.Domain.Models.Banner
         public DateTime StartDate { get; set; }
 
         [DisplayName("تاریخ پایان")]
-        public DateTime? EndDate { get; set; }
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
+        public DateTime EndDate { get; set; }
 
         public bool IsDelete { get; set; }
 

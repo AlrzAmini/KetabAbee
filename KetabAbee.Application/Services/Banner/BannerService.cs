@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.IO;
 using System.Linq;
 using KetabAbee.Application.DTOs.Admin;
@@ -37,7 +38,7 @@ namespace KetabAbee.Application.Services.Banner
                     StartDate = banner.StartDate.ToMiladiDateTime(),
                     ImageName = "Defualt.jpg",
                     Alt = banner.Alt,
-                    EndDate = banner.EndDate?.ToMiladiDateTime()
+                    EndDate = banner.EndDate.ToMiladiDateTime()
                 };
 
                 if (!banner.IsActive)
@@ -174,6 +175,7 @@ namespace KetabAbee.Application.Services.Banner
             switch (bannerLocation)
             {
                 case BannerLocation.Slider:
+                    // no limitation
                     return true;
 
                 case BannerLocation.LongHead:
@@ -185,12 +187,12 @@ namespace KetabAbee.Application.Services.Banner
                     return currentBannersCount < 2;
 
                 case BannerLocation.MainAndProfile:
-                    // main & profile banner limitation is 4
-                    return currentBannersCount < 4;
+                    // no limitation
+                    return true;
 
                 case BannerLocation.Main:
-                    // main & profile banner limitation is 2
-                    return currentBannersCount < 2;
+                    // no limitation
+                    return true;
 
                 default:
                     return false;
@@ -202,10 +204,14 @@ namespace KetabAbee.Application.Services.Banner
             var longHeadBanners = await _bannerRepository.GetAllIsActiveHeadBanners();
             if (longHeadBanners == null)
             {
-                return new HeadBannersViewModel();
+                return null;
             }
 
-            var longHeadBannersInfo = longHeadBanners
+            var filteredBanners = longHeadBanners.Where(b => b.StartDate < DateTime.Now && b.EndDate > DateTime.Now);
+
+            filteredBanners = filteredBanners.Distinct();
+
+            var longHeadBannersInfo = filteredBanners
                 .Select(b => new BannerInfoViewModel
                 {
                     Link = b.Link,
@@ -305,7 +311,7 @@ namespace KetabAbee.Application.Services.Banner
                 IsActive = banner.IsActive,
                 Alt = banner.Alt,
                 BannerId = banner.BannerId,
-                EndDate = banner.EndDate?.ToShamsi(),
+                EndDate = banner.EndDate.ToShamsi(),
                 ImageSavePath = PathExtensions.BannerFullAddress(banner.ImageName),
                 Link = banner.Link,
                 StartDate = banner.StartDate.ToShamsi()
@@ -334,7 +340,7 @@ namespace KetabAbee.Application.Services.Banner
             newBanner.IsActive = banner.IsActive;
             newBanner.Alt = banner.Alt;
             newBanner.BannerLocation = banner.BannerLocation;
-            newBanner.EndDate = banner.EndDate?.ToMiladiDateTime();
+            newBanner.EndDate = banner.EndDate.ToMiladiDateTime();
             newBanner.StartDate = banner.StartDate.ToMiladiDateTime();
             newBanner.Link = banner.Link;
             newBanner.BannerId = banner.BannerId;
@@ -369,7 +375,7 @@ namespace KetabAbee.Application.Services.Banner
                 // add new image
 
                 // generate new image path and name
-                banner.ImageName = CodeGenerator.GenerateUniqCode() + Path.GetExtension(banner.Image.FileName);
+                newBanner.ImageName = CodeGenerator.GenerateUniqCode() + Path.GetExtension(banner.Image.FileName);
 
                 var imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot" + newBanner.GetBannerAddress());
 
@@ -383,9 +389,29 @@ namespace KetabAbee.Application.Services.Banner
 
         public async Task<List<LittleBannerInfoViewModel>> GetMainAndProfileBannersForShow()
         {
-            var banners = await _bannerRepository.GetAllActiveMainAndProfileBanners();
+            var banners = await _bannerRepository.GetAllActiveBannersByLocation(BannerLocation.MainAndProfile);
 
-            return banners.Select(b => new LittleBannerInfoViewModel
+            var filteredBanners = banners.Where(b => b.StartDate < DateTime.Now && b.EndDate > DateTime.Now);
+
+            filteredBanners = filteredBanners.Distinct();
+
+            return filteredBanners.Select(b => new LittleBannerInfoViewModel
+            {
+                Alt = b.Alt,
+                ImageSavePath = PathExtensions.BannerFullAddress(b.ImageName),
+                Link = b.Link
+            }).ToList();
+        }
+
+        public async Task<List<LittleBannerInfoViewModel>> GetMainBannersForShow()
+        {
+            var banners = await _bannerRepository.GetAllActiveBannersByLocation(BannerLocation.Main);
+
+            var filteredBanners = banners.Where(b => b.StartDate < DateTime.Now && b.EndDate > DateTime.Now);
+
+            filteredBanners = filteredBanners.Distinct();
+
+            return filteredBanners.Select(b => new LittleBannerInfoViewModel
             {
                 Alt = b.Alt,
                 ImageSavePath = PathExtensions.BannerFullAddress(b.ImageName),

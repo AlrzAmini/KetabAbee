@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using KetabAbee.Domain.Models.Banner;
 
@@ -22,7 +23,7 @@ namespace KetabAbee.Domain.Interfaces
 
         Task<List<Banner>> GetAllIsActiveHeadBanners();
 
-        Task<List<Banner>> GetAllActiveMainAndProfileBanners();
+        Task<IQueryable<Banner>> GetAllActiveBannersByLocation(BannerLocation bannerLocation);
 
     }
 }

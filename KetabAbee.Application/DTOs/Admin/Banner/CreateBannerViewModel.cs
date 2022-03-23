@@ -33,6 +33,7 @@ namespace KetabAbee.Application.DTOs.Admin.Banner
         public string StartDate { get; set; }
 
         [DisplayName("تاریخ پایان")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
         public string EndDate { get; set; }
 
         [DisplayName("وضعیت")]

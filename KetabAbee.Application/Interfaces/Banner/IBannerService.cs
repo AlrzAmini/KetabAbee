@@ -25,7 +25,7 @@ namespace KetabAbee.Application.Interfaces.Banner
         Task<EditBannerViewModel> GetBannerForEdit(int bannerId);
 
         Task<EditBannerResult> EditBanner(EditBannerViewModel banner);
-
         Task<List<LittleBannerInfoViewModel>> GetMainAndProfileBannersForShow();
+        Task<List<LittleBannerInfoViewModel>> GetMainBannersForShow();
     }
 }

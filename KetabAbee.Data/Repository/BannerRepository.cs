@@ -92,11 +92,10 @@ namespace KetabAbee.Data.Repository
                 .ToListAsync();
         }
 
-        public async Task<List<Banner>> GetAllActiveMainAndProfileBanners()
+        public async Task<IQueryable<Banner>> GetAllActiveBannersByLocation(BannerLocation bannerLocation)
         {
-            return await _context.Banners.AsQueryable()
-                .Where(b => b.IsActive && b.BannerLocation == BannerLocation.MainAndProfile)
-                .ToListAsync();
+            return await Task.FromResult(_context.Banners.AsQueryable()
+                .Where(b => b.IsActive && b.BannerLocation == bannerLocation));
         }
     }
 }

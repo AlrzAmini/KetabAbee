@@ -32,52 +32,8 @@
                 <div class="swiper-button-prev"></div>
             </div>
         </section>
-        <div class="row mb-5">
-            <div class="col-md-3 col-6 mb-lg-0 mb-3">
-                <div class="banner">
-                    <a href="/Books?PageNum=1&Exist=true&Exist=false">
-                        <img src="/images/banner/banner-sm-04-min.jpg" alt="کتابهای ما">
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-3 col-6 mb-lg-0 mb-3">
-                <div class="banner">
-                    <a href="/Books?SelectedPublishers=1">
-                        <img src="/images/banner/banner-sm-05-min.jpg" alt="کتابهای نشر چشمه">
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-3 col-6 mb-lg-0 mb-3">
-                <div class="banner">
-                    <a href="/Books?SelectedPublishers=2">
-                        <img src="/images/banner/banner-sm-06-min.jpg" alt="کتابهای نشر کوله پشتی">
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-3  col-6 mb-lg-0 mb-3">
-                <div class="banner">
-                    <a href="/Books?SearchCategory=2">
-                        <img src="/images/banner/banner-sm-07-min.jpg" alt="کتابهایی مخصوص نوجوانان و کودکان">
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="row mb-5">
-            <div class="col-md-6 mb-lg-0 mb-3">
-                <div class="banner">
-                    <a href="/Books?MaxPrice=100000">
-                        <img src="/images/banner/wp/banner-md-01-min.webp" alt="کتابهای کمتر از صد هزار تومان">
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-6 mb-lg-0 mb-3">
-                <div class="banner">
-                    <a href="/Books?SearchCategory=8">
-                        <img src="/images/banner/wp/banner-md-02-min.webp" alt="کتابهایی برای رشد شخصی">
-                    </a>
-                </div>
-            </div>
-        </div>
+        @await Component.InvokeAsync("MainAndProfileBannersComponent")
+        @await Component.InvokeAsync("MainBannersComponent")
         <cache expires-after="TimeSpan.FromMinutes(15)">
             @await Component.InvokeAsync("BestSellingBooksComponent")
         </cache>
