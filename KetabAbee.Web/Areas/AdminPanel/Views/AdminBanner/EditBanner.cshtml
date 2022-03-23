@@ -17,6 +17,38 @@
         <li class="active">@ViewData["Title"]</li>
     </ul>
 </div>
+<div class="row">
+    <div class="col-md-12 padding-20">
+        <div class="card card-header bg-white padding-10">
+            <h3>سایز مناسب بنر ها</h3>
+        </div>
+        <div class="card card-body">
+            <div class="col-md-2 bg-white">
+                <label class="font-110">بلند بالای صفحه</label>
+                <p>1645 * 135</p>
+            </div>
+            <div class="col-md-2 bg-white">
+                <label class="font-110">کوتاه بالای صفحه</label>
+                <p>700 * 350</p>
+            </div>
+            <div class="col-md-2 bg-white">
+                <label class="font-110">وسط صفحه و پروفایل</label>
+                <p>400 * 300</p>
+            </div>
+            <div class="col-md-2 bg-white">
+                <label class="font-110">وسط صفحه</label>
+                <p>820 * 300</p>
+            </div>
+            <div class="col-md-2 bg-white">
+                <label class="font-110">اسلایدر</label>
+                <p>1780 * 890</p>
+            </div>
+            <div class=" alert alert-info padding-10">
+                ممکن با قرار دادن تصاویر در سایزهای نامناسب باعث مشکلات کاهش سرعت لود و بهم ریختگی سایت شوید
+            </div>
+        </div>
+    </div>
+</div>
 <form asp-area="AdminPanel" asp-controller="AdminBanner" asp-action="EditBanner" method="post" role="form" enctype="multipart/form-data">
     <input type="hidden" asp-for="ImageName"/>
     <input type="hidden" asp-for="BannerId"/>
@@ -89,7 +121,6 @@
                     <div class="form-group">
                         <img class="thumbnail img-fluid max-width100" id="imageUp" src="@Model.ImageSavePath" alt="@Model.Alt"/>
                     </div>
-                    <p class="help-block">سایز مناسب تصویر 852 * 540 است</p>
                 </div>
             </div>
         </div>

@@ -313,20 +313,22 @@ namespace KetabAbee.Application.Services.Banner
 
         public async Task<EditBannerResult> EditBanner(EditBannerViewModel banner)
         {
-            if (banner.IsActive)
-            {
-                if (!await CheckBannerLimitations(banner.BannerLocation, 1))
-                {
-                    return EditBannerResult.OutOfRange;
-                }
-            }
-
             var newBanner = await _bannerRepository.GetBannerById(banner.BannerId);
             if (newBanner == null)
             {
                 return EditBannerResult.NotFounded;
             }
 
+            if (!newBanner.IsActive)
+            {
+                if (banner.IsActive)
+                {
+                    if (!await CheckBannerLimitations(banner.BannerLocation, 1))
+                    {
+                        return EditBannerResult.OutOfRange;
+                    }
+                }
+            }
 
             newBanner.IsActive = banner.IsActive;
             newBanner.Alt = banner.Alt;
