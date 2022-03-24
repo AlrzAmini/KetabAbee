@@ -1,14 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using KetabAbee.Application.Const;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs.Admin.User;
 using KetabAbee.Application.DTOs.Admin.Wallet;
-using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Permission;
 using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Interfaces.Wallet;
@@ -309,7 +306,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
         public async Task<IActionResult> UserInfo(int userId)
         {
             var user = await _userService.GetUserForShowInUserInfo(userId);
-            if (!string.IsNullOrEmpty(user.UserName)) return View(user);
+            if (user != null) return View(user);
 
             TempData["ErrorMessage"] = "کاربری یافت نشد";
             return RedirectToAction("Index");
@@ -571,6 +568,24 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
                     TempData["ErrorMessage"] = "مشکلی در حذف نظرات رخ داد";
                     return RedirectToAction("UserInfo", new { userId });
             }
+        }
+
+        #endregion
+
+        #region active user
+
+        public async Task<IActionResult> ActiveUser(int userId)
+        {
+            return RedirectToAction("UserInfo", new { userId });
+        }
+
+        #endregion
+
+        #region de active user
+
+        public async Task<IActionResult> DeActiveUser(int userId)
+        {
+            return RedirectToAction("UserInfo", new { userId });
         }
 
         #endregion

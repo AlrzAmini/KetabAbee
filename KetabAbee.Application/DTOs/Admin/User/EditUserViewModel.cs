@@ -53,7 +53,7 @@ namespace KetabAbee.Application.DTOs.Admin.User
         #region Birth Day
 
         [DisplayName("تاریخ تولد")]
-        public DateTime? BirthDay { get; set; }
+        public string BirthDay { get; set; }
 
         #endregion
 

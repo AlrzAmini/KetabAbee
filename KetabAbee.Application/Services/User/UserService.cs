@@ -216,8 +216,7 @@ namespace KetabAbee.Application.Services.User
                 user.Age = edit.BirthDay.GetAgeByDateTime();
                 user.Address = edit.Address.Sanitizer();
 
-                UpdateUser(user);
-                return true;
+                return UpdateUser(user);
             }
             catch
             {
@@ -495,15 +494,14 @@ namespace KetabAbee.Application.Services.User
 
         public EditUserViewModel GetUserForEditInAdmin(int userId)
         {
-            return _userRepository.GetUsersForEditAdmin()
-                .Where(u => u.UserId == userId)
-                .Select(u => new EditUserViewModel()
+            return _userRepository.GetUsersForEditAdmin(userId)
+                .Select(u => new EditUserViewModel
                 {
                     UserName = u.UserName,
                     AvatarName = u.AvatarName,
                     Mobile = u.Mobile,
                     Email = u.Email,
-                    BirthDay = u.BirthDay,
+                    BirthDay = u.BirthDay?.ToShamsi(),
                     UserId = u.UserId,
                     UserRoles = u.UserRoles.Select(r => r.RoleId).ToList(),
                     Address = u.Address
@@ -539,9 +537,10 @@ namespace KetabAbee.Application.Services.User
                 {
                     newUser.Password = PasswordHasher.EncodePasswordMd5(user.Password);
                 }
-                newUser.BirthDay = user.BirthDay?.ToString(CultureInfo.InvariantCulture).StringShamsiToMiladi();
+                newUser.BirthDay = user.BirthDay?.ToMiladiDateTime();
                 newUser.UserId = user.UserId;
                 newUser.Address = user.Address;
+                newUser.Age = newUser.BirthDay != null ? newUser.BirthDay.GetAgeByDateTime() : null;
 
                 #region Check and add Avatar
 
@@ -664,7 +663,7 @@ namespace KetabAbee.Application.Services.User
             var user = await _userRepository.GetUserByIdWithIncludeIps(userId);
             if (user == null)
             {
-                return new UserInfoViewModel();
+                return null;
             }
 
             return new UserInfoViewModel

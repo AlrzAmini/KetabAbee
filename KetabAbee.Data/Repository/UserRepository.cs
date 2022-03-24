@@ -94,10 +94,17 @@ namespace KetabAbee.Data.Repository
 
         public bool UpdateUser(User user)
         {
-            _context.Users.Update(user);
-            _context.SaveChanges();
+            try
+            {
+                _context.Users.Update(user);
+                _context.SaveChanges();
 
-            return true;
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public async Task<string> GetMobileByUserEmail(string email)
@@ -140,10 +147,11 @@ namespace KetabAbee.Data.Repository
             return _context.Users.FirstOrDefault(u => u.EmailActivationCode == emailActiveCode);
         }
 
-        public IEnumerable<User> GetUsersForEditAdmin()
+        public IEnumerable<User> GetUsersForEditAdmin(int userId)
         {
             return _context.Users
-                .Include(u => u.UserRoles);
+                .Include(u => u.UserRoles)
+                .Where(u=>u.UserId == userId);
         }
 
         public string GetUserNameByUserId(int userId)

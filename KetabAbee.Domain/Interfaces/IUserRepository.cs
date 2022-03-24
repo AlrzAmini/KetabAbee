@@ -67,7 +67,7 @@ namespace KetabAbee.Domain.Interfaces
 
         Task<string> GetAvatarNameByUserId(int userId);
 
-        IEnumerable<User> GetUsersForEditAdmin();
+        IEnumerable<User> GetUsersForEditAdmin(int userId);
 
         string GetUserNameByUserId(int userId);
 

@@ -49,13 +49,16 @@ namespace KetabAbee.Application.Extensions
 
         public static int? GetAgeByDateTime(this DateTime? birthDate)
         {
-            var dateNow = DateTime.Now;
-            var age = dateNow.Year - birthDate?.Year;
+            if (birthDate == null) return null;
 
-            if (dateNow.Month < birthDate?.Month || (dateNow.Month == birthDate?.Month && dateNow.Day < birthDate?.Day))
+            var dateNow = DateTime.Now;
+            var age = dateNow.Year - birthDate.Value.Year;
+
+            if (dateNow.Month < birthDate.Value.Month || dateNow.Month == birthDate.Value.Month && dateNow.Day < birthDate.Value.Day)
                 age--;
 
             return age;
+
         }
 
         public static string TruncateLongString(this string str, int maxLength)

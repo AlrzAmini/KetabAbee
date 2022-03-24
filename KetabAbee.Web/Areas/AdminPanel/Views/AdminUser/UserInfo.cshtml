@@ -26,17 +26,21 @@
             <a class="btn btn-palegreen btn-block" asp-controller="AdminUser" asp-action="FreeUser" asp-route-userId="@Model.UserId" onclick="return confirm('کاربر آزاد شود ؟')">آزاد کردن <i class="fa fa-check"></i></a>
         </div>
     }
+    <div class="col-md-2">
+        @if (Model.IsEmailActive)
+        {
+            <a class="btn btn-maroon btn-block" asp-controller="AdminUser" asp-action="DeActiveUser" asp-route-userId="@Model.UserId">غیر فعالسازی</a>
+        }
+        else
+        {
+            <a class="btn btn-maroon btn-block" asp-controller="AdminUser" asp-action="ActiveUser" asp-route-userId="@Model.UserId">فعالسازی</a>
+        }
+    </div>
     <div class="col-md-1">
         <a class="btn btn-magenta btn-block" asp-controller="AdminUser" asp-action="EditUser" asp-route-id="@Model.UserId"> ویرایش <i class="fa fa-edit"></i></a>
     </div>
     <div class="col-md-1">
-        <a class="btn btn-maroon btn-block" asp-controller="AdminUser" asp-action="ChargeWallet" asp-route-userId="@Model.UserId"> کیف پول <i class="fa fa-money"></i></a>
-    </div>
-    <div class="col-md-1">
         <a class="btn btn-danger btn-block" asp-controller="AdminUser" asp-action="DeleteUserInInfo" asp-route-userId="@Model.UserId" onclick="return confirm('از حذف این کاربر مطمعن هستید ؟')">حذف <i class="fa fa-remove"></i></a>
-    </div>
-    <div class="col-md-1">
-        <a class="btn cross_line btn-block" asp-controller="AdminUser" asp-action="Index">بازگشت</a>
     </div>
 </div>
 <div class="row">
