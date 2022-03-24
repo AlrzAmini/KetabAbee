@@ -42,8 +42,8 @@ namespace KetabAbee.Application.Services.User
                 UserName = user.UserName.Sanitizer(),
                 Email = user.Email.Sanitizer(),
                 Password = PasswordHasher.EncodePasswordMd5(user.Password),
-                EmailActivationCode = new Random().Next(10000, 99999).ToString(),
-                MobileActivationCode = new Random().Next(100000, 999998).ToString(),
+                EmailActivationCode = CodeGenerator.ActivationCode(),
+                MobileActivationCode = CodeGenerator.ActivationCode(),
                 AvatarName = "User.jpg",
                 IsMobileActive = false,
                 IsEmailActive = false,
@@ -422,7 +422,7 @@ namespace KetabAbee.Application.Services.User
         {
             Domain.Models.User.User newUser = new();
 
-            if (user == null) return 0;
+            if (user == null) return default;
 
             #region Check and add Avatar
 
@@ -436,9 +436,9 @@ namespace KetabAbee.Application.Services.User
             newUser.Mobile = user.Mobile;
             newUser.BirthDay = user.BirthDay?.ToString(CultureInfo.InvariantCulture).StringShamsiToMiladi();
             newUser.Age = newUser.BirthDay.GetAgeByDateTime();
-            newUser.EmailActivationCode = new Random().Next(10000, 99999).ToString();
+            newUser.EmailActivationCode = CodeGenerator.ActivationCode();
             newUser.IsEmailActive = true;
-            newUser.MobileActivationCode = new Random().Next(100000, 999998).ToString();
+            newUser.MobileActivationCode = CodeGenerator.ActivationCode();
             newUser.IsMobileActive = true;
             newUser.RegisterDate = DateTime.Now;
             return await _userRepository.RegisterUser(newUser);
@@ -540,7 +540,7 @@ namespace KetabAbee.Application.Services.User
                 newUser.BirthDay = user.BirthDay?.ToMiladiDateTime();
                 newUser.UserId = user.UserId;
                 newUser.Address = user.Address;
-                newUser.Age = newUser.BirthDay != null ? newUser.BirthDay.GetAgeByDateTime() : null;
+                newUser.Age = newUser.BirthDay.GetAgeByDateTime();
 
                 #region Check and add Avatar
 
@@ -939,6 +939,30 @@ namespace KetabAbee.Application.Services.User
         public IEnumerable<Domain.Models.User.User> GetLastNHoursUsers(int n)
         {
             return _userRepository.GetLastNHoursUsers(n);
+        }
+
+        public async Task<bool> ActiveUserFromAdmin(int userId)
+        {
+            var user = await _userRepository.GetUserByUserId(userId);
+
+            user.IsEmailActive = true;
+            user.EmailActivationCode = CodeGenerator.ActivationCode();
+            user.IsMobileActive = true;
+            user.MobileActivationCode = CodeGenerator.ActivationCode();
+
+            return UpdateUser(user);
+        }
+
+        public async Task<bool> DeActiveUserFromAdmin(int userId)
+        {
+            var user = await _userRepository.GetUserByUserId(userId);
+
+            user.IsEmailActive = false;
+            user.EmailActivationCode = CodeGenerator.ActivationCode();
+            user.IsMobileActive = false;
+            user.MobileActivationCode = CodeGenerator.ActivationCode();
+
+            return UpdateUser(user);
         }
     }
 }

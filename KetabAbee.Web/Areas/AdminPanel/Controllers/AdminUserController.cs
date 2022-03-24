@@ -574,8 +574,15 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
 
         #region active user
 
+        [HttpGet("Admin/Users/{userId}/Active")]
         public async Task<IActionResult> ActiveUser(int userId)
         {
+            if (await _userService.ActiveUserFromAdmin(userId))
+            {
+                TempData["SuccessMessage"] = "کاربر فعال شد";
+                return RedirectToAction("UserInfo", new { userId });
+            }
+            TempData["ErrorMessage"] = "کاربر فعال نشد";
             return RedirectToAction("UserInfo", new { userId });
         }
 
@@ -583,8 +590,15 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers
 
         #region de active user
 
+        [HttpGet("Admin/Users/{userId}/DeActive")]
         public async Task<IActionResult> DeActiveUser(int userId)
         {
+            if (await _userService.DeActiveUserFromAdmin(userId))
+            {
+                TempData["SuccessMessage"] = "کاربر غیرفعال شد";
+                return RedirectToAction("UserInfo", new { userId });
+            }
+            TempData["ErrorMessage"] = "کاربر غیرفعال نشد";
             return RedirectToAction("UserInfo", new { userId });
         }
 

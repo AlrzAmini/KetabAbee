@@ -11,6 +11,11 @@ namespace KetabAbee.Application.Generators
         public static string GenerateUniqCode()
         {
             return Guid.NewGuid().ToString("N");
-        } 
+        }
+
+        public static string ActivationCode()
+        {
+            return new Random().Next(10000, 99999).ToString();
+        }
     }
 }

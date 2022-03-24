@@ -473,5 +473,10 @@ namespace KetabAbee.Data.Repository
         {
             return _context.Users.Where(u => u.RegisterDate > DateTime.Now.AddHours(-n));
         }
+
+        public async Task<User> GetUserByUserId(int userId)
+        {
+            return await _context.Users.FindAsync(userId);
+        }
     }
 }

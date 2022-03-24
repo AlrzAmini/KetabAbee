@@ -136,6 +136,9 @@ namespace KetabAbee.Application.Interfaces.User
 
         Task<BanIpResult> BanUserByIp(string userIp);
 
+        Task<bool> ActiveUserFromAdmin(int userId);
+        Task<bool> DeActiveUserFromAdmin(int userId);
+
         #endregion
     }
 }

@@ -138,6 +138,8 @@ namespace KetabAbee.Domain.Interfaces
 
         Task<bool> IsIpExistInBanneds(string ip);
 
+        Task<User> GetUserByUserId(int userId);
+
         #endregion
 
         int GetUserIdByUserName(string userName);
