@@ -23,7 +23,7 @@ namespace KetabAbee.Application.Interfaces.Order
 
         ChangeCountResult UpdateDetailCount(int userId, int orderId, int detailId, int newCount);
 
-        bool PayByOrderId(int userId, int orderId);
+        Task<bool> PayByOrderId(int userId, int orderId);
 
         bool UpdateOrder(Domain.Models.Order.Order order);
 

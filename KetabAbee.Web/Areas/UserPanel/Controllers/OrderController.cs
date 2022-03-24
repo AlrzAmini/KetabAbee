@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Wallet;
 using KetabAbee.Application.Extensions;
@@ -11,7 +8,6 @@ using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Interfaces.Wallet;
 using KetabAbee.Domain.Models.Order;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Extensions;
 
 namespace KetabAbee.Web.Areas.UserPanel.Controllers
 {
@@ -142,7 +138,7 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
         #region Pay
 
         [HttpGet("Pay/{orderId}")]
-        public IActionResult Pay(int orderId, string address)
+        public async Task<IActionResult> Pay(int orderId, string address)
         {
             var userAddress = _userService.GetUserAddressByUserId(User.GetUserId());
             if (string.IsNullOrEmpty(userAddress))
@@ -169,7 +165,7 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
                 return Redirect($"/Cart/{orderId}");
             }
 
-            if (_orderService.PayByOrderId(User.GetUserId(), orderId))
+            if (await _orderService.PayByOrderId(User.GetUserId(), orderId))
             {
                 _orderService.AddOrderAddress(orderId, User.GetUserId(), userAddress);
                 TempData["SuccessSwal"] = "پرداخت با موفقیت انجام شد";
@@ -198,7 +194,7 @@ namespace KetabAbee.Web.Areas.UserPanel.Controllers
 
             if (res == PaymentStatus.St100)
             {
-                if (_orderService.PayByOrderId(User.GetUserId(), cart.OrderId))
+                if (await _orderService.PayByOrderId(User.GetUserId(), cart.OrderId))
                 {
                     TempData["SuccessSwal"] = "پرداخت موفق";
                     ViewBag.refId = refId;

@@ -89,7 +89,7 @@ namespace KetabAbee.Web.Controllers
             TempData["WarningMessage"] = "ممکن است عملیات ارسال ایمیل فعال سازی دقایقی طول بکشد";
 
             //send active email
-            string body = _renderService.RenderToStringAsync("_ActivationEmail", user);
+            var body = _renderService.RenderToStringAsync("_ActivationEmail", user);
             await SendEmail.Send(user.Email, "کد تایید حساب کاربری در کتاب آبی", body);
 
             return RedirectToAction("Activator");

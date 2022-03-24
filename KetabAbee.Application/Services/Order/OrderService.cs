@@ -10,6 +10,7 @@ using KetabAbee.Application.DTOs.Paging;
 using KetabAbee.Application.Interfaces.Order;
 using KetabAbee.Application.Interfaces.Product;
 using KetabAbee.Application.Interfaces.Wallet;
+using KetabAbee.Application.Senders;
 using KetabAbee.Domain.Interfaces;
 using KetabAbee.Domain.Models.Order;
 using KetabAbee.Domain.Models.Wallet;
@@ -219,7 +220,7 @@ namespace KetabAbee.Application.Services.Order
             return await _orderRepository.GetUserUnFinalOrder(userId);
         }
 
-        public bool PayByOrderId(int userId, int orderId)
+        public async Task<bool> PayByOrderId(int userId, int orderId)
         {
             var order = _orderRepository.GetOrdersWithIncludes()
                 .FirstOrDefault(o => o.UserId == userId && o.OrderId == orderId);
@@ -241,7 +242,7 @@ namespace KetabAbee.Application.Services.Order
                 CreateDate = DateTime.Now,
                 WalletType = WalletType.Withdraw,
             });
-            //TODO Add Address for order
+
             UpdateOrder(order);
 
             foreach (var detail in order.OrderDetails)
@@ -257,7 +258,7 @@ namespace KetabAbee.Application.Services.Order
             }
 
             _orderRepository.AddUserBooks(order.OrderDetails);
-
+            await SendEmail.Send(order.User.Email, "خرید موفق از کتاب آبی", "سفارش شما در کتاب آبی با موفقیت ثبت گردید");
             return true;
 
         }

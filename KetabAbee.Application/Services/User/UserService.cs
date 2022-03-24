@@ -202,9 +202,9 @@ namespace KetabAbee.Application.Services.User
                         edit.UserAvatar.CopyTo(stream);
                     }
 
-                    var imgResizer = new ImageConvertor();
+                    var imgReSizer = new ImageConvertor();
                     imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar/thumb", edit.CurrentAvatar);
-                    imgResizer.Image_resize(imgPath, imgThumbPath, 200);
+                    imgReSizer.Image_resize(imgPath, imgThumbPath, 200);
                 }
 
                 // update user
@@ -451,7 +451,7 @@ namespace KetabAbee.Application.Services.User
                 // generate new image path and name
                 newUser.AvatarName = CodeGenerator.GenerateUniqCode() + Path.GetExtension(imgFile.FileName);
 
-                string imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar", newUser.AvatarName);
+                var imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar", newUser.AvatarName);
 
                 // save avatar in file
                 using (var stream = new FileStream(imgPath, FileMode.Create))
@@ -459,9 +459,9 @@ namespace KetabAbee.Application.Services.User
                     imgFile.CopyTo(stream);
                 }
 
-                var imgResizer = new ImageConvertor();
-                string imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar/thumb", newUser.AvatarName);
-                imgResizer.Image_resize(imgPath, imgThumbPath, 200);
+                var imgReSizer = new ImageConvertor();
+                var imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar/thumb", newUser.AvatarName);
+                imgReSizer.Image_resize(imgPath, imgThumbPath, 200);
             }
             else
             {
@@ -563,7 +563,7 @@ namespace KetabAbee.Application.Services.User
                 // delete old avatar if avatar changed
                 if (user.AvatarName != "User.jpg")
                 {
-                    string deletePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar", user.AvatarName);
+                    var deletePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar", user.AvatarName);
 
                     if (File.Exists(deletePath))
                     {
@@ -571,7 +571,7 @@ namespace KetabAbee.Application.Services.User
                     }
 
                     // delete old avatar thumb if avatar changed
-                    string thumbDeletePath =
+                    var thumbDeletePath =
                         Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar/thumb", user.AvatarName);
 
                     if (File.Exists(thumbDeletePath))
@@ -583,7 +583,7 @@ namespace KetabAbee.Application.Services.User
                 // generate new image path and name
                 newUser.AvatarName = CodeGenerator.GenerateUniqCode() + Path.GetExtension(user.Avatar.FileName);
 
-                string imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar", newUser.AvatarName);
+                var imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar", newUser.AvatarName);
 
                 // save avatar in file
                 using (var stream = new FileStream(imgPath, FileMode.Create))
@@ -591,9 +591,9 @@ namespace KetabAbee.Application.Services.User
                     user.Avatar.CopyTo(stream);
                 }
 
-                var imgResizer = new ImageConvertor();
-                string imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar/thumb", newUser.AvatarName);
-                imgResizer.Image_resize(imgPath, imgThumbPath, 200);
+                var imgReSizer = new ImageConvertor();
+                var imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatar/thumb", newUser.AvatarName);
+                imgReSizer.Image_resize(imgPath, imgThumbPath, 200);
             }
         }
 
