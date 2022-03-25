@@ -79,7 +79,7 @@ namespace KetabAbee.Application.Interfaces.Product
 
         IEnumerable<BookListViewModel> GetBooksByAgeRange(string userName);
 
-        int GetAgeByUserName(string userName);
+        int? GetAgeByUserName(string userName);
 
         bool AddBookToFavorite(FavoriteBook favoriteBook);
 
@@ -174,6 +174,12 @@ namespace KetabAbee.Application.Interfaces.Product
         Task<MostLikedBooksViewModelWithPaging> GetMostLikedBooksForAdmin(MostLikedBooksViewModelWithPaging model);
 
         Task<BestRatedBooksWithPaging> GetBestRatedBooksForAdmin(BestRatedBooksWithPaging model);
+
+        #endregion
+
+        #region Compare
+
+        
 
         #endregion
     }

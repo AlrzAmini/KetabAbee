@@ -116,7 +116,17 @@ namespace KetabAbee.Web.Controllers
             #region age range books
 
             var userName = User.Identity.Name;
-            ViewData["AgeRangeBooks"] = _productService.GetBooksByAgeRange(userName).ToList();
+
+            var ageBooks = _productService.GetBooksByAgeRange(userName);
+            if (ageBooks == null)
+            {
+                ViewData["AgeRangeBooks"] = null;
+            }
+            else
+            {
+                ViewData["AgeRangeBooks"] = ageBooks.ToList();
+            }
+            
             ViewData["UserAge"] = _productService.GetAgeByUserName(userName);
 
             #endregion

@@ -152,11 +152,6 @@ namespace KetabAbee.Data.Repository
             return GetBookById(bookId).Name;
         }
 
-        public int GetAgeByUserName(string userName)
-        {
-            return (int)_context.Users.SingleOrDefault(u => u.UserName == userName).Age;
-        }
-
         public void AddBookToFavorite(FavoriteBook favoriteBook)
         {
             _context.FavoriteBooks.Add(favoriteBook);
@@ -299,7 +294,7 @@ namespace KetabAbee.Data.Repository
             return _context.Books.Include(b => b.Publisher)
                 .Include(b => b.OrderDetails)
                 .Where(b => b.OrderDetails.Any() && b.OrderDetails.Count > 3)
-                .OrderByDescending(b => b.OrderDetails.Sum(d=>d.Count))
+                .OrderByDescending(b => b.OrderDetails.Sum(d => d.Count))
                 .Take(12);
         }
 
@@ -408,7 +403,7 @@ namespace KetabAbee.Data.Repository
             return await _context.Books
                 .Include(b => b.OrderDetails)
                 .Where(b => b.OrderDetails.Any())
-                .OrderByDescending(b => b.OrderDetails.Sum(d=>d.Count))
+                .OrderByDescending(b => b.OrderDetails.Sum(d => d.Count))
                 .ToListAsync();
         }
 
@@ -426,8 +421,13 @@ namespace KetabAbee.Data.Repository
             return await _context.Books
                 .Include(b => b.BookScores)
                 .Where(b => b.BookScores.Any())
-                .OrderByDescending(b => b.BookScores.Sum(s=>s.AverageScores))
+                .OrderByDescending(b => b.BookScores.Sum(s => s.AverageScores))
                 .ToListAsync();
+        }
+
+        public User GetUserByUserName(string userName)
+        {
+            return _context.Users.FirstOrDefault(u => u.UserName == userName);
         }
     }
 }

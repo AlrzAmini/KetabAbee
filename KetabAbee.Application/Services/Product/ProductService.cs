@@ -600,7 +600,7 @@ namespace KetabAbee.Application.Services.Product
         {
             return _productRepository.GetAllInventoryReports()
                 .OrderByDescending(s => s.Date)
-                .Select(r => new AllInventoryReportsViewModel()
+                .Select(r => new AllInventoryReportsViewModel
                 {
                     ReportId = r.ReportId,
                     BookName = r.BookName,
@@ -612,7 +612,9 @@ namespace KetabAbee.Application.Services.Product
 
         public IEnumerable<BookListViewModel> GetBooksByAgeRange(string userName)
         {
-            var userAge = _productRepository.GetAgeByUserName(userName);
+            var userAge = GetAgeByUserName(userName);
+            if (userAge == null) return null;
+
             var result = _productRepository.GetBooksForAdmin().AsQueryable();
 
             switch (userAge)
@@ -639,11 +641,12 @@ namespace KetabAbee.Application.Services.Product
                 BookInventory = r.Inventory,
                 BookRate = (int)(_productRepository.GetBookAverageScore(r.BookId) * 20)
             }).Take(10);
+
         }
 
-        public int GetAgeByUserName(string userName)
+        public int? GetAgeByUserName(string userName)
         {
-            return _productRepository.GetAgeByUserName(userName);
+            return _productRepository.GetUserByUserName(userName)?.Age;
         }
 
         public bool AddBookToFavorite(FavoriteBook favoriteBook)

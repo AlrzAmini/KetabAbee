@@ -48,8 +48,6 @@ namespace KetabAbee.Domain.Interfaces
 
         string GetBookNameById(int bookId);
 
-        int GetAgeByUserName(string userName);
-
         void AddBookToFavorite(FavoriteBook favoriteBook);
 
         void RemoveFromFavorite(FavoriteBook favoriteBook);
@@ -145,6 +143,12 @@ namespace KetabAbee.Domain.Interfaces
         Task<List<Book>> GetMostLikedBooksForAdmin();
 
         Task<List<Book>> GetBestRatedBooksForAdmin();
+
+        #endregion
+
+        #region compare
+
+        User GetUserByUserName(string userName);
 
         #endregion
     }
