@@ -835,8 +835,24 @@ namespace KetabAbee.Application.Services.Product
             return _productRepository.GetBooksByName(bookName);
         }
 
-        public IEnumerable<BookListViewModel> GetBestSellingBooks()
+        public IEnumerable<BookListViewModel> GetBestSellingBooks(int? userId)
         {
+            if (userId != null)
+            {
+                return _productRepository.GetBestSellingBooks()
+                    .Select(b => new BookListViewModel
+                    {
+                        BookId = b.BookId,
+                        BookInventory = b.Inventory,
+                        ImageName = b.ImageName,
+                        Name = b.Name,
+                        PublisherName = b.Publisher.PublisherName,
+                        Price = b.Price,
+                        Writer = b.Writer,
+                        BookRate = (int)(_productRepository.GetBookAverageScore(b.BookId) * 20),
+                        IsLiked = _productRepository.IsUserLikedBook((int)userId,b.BookId)
+                    });
+            }
             return _productRepository.GetBestSellingBooks()
                 .Select(b => new BookListViewModel
                 {
@@ -847,7 +863,8 @@ namespace KetabAbee.Application.Services.Product
                     PublisherName = b.Publisher.PublisherName,
                     Price = b.Price,
                     Writer = b.Writer,
-                    BookRate = (int)(_productRepository.GetBookAverageScore(b.BookId) * 20)
+                    BookRate = (int)(_productRepository.GetBookAverageScore(b.BookId) * 20),
+                    IsLiked = false
                 });
         }
 

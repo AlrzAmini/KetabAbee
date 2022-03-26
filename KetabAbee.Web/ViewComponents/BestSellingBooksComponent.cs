@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Product;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,11 @@ namespace KetabAbee.Web.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            return await Task.FromResult((IViewComponentResult)View("BestSellingBooks", _productService.GetBestSellingBooks().ToList()));
+            if (User.Identity.IsAuthenticated)
+            {
+                return await Task.FromResult((IViewComponentResult)View("BestSellingBooks", _productService.GetBestSellingBooks(HttpContext.User.GetUserId()).ToList()));
+            }
+            return await Task.FromResult((IViewComponentResult)View("BestSellingBooks", _productService.GetBestSellingBooks(null).ToList()));
         }
     }
 }

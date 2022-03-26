@@ -83,14 +83,7 @@
                                 @banner.StartDate.ToShamsi()
                             </td>
                             <td>
-                                @if (banner.EndDate != null)
-                                {
-                                    @banner.EndDate.ToShamsi()
-                                }
-                                else
-                                {
-                                    <p>-</p>
-                                }
+                                @banner.EndDate.ToShamsi()
                             </td>
                             @if (banner.IsActive)
                             {
