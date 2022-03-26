@@ -55,9 +55,9 @@ namespace KetabAbee.Application.Interfaces.Product
 
         bool EditBook(Book book, IFormFile imgFile);
 
-        FilterBookListViewModel GetBooksForIndex(FilterBookListViewModel filter);
+        FilterBookListViewModel GetBooksForIndex(FilterBookListViewModel filter, int? userId);
 
-        IEnumerable<BookListViewModel> GetLatestBooksInIndex(int take);
+        Task<List<BookListViewModel>> GetLatestBooksInIndex(int take,int? userId);
 
         Book GetBookForShowByBookId(int bookId);
 
@@ -102,6 +102,8 @@ namespace KetabAbee.Application.Interfaces.Product
         IEnumerable<string> GetBookNamesForAutoCompleteSearch(string search);
 
         Task<FilterAdvancedViewModel> FilterBooksForFilterAdvanced(FilterAdvancedViewModel filter);
+
+        AddBookToFavoriteResult AddBookToFavoriteById(int bookId,int userId);
 
         #endregion
 

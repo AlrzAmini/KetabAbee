@@ -93,12 +93,12 @@ namespace KetabAbee.Data.Repository
                 .FirstOrDefault(b => b.BookId == bookId);
         }
 
-        public IEnumerable<Book> GetLatestBook(int take)
+        public async Task<List<Book>> GetLatestBook(int take)
         {
-            return _context.Books
+            return await _context.Books
                 .Include(b => b.Publisher)
                 .OrderByDescending(b => b.BookId)
-                .Take(take);
+                .Take(take).ToListAsync();
         }
 
         public Book GetBookForShowByBookId(int bookId)
@@ -434,6 +434,11 @@ namespace KetabAbee.Data.Repository
         {
             _context.Compares.Add(compare);
             _context.SaveChanges();
+        }
+
+        public FavoriteBook GetFavBookByBookAndUserId(int bookId, int userId)
+        {
+            return _context.FavoriteBooks.FirstOrDefault(f => f.UserId == userId && f.BookId == bookId);
         }
     }
 }

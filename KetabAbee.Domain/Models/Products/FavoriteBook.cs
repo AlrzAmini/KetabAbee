@@ -30,4 +30,11 @@ namespace KetabAbee.Domain.Models.Products
 
         #endregion
     }
+
+    public enum AddBookToFavoriteResult
+    {
+        SuccessLike,
+        SuccessUnlike,
+        Error
+    }
 }

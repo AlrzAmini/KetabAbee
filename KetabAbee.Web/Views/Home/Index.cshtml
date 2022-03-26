@@ -24,19 +24,14 @@
                 تازه ها
             </div>
             <div class="swiper-container slider-lg">
-                <cache expires-after="TimeSpan.FromMinutes(5)">
-                    @await Component.InvokeAsync("LatestBooksComponent")
-                </cache>
-                <!-- Add Arrows -->
+                @await Component.InvokeAsync("LatestBooksComponent")
                 <div class="swiper-button-next"></div>
                 <div class="swiper-button-prev"></div>
             </div>
         </section>
         @await Component.InvokeAsync("MainAndProfileBannersComponent")
         @await Component.InvokeAsync("MainBannersComponent")
-        <cache expires-after="TimeSpan.FromMinutes(15)">
-            @await Component.InvokeAsync("BestSellingBooksComponent")
-        </cache>
+        @await Component.InvokeAsync("BestSellingBooksComponent")
         <hr />
         <div class="row mb-3 mt-4">
             <div class="col-12 mb-4">
@@ -45,9 +40,7 @@
                     مجله آبی
                 </div>
             </div>
-            <cache expires-after="TimeSpan.FromMinutes(15)">
-                @await Component.InvokeAsync("LatestBlogsComponent")
-            </cache>
+            @await Component.InvokeAsync("LatestBlogsComponent")
         </div>
     </div>ـ
 </main>

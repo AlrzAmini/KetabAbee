@@ -52,7 +52,7 @@ namespace KetabAbee.Web.Controllers
             ViewBag.Groups = await _productService.GetGroups();
             ViewBag.Publishers = _productService.GetPublishers().ToList();
 
-            return View(_productService.GetBooksForIndex(filter));
+            return View(User.Identity.IsAuthenticated ? _productService.GetBooksForIndex(filter, User.GetUserId()) : _productService.GetBooksForIndex(filter, null));
         }
 
         #endregion
@@ -127,7 +127,7 @@ namespace KetabAbee.Web.Controllers
             {
                 ViewData["AgeRangeBooks"] = ageBooks.ToList();
             }
-            
+
             ViewData["UserAge"] = _productService.GetAgeByUserName(userName);
 
             #endregion
@@ -153,6 +153,28 @@ namespace KetabAbee.Web.Controllers
 
             TempData["ErrorSwal"] = "به لیست علاقه مندی ها اضافه نشد";
             return Redirect($"/BookInfo/{favoriteBook.BookId}");
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult AddBookToFavoriteFromBookBox(int bookId, string backUrl)
+        {
+            var res = _productService.AddBookToFavoriteById(bookId, User.GetUserId());
+            switch (res)
+            {
+                case AddBookToFavoriteResult.SuccessLike:
+                    TempData["SuccessSwal"] = "به لیست علاقه مندی ها اضافه شد";
+                    return Redirect(backUrl);
+                case AddBookToFavoriteResult.SuccessUnlike:
+                    TempData["WarningSwal"] = "از لیست علاقه مندی ها حذف شد";
+                    return Redirect(backUrl);
+                case AddBookToFavoriteResult.Error:
+                    TempData["ErrorSwal"] = "به لیست علاقه مندی ها اضافه نشد";
+                    return Redirect(backUrl);
+                default:
+                    TempData["ErrorSwal"] = "به لیست علاقه مندی ها اضافه نشد";
+                    return Redirect(backUrl);
+            }
         }
 
         #endregion

@@ -40,7 +40,7 @@ namespace KetabAbee.Domain.Interfaces
 
         Book GetBookById(int bookId);
 
-        IEnumerable<Book> GetLatestBook(int take);
+        Task<List<Book>> GetLatestBook(int take);
 
         Book GetBookForShowByBookId(int bookId);
 
@@ -69,6 +69,8 @@ namespace KetabAbee.Domain.Interfaces
         IEnumerable<Book> GetBooksByName(string bookName);
 
         IEnumerable<string> GetBookNamesForAutoCompleteSearch(string search);
+
+        FavoriteBook GetFavBookByBookAndUserId(int bookId, int userId);
 
         #endregion
 

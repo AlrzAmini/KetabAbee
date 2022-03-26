@@ -379,7 +379,7 @@ namespace KetabAbee.Application.Services.Product
             return UpdateBook(book);
         }
 
-        public FilterBookListViewModel GetBooksForIndex(FilterBookListViewModel filter)
+        public FilterBookListViewModel GetBooksForIndex(FilterBookListViewModel filter,int? userId)
         {
             var result = _productRepository.GetBooksForAdmin().AsQueryable();
 
@@ -478,7 +478,23 @@ namespace KetabAbee.Application.Services.Product
 
             filter.Take = 16;
             var pager = Pager.Build(filter.PageNum, result.Count(), filter.Take, filter.PageCountAfterAndBefor);
-            var books = result.Select(b => new BookListViewModel
+            if (userId != null)
+            {
+                var books = result.Select(b => new BookListViewModel
+                {
+                    BookId = b.BookId,
+                    ImageName = b.ImageName,
+                    Name = b.Name,
+                    Price = b.Price,
+                    PublisherName = b.Publisher.PublisherName,
+                    Writer = b.Writer,
+                    BookInventory = b.Inventory,
+                    BookRate = (int)(_productRepository.GetBookAverageScore(b.BookId) * 20),
+                    IsLiked = _productRepository.IsUserLikedBook((int)userId,b.BookId)
+                }).Paging(pager).ToList();
+                return filter.SetPaging(pager).SetBooks(books);
+            }
+            var booksList = result.Select(b => new BookListViewModel
             {
                 BookId = b.BookId,
                 ImageName = b.ImageName,
@@ -487,19 +503,19 @@ namespace KetabAbee.Application.Services.Product
                 PublisherName = b.Publisher.PublisherName,
                 Writer = b.Writer,
                 BookInventory = b.Inventory,
-                BookRate = (int)(_productRepository.GetBookAverageScore(b.BookId) * 20)
+                BookRate = (int)(_productRepository.GetBookAverageScore(b.BookId) * 20),
+                IsLiked = false
             }).Paging(pager).ToList();
-
+            return filter.SetPaging(pager).SetBooks(booksList);
             #endregion
-
-
-            return filter.SetPaging(pager).SetBooks(books);
         }
 
-        public IEnumerable<BookListViewModel> GetLatestBooksInIndex(int take)
+        public async Task<List<BookListViewModel>> GetLatestBooksInIndex(int take, int? userId)
         {
-            return _productRepository.GetLatestBook(take)
-                .Select(b => new BookListViewModel
+            if (userId != null)
+            {
+                var books = await _productRepository.GetLatestBook(take);
+                var bookListViewModels = books.Select(b => new BookListViewModel
                 {
                     BookId = b.BookId,
                     ImageName = b.ImageName,
@@ -508,9 +524,26 @@ namespace KetabAbee.Application.Services.Product
                     Price = b.Price,
                     Writer = b.Writer,
                     BookInventory = b.Inventory,
-                    BookRate = (int)(_productRepository.GetBookAverageScore(b.BookId) * 20)
-                });
+                    BookRate = (int)(_productRepository.GetBookAverageScore(b.BookId) * 20),
+                    IsLiked = _productRepository.IsUserLikedBook((int)userId, b.BookId)
+                }).ToList();
+                return bookListViewModels;
+            }
 
+            var bookList = await _productRepository.GetLatestBook(take);
+            var listViewModels = bookList.Select(b => new BookListViewModel
+            {
+                BookId = b.BookId,
+                ImageName = b.ImageName,
+                PublisherName = b.Publisher.PublisherName,
+                Name = b.Name,
+                Price = b.Price,
+                Writer = b.Writer,
+                BookInventory = b.Inventory,
+                BookRate = (int)(_productRepository.GetBookAverageScore(b.BookId) * 20),
+                IsLiked = false
+            }).ToList();
+            return listViewModels;
         }
 
         public Book GetBookForShowByBookId(int bookId)
@@ -1236,6 +1269,42 @@ namespace KetabAbee.Application.Services.Product
         public void AddCompare(Compare compare)
         {
             _productRepository.AddCompare(compare);
+        }
+
+        public AddBookToFavoriteResult AddBookToFavoriteById(int bookId, int userId)
+        {
+            try
+            {
+                var favBook = _productRepository.GetFavBookByBookAndUserId(bookId, userId);
+                if (favBook == null)
+                {
+                    var newFavBook = new FavoriteBook
+                    {
+                        BookId = bookId,
+                        UserId = userId,
+                        IsLiked = true
+                    };
+
+                    _productRepository.AddBookToFavorite(newFavBook);
+                    return AddBookToFavoriteResult.SuccessLike;
+                }
+
+                if (IsUserLikedBook(userId, bookId))
+                {
+                    favBook.IsLiked = false;
+                    favBook.IsDelete = true;
+                    _productRepository.UpdateFavorite(favBook);
+                    return AddBookToFavoriteResult.SuccessUnlike;
+                }
+
+                favBook.IsLiked = true;
+                _productRepository.UpdateFavorite(favBook);
+                return AddBookToFavoriteResult.SuccessLike;
+            }
+            catch
+            {
+                return AddBookToFavoriteResult.Error;
+            }
         }
     }
 }
