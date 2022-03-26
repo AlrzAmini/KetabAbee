@@ -61,7 +61,7 @@ namespace KetabAbee.Application.Interfaces.Product
 
         Book GetBookForShowByBookId(int bookId);
 
-        IEnumerable<BookListViewModel> PublisherBooks(int publisherId, Book book);
+        IEnumerable<BookListViewModel> PublisherBooks(int publisherId, Book book, int? userId);
 
         BookListViewModel GetBookListViewModelByBook(Book book);
 
@@ -77,7 +77,7 @@ namespace KetabAbee.Application.Interfaces.Product
 
         IEnumerable<AllInventoryReportsViewModel> GetAllInventoryReports();
 
-        IEnumerable<BookListViewModel> GetBooksByAgeRange(string userName);
+        IEnumerable<BookListViewModel> GetBooksByAgeRange(string userName, int? userId);
 
         int? GetAgeByUserName(string userName);
 

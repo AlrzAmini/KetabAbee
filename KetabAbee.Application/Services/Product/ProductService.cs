@@ -379,7 +379,7 @@ namespace KetabAbee.Application.Services.Product
             return UpdateBook(book);
         }
 
-        public FilterBookListViewModel GetBooksForIndex(FilterBookListViewModel filter,int? userId)
+        public FilterBookListViewModel GetBooksForIndex(FilterBookListViewModel filter, int? userId)
         {
             var result = _productRepository.GetBooksForAdmin().AsQueryable();
 
@@ -490,7 +490,7 @@ namespace KetabAbee.Application.Services.Product
                     Writer = b.Writer,
                     BookInventory = b.Inventory,
                     BookRate = (int)(_productRepository.GetBookAverageScore(b.BookId) * 20),
-                    IsLiked = _productRepository.IsUserLikedBook((int)userId,b.BookId)
+                    IsLiked = _productRepository.IsUserLikedBook((int)userId, b.BookId)
                 }).Paging(pager).ToList();
                 return filter.SetPaging(pager).SetBooks(books);
             }
@@ -551,7 +551,7 @@ namespace KetabAbee.Application.Services.Product
             return _productRepository.GetBookForShowByBookId(bookId);
         }
 
-        public IEnumerable<BookListViewModel> PublisherBooks(int publisherId, Book book)
+        public IEnumerable<BookListViewModel> PublisherBooks(int publisherId, Book book, int? userId)
         {
             var publisherBookList = _productRepository.PublisherBooks(publisherId).ToList();
             if (publisherBookList.FirstOrDefault(b => b.BookId == book.BookId) != null)
@@ -559,6 +559,21 @@ namespace KetabAbee.Application.Services.Product
                 publisherBookList.Remove(book);
             }
 
+            if (userId != null)
+            {
+                return publisherBookList.Select(b => new BookListViewModel
+                {
+                    BookId = b.BookId,
+                    ImageName = b.ImageName,
+                    PublisherName = b.Publisher.PublisherName,
+                    Name = b.Name,
+                    Price = b.Price,
+                    Writer = b.Writer,
+                    BookInventory = b.Inventory,
+                    BookRate = (int)(_productRepository.GetBookAverageScore(b.BookId) * 20),
+                    IsLiked = _productRepository.IsUserLikedBook((int)userId, b.BookId)
+                });
+            }
             return publisherBookList.Select(b => new BookListViewModel
             {
                 BookId = b.BookId,
@@ -568,7 +583,8 @@ namespace KetabAbee.Application.Services.Product
                 Price = b.Price,
                 Writer = b.Writer,
                 BookInventory = b.Inventory,
-                BookRate = (int)(_productRepository.GetBookAverageScore(b.BookId) * 20)
+                BookRate = (int)(_productRepository.GetBookAverageScore(b.BookId) * 20),
+                IsLiked = false
             });
         }
 
@@ -643,7 +659,7 @@ namespace KetabAbee.Application.Services.Product
                 });
         }
 
-        public IEnumerable<BookListViewModel> GetBooksByAgeRange(string userName)
+        public IEnumerable<BookListViewModel> GetBooksByAgeRange(string userName, int? userId)
         {
             var userAge = GetAgeByUserName(userName);
             if (userAge == null) return null;
@@ -663,6 +679,21 @@ namespace KetabAbee.Application.Services.Product
                     break;
             }
 
+            if (userId != null)
+            {
+                return result.Select(r => new BookListViewModel
+                {
+                    BookId = r.BookId,
+                    ImageName = r.ImageName,
+                    PublisherName = r.Publisher.PublisherName,
+                    Name = r.Name,
+                    Price = r.Price,
+                    Writer = r.Writer,
+                    BookInventory = r.Inventory,
+                    BookRate = (int)(_productRepository.GetBookAverageScore(r.BookId) * 20),
+                    IsLiked = _productRepository.IsUserLikedBook((int)userId, r.BookId)
+                }).Take(10);
+            }
             return result.Select(r => new BookListViewModel
             {
                 BookId = r.BookId,
@@ -672,9 +703,9 @@ namespace KetabAbee.Application.Services.Product
                 Price = r.Price,
                 Writer = r.Writer,
                 BookInventory = r.Inventory,
-                BookRate = (int)(_productRepository.GetBookAverageScore(r.BookId) * 20)
+                BookRate = (int)(_productRepository.GetBookAverageScore(r.BookId) * 20),
+                IsLiked = false
             }).Take(10);
-
         }
 
         public int? GetAgeByUserName(string userName)

@@ -69,6 +69,8 @@ namespace KetabAbee.Web.Controllers
                 return NotFound();
             }
 
+            var isAuth = User.Identity.IsAuthenticated;
+
             #region satisfied and avg score
 
             ViewData["SatisfiedUsersPercent"] = _productService.SatisfiedBookBuyersPercent(bookId);
@@ -79,7 +81,14 @@ namespace KetabAbee.Web.Controllers
 
             #region publisher books
 
-            ViewData["PublisherBooks"] = _productService.PublisherBooks(model.PublisherId, model).ToList();
+            if (isAuth)
+            {
+                ViewData["PublisherBooks"] = _productService.PublisherBooks(model.PublisherId, model,User.GetUserId()).ToList();
+            }
+            else
+            {
+                ViewData["PublisherBooks"] = _productService.PublisherBooks(model.PublisherId, model, null).ToList();
+            }
 
             #endregion
 
@@ -92,7 +101,7 @@ namespace KetabAbee.Web.Controllers
 
             #endregion
 
-            if (!User.Identity.IsAuthenticated) return View(model);
+            if (!isAuth) return View(model);
 
             var userId = User.GetUserId();
 
@@ -118,7 +127,7 @@ namespace KetabAbee.Web.Controllers
 
             var userName = User.Identity.Name;
 
-            var ageBooks = _productService.GetBooksByAgeRange(userName);
+            var ageBooks = _productService.GetBooksByAgeRange(userName, userId);
             if (ageBooks == null)
             {
                 ViewData["AgeRangeBooks"] = null;
