@@ -429,5 +429,11 @@ namespace KetabAbee.Data.Repository
         {
             return _context.Users.FirstOrDefault(u => u.UserName == userName);
         }
+
+        public void AddCompare(Compare compare)
+        {
+            _context.Compares.Add(compare);
+            _context.SaveChanges();
+        }
     }
 }

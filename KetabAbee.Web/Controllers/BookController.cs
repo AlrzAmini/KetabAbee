@@ -15,6 +15,7 @@ using KetabAbee.Application.DTOs.Comment;
 using GoogleReCaptcha.V3.Interface;
 using KetabAbee.Application.Const;
 using KetabAbee.Application.DTOs.Admin.Exam;
+using KetabAbee.Application.Generators;
 using KetabAbee.Application.Interfaces.Exam;
 using KetabAbee.Application.Interfaces.Permission;
 using KetabAbee.Domain.Models.Products.Exam;
@@ -68,7 +69,7 @@ namespace KetabAbee.Web.Controllers
                 return NotFound();
             }
 
-            #region sat and avg score
+            #region satisfied and avg score
 
             ViewData["SatisfiedUsersPercent"] = _productService.SatisfiedBookBuyersPercent(bookId);
             ViewData["BookAverageScore"] = _productService.GetBookAverageScore(bookId);
@@ -402,7 +403,6 @@ namespace KetabAbee.Web.Controllers
             TempData["WarningSwal"] = "اجازه دسترسی به این آزمون را ندارید";
             return RedirectToAction("BookInfo",
                 new { bookId = liveExam.Exam.BookId, bookName = liveExam.Exam.Book.Name });
-
         }
 
         [HttpPost("Live-Exam/{examId}"), ValidateAntiForgeryToken]
@@ -515,18 +515,10 @@ namespace KetabAbee.Web.Controllers
                 return View();
             }
 
-            var list = new List<ExamResult>();
-            var lResults = await _examService.GetUserExamResultsByIp(HttpContext.GetUserIp());
             var resultList = await _examService.GetUserExamResultsById(User.GetUserId());
             if (resultList != null && resultList.Any())
             {
-                list.AddRange(resultList);
-                if (lResults != null && lResults.Any())
-                {
-                    list.AddRange(lResults);
-                }
-                
-                return View(list);
+                return View(resultList);
             }
 
             TempData["WarningMessage"] = "شما آزمونی انجام نداده اید";

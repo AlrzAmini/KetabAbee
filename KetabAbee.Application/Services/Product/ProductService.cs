@@ -1232,5 +1232,10 @@ namespace KetabAbee.Application.Services.Product
 
             return filter.SetPaging(pager).SetBooks(books);
         }
+
+        public void AddCompare(Compare compare)
+        {
+            _productRepository.AddCompare(compare);
+        }
     }
 }

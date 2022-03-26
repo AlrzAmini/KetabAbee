@@ -73,6 +73,8 @@ namespace KetabAbee.Data.Context
 
         public DbSet<ProductDiscountUsage> ProductDiscountUsages { get; set; }
 
+        public DbSet<Compare> Compares { get; set; }
+
         #endregion
 
         #region Order
@@ -213,6 +215,9 @@ namespace KetabAbee.Data.Context
                 .HasQueryFilter(e => !e.IsDelete);
 
             modelBuilder.Entity<Banner>()
+                .HasQueryFilter(e => !e.IsDelete);
+
+            modelBuilder.Entity<Compare>()
                 .HasQueryFilter(e => !e.IsDelete);
 
             #endregion

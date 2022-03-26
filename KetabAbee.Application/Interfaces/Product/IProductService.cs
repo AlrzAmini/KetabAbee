@@ -179,7 +179,7 @@ namespace KetabAbee.Application.Interfaces.Product
 
         #region Compare
 
-        
+        void AddCompare(Compare compare);
 
         #endregion
     }

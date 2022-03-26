@@ -150,6 +150,8 @@ namespace KetabAbee.Domain.Interfaces
 
         User GetUserByUserName(string userName);
 
+        void AddCompare(Compare compare);
+
         #endregion
     }
 }

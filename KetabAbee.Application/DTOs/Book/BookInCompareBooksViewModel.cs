@@ -11,6 +11,8 @@ namespace KetabAbee.Application.DTOs.Book
 
         public string BookName { get; set; }
 
+        public int BookId { get; set; }
+
         public string Writer { get; set; }
 
         public string PublisherName { get; set; }
