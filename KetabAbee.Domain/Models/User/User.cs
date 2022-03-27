@@ -173,6 +173,8 @@ namespace KetabAbee.Domain.Models.User
 
         public ICollection<CommentsReport> CommentReports { get; set; }
 
+        public ICollection<Compare> Compares { get; set; }
+
         #endregion
     }
 }

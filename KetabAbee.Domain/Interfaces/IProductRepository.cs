@@ -152,7 +152,23 @@ namespace KetabAbee.Domain.Interfaces
 
         User GetUserByUserName(string userName);
 
-        void AddCompare(Compare compare);
+        Task<Compare> GetUnFullCompareByUserIp(string userIp);
+        Task<Compare> GetUnFullCompareByUserId(int userId);
+
+        Task<bool> AddCompare(Compare compare);
+
+        Task<CompareItem> GetCompareItemByCompareAndBookId(string compareId, int bookId);
+
+        Task<bool> AddCompareItem(CompareItem item);
+
+        Task<Compare> GetCompareById(string compareId);
+
+        Task<bool> UpdateCompare(Compare compare);
+
+        Task<bool> RemoveItemFromCompare(CompareItem compareItem);
+
+
+        Task<bool> UpdateCompareItem(CompareItem compareItem);
 
         #endregion
     }

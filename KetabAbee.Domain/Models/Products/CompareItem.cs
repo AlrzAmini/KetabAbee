@@ -7,23 +7,18 @@ using System.Threading.Tasks;
 
 namespace KetabAbee.Domain.Models.Products
 {
-    public class Compare
+    public class CompareItem
     {
         #region properties
 
         [Key]
+        public int CompareItemId { get; set; }
+
+        [Required]
         public string CompareId { get; set; }
 
         [Required]
-        [MaxLength(16)]
-        public string UserIp { get; set; }
-
-        public int? UserId { get; set; }
-
-        [Required]
-        public DateTime CompareDate { get; set; }
-
-        public bool IsFull { get; set; }
+        public int BookId { get; set; }
 
         public bool IsDelete { get; set; }
 
@@ -31,9 +26,9 @@ namespace KetabAbee.Domain.Models.Products
 
         #region relations
 
-        public User.User User { get; set; }
+        public Compare Compare { get; set; }
 
-        public ICollection<CompareItem> Items { get; set; }
+        public Book Book { get; set; }
 
         #endregion
     }

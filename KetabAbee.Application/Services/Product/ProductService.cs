@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.Const;
 using KetabAbee.Application.Convertors;
@@ -10,11 +9,10 @@ using KetabAbee.Application.DTOs.Admin.Products.Book;
 using KetabAbee.Application.DTOs.Admin.Products.Book.Publishers;
 using KetabAbee.Application.DTOs.Admin.Products.Options;
 using KetabAbee.Application.DTOs.Book;
+using KetabAbee.Application.DTOs.Compare;
 using KetabAbee.Application.DTOs.Paging;
 using KetabAbee.Application.Generators;
 using KetabAbee.Application.Interfaces.Product;
-using KetabAbee.Application.Interfaces.User;
-using KetabAbee.Application.Security;
 using KetabAbee.Domain.Interfaces;
 using KetabAbee.Domain.Models.Products;
 using Microsoft.AspNetCore.Http;
@@ -120,7 +118,7 @@ namespace KetabAbee.Application.Services.Product
                 book.ImageName = CodeGenerator.GenerateUniqCode() + Path.GetExtension(imgFile.FileName);
 
                 // image path
-                string imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/Book/image", book.ImageName);
+                var imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/Book/image", book.ImageName);
 
                 // save file in file
                 using (var stream = new FileStream(imgPath, FileMode.Create))
@@ -129,9 +127,9 @@ namespace KetabAbee.Application.Services.Product
                 }
 
                 // thumb
-                var imgResizer = new ImageConvertor();
-                string imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/Book/thumb", book.ImageName);
-                imgResizer.Image_resize(imgPath, imgThumbPath, 400);
+                var imgReSizer = new ImageConvertor();
+                var imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/Book/thumb", book.ImageName);
+                imgReSizer.Image_resize(imgPath, imgThumbPath, 400);
             }
             else
             {
@@ -335,46 +333,44 @@ namespace KetabAbee.Application.Services.Product
         public bool EditBook(Book book, IFormFile imgFile)
         {
             // update image
-            if (imgFile != null)
+            if (imgFile == null) return UpdateBook(book);
+            string imgPath;
+            string imgThumbPath;
+            if (book.ImageName != "Defualt.jpg")
             {
-                string imgPath;
-                string imgThumbPath;
-                if (book.ImageName != "Defualt.jpg")
-                {
-                    // get old avatar path
-                    imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/Book/image", book.ImageName);
-
-                    // delete old avatar
-                    if (File.Exists(imgPath))
-                    {
-                        File.Delete(imgPath);
-                    }
-
-                    // get old avatar thumb path
-                    imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/Book/thumb", book.ImageName);
-
-                    // delete old thumb avatar
-                    if (File.Exists(imgThumbPath))
-                    {
-                        File.Delete(imgThumbPath);
-                    }
-                }
-
-                // generate new image path and name
-                book.ImageName = CodeGenerator.GenerateUniqCode() + Path.GetExtension(imgFile.FileName);
-
+                // get old avatar path
                 imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/Book/image", book.ImageName);
 
-                // save file in file
-                using (var stream = new FileStream(imgPath, FileMode.Create))
+                // delete old avatar
+                if (File.Exists(imgPath))
                 {
-                    imgFile.CopyTo(stream);
+                    File.Delete(imgPath);
                 }
 
-                var imgResizer = new ImageConvertor();
+                // get old avatar thumb path
                 imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/Book/thumb", book.ImageName);
-                imgResizer.Image_resize(imgPath, imgThumbPath, 400);
+
+                // delete old thumb avatar
+                if (File.Exists(imgThumbPath))
+                {
+                    File.Delete(imgThumbPath);
+                }
             }
+
+            // generate new image path and name
+            book.ImageName = CodeGenerator.GenerateUniqCode() + Path.GetExtension(imgFile.FileName);
+
+            imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/Book/image", book.ImageName);
+
+            // save file in file
+            using (var stream = new FileStream(imgPath, FileMode.Create))
+            {
+                imgFile.CopyTo(stream);
+            }
+
+            var imgReSizer = new ImageConvertor();
+            imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/Book/thumb", book.ImageName);
+            imgReSizer.Image_resize(imgPath, imgThumbPath, 400);
 
             return UpdateBook(book);
         }
@@ -607,6 +603,7 @@ namespace KetabAbee.Application.Services.Product
             book.Inventory ??= 0;
 
             // sum
+            inventory.IncNumber ??= 0;
             var sum = book.Inventory + inventory.IncNumber;
             book.Inventory = sum;
             AddInventoryReport(inventory.BookId, Report.IncreaseChangeId, (int)inventory.IncNumber, inventory.BookName);
@@ -622,6 +619,7 @@ namespace KetabAbee.Application.Services.Product
             book.Inventory ??= 0;
 
             // sum
+            inventory.DecNumber ??= 0;
             var mines = book.Inventory - inventory.DecNumber;
             if (mines < 0)
             {
@@ -785,7 +783,9 @@ namespace KetabAbee.Application.Services.Product
                     AverageScores = (float)(addScore.QualityScore + addScore.ContentScore) / 2,
                     IsScored = true
                 };
-
+                var book = _productRepository.GetBookById(addScore.BookId);
+                book.AverageScore = _productRepository.GetBookAverageScore(book.BookId);
+                _productRepository.UpdateBook(book);
                 return _productRepository.AddScore(score) ? AddScoreResult.Success : AddScoreResult.Failed;
             }
             catch
@@ -850,7 +850,7 @@ namespace KetabAbee.Application.Services.Product
                         Price = b.Price,
                         Writer = b.Writer,
                         BookRate = (int)(_productRepository.GetBookAverageScore(b.BookId) * 20),
-                        IsLiked = _productRepository.IsUserLikedBook((int)userId,b.BookId)
+                        IsLiked = _productRepository.IsUserLikedBook((int)userId, b.BookId)
                     });
             }
             return _productRepository.GetBestSellingBooks()
@@ -1314,11 +1314,6 @@ namespace KetabAbee.Application.Services.Product
             return filter.SetPaging(pager).SetBooks(books);
         }
 
-        public void AddCompare(Compare compare)
-        {
-            _productRepository.AddCompare(compare);
-        }
-
         public AddBookToFavoriteResult AddBookToFavoriteById(int bookId, int userId)
         {
             try
@@ -1353,6 +1348,188 @@ namespace KetabAbee.Application.Services.Product
             {
                 return AddBookToFavoriteResult.Error;
             }
+        }
+
+        public async Task<string> AddCompare(string userIp, int bookId, int? userId)
+        {
+            Compare compare;
+            if (userId == null)
+            {
+                compare = await _productRepository.GetUnFullCompareByUserIp(userIp);
+
+                // check current user have open compare
+                if (compare == null)
+                {
+                    compare = new Compare
+                    {
+                        CompareDate = DateTime.Now,
+                        CompareId = CodeGenerator.Generate8UniqueCharacter(),
+                        UserIp = userIp,
+                        UserId = null,
+                        Items = new List<CompareItem>
+                        {
+                            new()
+                            {
+                                BookId = bookId
+                            }
+                        }
+                    };
+                    if (!await _productRepository.AddCompare(compare))
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    if (compare.Items.Count < 4)
+                    {
+                        var item = await _productRepository.GetCompareItemByCompareAndBookId(compare.CompareId, bookId);
+
+                        if (item == null)
+                        {
+                            item = new CompareItem
+                            {
+                                BookId = bookId,
+                                CompareId = compare.CompareId
+                            };
+                            if (!await _productRepository.AddCompareItem(item))
+                            {
+                                return null;
+                            }
+
+                            if (!await _productRepository.UpdateCompare(compare))
+                            {
+                                return null;
+                            }
+                        }
+                        else
+                        {
+                            return "Repetitious";
+                        }
+                    }
+                    else
+                    {
+                        return "RangeError";
+                    }
+                }
+            }
+            else
+            {
+                compare = await _productRepository.GetUnFullCompareByUserId((int)userId);
+
+                if (compare == null)
+                {
+                    compare = new Compare
+                    {
+                        CompareDate = DateTime.Now,
+                        CompareId = CodeGenerator.Generate8UniqueCharacter(),
+                        UserIp = userIp,
+                        UserId = userId,
+                        Items = new List<CompareItem>
+                        {
+                            new()
+                            {
+                                BookId = bookId
+                            }
+                        }
+                    };
+                    if (!await _productRepository.AddCompare(compare))
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    if (compare.Items.Count < 4)
+                    {
+                        var item = await _productRepository.GetCompareItemByCompareAndBookId(compare.CompareId, bookId);
+
+                        if (item == null)
+                        {
+                            item = new CompareItem
+                            {
+                                BookId = bookId,
+                                CompareId = compare.CompareId
+                            };
+                            if (!await _productRepository.AddCompareItem(item))
+                            {
+                                return null;
+                            }
+
+                            if (!await _productRepository.UpdateCompare(compare))
+                            {
+                                return null;
+                            }
+                        }
+                        else
+                        {
+                            return "Repetitious";
+                        }
+                    }
+                    else
+                    {
+                        return "RangeError";
+                    }
+                }
+            }
+
+            await SetFullToCompare(compare.CompareId);
+            return compare.CompareId;
+        }
+
+        public async Task<ShowCompareToUserViewModel> GetCompareForShow(string compareId, string userIp, int? userId)
+        {
+            var compare = await _productRepository.GetCompareById(compareId);
+            if (compare == null)
+            {
+                return null;
+            }
+
+            if (userId == null)
+            {
+                if (compare.UserIp != userIp)
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                if (compare.UserId != userId)
+                {
+                    return null;
+                }
+            }
+
+            var result = new ShowCompareToUserViewModel
+            {
+                CreateDate = compare.CompareDate,
+                Items = compare.Items.Select(i=>i.Book).ToList(),
+                CompareId = compare.CompareId
+            };
+
+            return result;
+        }
+
+        public async System.Threading.Tasks.Task SetFullToCompare(string compareId)
+        {
+            var compare = await _productRepository.GetCompareById(compareId);
+            if (compare.Items.Count >= 4)
+            {
+                compare.IsFull = true;
+            }
+
+            await _productRepository.UpdateCompare(compare);
+        }
+
+        public async Task<bool> RemoveItemFromCompare(int bookId, string compareId)
+        {
+            var item = await _productRepository.GetCompareItemByCompareAndBookId(compareId, bookId);
+            if (item == null)
+            {
+                return false;
+            }
+
+            return await _productRepository.RemoveItemFromCompare(item);
         }
     }
 }

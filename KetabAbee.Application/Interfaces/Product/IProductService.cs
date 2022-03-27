@@ -7,6 +7,7 @@ using KetabAbee.Application.DTOs.Admin.Products.Book;
 using KetabAbee.Application.DTOs.Admin.Products.Book.Publishers;
 using KetabAbee.Application.DTOs.Admin.Products.Options;
 using KetabAbee.Application.DTOs.Book;
+using KetabAbee.Application.DTOs.Compare;
 using KetabAbee.Domain.Models.Products;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -57,7 +58,7 @@ namespace KetabAbee.Application.Interfaces.Product
 
         FilterBookListViewModel GetBooksForIndex(FilterBookListViewModel filter, int? userId);
 
-        Task<List<BookListViewModel>> GetLatestBooksInIndex(int take,int? userId);
+        Task<List<BookListViewModel>> GetLatestBooksInIndex(int take, int? userId);
 
         Book GetBookForShowByBookId(int bookId);
 
@@ -103,7 +104,7 @@ namespace KetabAbee.Application.Interfaces.Product
 
         Task<FilterAdvancedViewModel> FilterBooksForFilterAdvanced(FilterAdvancedViewModel filter);
 
-        AddBookToFavoriteResult AddBookToFavoriteById(int bookId,int userId);
+        AddBookToFavoriteResult AddBookToFavoriteById(int bookId, int userId);
 
         #endregion
 
@@ -181,7 +182,13 @@ namespace KetabAbee.Application.Interfaces.Product
 
         #region Compare
 
-        void AddCompare(Compare compare);
+        Task<string> AddCompare(string userIp, int bookId, int? userId);
+
+        Task<ShowCompareToUserViewModel> GetCompareForShow(string compareId, string userIp, int? userId);
+
+        System.Threading.Tasks.Task SetFullToCompare(string compareId);
+
+        Task<bool> RemoveItemFromCompare(int bookId, string compareId);
 
         #endregion
     }

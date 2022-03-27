@@ -15,6 +15,7 @@ using KetabAbee.Application.DTOs.Comment;
 using GoogleReCaptcha.V3.Interface;
 using KetabAbee.Application.Const;
 using KetabAbee.Application.DTOs.Admin.Exam;
+using KetabAbee.Application.DTOs.Compare;
 using KetabAbee.Application.Generators;
 using KetabAbee.Application.Interfaces.Exam;
 using KetabAbee.Application.Interfaces.Permission;
@@ -74,7 +75,6 @@ namespace KetabAbee.Web.Controllers
             #region satisfied and avg score
 
             ViewData["SatisfiedUsersPercent"] = _productService.SatisfiedBookBuyersPercent(bookId);
-            ViewData["BookAverageScore"] = _productService.GetBookAverageScore(bookId);
             ViewData["BookScoresCount"] = _productService.AllBookSentScoresCount(bookId);
 
             #endregion
@@ -83,7 +83,7 @@ namespace KetabAbee.Web.Controllers
 
             if (isAuth)
             {
-                ViewData["PublisherBooks"] = _productService.PublisherBooks(model.PublisherId, model,User.GetUserId()).ToList();
+                ViewData["PublisherBooks"] = _productService.PublisherBooks(model.PublisherId, model, User.GetUserId()).ToList();
             }
             else
             {
@@ -555,6 +555,90 @@ namespace KetabAbee.Web.Controllers
             TempData["WarningMessage"] = "شما آزمونی انجام نداده اید";
             return View();
         }
+
+        #endregion
+
+        #region compare
+
+        public async Task<IActionResult> AddBookForCompare(int bookId, string backUrl)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var res = await _productService.AddCompare(HttpContext.GetUserIp(), bookId, User.GetUserId());
+                switch (res)
+                {
+                    case null:
+                        TempData["ErrorSwal"] = "مشکلی در انجام عملیات رخ داد";
+                        return Redirect(backUrl);
+                    case "RangeError":
+                        TempData["WarningSwal"] = "توجه کنید که شما به صورت همزمان قادر به مقایسه چهار محصول در کنار هم هستید";
+                        return Redirect(backUrl);
+                    case "Repetitious":
+                        TempData["WarningSwal"] = "محصول انتخابی برای مقایسه نمی تواند تکراری باشد";
+                        return Redirect(backUrl);
+                }
+
+                TempData["SuccessSwal"] = "برای مقایسه افزوده شد";
+                return RedirectToAction("ShowCompare", new { compareId = res });
+            }
+
+            var result = await _productService.AddCompare(HttpContext.GetUserIp(), bookId, null);
+            switch (result)
+            {
+                case null:
+                    TempData["ErrorSwal"] = "مشکلی در انجام عملیات رخ داد";
+                    return Redirect(backUrl);
+                case "RangeError":
+                    TempData["WarningSwal"] = "توجه کنید که شما به صورت همزمان قادر به مقایسه چهار محصول در کنار هم هستید";
+                    return Redirect(backUrl);
+                case "Repetitious":
+                    TempData["WarningSwal"] = "محصول انتخابی برای مقایسه نمی تواند تکراری باشد";
+                    return Redirect(backUrl);
+            }
+
+            TempData["SuccessSwal"] = "برای مقایسه افزوده شد";
+            return RedirectToAction("ShowCompare", new { compareId = result });
+
+        }
+
+        #region show compare
+
+        [HttpGet("Comp/{compareId}")]
+        public async Task<IActionResult> ShowCompare(string compareId)
+        {
+            ShowCompareToUserViewModel model;
+            if (User.Identity.IsAuthenticated)
+            {
+                model = await _productService.GetCompareForShow(compareId, HttpContext.GetUserIp(), User.GetUserId());
+            }
+            else
+            {
+                model = await _productService.GetCompareForShow(compareId, HttpContext.GetUserIp(), null);
+            }
+            if (model == null)
+            {
+                return NotFound();
+            }
+            return View(model);
+        }
+
+        #endregion
+
+        #region delete item from compare
+
+        [HttpGet("{compareId}/Remove/{bookId}")]
+        public async Task<IActionResult> DeleteItemFromCompare(int bookId, string compareId)
+        {
+            if (await _productService.RemoveItemFromCompare(bookId,compareId))
+            {
+                TempData["SuccessMessage"] = "از مقایسه حذف شد";
+                return RedirectToAction("ShowCompare", new { compareId });
+            }
+            TempData["ErrorMessage"] = "آیتم مورد نظر یافت نشد";
+            return RedirectToAction("ShowCompare", new {compareId});
+        }
+
+        #endregion
 
         #endregion
     }

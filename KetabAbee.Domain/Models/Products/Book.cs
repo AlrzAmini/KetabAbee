@@ -74,6 +74,10 @@ namespace KetabAbee.Domain.Models.Products
         [DisplayName("موجودی")]
         public int? Inventory { get; set; }
 
+        [DisplayName("میانگین امتیاز")]
+        [Range(0,5, ErrorMessage = "{0} باید بین {1} و {2} باشد")]
+        public float? AverageScore { get; set; }
+
         public bool IsDelete { get; set; }
 
 
@@ -104,6 +108,8 @@ namespace KetabAbee.Domain.Models.Products
         public ICollection<ProductDiscount> ProductDiscounts { get; set; }
 
         public ICollection<Exam.Exam> Exams { get; set; }
+
+        public ICollection<CompareItem> CompareItems { get; set; }
 
         #endregion
     }

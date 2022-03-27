@@ -16,7 +16,11 @@
                     <input type="hidden" name="backUrl" value="@Context.GetCurrentUrl()" />
                     <button class="add-to-wishlist @(Model.IsLiked ? "added":"")" type="submit"><i class="fas fa-heart"></i></button>
                 </form>
-                <button class="add-to-compare"><i class="fas fa-random"></i></button>
+                <form target="_blank" method="get" asp-controller="Book" asp-action="AddBookForCompare">
+                    <input type="hidden" name="bookId" value="@Model.BookId" />
+                    <input type="hidden" name="backUrl" value="@Context.GetCurrentUrl()" />
+                    <button class="add-to-compare" type="submit"><i class="fas fa-random"></i></button>
+                </form>
             </div>
         </div>
         <div class="product-card-middle">

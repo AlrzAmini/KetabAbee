@@ -430,15 +430,106 @@ namespace KetabAbee.Data.Repository
             return _context.Users.FirstOrDefault(u => u.UserName == userName);
         }
 
-        public void AddCompare(Compare compare)
-        {
-            _context.Compares.Add(compare);
-            _context.SaveChanges();
-        }
-
         public FavoriteBook GetFavBookByBookAndUserId(int bookId, int userId)
         {
             return _context.FavoriteBooks.FirstOrDefault(f => f.UserId == userId && f.BookId == bookId);
+        }
+
+        public async Task<Compare> GetUnFullCompareByUserIp(string userIp)
+        {
+            return await _context.Compares
+                .Include(c => c.Items)
+                .FirstOrDefaultAsync(c => c.UserIp == userIp && !c.IsFull);
+        }
+
+        public async Task<Compare> GetUnFullCompareByUserId(int userId)
+        {
+            return await _context.Compares
+                .Include(c => c.Items)
+                .FirstOrDefaultAsync(c => c.UserId == userId && !c.IsFull);
+        }
+
+        public async Task<bool> AddCompare(Compare compare)
+        {
+            try
+            {
+                await _context.Compares.AddAsync(compare);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<CompareItem> GetCompareItemByCompareAndBookId(string compareId, int bookId)
+        {
+            return await _context.CompareItems
+                .FirstOrDefaultAsync(i => i.CompareId == compareId && i.BookId == bookId);
+        }
+
+        public async Task<bool> AddCompareItem(CompareItem item)
+        {
+            try
+            {
+                await _context.CompareItems.AddAsync(item);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<Compare> GetCompareById(string compareId)
+        {
+            return await _context.Compares
+                .Include(c => c.Items)
+                .ThenInclude(i => i.Book)
+                .ThenInclude(b => b.Publisher)
+                .Include(i => i.Items)
+                .ThenInclude(i => i.Book)
+                .ThenInclude(b => b.Group)
+                .FirstOrDefaultAsync(c => c.CompareId == compareId);
+        }
+
+        public async Task<bool> UpdateCompare(Compare compare)
+        {
+            try
+            {
+                _context.Compares.Update(compare);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> RemoveItemFromCompare(CompareItem compareItem)
+        {
+            var compare = await GetCompareById(compareItem.CompareId);
+            compare.IsFull = false;
+            await UpdateCompare(compare);
+            compareItem.IsDelete = true;
+            return await UpdateCompareItem(compareItem);
+        }
+
+        public async Task<bool> UpdateCompareItem(CompareItem compareItem)
+        {
+            try
+            {
+                _context.CompareItems.Update(compareItem);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

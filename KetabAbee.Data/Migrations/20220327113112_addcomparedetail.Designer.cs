@@ -4,14 +4,16 @@ using KetabAbee.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KetabAbee.Data.Migrations
 {
     [DbContext(typeof(KetabAbeeDBContext))]
-    partial class KetabAbeeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220327113112_addcomparedetail")]
+    partial class addcomparedetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -485,9 +487,6 @@ namespace KetabAbee.Data.Migrations
                     b.Property<int>("AgeRange")
                         .HasColumnType("int");
 
-                    b.Property<float?>("AverageScore")
-                        .HasColumnType("real");
-
                     b.Property<int>("CoverType")
                         .HasColumnType("int");
 
@@ -598,11 +597,17 @@ namespace KetabAbee.Data.Migrations
                     b.Property<DateTime>("CompareDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("FirstBookId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsFull")
                         .HasColumnType("bit");
+
+                    b.Property<int?>("SecondBookId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
@@ -613,6 +618,10 @@ namespace KetabAbee.Data.Migrations
                         .HasColumnType("nvarchar(16)");
 
                     b.HasKey("CompareId");
+
+                    b.HasIndex("FirstBookId");
+
+                    b.HasIndex("SecondBookId");
 
                     b.HasIndex("UserId");
 
@@ -629,8 +638,10 @@ namespace KetabAbee.Data.Migrations
                     b.Property<int>("BookId")
                         .HasColumnType("int");
 
-                    b.Property<string>("CompareId")
-                        .IsRequired()
+                    b.Property<int>("CompareId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CompareId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsDelete")
@@ -640,9 +651,9 @@ namespace KetabAbee.Data.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.HasIndex("CompareId");
+                    b.HasIndex("CompareId1");
 
-                    b.ToTable("CompareItems");
+                    b.ToTable("CompareDetails");
                 });
 
             modelBuilder.Entity("KetabAbee.Domain.Models.Products.Exam.CorrectAnswer", b =>
@@ -1501,10 +1512,24 @@ namespace KetabAbee.Data.Migrations
 
             modelBuilder.Entity("KetabAbee.Domain.Models.Products.Compare", b =>
                 {
+                    b.HasOne("KetabAbee.Domain.Models.Products.Book", "FirstBook")
+                        .WithMany()
+                        .HasForeignKey("FirstBookId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("KetabAbee.Domain.Models.Products.Book", "SecondBook")
+                        .WithMany()
+                        .HasForeignKey("SecondBookId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("KetabAbee.Domain.Models.User.User", "User")
-                        .WithMany("Compares")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("FirstBook");
+
+                    b.Navigation("SecondBook");
 
                     b.Navigation("User");
                 });
@@ -1518,10 +1543,9 @@ namespace KetabAbee.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("KetabAbee.Domain.Models.Products.Compare", "Compare")
-                        .WithMany("Items")
-                        .HasForeignKey("CompareId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .WithMany("Details")
+                        .HasForeignKey("CompareId1")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Book");
 
@@ -1842,7 +1866,7 @@ namespace KetabAbee.Data.Migrations
 
             modelBuilder.Entity("KetabAbee.Domain.Models.Products.Compare", b =>
                 {
-                    b.Navigation("Items");
+                    b.Navigation("Details");
                 });
 
             modelBuilder.Entity("KetabAbee.Domain.Models.Products.Exam.Exam", b =>
@@ -1891,8 +1915,6 @@ namespace KetabAbee.Data.Migrations
                     b.Navigation("BookScores");
 
                     b.Navigation("CommentReports");
-
-                    b.Navigation("Compares");
 
                     b.Navigation("ContactUsCollection");
 

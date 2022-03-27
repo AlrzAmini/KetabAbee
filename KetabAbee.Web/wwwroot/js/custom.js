@@ -60,4 +60,3 @@ $("#go--search").on("click", function () {
         confirmButtonText: 'الله اکبر'
     });
 });
-

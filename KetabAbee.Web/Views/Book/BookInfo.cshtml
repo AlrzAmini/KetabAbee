@@ -107,7 +107,10 @@
                             </p>
                             <p>
                                 <i class="fa fa-star star--color"></i>
-                                @ViewData["BookAverageScore"]
+                                @if (Model.AverageScore != null)
+                                {
+                                    @Model.AverageScore
+                                }
                                 <span class="text-black-50">(@bookScoresCount)</span>
                                 <span> ° </span>
                                 <a class="text-info"><span id="book-comments-count"></span> دیدگاه کاربران</a>

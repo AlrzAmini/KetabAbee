@@ -4,14 +4,16 @@ using KetabAbee.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KetabAbee.Data.Migrations
 {
     [DbContext(typeof(KetabAbeeDBContext))]
-    partial class KetabAbeeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220327113413_changecompareprops")]
+    partial class changecompareprops
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -485,9 +487,6 @@ namespace KetabAbee.Data.Migrations
                     b.Property<int>("AgeRange")
                         .HasColumnType("int");
 
-                    b.Property<float?>("AverageScore")
-                        .HasColumnType("real");
-
                     b.Property<int>("CoverType")
                         .HasColumnType("int");
 
@@ -642,7 +641,7 @@ namespace KetabAbee.Data.Migrations
 
                     b.HasIndex("CompareId");
 
-                    b.ToTable("CompareItems");
+                    b.ToTable("CompareDetails");
                 });
 
             modelBuilder.Entity("KetabAbee.Domain.Models.Products.Exam.CorrectAnswer", b =>
@@ -1502,7 +1501,7 @@ namespace KetabAbee.Data.Migrations
             modelBuilder.Entity("KetabAbee.Domain.Models.Products.Compare", b =>
                 {
                     b.HasOne("KetabAbee.Domain.Models.User.User", "User")
-                        .WithMany("Compares")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict);
 
@@ -1518,7 +1517,7 @@ namespace KetabAbee.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("KetabAbee.Domain.Models.Products.Compare", "Compare")
-                        .WithMany("Items")
+                        .WithMany("Details")
                         .HasForeignKey("CompareId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1842,7 +1841,7 @@ namespace KetabAbee.Data.Migrations
 
             modelBuilder.Entity("KetabAbee.Domain.Models.Products.Compare", b =>
                 {
-                    b.Navigation("Items");
+                    b.Navigation("Details");
                 });
 
             modelBuilder.Entity("KetabAbee.Domain.Models.Products.Exam.Exam", b =>
@@ -1891,8 +1890,6 @@ namespace KetabAbee.Data.Migrations
                     b.Navigation("BookScores");
 
                     b.Navigation("CommentReports");
-
-                    b.Navigation("Compares");
 
                     b.Navigation("ContactUsCollection");
 

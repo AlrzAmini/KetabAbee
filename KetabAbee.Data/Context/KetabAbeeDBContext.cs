@@ -75,6 +75,8 @@ namespace KetabAbee.Data.Context
 
         public DbSet<Compare> Compares { get; set; }
 
+        public DbSet<CompareItem> CompareItems { get; set; }
+
         #endregion
 
         #region Order
@@ -218,6 +220,8 @@ namespace KetabAbee.Data.Context
                 .HasQueryFilter(e => !e.IsDelete);
 
             modelBuilder.Entity<Compare>()
+                .HasQueryFilter(e => !e.IsDelete);
+            modelBuilder.Entity<CompareItem>()
                 .HasQueryFilter(e => !e.IsDelete);
 
             #endregion

@@ -1,0 +1,176 @@
+﻿@using KetabAbee.Application.Extensions
+@using KetabAbee.Application.Convertors
+@model KetabAbee.Application.DTOs.Compare.ShowCompareToUserViewModel
+@{
+    ViewData["Title"] = "مقایسه کالا";
+}
+
+@if (Model != null && Model.Items != null && Model.Items.Any())
+{
+    <main class="page-content mt-205">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10">
+                </div>
+                <div class="col-md-2 text-muted">
+                    @Model.CreateDate.ToIraniDate()
+                </div>
+            </div>
+            <div class="shadow-around">
+                <div class="table-responsive">
+                    <table class="table compare-table product-detail text-center mb-0">
+                        <tbody>
+                            <tr class="pr_image">
+                                <td class="row_title">تصویر</td>
+                                @foreach (var item in Model.Items)
+                                {
+                                    <td class="row_img">
+                                        <img src="/images/Book/thumb/@item.ImageName" class="img-fluid" alt="compare-img">
+                                    </td>
+                                }
+                            </tr>
+                            <tr class="pr_title">
+                                <td class="row_title">نام</td>
+                                @foreach (var item in Model.Items)
+                                {
+                                    <td class="product-title">
+                                        <h5 class="btn btn-outline-light">
+                                            <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@item.BookId" asp-route-bookName="@item.Name.NameFixerForUrl()">
+                                                @item.Name
+                                            </a>
+                                        </h5>
+                                    </td>
+                                }
+                            </tr>
+                            <tr class="pr_price">
+                                <td class="row_title">قیمت</td>
+                                @foreach (var item in Model.Items)
+                                {
+                                    <td class="product-price">
+                                        @if (item.Inventory is > 0)
+                                        {
+                                            <div class="product-price-real text-center">
+                                                <div class="product-price-raw">@item.Price.ToString("#,0") </div>
+                                                تومان
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="product-price-real text-center text-danger">
+                                                <div class="product-price-raw">ناموجود </div>
+                                                :(
+                                            </div>
+                                        }
+                                    </td>
+                                }
+                            </tr>
+                            <tr class="pr_rating">
+                                <td class="row_title">امتیاز </td>
+                                @foreach (var item in Model.Items)
+                                {
+                                    <td>
+                                        <div class="ratings-container">
+                                            <div class="ratings">
+                                                <div class="ratings-val" style="width: @(item.AverageScore != null ? item.AverageScore * 20 : 0)%;"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                }
+                            </tr>
+                            <tr class="pr_add_to_cart">
+                                <td class="row_title">سفارش</td>
+                                @foreach (var item in Model.Items)
+                                {
+                                    <td class="row_btn">
+                                        @if (item.Inventory is > 0)
+                                        {
+                                            <a asp-controller="Book" asp-action="AddToCart" asp-route-productId="@item.BookId" class="add-to-cart" target="_blank">
+                                                افزودن به سبد خرید
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a class="add-to-cart bg-danger">
+                                                موجودی نداریم :(
+                                            </a>
+                                        }
+                                    </td>
+                                }
+                            </tr>
+                            <tr class="pr_stock">
+                                <td class="row_title">دسته بندی</td>
+                                @foreach (var item in Model.Items)
+                                {
+                                    <td class="row_stock"><span class="in-stock">@item.Group.GroupTitle</span></td>
+                                }
+                            </tr>
+                            <tr class="pr_stock">
+                                <td class="row_title">نویسنده</td>
+                                @foreach (var item in Model.Items)
+                                {
+                                    <td class="row_stock"><span class="in-stock">@item.Writer</span></td>
+                                }
+                            </tr>
+                            <tr class="pr_stock">
+                                <td class="row_title">ناشر</td>
+                                @foreach (var item in Model.Items)
+                                {
+                                    <td class="row_stock"><span class="in-stock">@item.Publisher.PublisherName</span></td>
+                                }
+                            </tr>
+                            <tr class="pr_stock">
+                                <td class="row_title">تعداد صفحه</td>
+                                @foreach (var item in Model.Items)
+                                {
+                                    <td class="row_stock"><span class="in-stock">@item.PagesCount</span></td>
+                                }
+                            </tr>
+                            <tr class="pr_stock">
+                                <td class="row_title">نوع جلد</td>
+                                @foreach (var item in Model.Items)
+                                {
+                                    <td class="row_stock"><span class="in-stock">@item.CoverType.GetEnumName()</span></td>
+                                }
+                            </tr>
+                            <tr class="pr_stock">
+                                <td class="row_title">سن مناسب</td>
+                                @foreach (var item in Model.Items)
+                                {
+                                    <td class="row_stock"><span class="in-stock">@item.AgeRange.GetEnumName()</span></td>
+                                }
+                            </tr>
+                            <tr class="pr_stock">
+                                <td class="row_title">وضعیت</td>
+                                @foreach (var item in Model.Items)
+                                {
+                                    <td class="row_stock"><span class="in-stock">@(item.Inventory is > 0 ? "موجود است" : "موجود نیست")</span></td>
+                                }
+                            </tr>
+                            <tr class="pr_remove">
+                                <td class="row_title"></td>
+                                @foreach (var item in Model.Items)
+                                {
+                                    <td class="row_remove">
+                                        <a asp-controller="Book" asp-action="DeleteItemFromCompare" asp-route-bookId="@item.BookId" asp-route-compareId="@Model.CompareId"><span>حذف از لیست</span> <i class="fa fa-times"></i></a>
+                                    </td>
+                                }
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+}
+else
+{
+    <main class="page-content mt-205">
+        <div class="container">
+            <div class="shadow-around">
+                <div class="alert alert-info m-3 mb-0">
+                    آیتمی جهت مقایسه وجود ندارد
+                </div>
+            </div>
+        </div>
+    </main>
+}
