@@ -80,9 +80,9 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Blogs
         #region delete blog
 
         [HttpGet("Delete/{blogId}")]
-        public IActionResult DeleteBlog(int blogId)
+        public async Task<IActionResult> DeleteBlog(int blogId)
         {
-            if (_blogService.DeleteBlog(blogId))
+            if (await _blogService.DeleteBlog(blogId))
             {
                 TempData["SuccessMessage"] = "بلاگ با موفقیت حذف شد";
                 return RedirectToAction("Index");
@@ -102,14 +102,14 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Blogs
         }
 
         [HttpPost("Edit/{blogId}"), ValidateAntiForgeryToken]
-        public IActionResult EditBlog(EditBlogViewModel blog)
+        public async Task<IActionResult> EditBlog(EditBlogViewModel blog)
         {
             if (!ModelState.IsValid)
             {
                 return View(blog);
             }
 
-            var res = _blogService.EditBlog(blog);
+            var res = await _blogService.EditBlog(blog);
 
             switch (res)
             {

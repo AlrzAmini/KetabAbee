@@ -749,7 +749,7 @@ namespace KetabAbee.Application.Services.Product
         public int GetFavBookIdByBookIdAndUserId(int userId, int bookId)
         {
             var favBook = _productRepository.GetFavBookByBookIdAndUserId(userId, bookId);
-            return favBook == null ? default : favBook.LikeId;
+            return favBook?.LikeId ?? default;
         }
 
         public bool RemoveFromFav(int likeId)

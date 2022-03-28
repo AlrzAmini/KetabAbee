@@ -104,18 +104,22 @@
                                             </a>
                                         </h2>
                                     </div>
-                                    <div class="blog-card-footer mb-3">
-                                        <div class="col-sm-4 col-md-5 author">
+                                    <div class="blog-card-footer mb-3 mt-3">
+                                        <div class="col-sm-3 col-md-3 author">
                                             <img src="/Avatar/thumb/@Model.UserImageName" alt="@Model.UserName">
                                             <a>@Model.UserName</a>
                                         </div>
-                                        <div class="col-sm-4 col-md-5 date">
-                                            <i class="fad fa-clock"></i>
+                                        <div class="col-sm-3 col-md-4 date">
                                             @Model.CreateDate.ToIraniDate()
                                         </div>
-                                        <div class="col-sm-4 col-md-2 date">
+                                        <div class="col-sm-3 col-md-4 date">
+                                            <i class="fad fa-clock"></i>
                                             خواندن :
                                             @Model.ReadTime دقیقه
+                                        </div>
+                                        <div class="col-sm-3 col-md-1 date">
+                                            <i class="fad fa-eye"></i>
+                                             :‌ @Model.ViewsCount
                                         </div>
                                     </div>
                                     <div class="blog-card-thumbnail">

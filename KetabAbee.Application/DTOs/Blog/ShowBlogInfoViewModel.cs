@@ -34,6 +34,8 @@ namespace KetabAbee.Application.DTOs.Blog
 
         public int ReadTime { get; set; }
 
+        public int ViewsCount { get; set; }
+
 
         #endregion
     }

@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Domain.Models.Blog;
 using KetabAbee.Domain.Models.Comment.CommentReport;
 using KetabAbee.Domain.Models.Comment.ProductComment;
 using KetabAbee.Domain.Models.Products;
@@ -174,6 +175,8 @@ namespace KetabAbee.Domain.Models.User
         public ICollection<CommentsReport> CommentReports { get; set; }
 
         public ICollection<Compare> Compares { get; set; }
+
+        public ICollection<BlogView> BlogViews { get; set; }
 
         #endregion
     }

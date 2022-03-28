@@ -39,12 +39,12 @@ namespace KetabAbee.Data.Repository
             }
         }
 
-        public bool DeleteBlog(Blog blog)
+        public async Task<bool> DeleteBlog(Blog blog)
         {
             try
             {
                 blog.IsDelete = true;
-                return UpdateBlog(blog);
+                return await UpdateBlog(blog);
             }
             catch
             {
@@ -52,12 +52,12 @@ namespace KetabAbee.Data.Repository
             }
         }
 
-        public bool UpdateBlog(Blog blog)
+        public async Task<bool> UpdateBlog(Blog blog)
         {
             try
             {
                 _context.Blogs.Update(blog);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch
@@ -66,17 +66,41 @@ namespace KetabAbee.Data.Repository
             }
         }
 
-        public Blog GetBlogById(int blogId)
-        {
-            return _context.Blogs.Find(blogId);
-        }
-
         public List<Blog> GetWriterBlogs(int userId)
         {
-            return _context.Blogs.Include(b=>b.User)
+            return _context.Blogs.Include(b => b.User)
                 .Where(b => b.UserId == userId)
                 .Take(6)
                 .ToList();
+        }
+
+        public async Task<bool> AddBlogView(BlogView view)
+        {
+            try
+            {
+                await _context.BlogViews.AddAsync(view);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> IsBlogViewExist(int blogId, string userIp)
+        {
+            return await _context.BlogViews.AnyAsync(v => v.BlogId == blogId && v.UserIp == userIp);
+        }
+
+        public async Task<bool> IsBlogViewExist(int blogId, int userId)
+        {
+            return await _context.BlogViews.AnyAsync(v => v.BlogId == blogId && v.UserId == userId);
+        }
+
+        public async Task<Blog> GetBlogById(int blogId)
+        {
+            return await _context.Blogs.FindAsync(blogId);
         }
     }
 }

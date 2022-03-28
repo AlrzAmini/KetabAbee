@@ -26,6 +26,8 @@ namespace KetabAbee.Application.DTOs.Blog
 
         public string Tags { get; set; }
 
+        public int ViewsCount { get; set; }
+
         #endregion
     }
 }

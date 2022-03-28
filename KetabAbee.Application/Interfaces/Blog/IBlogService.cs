@@ -18,20 +18,24 @@ namespace KetabAbee.Application.Interfaces.Blog
 
         IEnumerable<BlogInCardViewModel> GetBlogsCardInfo();
 
-        bool DeleteBlog(int blogId);
+        Task<bool> DeleteBlog(int blogId);
 
-        bool UpdateBlog(int blogId);
-
-        Domain.Models.Blog.Blog GetBlogById(int blogId);
+        Task<bool> UpdateBlog(int blogId);
 
         EditBlogViewModel GetBlogForEdit(int blogId);
 
-        BlogEditResult EditBlog(EditBlogViewModel blog);
+        Task<BlogEditResult> EditBlog(EditBlogViewModel blog);
 
         FilterBlogsIndexViewModel FilterBlogsInIndex(FilterBlogsIndexViewModel filter);
 
         ShowBlogInfoViewModel GetBlogForShowInBlogInfo(int blogId);
 
         List<BlogInCardViewModel> GetWriterBlogs(int userId);
+
+        Task<bool> IncreaseBlogCount(int blogId, string userIp, int? userId);
+
+        Task<bool> IsBlogViewExist(int blogId, string userIp, int? userId);
+
+        Task<int> BlogViewCount(int blogId);
     }
 }

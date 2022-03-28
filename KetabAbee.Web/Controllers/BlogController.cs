@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Admin.Blog;
 using KetabAbee.Application.DTOs.Blog;
+using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Blog;
 
 namespace KetabAbee.Web.Controllers
@@ -37,14 +38,19 @@ namespace KetabAbee.Web.Controllers
 
         [HttpGet("Blog/{blogId}/{blogTitle}")]
         [HttpGet("Blog/{blogId}")]
-        public IActionResult BlogInfo(int blogId, string blogTitle)
+        public async Task<IActionResult> BlogInfo(int blogId, string blogTitle)
         {
             var model = _blogService.GetBlogForShowInBlogInfo(blogId);
-
             if (model == null)
             {
                 return NotFound();
             }
+
+            if (User.Identity.IsAuthenticated)
+            {
+                await _blogService.IncreaseBlogCount(blogId, HttpContext.GetUserIp(), User.GetUserId());
+            }
+            await _blogService.IncreaseBlogCount(blogId, HttpContext.GetUserIp(), null);
 
             ViewBag.Tags = model.Tags.Split('-')
                 .Where(t=>t.Length > 1).ToArray();

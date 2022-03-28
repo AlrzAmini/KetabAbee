@@ -10,15 +10,13 @@ namespace KetabAbee.Domain.Models.Blog
 {
     public class Blog
     {
+        #region props
 
         [Key]
         public int BlogId { get; set; }
 
         [Required]
         public int UserId { get; set; }
-
-
-        #region props
 
         [DisplayName("عنوان")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
@@ -44,6 +42,9 @@ namespace KetabAbee.Domain.Models.Blog
         [Required]
         public DateTime CreateDate { get; set; }
 
+        [DisplayName("تعداد ویو")]
+        public int ViewsCount { get; set; }
+
         public bool IsDelete { get; set; }
 
         #endregion
@@ -51,6 +52,8 @@ namespace KetabAbee.Domain.Models.Blog
         #region relations
 
         public User.User User { get; set; }
+
+        public ICollection<BlogView> Views { get; set; }
 
         #endregion
     }

@@ -13,12 +13,17 @@ namespace KetabAbee.Domain.Interfaces
 
         bool AddBlog(Blog blog);
 
-        bool DeleteBlog(Blog blog);
+        Task<bool> DeleteBlog(Blog blog);
 
-        bool UpdateBlog(Blog blog);
-
-        Blog GetBlogById(int blogId);
+        Task<bool> UpdateBlog(Blog blog);
 
         List<Blog> GetWriterBlogs(int userId);
+
+        Task<bool> AddBlogView(BlogView view);
+
+        Task<bool> IsBlogViewExist(int blogId, string userIp);
+        Task<bool> IsBlogViewExist(int blogId, int userId);
+
+        Task<Blog> GetBlogById(int blogId);
     }
 }

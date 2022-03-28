@@ -13,6 +13,7 @@ using KetabAbee.Application.Generators;
 using KetabAbee.Application.Interfaces.Blog;
 using KetabAbee.Application.Security;
 using KetabAbee.Domain.Interfaces;
+using KetabAbee.Domain.Models.Blog;
 using Microsoft.EntityFrameworkCore;
 
 namespace KetabAbee.Application.Services.Blog
@@ -123,22 +124,24 @@ namespace KetabAbee.Application.Services.Blog
 
         public IEnumerable<BlogInCardViewModel> GetBlogsCardInfo()
         {
-            return _blogRepository.GetBlogs().Select(b => new BlogInCardViewModel
-            {
-                ImageName = b.ImageName,
-                CreateDate = b.CreateDate,
-                BlogId = b.BlogId,
-                BlogTitle = b.BlogTitle,
-                Writer = b.User.UserName,
-                BlogDescription = b.PageDescription.TruncateLongString(120),
-                WriterAvatarName = b.User.AvatarName,
-                Tags = b.Tags
-            });
+            return _blogRepository.GetBlogs()
+                .Select(b => new BlogInCardViewModel
+                {
+                    ImageName = b.ImageName,
+                    CreateDate = b.CreateDate,
+                    BlogId = b.BlogId,
+                    BlogTitle = b.BlogTitle,
+                    Writer = b.User.UserName,
+                    BlogDescription = b.PageDescription.TruncateLongString(120),
+                    WriterAvatarName = b.User.AvatarName,
+                    Tags = b.Tags,
+                    ViewsCount = b.ViewsCount
+                });
         }
 
-        public bool DeleteBlog(int blogId)
+        public async Task<bool> DeleteBlog(int blogId)
         {
-            var blog = GetBlogById(blogId);
+            var blog = await _blogRepository.GetBlogById(blogId);
 
             #region Delete image
 
@@ -155,7 +158,7 @@ namespace KetabAbee.Application.Services.Blog
             #endregion
 
             blog.IsDelete = true;
-            return _blogRepository.UpdateBlog(blog);
+            return await _blogRepository.UpdateBlog(blog);
         }
 
         private static void DeleteBlogImage(Domain.Models.Blog.Blog blog)
@@ -175,14 +178,9 @@ namespace KetabAbee.Application.Services.Blog
             }
         }
 
-        public bool UpdateBlog(int blogId)
+        public async Task<bool> UpdateBlog(int blogId)
         {
-            return _blogRepository.UpdateBlog(GetBlogById(blogId));
-        }
-
-        public Domain.Models.Blog.Blog GetBlogById(int blogId)
-        {
-            return _blogRepository.GetBlogById(blogId);
+            return await _blogRepository.UpdateBlog(await _blogRepository.GetBlogById(blogId));
         }
 
         public EditBlogViewModel GetBlogForEdit(int blogId)
@@ -202,11 +200,11 @@ namespace KetabAbee.Application.Services.Blog
                 }).Single();
         }
 
-        public BlogEditResult EditBlog(EditBlogViewModel blog)
+        public async Task<BlogEditResult> EditBlog(EditBlogViewModel blog)
         {
             try
             {
-                var newBlog = GetBlogById(blog.BlogId);
+                var newBlog = await _blogRepository.GetBlogById(blog.BlogId);
 
                 if (newBlog == null)
                 {
@@ -226,7 +224,7 @@ namespace KetabAbee.Application.Services.Blog
                 newBlog.ImageName = blog.ImageName;
                 newBlog.PageDescription = blog.PageDescription;
 
-                return _blogRepository.UpdateBlog(newBlog) ? BlogEditResult.Success : BlogEditResult.Failed;
+                return await _blogRepository.UpdateBlog(newBlog) ? BlogEditResult.Success : BlogEditResult.Failed;
             }
             catch
             {
@@ -328,7 +326,8 @@ namespace KetabAbee.Application.Services.Blog
                     UserImageName = b.User.AvatarName,
                     WriterBlogs = GetWriterBlogs(b.UserId),
                     ImageName = b.ImageName,
-                    ReadTime = b.BlogBody.GetBlogReadTime()
+                    ReadTime = b.BlogBody.GetBlogReadTime(),
+                    ViewsCount = b.ViewsCount
                 }).SingleOrDefault();
         }
 
@@ -344,8 +343,40 @@ namespace KetabAbee.Application.Services.Blog
                     BlogId = b.BlogId,
                     BlogTitle = b.BlogTitle,
                     Tags = b.Tags,
-                    WriterAvatarName = b.User.AvatarName
+                    WriterAvatarName = b.User.AvatarName,
+                    ViewsCount = b.ViewsCount
                 }).ToList();
+        }
+
+        public async Task<bool> IncreaseBlogCount(int blogId, string userIp, int? userId)
+        {
+            if (await IsBlogViewExist(blogId, userIp, userId)) return false;
+
+            var view = new BlogView
+            {
+                BlogId = blogId,
+                UserId = userId,
+                UserIp = userIp
+            };
+            var blog = await _blogRepository.GetBlogById(blogId);
+            blog.ViewsCount++;
+            await _blogRepository.UpdateBlog(blog);
+            return await _blogRepository.AddBlogView(view);
+        }
+
+        public async Task<bool> IsBlogViewExist(int blogId, string userIp, int? userId)
+        {
+            if (userId == null)
+            {
+                return await _blogRepository.IsBlogViewExist(blogId, userIp);
+            }
+            return await _blogRepository.IsBlogViewExist(blogId, (int)userId);
+        }
+
+        public async Task<int> BlogViewCount(int blogId)
+        {
+            var blog = await _blogRepository.GetBlogById(blogId);
+            return blog?.ViewsCount ?? default;
         }
     }
 }

@@ -111,6 +111,8 @@ namespace KetabAbee.Data.Context
 
         public DbSet<Blog> Blogs { get; set; }
 
+        public DbSet<BlogView> BlogViews { get; set; }
+
         #endregion
 
         #region Task
