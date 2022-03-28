@@ -10,7 +10,8 @@
     <main class="page-content mt-205">
         <div class="container">
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-10 mb-1">
+                    <a id="compare-info" class="btn btn-outline-info"><i class="fa fa-info"></i></a>
                 </div>
                 <div class="col-md-2 text-muted">
                     @Model.CreateDate.ToIraniDate()
@@ -146,15 +147,20 @@
                                     <td class="row_stock"><span class="in-stock">@(item.Inventory is > 0 ? "موجود است" : "موجود نیست")</span></td>
                                 }
                             </tr>
-                            <tr class="pr_remove">
-                                <td class="row_title"></td>
-                                @foreach (var item in Model.Items)
-                                {
-                                    <td class="row_remove">
-                                        <a asp-controller="Book" asp-action="DeleteItemFromCompare" asp-route-bookId="@item.BookId" asp-route-compareId="@Model.CompareId"><span>حذف از لیست</span> <i class="fa fa-times"></i></a>
-                                    </td>
-                                }
-                            </tr>
+                            @if (Model.IsCompareLastRecord)
+                            {
+                                <tr class="pr_remove">
+                                    <td class="row_title"></td>
+                                    @foreach (var item in Model.Items)
+                                    {
+
+                                        <td class="row_remove">
+                                            <a asp-controller="Book" asp-action="DeleteItemFromCompare" asp-route-bookId="@item.BookId" asp-route-compareId="@Model.CompareId"><span>حذف از لیست</span> <i class="fa fa-times"></i></a>
+                                        </td>
+
+                                    }
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>

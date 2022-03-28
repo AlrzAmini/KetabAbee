@@ -531,5 +531,21 @@ namespace KetabAbee.Data.Repository
                 return false;
             }
         }
+
+        public async Task<IQueryable<Compare>> GetAllUserIpCompares(string userIp)
+        {
+            return await Task.FromResult(_context.Compares
+                .Include(c => c.Items)
+                .Where(c => c.UserIp == userIp)
+                .OrderByDescending(c => c.CompareDate));
+        }
+
+        public async Task<IQueryable<Compare>> GetAllUserIdCompares(int userId)
+        {
+            return await Task.FromResult(_context.Compares
+                .Include(c => c.Items)
+                .Where(c => c.UserId == userId)
+                .OrderByDescending(c => c.CompareDate));
+        }
     }
 }

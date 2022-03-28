@@ -190,6 +190,12 @@ namespace KetabAbee.Application.Interfaces.Product
 
         Task<bool> RemoveItemFromCompare(int bookId, string compareId);
 
+        Task<List<CompareInListViewModel>> GetAllUserIpCompares(string userIp);
+
+        Task<List<CompareInListViewModel>> GetAllUserIdCompares(int userId);
+
+        Task<bool> IsCompareLastRecord(string compareId, string userIp, int? userId);
+
         #endregion
     }
 }

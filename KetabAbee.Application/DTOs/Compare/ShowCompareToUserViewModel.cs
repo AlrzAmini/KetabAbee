@@ -13,5 +13,7 @@ namespace KetabAbee.Application.DTOs.Compare
         public DateTime CreateDate { get; set; }
 
         public string CompareId { get; set; }
+
+        public bool IsCompareLastRecord { get; set; }
     }
 }

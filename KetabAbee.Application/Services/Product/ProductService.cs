@@ -1504,7 +1504,8 @@ namespace KetabAbee.Application.Services.Product
             {
                 CreateDate = compare.CompareDate,
                 Items = compare.Items.Select(i=>i.Book).ToList(),
-                CompareId = compare.CompareId
+                CompareId = compare.CompareId,
+                IsCompareLastRecord = await IsCompareLastRecord(compare.CompareId,userIp,userId)
             };
 
             return result;
@@ -1530,6 +1531,51 @@ namespace KetabAbee.Application.Services.Product
             }
 
             return await _productRepository.RemoveItemFromCompare(item);
+        }
+
+        public async Task<List<CompareInListViewModel>> GetAllUserIpCompares(string userIp)
+        {
+            var compares = await _productRepository.GetAllUserIpCompares(userIp);
+            return compares.Select(c => new CompareInListViewModel
+            {
+                CompareDate = c.CompareDate,
+                CompareId = c.CompareId,
+                IsFull = c.IsFull,
+                ItemsCount = c.Items.Count
+            }).ToList();
+        }
+
+        public async Task<List<CompareInListViewModel>> GetAllUserIdCompares(int userId)
+        {
+            var compares = await _productRepository.GetAllUserIdCompares(userId);
+            return compares.Select(c => new CompareInListViewModel
+            {
+                CompareDate = c.CompareDate,
+                CompareId = c.CompareId,
+                IsFull = c.IsFull,
+                ItemsCount = c.Items.Count
+            }).ToList();
+        }
+
+        public async Task<bool> IsCompareLastRecord(string compareId, string userIp, int? userId)
+        {
+            var compare = await _productRepository.GetCompareById(compareId);
+            if (compare == null)
+            {
+                return false;
+            }
+
+
+            // cause in the repo i ordered query by Descending now i use first
+            // if query was with out order descending must use last()
+            if (userId == null)
+            {
+                var compares = await _productRepository.GetAllUserIpCompares(userIp);
+                return compare == compares.First();
+            }
+
+            var comparesList = await _productRepository.GetAllUserIdCompares((int)userId);
+            return compare == comparesList.First();
         }
     }
 }

@@ -1,0 +1,44 @@
+﻿@using KetabAbee.Application.Convertors
+@model List<KetabAbee.Application.DTOs.Compare.CompareInListViewModel>
+@{
+    ViewData["Title"] = "مقایسه ها";
+}
+
+<main class="page-content mt-205">
+    <div class="container">
+        <div class="product-review mb-4">
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var compare in Model)
+                {
+                    <div class="blockquote comment mb-4">
+                        <div class="blockquote-content">
+                            <div class="d-sm-flex align-items-center mb-2">
+                                <h6 class="font-weight-bold mb-0">@compare.CompareId</h6>
+                            </div>
+                            <p>
+                                شامل @compare.ItemsCount محصول است
+                            </p>
+                            <footer class="testimonial-footer d-flex align-items-center">
+                                <div class="pr-2 flex-grow-1">
+                                    <div class="blockquote-footer">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <cite class="text-sm">در تاریخ @compare.CompareDate.ToIraniDate()</cite>
+                                            <a asp-controller="Book" asp-action="ShowCompare" asp-route-compareId="@compare.CompareId" class="link--with-border-bottom ml-1">مشاهده</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </footer>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    شما هنوز مقایسه ای انجام نداده اید
+                </div>
+            }
+        </div>
+    </div>
+</main>

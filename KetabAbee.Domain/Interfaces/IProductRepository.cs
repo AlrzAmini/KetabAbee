@@ -167,8 +167,11 @@ namespace KetabAbee.Domain.Interfaces
 
         Task<bool> RemoveItemFromCompare(CompareItem compareItem);
 
-
         Task<bool> UpdateCompareItem(CompareItem compareItem);
+
+        Task<IQueryable<Compare>> GetAllUserIpCompares(string userIp);
+
+        Task<IQueryable<Compare>> GetAllUserIdCompares(int userId);
 
         #endregion
     }

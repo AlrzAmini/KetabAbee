@@ -179,7 +179,6 @@ namespace KetabAbee.Web.Controllers
                     return Redirect(returnUrl);
                 }
 
-                TempData["SuccessMessage"] = "خوش آمدید";
                 return Redirect("/");
             }
 

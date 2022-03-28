@@ -629,13 +629,48 @@ namespace KetabAbee.Web.Controllers
         [HttpGet("{compareId}/Remove/{bookId}")]
         public async Task<IActionResult> DeleteItemFromCompare(int bookId, string compareId)
         {
-            if (await _productService.RemoveItemFromCompare(bookId,compareId))
+            bool isLastCompare;
+            if (User.Identity.IsAuthenticated)
             {
-                TempData["SuccessMessage"] = "از مقایسه حذف شد";
+                isLastCompare = await _productService.IsCompareLastRecord(compareId, HttpContext.GetUserIp(), User.GetUserId());
+            }
+            else
+            {
+                isLastCompare = await _productService.IsCompareLastRecord(compareId, HttpContext.GetUserIp(), null);
+            }
+
+            if (!isLastCompare)
+            {
+                TempData["ErrorSwal"] = "نمیشه حذفش کرد :)";
                 return RedirectToAction("ShowCompare", new { compareId });
             }
-            TempData["ErrorMessage"] = "آیتم مورد نظر یافت نشد";
-            return RedirectToAction("ShowCompare", new {compareId});
+
+            if (await _productService.RemoveItemFromCompare(bookId, compareId))
+            {
+                TempData["SuccessSwal"] = "از مقایسه حذف شد";
+                return RedirectToAction("ShowCompare", new { compareId });
+            }
+            TempData["ErrorSwal"] = "آیتم مورد نظر یافت نشد";
+            return RedirectToAction("ShowCompare", new { compareId });
+        }
+
+        #endregion
+
+        #region current user Compares
+
+        [HttpGet("Compares")]
+        public async Task<IActionResult> AllUserCompares()
+        {
+            List<CompareInListViewModel> compares;
+            if (User.Identity.IsAuthenticated)
+            {
+                compares = await _productService.GetAllUserIdCompares(User.GetUserId());
+            }
+            else
+            {
+                compares = await _productService.GetAllUserIpCompares(HttpContext.GetUserIp());
+            }
+            return View(compares);
         }
 
         #endregion
