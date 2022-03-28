@@ -60,7 +60,7 @@ namespace KetabAbee.Domain.Interfaces
 
         IEnumerable<Book> GetFavBooksByBookIds(List<int> bookIds);
 
-        int GetFavBookIdByBookIdAndUserId(int userId, int bookId);
+        FavoriteBook GetFavBookByBookIdAndUserId(int userId, int bookId);
 
         FavoriteBook GetFavById(int likeId);
 

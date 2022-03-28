@@ -185,9 +185,9 @@ namespace KetabAbee.Data.Repository
             return bookIds.Select(GetBookById);
         }
 
-        public int GetFavBookIdByBookIdAndUserId(int userId, int bookId)
+        public FavoriteBook GetFavBookByBookIdAndUserId(int userId, int bookId)
         {
-            return _context.FavoriteBooks.FirstOrDefault(f => f.UserId == userId && f.BookId == bookId).LikeId;
+            return _context.FavoriteBooks.FirstOrDefault(f => f.UserId == userId && f.BookId == bookId);
         }
 
         public FavoriteBook GetFavById(int likeId)

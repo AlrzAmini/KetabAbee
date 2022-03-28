@@ -71,17 +71,34 @@
                                 <li>
                                     <partial name="_AddToFavorite" model="ViewBag.FavBook as FavoriteBook" />
                                 </li>
+                                <li>
+                                    <form target="_blank" method="get" asp-controller="Book" asp-action="AddBookForCompare">
+                                        <input type="hidden" name="bookId" value="@Model.BookId" />
+                                        <input type="hidden" name="backUrl" value="@Context.GetCurrentUrl()" />
+                                        <button class="add-to-compare" type="submit"><i class="fas fa-random"></i></button>
+                                        <span class="tooltip--action">افزودن برای مقایسه</span>
+                                    </form>
+                                </li>
+                            </ul>
+                            <ul class="product--actions">
                             </ul>
                         }
                         else
                         {
-                            <ul class="product--actions">
-                                <li>
-                                    <a class="add-to-favorite" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@url"><i class="fas fa-heart"></i></a>
-                                    <span class="tooltip--action">افزودن به علاقمندی</span>
-                                </li>
-                            </ul>
-
+                    <ul class="product--actions">
+                        <li>
+                            <a class="add-to-favorite" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@url"><i class="fas fa-heart"></i></a>
+                            <span class="tooltip--action">افزودن به علاقمندی</span>
+                        </li>
+                        <li>
+                            <form target="_blank" method="get" asp-controller="Book" asp-action="AddBookForCompare">
+                                <input type="hidden" name="bookId" value="@Model.BookId" />
+                                <input type="hidden" name="backUrl" value="@Context.GetCurrentUrl()" />
+                                <button class="add-to-compare" type="submit"><i class="fas fa-random"></i></button>
+                                <span class="tooltip--action">افزودن برای مقایسه</span>
+                            </form>
+                        </li>
+                    </ul>
                         }
                     </div>
                 </div>
