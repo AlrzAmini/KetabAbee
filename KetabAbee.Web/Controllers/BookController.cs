@@ -62,9 +62,9 @@ namespace KetabAbee.Web.Controllers
 
         [HttpGet("BookInfo/{bookId}/{bookName}")]
         [HttpGet("BookInfo/{bookId}")]
-        public IActionResult BookInfo(int bookId, string bookName)
+        public async Task<IActionResult> BookInfo(int bookId, string bookName)
         {
-            var model = _productService.GetBookForShowByBookId(bookId);
+            var model = await _productService.GetBookForShowByBookId(bookId);
             if (model == null)
             {
                 return NotFound();
@@ -233,7 +233,7 @@ namespace KetabAbee.Web.Controllers
         #region add comment
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult AddComment(CreateCommentViewModel comment)
+        public async Task<IActionResult> AddComment(CreateCommentViewModel comment)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -242,7 +242,7 @@ namespace KetabAbee.Web.Controllers
                 comment.Email = User.GetUserEmail();
             }
             comment.UserIp = HttpContext.GetUserIp();
-            if (_commentService.AddComment(comment))
+            if (await _commentService.AddComment(comment))
             {
                 return View("ShowComments", _commentService.GetProductCommentWithPaging(comment.ProductId));
             }
@@ -265,7 +265,7 @@ namespace KetabAbee.Web.Controllers
         #region add answer
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult AddAnswer(CreateCommentAnswerViewModel answer, int productId)
+        public async Task<IActionResult> AddAnswer(CreateCommentAnswerViewModel answer, int productId)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -275,7 +275,7 @@ namespace KetabAbee.Web.Controllers
                 answer.UserIp = HttpContext.GetUserIp();
                 answer.UserName = User.GetUserName();
 
-                var res = _commentService.AddAnswer(answer);
+                var res = await _commentService.AddAnswer(answer);
                 switch (res)
                 {
                     case CreateCommentAnswerResult.Success:

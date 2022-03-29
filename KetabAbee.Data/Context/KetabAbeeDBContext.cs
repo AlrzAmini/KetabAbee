@@ -226,6 +226,9 @@ namespace KetabAbee.Data.Context
             modelBuilder.Entity<CompareItem>()
                 .HasQueryFilter(e => !e.IsDelete);
 
+            modelBuilder.Entity<BannedIp>()
+                .HasQueryFilter(e => !e.IsDelete);
+
             #endregion
 
             base.OnModelCreating(modelBuilder);

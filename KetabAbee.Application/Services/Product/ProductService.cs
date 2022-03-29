@@ -542,9 +542,9 @@ namespace KetabAbee.Application.Services.Product
             return listViewModels;
         }
 
-        public Book GetBookForShowByBookId(int bookId)
+        public async Task<Book> GetBookForShowByBookId(int bookId)
         {
-            return _productRepository.GetBookForShowByBookId(bookId);
+            return await _productRepository.GetBookForShowByBookId(bookId);
         }
 
         public IEnumerable<BookListViewModel> PublisherBooks(int publisherId, Book book, int? userId)

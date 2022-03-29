@@ -94,9 +94,7 @@ namespace KetabAbee.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
             app.UseIpFilter();
-
             #region 404 control
 
             app.Use(async (context, next) =>
@@ -120,7 +118,7 @@ namespace KetabAbee.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            
             app.UseHttpsRedirection();
 
             #region Cach Static Files

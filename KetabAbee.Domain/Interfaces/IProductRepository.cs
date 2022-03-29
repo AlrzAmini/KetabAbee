@@ -42,7 +42,7 @@ namespace KetabAbee.Domain.Interfaces
 
         Task<List<Book>> GetLatestBook(int take);
 
-        Book GetBookForShowByBookId(int bookId);
+        Task<Book> GetBookForShowByBookId(int bookId);
 
         IEnumerable<Book> PublisherBooks(int publisherId);
 

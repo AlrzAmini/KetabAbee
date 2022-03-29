@@ -17,6 +17,8 @@ namespace KetabAbee.Domain.Models.User
         [Required]
         public string Ip { get; set; }
 
+        public bool IsDelete { get; set; }
+
         public User User { get; set; }
     }
 

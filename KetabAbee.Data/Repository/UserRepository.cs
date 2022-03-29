@@ -332,7 +332,9 @@ namespace KetabAbee.Data.Repository
 
         public void RemoveIpFromBannedIps(int userId, string ip)
         {
-            _context.BannedIps.Remove(GetBannedIpByInfo(userId, ip));
+            var bannedIp = GetBannedIpByInfo(userId, ip);
+            bannedIp.IsDelete = true;
+            _context.BannedIps.Update(bannedIp);
             _context.SaveChanges();
         }
 

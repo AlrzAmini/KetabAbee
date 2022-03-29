@@ -101,14 +101,14 @@ namespace KetabAbee.Data.Repository
                 .Take(take).ToListAsync();
         }
 
-        public Book GetBookForShowByBookId(int bookId)
+        public async Task<Book> GetBookForShowByBookId(int bookId)
         {
-            return _context.Books
+            return await _context.Books
                 .Include(b => b.Publisher)
                 .Include(b => b.Group)
                 .Include(b => b.SubGroup)
                 .Include(b => b.SubGroup2)
-                .SingleOrDefault(b => b.BookId == bookId);
+                .SingleOrDefaultAsync(b => b.BookId == bookId);
         }
 
         public IEnumerable<Book> PublisherBooks(int publisherId)

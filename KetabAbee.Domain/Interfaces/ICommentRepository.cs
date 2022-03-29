@@ -11,7 +11,7 @@ namespace KetabAbee.Domain.Interfaces
     {
         #region comment
 
-        bool AddComment(ProductComment comment);
+        Task<bool> AddComment(ProductComment comment);
 
         bool DeleteComment(int commentId);
 
@@ -36,7 +36,7 @@ namespace KetabAbee.Domain.Interfaces
 
         #region answer
 
-        bool AddAnswer(ProductCommentAnswer answer);
+        Task<bool> AddAnswer(ProductCommentAnswer answer);
 
         bool DeleteAnswer(int answerId);
 

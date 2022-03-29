@@ -29,12 +29,12 @@ namespace KetabAbee.Data.Repository
             return _context.ProductComments.Where(c => c.UserId == userId);
         }
 
-        public bool AddAnswer(ProductCommentAnswer answer)
+        public async Task<bool> AddAnswer(ProductCommentAnswer answer)
         {
             try
             {
-                _context.ProductCommentAnswers.Add(answer);
-                _context.SaveChanges();
+                await _context.ProductCommentAnswers.AddAsync(answer);
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch
@@ -43,12 +43,12 @@ namespace KetabAbee.Data.Repository
             }
         }
 
-        public bool AddComment(ProductComment comment)
+        public async Task<bool> AddComment(ProductComment comment)
         {
             try
             {
-                _context.ProductComments.Add(comment);
-                _context.SaveChanges();
+                await _context.ProductComments.AddAsync(comment);
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch

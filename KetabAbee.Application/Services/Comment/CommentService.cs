@@ -30,7 +30,7 @@ namespace KetabAbee.Application.Services.Comment
             return _commentRepository.IsUserSendComment(userId, commentId);
         }
 
-        public CreateCommentAnswerResult AddAnswer(CreateCommentAnswerViewModel answer)
+        public async Task<CreateCommentAnswerResult> AddAnswer(CreateCommentAnswerViewModel answer)
         {
             var answerBody = answer.AnswerBody.Sanitizer();
             if (string.IsNullOrEmpty(answerBody))
@@ -50,7 +50,7 @@ namespace KetabAbee.Application.Services.Comment
                     UserIp = answer.UserIp,
                     UserName = answer.UserName
                 };
-                return _commentRepository.AddAnswer(newAnswer) ? CreateCommentAnswerResult.Success : CreateCommentAnswerResult.Error;
+                return await _commentRepository.AddAnswer(newAnswer) ? CreateCommentAnswerResult.Success : CreateCommentAnswerResult.Error;
             }
             catch
             {
@@ -58,7 +58,7 @@ namespace KetabAbee.Application.Services.Comment
             }
         }
 
-        public bool AddComment(CreateCommentViewModel comment)
+        public async Task<bool> AddComment(CreateCommentViewModel comment)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace KetabAbee.Application.Services.Comment
                     UserName = comment.UserName.Sanitizer()
                 };
 
-                return _commentRepository.AddComment(newComment);
+                return await _commentRepository.AddComment(newComment);
             }
             catch
             {
@@ -142,7 +142,7 @@ namespace KetabAbee.Application.Services.Comment
 
         public bool UpdateAnswer(ProductCommentAnswer answer)
         {
-            return _commentRepository.AddAnswer(answer);
+            return _commentRepository.UpdateAnswer(answer);
         }
 
         public ProductCommentAnswer GetAnswerById(int answerId)

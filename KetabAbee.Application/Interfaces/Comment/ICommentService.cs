@@ -13,7 +13,7 @@ namespace KetabAbee.Application.Interfaces.Comment
     {
         #region commnet
 
-        bool AddComment(CreateCommentViewModel comment);
+        Task<bool> AddComment(CreateCommentViewModel comment);
 
         bool DeleteComment(int commentId);
 
@@ -39,7 +39,7 @@ namespace KetabAbee.Application.Interfaces.Comment
 
         #region answer
 
-        CreateCommentAnswerResult AddAnswer(CreateCommentAnswerViewModel answer);
+        Task<CreateCommentAnswerResult> AddAnswer(CreateCommentAnswerViewModel answer);
 
         bool DeleteAnswer(int answerId);
 

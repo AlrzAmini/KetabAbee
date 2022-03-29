@@ -16,7 +16,7 @@
 {
     @foreach (var comment in Model.Item1)
     {
-        <div class="row">
+        <div class="row"> 
             <div class="col-md-3 aside">
                 <ul class="comments-user-shopping">
                     <li>
@@ -64,9 +64,9 @@
                                 <button class="btn btn-outline-success btn-sm">پاسخ</button>
                             </div>
                         </div>
-                    </form>
+                    </form> 
                 </div>
-            </div>
+            </div> 
             @if (comment.Answers != null && comment.Answers.Any())
             {
                 foreach (var answer in comment.Answers.OrderByDescending(a => a.SendDate))
