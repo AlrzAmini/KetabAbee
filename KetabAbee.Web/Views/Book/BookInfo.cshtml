@@ -30,7 +30,7 @@
     <meta name="description" content="@Model.PageDescription" />
     <meta property=og:site_name value="کتابفروشی کتاب آبی">
     <meta property=og:title content="@Model.Name">
-    <meta property=og:url content="https://haamechitamoom.ir/BookInfo/@Model.BookId" />
+    <meta property=og:url content="@CommonExtensions.DomainAddress/BookInfo/@Model.BookId" />
     <meta property=og:image content="/images/Book/image/@Model.ImageName">
     <meta property=og:image:url content="/images/Book/image/@Model.ImageName" />
     <meta property=og:image:width content="700">
@@ -85,20 +85,20 @@
                         }
                         else
                         {
-                    <ul class="product--actions">
-                        <li>
-                            <a class="add-to-favorite" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@url"><i class="fas fa-heart"></i></a>
-                            <span class="tooltip--action">افزودن به علاقمندی</span>
-                        </li>
-                        <li>
-                            <form target="_blank" method="get" asp-controller="Book" asp-action="AddBookForCompare">
-                                <input type="hidden" name="bookId" value="@Model.BookId" />
-                                <input type="hidden" name="backUrl" value="@Context.GetCurrentUrl()" />
-                                <button class="add-to-compare" type="submit"><i class="fas fa-random"></i></button>
-                                <span class="tooltip--action">افزودن برای مقایسه</span>
-                            </form>
-                        </li>
-                    </ul>
+                            <ul class="product--actions">
+                                <li>
+                                    <a class="add-to-favorite" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@url"><i class="fas fa-heart"></i></a>
+                                    <span class="tooltip--action">افزودن به علاقمندی</span>
+                                </li>
+                                <li>
+                                    <form target="_blank" method="get" asp-controller="Book" asp-action="AddBookForCompare">
+                                        <input type="hidden" name="bookId" value="@Model.BookId" />
+                                        <input type="hidden" name="backUrl" value="@Context.GetCurrentUrl()" />
+                                        <button class="add-to-compare" type="submit"><i class="fas fa-random"></i></button>
+                                        <span class="tooltip--action">افزودن برای مقایسه</span>
+                                    </form>
+                                </li>
+                            </ul>
                         }
                     </div>
                 </div>
@@ -562,6 +562,8 @@
         </section>
     </div>
 </main>
+
+
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />

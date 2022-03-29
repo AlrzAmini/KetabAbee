@@ -46,9 +46,9 @@ namespace KetabAbee.Data.Repository
         public async Task<bool> AddComment(ProductComment comment)
         {
             try
-            {
-                await _context.ProductComments.AddAsync(comment);
-                await _context.SaveChangesAsync();
+            { 
+               await _context.ProductComments.AddAsync(comment); 
+               await _context.SaveChangesAsync();
                 return true;
             }
             catch

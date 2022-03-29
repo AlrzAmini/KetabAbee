@@ -62,9 +62,9 @@ namespace KetabAbee.Web.Controllers
 
         [HttpGet("BookInfo/{bookId}/{bookName}")]
         [HttpGet("BookInfo/{bookId}")]
-        public async Task<IActionResult> BookInfo(int bookId, string bookName)
+        public IActionResult BookInfo(int bookId, string bookName)
         {
-            var model = await _productService.GetBookForShowByBookId(bookId);
+            var model = _productService.GetBookForShowByBookId(bookId);
             if (model == null)
             {
                 return NotFound();
@@ -264,8 +264,20 @@ namespace KetabAbee.Web.Controllers
 
         #region add answer
 
+        [HttpGet("load-modal-answer")]
+        public IActionResult LoadAddAnswerModal(int commentId)
+        {
+            var comment = _commentService.GetCommentById(commentId);
+            var answerModalModel = new CreateCommentAnswerViewModel
+            {
+                BookId = comment.ProductId,
+                CommentId = comment.CommentId
+            };
+            return PartialView("_AddAnswerModal",answerModalModel);
+        }
+
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddAnswer(CreateCommentAnswerViewModel answer, int productId)
+        public async Task<IActionResult> AddAnswer(CreateCommentAnswerViewModel answer)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -279,19 +291,19 @@ namespace KetabAbee.Web.Controllers
                 switch (res)
                 {
                     case CreateCommentAnswerResult.Success:
-                        return View("ShowComments", _commentService.GetProductCommentWithPaging(productId));
+                        return View("ShowComments", _commentService.GetProductCommentWithPaging(answer.BookId));
                     case CreateCommentAnswerResult.EmptyBody:
-                        return View("ShowComments", _commentService.GetProductCommentWithPaging(productId));
+                        return View("ShowComments", _commentService.GetProductCommentWithPaging(answer.BookId));
                     case CreateCommentAnswerResult.Error:
-                        return View("ShowComments", _commentService.GetProductCommentWithPaging(productId));
+                        return View("ShowComments", _commentService.GetProductCommentWithPaging(answer.BookId));
                     default:
                         TempData["ErrorSwal"] = "پاسخ شما ثبت نشد";
-                        return RedirectToAction("BookInfo", new { bookId = productId });
+                        return RedirectToAction("BookInfo", new { bookId = answer.BookId });
                 }
             }
 
             TempData["InfoSwal"] = "برای ثبت پاسخ می بایست وارد حساب کاربری خود شوید";
-            return RedirectToAction("BookInfo", new { bookId = productId });
+            return RedirectToAction("BookInfo", new { bookId = answer.BookId });
         }
 
         #endregion

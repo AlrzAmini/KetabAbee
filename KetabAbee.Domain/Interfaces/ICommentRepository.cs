@@ -11,7 +11,7 @@ namespace KetabAbee.Domain.Interfaces
     {
         #region comment
 
-        Task<bool> AddComment(ProductComment comment);
+       Task<bool> AddComment(ProductComment comment);
 
         bool DeleteComment(int commentId);
 

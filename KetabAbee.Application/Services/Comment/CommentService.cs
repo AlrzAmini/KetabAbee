@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using KetabAbee.Application.Const;
 using KetabAbee.Application.DTOs.Admin.Comment;
@@ -12,7 +10,6 @@ using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Comment;
 using KetabAbee.Domain.Interfaces;
 using KetabAbee.Domain.Models.Comment.ProductComment;
-using Microsoft.EntityFrameworkCore;
 
 namespace KetabAbee.Application.Services.Comment
 {
@@ -292,5 +289,6 @@ namespace KetabAbee.Application.Services.Comment
                 CommentId = a.CommentId
             });
         }
+
     }
 }

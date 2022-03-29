@@ -17,6 +17,8 @@ namespace KetabAbee.Application.DTOs.Comment
         [Required]
         public int CommentId { get; set; }
 
+        public int BookId { get; set; }
+
         [Required]
         [MaxLength(100)]
         public string UserIp { get; set; }

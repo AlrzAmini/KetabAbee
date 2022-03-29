@@ -49,6 +49,8 @@
                 </p>
             </div>
             <div class="col-md-3">
+                <a class="btn btn-success" onclick="LoadAddAnswerModalBody(@comment.CommentId)">btn btn btn</a>
+
                 <div class="col-12">
                     <form asp-controller="Book" asp-action="AddAnswer"
                           data-ajax="true"
@@ -56,15 +58,15 @@
                           data-ajax-mode="replace"
                           data-ajax-update="#CommentList"
                           data-ajax-success="SuccessAnswer">
-                        <input type="hidden" name="productId" value="@comment.ProductId" />
-                        <input type="hidden" name="answer.CommentId" value="@comment.CommentId" />
+                        <input type="hidden" name="productId" value="@comment.ProductId"/>
+                        <input type="hidden" name="answer.CommentId" value="@comment.CommentId"/>
                         <div class="form-element-row">
                             <textarea name="answer.AnswerBody" id="answer-body" cols="10" rows="5" class="input-element" placeholder="متن پاسخ ..." required data-error="متن پاسخ را وارد کنید"></textarea>
                             <div class="comments-likes">
                                 <button class="btn btn-outline-success btn-sm">پاسخ</button>
                             </div>
                         </div>
-                    </form> 
+                    </form>
                 </div>
             </div> 
             @if (comment.Answers != null && comment.Answers.Any())
@@ -145,6 +147,13 @@
             <a class="btn btn-outline-success ml-1" onclick="pageComment(@i)">@i</a>
         }
     </div>
+    <div class="modal fade" id="AnswerModal" tabindex="-1" aria-labelledby="AnswerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" id="AnswerModalContent">
+
+            </div>
+        </div>
+    </div>
 }
 else
 {
@@ -154,6 +163,8 @@ else
         </div>
     </div>
 }
+
+
 <script>
     $(function () {
         var areas = document.getElementsByTagName("TEXTAREA");

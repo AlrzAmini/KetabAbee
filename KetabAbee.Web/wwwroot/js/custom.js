@@ -68,3 +68,43 @@ $("#compare-info").on("click", function () {
         confirmButtonText: 'بله'
     });
 });
+
+function StartLoading(element = 'body') {
+    $(element).waitMe({
+        effect: 'bounce',
+        text: 'لطفا صبر کنید',
+        bg: 'rgba(255, 255, 255, 0.7)',
+        color: '#000'
+    });
+}
+
+function CloseLoading(element = 'body') {
+    $(element).waitMe('hide');
+}
+
+function LoadAddAnswerModalBody(commentId) {
+    $.ajax({
+        url: "/load-modal-answer",
+        type: "get",
+        data: {
+            commentId: commentId
+        },
+        beforeSend: function () {
+            StartLoading();
+        },
+        success: function (response) {
+            CloseLoading();
+            $("#AnswerModalContent").html(response);
+
+            $('#AnswerForm').data('validator', null);
+            $.validator.unobtrusive.parse('#AnswerForm');
+
+            $("#AnswerModal").modal("show");
+        },
+        error: function () {
+            CloseLoading();
+            console.log("Error");
+        }
+    });
+}
+

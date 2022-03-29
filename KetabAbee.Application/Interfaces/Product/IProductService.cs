@@ -60,7 +60,7 @@ namespace KetabAbee.Application.Interfaces.Product
 
         Task<List<BookListViewModel>> GetLatestBooksInIndex(int take, int? userId);
 
-        Task<Book> GetBookForShowByBookId(int bookId);
+        Book GetBookForShowByBookId(int bookId);
 
         IEnumerable<BookListViewModel> PublisherBooks(int publisherId, Book book, int? userId);
 
