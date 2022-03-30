@@ -42,7 +42,6 @@ namespace KetabAbee.Application.DTOs.Comment
     public enum CreateCommentAnswerResult
     {
         Success,
-        Error,
-        EmptyBody
+        Error
     }
 }

@@ -244,10 +244,11 @@ namespace KetabAbee.Web.Controllers
             comment.UserIp = HttpContext.GetUserIp();
             if (await _commentService.AddComment(comment))
             {
-                return View("ShowComments", _commentService.GetProductCommentWithPaging(comment.ProductId));
+                TempData["SuccessSwal"] = "کامنت شما ثبت شد";
+                return RedirectToAction("BookInfo", new { bookId = comment.ProductId });
             }
             TempData["ErrorSwal"] = "کامنت شما ثبت نشد";
-            return Redirect($"/BookInfo/{comment.ProductId}");
+            return RedirectToAction("BookInfo", new { bookId = comment.ProductId });
         }
 
         #endregion
@@ -264,6 +265,7 @@ namespace KetabAbee.Web.Controllers
 
         #region add answer
 
+        [Authorize]
         [HttpGet("load-modal-answer")]
         public IActionResult LoadAddAnswerModal(int commentId)
         {
@@ -276,7 +278,8 @@ namespace KetabAbee.Web.Controllers
             return PartialView("_AddAnswerModal",answerModalModel);
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
+        [Authorize]
+        [HttpPost("add-comment-answer"),ValidateAntiForgeryToken]
         public async Task<IActionResult> AddAnswer(CreateCommentAnswerViewModel answer)
         {
             if (User.Identity.IsAuthenticated)
@@ -288,14 +291,15 @@ namespace KetabAbee.Web.Controllers
                 answer.UserName = User.GetUserName();
 
                 var res = await _commentService.AddAnswer(answer);
+
                 switch (res)
                 {
                     case CreateCommentAnswerResult.Success:
-                        return View("ShowComments", _commentService.GetProductCommentWithPaging(answer.BookId));
-                    case CreateCommentAnswerResult.EmptyBody:
-                        return View("ShowComments", _commentService.GetProductCommentWithPaging(answer.BookId));
+                        TempData["SuccessSwal"] = "پاسخ شما ثبت شد";
+                        return RedirectToAction("BookInfo", new { bookId = answer.BookId });
                     case CreateCommentAnswerResult.Error:
-                        return View("ShowComments", _commentService.GetProductCommentWithPaging(answer.BookId));
+                        TempData["ErrorSwal"] = "پاسخ شما ثبت نشد";
+                        return RedirectToAction("BookInfo", new { bookId = answer.BookId });
                     default:
                         TempData["ErrorSwal"] = "پاسخ شما ثبت نشد";
                         return RedirectToAction("BookInfo", new { bookId = answer.BookId });

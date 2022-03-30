@@ -30,10 +30,6 @@ namespace KetabAbee.Application.Services.Comment
         public async Task<CreateCommentAnswerResult> AddAnswer(CreateCommentAnswerViewModel answer)
         {
             var answerBody = answer.AnswerBody.Sanitizer();
-            if (string.IsNullOrEmpty(answerBody))
-            {
-                return CreateCommentAnswerResult.EmptyBody;
-            }
 
             try
             {

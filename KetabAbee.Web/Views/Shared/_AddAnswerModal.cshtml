@@ -1,32 +1,17 @@
 ﻿@model KetabAbee.Application.DTOs.Comment.CreateCommentAnswerViewModel
 
-<form id="AnswerForm">
+<form id="AnswerForm" asp-controller="Book" asp-action="AddAnswer">
     <div class="modal-header">
         <h5 class="modal-title">افزودن پاسخ</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
-    </div>
+    </div> 
     <div class="modal-body">
         <div class="row">
 
             <input type="hidden" asp-for="BookId" />
             <input type="hidden" asp-for="CommentId" />
-
-            @if (!User.Identity.IsAuthenticated)
-            {
-                <div class="col-md-6 mb-3">
-                    <label>نام</label>
-                    <input type="text" class="form-control" asp-for="UserName">
-                    <span asp-validation-for="UserName" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label>ایمیل</label>
-                    <input type="text" class="form-control" asp-for="Email">
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-            }
 
             <div class="col-md-12">
                 <label>متن پاسخ</label>

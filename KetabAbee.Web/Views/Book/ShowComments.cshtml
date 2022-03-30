@@ -16,7 +16,7 @@
 {
     @foreach (var comment in Model.Item1)
     {
-        <div class="row"> 
+        <div class="row">
             <div class="col-md-3 aside">
                 <ul class="comments-user-shopping">
                     <li>
@@ -49,26 +49,15 @@
                 </p>
             </div>
             <div class="col-md-3">
-                <a class="btn btn-success" onclick="LoadAddAnswerModalBody(@comment.CommentId)">btn btn btn</a>
-
-                <div class="col-12">
-                    <form asp-controller="Book" asp-action="AddAnswer"
-                          data-ajax="true"
-                          data-ajax-method="post"
-                          data-ajax-mode="replace"
-                          data-ajax-update="#CommentList"
-                          data-ajax-success="SuccessAnswer">
-                        <input type="hidden" name="productId" value="@comment.ProductId"/>
-                        <input type="hidden" name="answer.CommentId" value="@comment.CommentId"/>
-                        <div class="form-element-row">
-                            <textarea name="answer.AnswerBody" id="answer-body" cols="10" rows="5" class="input-element" placeholder="متن پاسخ ..." required data-error="متن پاسخ را وارد کنید"></textarea>
-                            <div class="comments-likes">
-                                <button class="btn btn-outline-success btn-sm">پاسخ</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div> 
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a class="btn btn-success" onclick="LoadAddAnswerModalBody(@comment.CommentId)">ثبت پاسخ</a>
+                }
+                else
+                {
+                    <a class="btn btn-outline-primary" asp-controller="Account" asp-action="Login">برای ثبت پاسخ لاگین کنید</a>
+                }
+            </div>
             @if (comment.Answers != null && comment.Answers.Any())
             {
                 foreach (var answer in comment.Answers.OrderByDescending(a => a.SendDate))

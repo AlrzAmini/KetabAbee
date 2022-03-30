@@ -476,12 +476,7 @@
                         <div class="tab-pane fade" id="productComments" role="tabpanel" aria-labelledby="productComments-tab">
                             <!-- product-review -->
                             <div class="product-review-form mb-3">
-                                <form asp-controller="Book" asp-action="AddComment"
-                                      data-ajax="true"
-                                      data-ajax-method="post"
-                                      data-ajax-mode="replace"
-                                      data-ajax-update="#CommentList"
-                                      data-ajax-success="Success">
+                                <form asp-controller="Book" asp-action="AddComment">
                                     <input type="hidden" name="comment.ProductId" value="@Model.BookId" />
                                     <div class="row align-items-center">
                                         @if (!isAuthUser)
@@ -576,27 +571,6 @@
             $("#CommentList").load("/Book/ShowComments/" + @Model.BookId + "?pageNum="+pageNum);
         }
 
-        function Success() {
-            $("#userName").val("");
-            $("#userEmail").val("");
-            $("#comment-body").val("");
-            swal.fire({
-                title: "موفق",
-                text: "کامنت با موفقیت ثبت شد",
-                icon: "success",
-                confirmButtonText: 'باشه'
-            });
-        }
-
-        function SuccessAnswer() {
-            $("#answer-body").val("");
-            swal.fire({
-                title: "موفق",
-                text: "پاسخ با موفقیت ثبت شد",
-                icon: "success",
-                confirmButtonText: 'باشه'
-            });
-        }
     </script>
     <script>
         $.ajax({
