@@ -108,4 +108,30 @@ function LoadAddAnswerModalBody(commentId) {
     });
 }
 
+function LoadContactUsModalBody() {
+    $.ajax({
+        url: "/load-contactus-modal",
+        type: "get",
+        data: {
+           
+        },
+        beforeSend: function () {
+            StartLoading();
+        },
+        success: function (response) {
+            CloseLoading();
+            $("#ContactUsModalContent").html(response);
+
+            $('#ContactUsForm').data('validator', null);
+            $.validator.unobtrusive.parse('#ContactUsForm');
+
+            $("#ContactUsModal").modal("show");
+        },
+        error: function () {
+            CloseLoading();
+            console.log("Error");
+        }
+    });
+}
+
 

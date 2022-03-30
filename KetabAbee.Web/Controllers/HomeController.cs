@@ -119,6 +119,13 @@ namespace KetabAbee.Web.Controllers
 
         #region Contact us
 
+        [HttpGet("load-contactus-modal")]
+        public IActionResult LoadContactUsModal()
+        {
+            return PartialView("_ContactUsModal",null);
+        }
+
+
         [HttpGet("Page/Contact")]
         public IActionResult ContactUs()
         {
@@ -126,13 +133,8 @@ namespace KetabAbee.Web.Controllers
         }
 
         [HttpPost("Page/Contact"), ValidateAntiForgeryToken]
-        public async Task<IActionResult> ContactUs(CreateContactUsViewModel contactUs)
+        public IActionResult ContactUs(CreateContactUsViewModel contactUs)
         {
-            if (!await _captchaValidator.IsCaptchaPassedAsync(contactUs.Captcha))
-            {
-                TempData["ErrorSwal"] = "احراز هویت کپچا انجام نشد چند لحظه دیگر تلاش کنید";
-                return View(contactUs);
-            }
             if (!ModelState.IsValid)
             {
                 return View(contactUs);

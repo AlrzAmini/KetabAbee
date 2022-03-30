@@ -9,7 +9,7 @@ using KetabAbee.Application.DTOs.Site;
 
 namespace KetabAbee.Application.DTOs.Contact
 {
-   public class CreateContactUsViewModel : CaptchaViewModel
+   public class CreateContactUsViewModel
     {
         #region Props
 

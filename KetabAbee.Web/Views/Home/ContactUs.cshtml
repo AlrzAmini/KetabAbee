@@ -2,90 +2,52 @@
 @{
     ViewData["Title"] = "تماس با ما";
 }
-@section Scripts{
-    <partial name="_ValidationScriptsPartial" />
-    <partial name="_CaptchaScripts" />
-}
 <main class="page-content mt-205">
     <div class="container">
-        <form asp-controller="Home" asp-action="ContactUs" method="post">
-            <partial name="_CaptchaInput" />
-            <div class="row">
-                <div class="col-md-3">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title mb-2">
+                    تماس با ما
+                </div>
+            </div>
 
-                </div>
-                <div class="col-md-9">
-                    <div class="section-title mb-2">
-                        تماس با ما
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card shadow-around p-3 mb-5">
-                        <a title="09300804882" class="btn btn-outline-info mb-2" onclick="return confirm('تماس با 09300804882 برقرار شود ؟')" href="tel: 09300804882">
-                            <abbr title="09300804882"><i class="fa fa-phone"></i></abbr>
-                        </a>
-                        <a title="mranotmiiliion@gmail.com" class="btn btn-outline-info mb-2" href="mailto: mranotmillion@gmail.com">
-                            <i class="fa fa-envelope"></i>
-                        </a>
-                        <div class="row">
-                            <div class="container text-center">
-                                <a title="alirez.amni" class="btn btn-outline-danger mb-2 col-md-3" href="https://www.instagram.com/alirez.amni/">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                                <a title="alirezamininasab" class="btn btn-outline-primary mb-2 col-md-3" href="https://www.linkedin.com/in/alirezamininasab">
-                                    <i class="fab fa-linkedin-in"></i>
-                                </a>
-                                <a title="+989300804882" class="btn btn-outline-success mb-2 col-md-3" href="https://api.whatsapp.com/send?phone=+989300804882">
-                                    <i class="fab fa-whatsapp"></i>
-                                </a>
-                            </div>
+            <div class="row col-md-12">
+                <div class="card shadow-around col-md-3 p-3 mb-5">
+                    <a title="09300804882" class="btn btn-outline-info mb-2" onclick="return confirm('تماس با 09300804882 برقرار شود ؟')" href="tel: 09300804882">
+                        <abbr title="09300804882"><i class="fa fa-phone"></i></abbr>
+                    </a>
+                    <a title="mranotmiiliion@gmail.com" class="btn btn-outline-info mb-2" href="mailto: mranotmillion@gmail.com">
+                        <i class="fa fa-envelope"></i>
+                    </a>
+                    <div class="row">
+                        <div class="container text-center">
+                            <a title="alirez.amni" class="btn btn-outline-danger mb-2 col-md-3" href="https://www.instagram.com/alirez.amni/">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a title="alirezamininasab" class="btn btn-outline-primary mb-2 col-md-3" href="https://www.linkedin.com/in/alirezamininasab">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a title="+989300804882" class="btn btn-outline-success mb-2 col-md-3" href="https://api.whatsapp.com/send?phone=+989300804882">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-9">
-                    <div class="shadow-around p-3 mb-5">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-element-row">
-                                    <label class="label-element">موضوع</label>
-                                    <input type="text" asp-for="Subject" class="input-element">
-                                </div>
-                                <span asp-validation-for="Subject" class="text-danger"></span>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-element-row">
-                                    <label class="label-element">نام</label>
-                                    <input type="text" asp-for="UserName" class="input-element">
-                                </div>
-                                <span asp-validation-for="UserName" class="text-danger"></span>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-element-row">
-                                    <label class="label-element">ایمیل</label>
-                                    <input type="email" asp-for="Email" class="input-element dir-ltr">
-                                </div>
-                                <span asp-validation-for="Email" class="text-danger"></span>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-element-row">
-                                    <label class="label-element">پیام</label>
-                                    <textarea asp-for="Body" cols="30" rows="10" class="input-element"></textarea>
-                                </div>
-                                <span asp-validation-for="Body" class="text-danger"></span>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-element-row text-left">
-                                    <button class="btn-element btn-info-element">
-                                        ثبت و ارسال
-                                        <i class="fad fa-money-check-edit mr-2"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                <div class="col-md-8">
+                    <div class="text-center col-md-12">
+                        <p class="alert alert-info">
+                            <i class="fa fa-info"></i>
+                            اگر که پیام شما نیاز به پیگیری دارد از  طریق پنل کاربری خود تیکت ارسال کنید 
+                        </p>
+                         <p class="alert alert-success">
+                            <i class="fa fa-check"></i>
+                            در صورتی که به پیگیری نیاز ندارد از طریق دکمه زیر اقدام کنید 
+                        </p>
+                        <a class="btn btn-success mb-2 col-md-3" onclick="LoadContactUsModalBody()">ارسال پیام</a>
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
         <div class="row">
             <div class="col-12">
                 <div class="section-title mb-2">
@@ -107,3 +69,9 @@
         </div>
     </div>
 </main>
+<div class="modal fade" id="ContactUsModal" tabindex="-1" aria-labelledby="ContactUsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="ContactUsModalContent">
+        </div>
+    </div>
+</div>
