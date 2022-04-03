@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using KetabAbee.Domain.Models.Audio_Book;
 using KetabAbee.Domain.Models.Banner;
 using KetabAbee.Domain.Models.Blog;
 using KetabAbee.Domain.Models.Comment.ProductComment;
@@ -137,6 +138,12 @@ namespace KetabAbee.Data.Context
 
         #endregion
 
+        #region audio book
+
+        public DbSet<AudioBook> AudioBooks { get; set; }
+
+        #endregion
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach (var rel in modelBuilder.Model.GetEntityTypes().SelectMany(s => s.GetForeignKeys()))
@@ -227,6 +234,9 @@ namespace KetabAbee.Data.Context
                 .HasQueryFilter(e => !e.IsDelete);
 
             modelBuilder.Entity<BannedIp>()
+                .HasQueryFilter(e => !e.IsDelete);
+
+            modelBuilder.Entity<AudioBook>()
                 .HasQueryFilter(e => !e.IsDelete);
 
             #endregion

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
+﻿using System.Text.Encodings.Web;
 using System.Text.Unicode;
-using System.Threading.Tasks;
 using KetabAbee.Application.Convertors;
+using KetabAbee.Application.Interfaces.Audio_Book;
 using KetabAbee.Application.Interfaces.Banner;
 using KetabAbee.Application.Interfaces.Blog;
 using KetabAbee.Application.Interfaces.Comment;
@@ -19,6 +15,7 @@ using KetabAbee.Application.Interfaces.Task;
 using KetabAbee.Application.Interfaces.Ticket;
 using KetabAbee.Application.Interfaces.User;
 using KetabAbee.Application.Interfaces.Wallet;
+using KetabAbee.Application.Services.Audio_Book;
 using KetabAbee.Application.Services.Banner;
 using KetabAbee.Application.Services.Blog;
 using KetabAbee.Application.Services.Comment;
@@ -34,8 +31,6 @@ using KetabAbee.Application.Services.User;
 using KetabAbee.Application.Services.Wallet;
 using KetabAbee.Data.Repository;
 using KetabAbee.Domain.Interfaces;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KetabAbee.IoC
@@ -60,6 +55,7 @@ namespace KetabAbee.IoC
             service.AddScoped<IExamService, ExamService>();
             service.AddScoped<IPaymentService, PaymentService>();
             service.AddScoped<IBannerService, BannerService>();
+            service.AddScoped<IAudioBookService, AudioBookService>();
 
             #endregion
 
@@ -78,6 +74,7 @@ namespace KetabAbee.IoC
             service.AddScoped<ITaskRepository, TaskRepository>();
             service.AddScoped<IExamRepository, ExamRepository>();
             service.AddScoped<IBannerRepository, BannerRepository>();
+            service.AddScoped<IAudioBookRepository, AudioBookRepository>();
 
             #endregion
 

@@ -23,6 +23,7 @@
   <ItemGroup>
     <Folder Include="DTOs\Admin\Ticket\" />
     <Folder Include="Interfaces\Banner\" />
+    <Folder Include="Interfaces\Audio Book\" />
     <Folder Include="Services\Banner\" />
   </ItemGroup>
 

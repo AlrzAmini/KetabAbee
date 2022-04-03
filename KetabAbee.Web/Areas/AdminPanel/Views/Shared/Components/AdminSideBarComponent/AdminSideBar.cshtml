@@ -13,6 +13,7 @@
     bool adminComment = ViewBag.AdminComment;
     bool adminExam = ViewBag.AdminExam;
     bool adminBanner = ViewBag.AdminBanner;
+    bool adminAudioBook = ViewBag.AdminAudioBook;
 }
 <ul class="nav sidebar-menu">
     <li>
@@ -32,7 +33,6 @@
     }
     @if (adminRole)
     {
-        <!--Roles-->
         <li>
             <a asp-area="AdminPanel" asp-controller="AdminRole" asp-action="Index">
                 <i class="menu-icon fa fa-user-secret"></i>
@@ -42,7 +42,6 @@
     }
     @if (adminUser)
     {
-        <!--Users-->
         <li>
             <a asp-area="AdminPanel" asp-controller="AdminUser" asp-action="Index">
                 <i class="menu-icon glyphicon glyphicon-user"></i>
@@ -52,7 +51,6 @@
     }
     @if (adminTicket)
     {
-        <!--Tickets-->
         <li>
             <a asp-area="AdminPanel" asp-controller="AdminTicket" asp-action="Index">
                 <i class="menu-icon glyphicon glyphicon-comment"></i>
@@ -62,7 +60,6 @@
     }
     @if (adminGroup)
     {
-        <!--Groups-->
         <li>
             <a asp-area="AdminPanel" asp-controller="ProductGroup" asp-action="Index">
                 <i class="menu-icon fa fa-bar-chart"></i>
@@ -72,7 +69,6 @@
     }
     @if (adminBook)
     {
-        <!--Books-->
         <li>
             <a href="#" class="menu-dropdown">
                 <i class="menu-icon fa fa-book"></i>
@@ -95,9 +91,17 @@
             </ul>
         </li>
     }
+    @if (adminAudioBook)
+    {
+        <li>
+            <a asp-area="AdminPanel" asp-controller="AdminAudioBook" asp-action="Index">
+                <i class="menu-icon fa fa-music"></i>
+                <span class="menu-text"> مدیریت کتاب صوتی ها </span>
+            </a>
+        </li>
+    }
     @if (adminOrder)
     {
-        <!--Orders-->
         <li>
             <a asp-area="AdminPanel" asp-controller="AdminOrder" asp-action="Index">
                 <i class="menu-icon fa fa-cart-plus"></i>
@@ -107,7 +111,6 @@
     }
     @if (adminNews)
     {
-        <!--news letter-->
         <li>
             <a asp-area="AdminPanel" asp-controller="AdminNews" asp-action="Index">
                 <i class="menu-icon fa fa-paper-plane"></i>
@@ -117,7 +120,6 @@
     }
     @if (adminContactUs)
     {
-        <!--news letter-->
         <li>
             <a asp-area="AdminPanel" asp-controller="AdminContactUs" asp-action="Index">
                 <i class="menu-icon fa fa-users"></i>
@@ -133,7 +135,6 @@
     }
     @if (adminDiscount)
     {
-        <!--news letter-->
         <li>
             <a asp-area="AdminPanel" asp-controller="AdminDiscount" asp-action="Index">
                 <i class="menu-icon fa fa-money"></i>
@@ -143,7 +144,6 @@
     }
     @if (adminBlog)
     {
-        <!--news letter-->
         <li>
             <a asp-area="AdminPanel" asp-controller="AdminBlog" asp-action="Index">
                 <i class="menu-icon fa fa-paperclip"></i>
@@ -153,7 +153,6 @@
     }
     @if (adminComment)
     {
-        <!--news letter-->
         <li>
             <a asp-area="AdminPanel" asp-controller="AdminComment" asp-action="Index">
                 <i class="menu-icon fa fa-comment"></i>
@@ -163,7 +162,6 @@
     }
     @if (adminExam)
     {
-        <!--news letter-->
         <li>
             <a asp-area="AdminPanel" asp-controller="Exam" asp-action="Index">
                 <i class="menu-icon fa fa-question"></i>
@@ -173,7 +171,6 @@
     }
     @if (adminBanner)
     {
-        <!--news letter-->
         <li>
             <a asp-area="AdminPanel" asp-controller="AdminBanner" asp-action="Index">
                 <i class="menu-icon fa fa-picture-o"></i>

@@ -81,6 +81,11 @@ namespace KetabAbee.Application.Extensions
                              char.IsWhiteSpace(item));
         }
 
+        public static string ToMegaByteForm(this float value)
+        {
+            return value + " مگابایت ";
+        }
+
         public static string DomainAddress = "https://localhost:44338";
     }
 }

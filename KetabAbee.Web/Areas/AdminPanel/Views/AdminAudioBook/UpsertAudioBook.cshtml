@@ -1,0 +1,170 @@
+﻿@using KetabAbee.Application.Extensions
+@model KetabAbee.Application.DTOs.Admin.AudioBook.CreateAndEditAudioBookViewModel
+@{
+    bool isInEditMode = Model != null;
+    @if (isInEditMode)
+    {
+        ViewData["Title"] = "ویرایش کتاب صوتی";
+    }
+    else
+    {
+        ViewData["Title"] = "افزودن کتاب صوتی";
+    }
+}
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imageUp').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#Image").change(function () {
+            readURL(this);
+        });
+    </script>
+    <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('Review', {
+            customConfig: '/js/Config.js'
+        });
+    </script>
+}
+
+
+<div class="page-breadcrumbs margin-bottom-20">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a asp-controller="AdminHome" asp-action="Home">خانه</a>
+        </li>
+        <li>
+            <a asp-controller="AdminAudioBook" asp-action="Index">کتاب صوتی ها</a>
+        </li>
+        <li class="active">@ViewData["Title"]</li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-md-11"></div>
+    <div class="col-md-1">
+        <a class="btn btn-magenta margin-bottom-10" onclick="window.history.go(-1);">بازگشت</a>
+    </div>
+</div>
+<form asp-area="AdminPanel" asp-controller="AdminAudioBook" asp-action="UpsertAudioBook" method="post" role="form" enctype="multipart/form-data">
+    @if (isInEditMode)
+    {
+        <input type="hidden" asp-for="AudioBookId" />
+        <input type="hidden" asp-for="ImageName" />
+        <input type="hidden" asp-for="FileName" />
+    }
+    <div class="col-lg-8 col-sm-8 col-xs-12">
+        <div class="widget flat radius-bordered">
+            <div class="widget-header bg-blue">
+                <span class="widget-caption">@ViewData["Title"]</span>
+            </div>
+            <div class="widget-body">
+                <div id="registration-form">
+                    <div class="form-title">
+                        مشخصات کتاب صوتی
+                    </div>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input type="text" class="form-control" asp-for="Title" placeholder="عنوان کتاب صوتی">
+                            <i class="glyphicon glyphicon-music circular"></i>
+                        </span>
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input type="text" class="form-control" asp-for="Writer" placeholder="نویسنده">
+                        </span>
+                        <span asp-validation-for="Writer" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input type="text" class="form-control" asp-for="Speaker" placeholder="گوینده">
+                        </span>
+                        <span asp-validation-for="Speaker" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>نقد و بررسی</label>
+                        <span class="input-icon icon-right">
+                            <textarea class="form-control" asp-for="Review" placeholder="نقد و بررسی برای این کتاب صوتی بنویسید"></textarea>
+                        </span>
+                        <span asp-validation-for="Review" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>توضیحات صفحه</label>
+                        <span class="input-icon icon-right">
+                            <textarea class="form-control" asp-for="PageDescription" placeholder="توضیحات صفحه برای این کتاب صوتی ..."></textarea>
+                        </span>
+                        <span asp-validation-for="PageDescription" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-sm-4 col-xs-12">
+        <div class="widget flat radius-bordered">
+            <div class="widget-header bg-azure">
+                <span class="widget-caption">فایلهای کتاب صوتی</span>
+            </div>
+            <div class="widget-body">
+                <div id="registration-form">
+                    <label>فایل صوتی</label>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input type="file" asp-for="File" class="form-control custom-file-input">
+                            <i class="fa fa-file circular"></i>
+                            <span asp-validation-for="File" class="text-danger"></span>
+                        </span>
+                        <span>
+                            <input type="number" asp-for="FileSize" class="form-control margin-bottom-10 margin-top-10" placeholder="حجم فایل (مگابایت)">
+                            <span asp-validation-for="FileSize" class="text-danger"></span>
+                        </span>
+                        @if (isInEditMode && Model.FileName != "")
+                        {
+                            <div class="text-center">
+                                <audio controls>
+                                    <source src="@PathExtensions.AudioBookFileFullAddress(Model.FileName)" type="audio/mpeg">
+                                </audio>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div id="registration-form">
+                    <label>تصویر</label>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input type="file" asp-for="Image" class="form-control custom-file-input">
+                            <i class="fa fa-image circular"></i>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        @if (isInEditMode)
+                        {
+                            <img class="thumbnail img-fluid max-width100" id="imageUp" src="@PathExtensions.AudioBookImageFullAddress(Model.ImageName)" alt="book" />
+                        }
+                        else
+                        {
+                            <img class="thumbnail img-fluid max-width100" id="imageUp" src="/images/Defualt.jpg" alt="book" />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <button type="submit" class="btn btn-success btn-lg btn-block">@(isInEditMode ? "ویرایش":"ثبت")</button>
+    </div>
+</form>
+

@@ -35,5 +35,7 @@ namespace KetabAbee.Application.Const
         public const int AdminExams = 13;
 
         public const int AdminBanners = 14;
+
+        public const int AdminAudioBooks = 15;
     }
 }

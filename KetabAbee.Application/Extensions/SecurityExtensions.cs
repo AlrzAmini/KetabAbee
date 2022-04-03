@@ -1,11 +1,14 @@
 ﻿using Ganss.XSS;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.Security;
+using Microsoft.AspNetCore.Http;
 
 namespace KetabAbee.Application.Extensions
 {
@@ -45,6 +48,15 @@ namespace KetabAbee.Application.Extensions
             {
                 return false;
             }
+        }
+
+        public static bool IsValidAudio(this IFormFile file)
+        {
+            string[] extensions = { "m4a", "flac", "mp3", "mp4", "wav", "wma", "aac" };
+
+            var extension = Path.GetExtension(file.FileName)?.ToLower();
+
+            return extensions.Any(e => e == extension);
         }
     }
 }

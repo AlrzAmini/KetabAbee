@@ -22,6 +22,8 @@ namespace KetabAbee.Web.Areas.AdminPanel.ViewComponents
         {
             var userId = HttpContext.User.GetUserId();
 
+            #region permissios
+
             ViewBag.AdminTask = await _permissionService.IsUserHaveRole(userId, RoleIds.Manager);
             ViewBag.AdminRole = _permissionService.CheckPermission(PerIds.AdminRoles, userId);
             ViewBag.AdminUser = _permissionService.CheckPermission(PerIds.AdminUsers, userId);
@@ -36,7 +38,9 @@ namespace KetabAbee.Web.Areas.AdminPanel.ViewComponents
             ViewBag.AdminComment = _permissionService.CheckPermission(PerIds.AdminComments, userId);
             ViewBag.AdminExam = _permissionService.CheckPermission(PerIds.AdminExams, userId);
             ViewBag.AdminBanner = _permissionService.CheckPermission(PerIds.AdminBanners, userId);
+            ViewBag.AdminAudioBook = _permissionService.CheckPermission(PerIds.AdminAudioBooks, userId);
 
+            #endregion
 
             return View("AdminSideBar");
         }
