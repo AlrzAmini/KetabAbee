@@ -56,6 +56,9 @@ namespace KetabAbee.Data.Migrations
                         .HasMaxLength(350)
                         .HasColumnType("nvarchar(350)");
 
+                    b.Property<int>("Time")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(350)

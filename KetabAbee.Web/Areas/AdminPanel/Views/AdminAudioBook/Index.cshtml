@@ -40,6 +40,9 @@
                         گوینده
                     </th>
                     <th>
+                        زمان
+                    </th>
+                    <th>
                         حجم فایل
                     </th>
                     <th>
@@ -58,33 +61,36 @@
                 {
                     foreach (var book in Model.AudioBooks)
                     {
-                        <tr>
-                            <td>
-                                @book.AudioBookId
-                            </td>
-                            <td>
-                                @book.Title
-                            </td>
-                            <td>
-                                @book.Writer
-                            </td>
-                            <td>
-                                @book.Speaker
-                            </td>
-                            <td>
-                                @book.FileSize.ToMegaByteForm()
-                            </td>
-                            <td>
-                                @book.CreateDate.ToShamsi()
-                            </td>
-                            <td class="text-align-center">
-                                <img alt="@book.Title" src="@book.ImageLocation" class="img-fluid width-50" />
-                            </td>
-                            <td>
-                                <a class="btn btn-info" asp-controller="AdminAudioBook" asp-action="UpsertAudioBook" asp-route-audiobookId="@book.AudioBookId">ویرایش</a>
-                                <a class="btn btn-danger" asp-controller="AdminAudioBook" asp-action="DeleteAudioBook" onclick="return confirm('از حذف این کتاب صوتی اطمینان دارید ؟')" asp-route-audiobookId="@book.AudioBookId">حذف</a>
-                            </td>
-                        </tr>
+                <tr>
+                    <td>
+                        @book.AudioBookId
+                    </td>
+                    <td>
+                        @book.Title
+                    </td>
+                    <td>
+                        @book.Writer
+                    </td>
+                    <td>
+                        @book.Speaker
+                    </td>
+                    <td>
+                        @book.Time.ShowAudioBookTime()
+                    </td>
+                    <td>
+                        @book.FileSize.ToMegaByteForm()
+                    </td>
+                    <td>
+                        @book.CreateDate.ToShamsi()
+                    </td>
+                    <td class="text-align-center">
+                        <img alt="@book.Title" src="@book.ImageLocation" class="img-fluid width-50" />
+                    </td>
+                    <td>
+                        <a class="btn btn-info" asp-controller="AdminAudioBook" asp-action="UpsertAudioBook" asp-route-audiobookId="@book.AudioBookId">ویرایش</a>
+                        <a class="btn btn-danger" asp-controller="AdminAudioBook" asp-action="DeleteAudioBook" onclick="return confirm('از حذف این کتاب صوتی اطمینان دارید ؟')" asp-route-audiobookId="@book.AudioBookId">حذف</a>
+                    </td>
+                </tr>
                     }
                 }
                 else

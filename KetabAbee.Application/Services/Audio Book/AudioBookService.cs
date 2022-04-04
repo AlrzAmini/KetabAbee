@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs.Admin.AudioBook;
+using KetabAbee.Application.DTOs.AudioBook;
 using KetabAbee.Application.DTOs.Paging;
 using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Generators;
@@ -35,28 +36,10 @@ namespace KetabAbee.Application.Services.Audio_Book
                 Review = model.Review,
                 Speaker = model.Speaker,
                 Title = model.Title,
-                ImageName = "Default.jpg"
+                ImageName = "Default.jpg",
+                Time = model.Time,
+                FileName = "Default.mp3"
             };
-
-            #region add image
-
-            if (model.Image != null)
-            {
-                // generate unique name
-                newAudioBook.ImageName = CodeGenerator.GenerateUniqCode() + Path.GetExtension(model.Image.FileName);
-                // select save path 
-                var imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot" + PathExtensions.AudioBookImageFullAddress(newAudioBook.ImageName));
-                // save in path
-                await using (var stream = new FileStream(imgPath, FileMode.Create))
-                {
-                    await model.Image.CopyToAsync(stream);
-                }
-                var imgReSizer = new ImageConvertor();
-                var imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot" + PathExtensions.AudioBookThumbFullAddress(newAudioBook.ImageName));
-                imgReSizer.Image_resize(imgPath, imgThumbPath, 400);
-            }
-
-            #endregion
 
             #region add file
 
@@ -79,6 +62,26 @@ namespace KetabAbee.Application.Services.Audio_Book
 
             #endregion
 
+            #region add image
+
+            if (model.Image != null)
+            {
+                // generate unique name
+                newAudioBook.ImageName = CodeGenerator.GenerateUniqCode() + Path.GetExtension(model.Image.FileName);
+                // select save path 
+                var imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot" + PathExtensions.AudioBookImageFullAddress(newAudioBook.ImageName));
+                // save in path
+                await using (var stream = new FileStream(imgPath, FileMode.Create))
+                {
+                    await model.Image.CopyToAsync(stream);
+                }
+                var imgReSizer = new ImageConvertor();
+                var imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot" + PathExtensions.AudioBookThumbFullAddress(newAudioBook.ImageName));
+                imgReSizer.Image_resize(imgPath, imgThumbPath, 400);
+            }
+
+            #endregion
+
             if (await _audioBookRepository.AddAudioBook(newAudioBook))
             {
                 return CreateAudioBookResult.Success;
@@ -94,6 +97,19 @@ namespace KetabAbee.Application.Services.Audio_Book
             {
                 return false;
             }
+
+            #region delete file
+
+            if (audioBook.FileName != null)
+            {
+                var fileDeletePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot" + PathExtensions.AudioBookFileFullAddress(audioBook.FileName));
+                if (File.Exists(fileDeletePath))
+                {
+                    File.Delete(fileDeletePath);
+                }
+            }
+
+            #endregion
 
             #region delete image
 
@@ -118,19 +134,6 @@ namespace KetabAbee.Application.Services.Audio_Book
 
             #endregion
 
-            #region delete file
-
-            if (audioBook.FileName != null)
-            {
-                var fileDeletePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot" + PathExtensions.AudioBookFileFullAddress(audioBook.FileName));
-                if (File.Exists(fileDeletePath))
-                {
-                    File.Delete(fileDeletePath);
-                }
-            }
-
-            #endregion
-
             return await _audioBookRepository.DeleteAudioBook(audioBook);
         }
 
@@ -148,6 +151,43 @@ namespace KetabAbee.Application.Services.Audio_Book
             audioBook.Speaker = model.Speaker;
             audioBook.Writer = model.Writer;
             audioBook.Title = model.Title;
+            audioBook.Time = model.Time;
+
+            #region edit file
+
+            if (model.File != null)
+            {
+                if (!model.File.IsValidAudio())
+                {
+                    return EditAudioBookResult.ValidationFileError;
+                }
+
+                #region delete old file
+
+                var fileDeletePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot" + PathExtensions.AudioBookFileFullAddress(audioBook.FileName));
+                if (File.Exists(fileDeletePath))
+                {
+                    File.Delete(fileDeletePath);
+                }
+
+                #endregion
+
+                #region add new file
+
+                // generate unique name
+                audioBook.FileName = CodeGenerator.GenerateUniqCode() + Path.GetExtension(model.File.FileName);
+                // select save path 
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot" + PathExtensions.AudioBookFileFullAddress(audioBook.FileName));
+                // save in path
+                await using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.File.CopyToAsync(stream);
+                }
+
+                #endregion
+            }
+
+            #endregion
 
             #region edit image
 
@@ -201,42 +241,6 @@ namespace KetabAbee.Application.Services.Audio_Book
 
             #endregion
 
-            #region edit file
-
-            if (model.File != null)
-            {
-                if (!model.File.IsValidAudio())
-                {
-                    return EditAudioBookResult.ValidationFileError;
-                }
-
-                #region delete old file
-
-                var fileDeletePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot" + PathExtensions.AudioBookFileFullAddress(audioBook.FileName));
-                if (File.Exists(fileDeletePath))
-                {
-                    File.Delete(fileDeletePath);
-                }
-
-                #endregion
-
-                #region add new file
-
-                // generate unique name
-                audioBook.FileName = CodeGenerator.GenerateUniqCode() + Path.GetExtension(model.File.FileName);
-                // select save path 
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot" + PathExtensions.AudioBookFileFullAddress(audioBook.FileName));
-                // save in path
-                await using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await model.File.CopyToAsync(stream);
-                }
-
-                #endregion
-            }
-
-            #endregion
-
             if (await _audioBookRepository.UpdateAudioBook(audioBook))
             {
                 return EditAudioBookResult.Success;
@@ -261,7 +265,8 @@ namespace KetabAbee.Application.Services.Audio_Book
                     Speaker = q.Speaker,
                     ImageLocation = PathExtensions.AudioBookImageFullAddress(q.ImageName),
                     FileSize = q.FileSize,
-                    AudioBookId = q.AudioBookId
+                    AudioBookId = q.AudioBookId,
+                    Time = q.Time
                 });
 
             #endregion
@@ -317,6 +322,46 @@ namespace KetabAbee.Application.Services.Audio_Book
             return filter.SetPaging(pager).SetAudioBooks(audioBooks);
         }
 
+        public async Task<List<AudioBookBoxViewModel>> GetAllAudioBooksForShow()
+        {
+            var result = await _audioBookRepository.GetAudioBooks();
+            return result
+                .Select(r => new AudioBookBoxViewModel
+                {
+                    Time = r.Time,
+                    ImageAlt = r.Title + " کتاب صوتی ",
+                    ImageSavePath = PathExtensions.AudioBookThumbFullAddress(r.ImageName),
+                    Title = r.Title + " با صدای " + r.Speaker,
+                    Id = r.AudioBookId,
+                    Name = r.Title
+                }).ToList();
+        }
+
+        public async Task<ShowAudioBookInfoViewModel> GetAudioBookForShowById(int audiobookId)
+        {
+            var audiobook = await _audioBookRepository.GetAudioBookById(audiobookId);
+            if (audiobook == null)
+            {
+                return null;
+            }
+
+            return new ShowAudioBookInfoViewModel
+            {
+                AudioBookId = audiobook.AudioBookId,
+                Writer = audiobook.Writer,
+                Time = audiobook.Time,
+                PageDescription = audiobook.PageDescription,
+                FileSavePath = PathExtensions.AudioBookFileFullAddress(audiobook.FileName),
+                FileSize = audiobook.FileSize,
+                ImageSavePath = PathExtensions.AudioBookImageFullAddress(audiobook.ImageName),
+                Review = audiobook.Review,
+                Speaker = audiobook.Speaker,
+                Title = audiobook.Title + " اثر " + audiobook.Writer + " با صدای " + audiobook.Speaker,
+                Name = audiobook.Title,
+                ImageName = audiobook.ImageName
+            };
+        }
+
         public async Task<CreateAndEditAudioBookViewModel> GetAudioBookForUpsertById(int audiobookId)
         {
             var audioBook = await _audioBookRepository.GetAudioBookById(audiobookId);
@@ -334,7 +379,8 @@ namespace KetabAbee.Application.Services.Audio_Book
                 FileSize = audioBook.FileSize,
                 AudioBookId = audioBook.AudioBookId,
                 FileName = audioBook.FileName,
-                Review = audioBook.Review
+                Review = audioBook.Review,
+                Time = audioBook.Time
             };
         }
     }

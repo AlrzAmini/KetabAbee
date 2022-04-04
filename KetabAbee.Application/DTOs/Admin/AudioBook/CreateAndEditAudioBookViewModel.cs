@@ -34,6 +34,10 @@ namespace KetabAbee.Application.DTOs.Admin.AudioBook
         [DisplayName("نقد و بررسی")]
         public string Review { get; set; }
 
+        [DisplayName("زمان")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
+        public int Time { get; set; }
+
         [DisplayName("توضیحات صفحه")]
         [MinLength(200, ErrorMessage = "{0} نمیتواند کمتر از {1} کاراکتر داشته باشد")]
         [MaxLength(300, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]

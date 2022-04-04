@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using KetabAbee.Application.Const;
 using KetabAbee.Application.DTOs.Admin.AudioBook;
-using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Audio_Book;
 using KetabAbee.Application.Security;
 
@@ -35,7 +31,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Audio_Book
 
         #endregion
 
-        #region create audio book
+        #region create and edit audio book
 
         [HttpGet("Upsert")]
         public async Task<IActionResult> UpsertAudioBook(int? audiobookId)
@@ -53,6 +49,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Audio_Book
             {
                 return View(model);
             }
+
             // create
             if (model.AudioBookId == 0)
             {

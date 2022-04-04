@@ -24,6 +24,8 @@ namespace KetabAbee.Application.DTOs.Admin.AudioBook
 
         public float FileSize { get; set; }
 
+        public int Time { get; set; }
+
         #endregion
     }
 }

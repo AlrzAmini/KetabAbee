@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Admin.AudioBook;
+using KetabAbee.Application.DTOs.AudioBook;
 
 namespace KetabAbee.Application.Interfaces.Audio_Book
 {
@@ -14,5 +16,9 @@ namespace KetabAbee.Application.Interfaces.Audio_Book
         Task<CreateAudioBookResult> AddAudioBook(CreateAndEditAudioBookViewModel model);
 
         Task<EditAudioBookResult> EditAudioBook(CreateAndEditAudioBookViewModel model);
+
+        Task<List<AudioBookBoxViewModel>> GetAllAudioBooksForShow();
+
+        Task<ShowAudioBookInfoViewModel> GetAudioBookForShowById(int audiobookId);
     }
 }

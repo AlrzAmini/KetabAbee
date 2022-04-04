@@ -52,11 +52,11 @@ namespace KetabAbee.Application.Extensions
 
         public static bool IsValidAudio(this IFormFile file)
         {
-            string[] extensions = { "m4a", "flac", "mp3", "mp4", "wav", "wma", "aac" };
+            string[] extensions = { ".m4a", ".flac", ".mp3", ".mp4", ".wav", ".wma", ".aac" };
 
             var extension = Path.GetExtension(file.FileName)?.ToLower();
 
-            return extensions.Any(e => e == extension);
+            return extensions.Any(e => extension != null && e == extension);
         }
     }
 }

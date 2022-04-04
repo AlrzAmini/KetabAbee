@@ -1,7 +1,7 @@
 ﻿@using KetabAbee.Application.Extensions
 @model KetabAbee.Application.DTOs.Admin.AudioBook.CreateAndEditAudioBookViewModel
 @{
-    bool isInEditMode = Model != null;
+    bool isInEditMode = Model != null && Model.AudioBookId != 0;
     @if (isInEditMode)
     {
         ViewData["Title"] = "ویرایش کتاب صوتی";
@@ -126,8 +126,14 @@
                             <span asp-validation-for="File" class="text-danger"></span>
                         </span>
                         <span>
+                            <label>حجم فایل</label>
                             <input type="number" asp-for="FileSize" class="form-control margin-bottom-10 margin-top-10" placeholder="حجم فایل (مگابایت)">
                             <span asp-validation-for="FileSize" class="text-danger"></span>
+                        </span>
+                        <span>
+                            <label>زمان فایل</label>
+                            <input type="number" asp-for="Time" class="form-control margin-bottom-10 margin-top-10" placeholder="زمان فایل (دقیقه)">
+                            <span asp-validation-for="Time" class="text-danger"></span>
                         </span>
                         @if (isInEditMode && Model.FileName != "")
                         {

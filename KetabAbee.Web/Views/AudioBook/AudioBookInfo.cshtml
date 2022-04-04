@@ -1,0 +1,471 @@
+﻿@using KetabAbee.Application.Extensions
+@using KetabAbee.Application.Convertors
+@model KetabAbee.Application.DTOs.AudioBook.ShowAudioBookInfoViewModel
+@{
+    ViewData["Title"] = Model.Title;
+}
+@section MetaTag
+{
+    <meta name="googlebot" content="index,follow" />
+    <meta name="robots" content="noodp,noydir" />
+    <meta name="description" content="@Model.PageDescription" />
+    <meta property=og:site_name value="کتابفروشی کتاب آبی">
+    <meta property=og:title content="@Model.Title">
+    <meta property=og:url content="@CommonExtensions.DomainAddress/A-Book/@Model.AudioBookId/@Model.Name.NameFixerForUrl()" />
+    <meta property=og:image content="@PathExtensions.AudioBookImageFullAddress(Model.ImageName)">
+    <meta property=og:image:url content="@PathExtensions.AudioBookImageFullAddress(Model.ImageName)" />
+    <meta property=og:image:width content="700">
+    <meta property=og:image:type content="image/jpg">
+    <meta property=og:description content="">
+    <meta property=og:price:currency content="IRR">
+    <meta property=og:locale content="ir_FA">
+}
+<main class="page-content mt-205">
+    <div class="container container--md">
+        <div class="row mb-4">
+            <div class="col-lg-8 col-md-8 mb-md-0 mb-3">
+                <div class="row mb-1">
+                    <div class="col-12">
+                        <!-- breadcrumb -->
+                        <div class="breadcrumb mb-1">
+                            <nav>
+                                <a href="/">خانه</a>
+                                <a asp-controller="AudioBook" asp-action="AudioBooks">کتاب های صوتی</a>
+                                <a>@Model.Name</a>
+                            </nav>
+                        </div>
+                        <!-- end breadcrumb -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="product-detail">
+                            <div class="product-title border-0 mb-3">
+                                <h1>
+                                    @Model.Title
+                                </h1>
+                            </div>
+                            <ul class="nav nav-tabs" id="product-tab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link active" id="productDescription-tab" data-toggle="tab" href="#productDescription" role="tab" aria-controls="productDescription" aria-selected="true">جزییات</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="productComments-tab" data-toggle="tab" href="#productComments" role="tab" aria-controls="productComments" aria-selected="false">نظرات</a>
+                                </li>
+                            </ul>
+                            <div class="product-tab-content box box--rounded rounded--top-0">
+                                <div class="tab-content p-0" id="product-tab">
+                                    <div class="tab-pane fade show active" id="productDescription" role="tabpanel" aria-labelledby="productDescription-tab">
+                                        <div class="row">
+                                            <div class="col-lg-10">
+                                                <div class="product-thumbnail">
+                                                    <img src="@Model.ImageSavePath" class="rounded-lg img-fluid" alt="@Model.Title">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 d-lg-block d-none">
+                                                <div class="services row">
+                                                    <div class="col-12">
+                                                        <div class="service-item flex-column align-items-center">
+                                                            <img src="/images/services/delivery-person.png" class="ml-0" alt="">
+                                                            <div class="service-item-body text-center">
+                                                                <h6 class="text-sm">استفاده آسان</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="service-item flex-column align-items-center">
+                                                            <img src="/images/services/headset.png" class="ml-0" alt="">
+                                                            <div class="service-item-body text-center">
+                                                                <h6 class="text-sm">با کیفیت</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="service-item flex-column align-items-center">
+                                                            <img src="/images/services/debit-card.png" class="ml-0" alt="">
+                                                            <div class="service-item-body text-center">
+                                                                <h6 class="text-sm">رایگان</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="product-desc">
+                                            <h3 class="text-sm text-secondary font-weight-bold text-center mb-4 mt-3">
+                                                @Model.Title
+                                            </h3>
+                                            <h3>نقد و بررسی</h3>
+                                            <div class="pb-2">
+                                                <hr>
+                                            </div>
+                                            <p class="mb-3">
+                                                @Html.Raw(Model.Review)
+                                            </p>
+                                            <h3 class="mb-3">ویژگی های قالب HTML فروشگاهی همتا</h3>
+                                            <div class="pb-2">
+                                                <hr>
+                                            </div>
+                                            <ul class="list-style--circle pr-3">
+                                                <li class="text-muted">طراحی زیبا و حرفه ای</li>
+                                                <li class="text-muted">کاملا ریسپانسیو و واکنشگرا</li>
+                                                <li class="text-muted">
+                                                    کدنویسی اصولی،حرفه ای، استاندارد و تمیز
+                                                </li>
+                                                <li class="text-muted">
+                                                    انواع اسلایدر ها(اسلایدر محصولات،اسلایدر
+                                                    اصلی و محصولات شگفت
+                                                    انگیز)
+                                                </li>
+                                                <li class="text-muted">انواع مگامنوها</li>
+                                                <li class="text-muted">فیلترهای مختلف در صفحه لیست محصولات</li>
+                                                <li class="text-muted">بر پایه فریمورک محبوب Bootstrap</li>
+                                                <li class="text-muted">
+                                                    سازگار با انوع مرورگرها و دستگاه های
+                                                    مختلف
+                                                </li>
+                                                <li class="text-muted">طراحی منحصر به فرد و مدرن</li>
+                                                <li class="text-muted">mobile friendly</li>
+                                                <li class="text-muted">
+                                                    استفاده از نسخه کامل فونت آیکون
+                                                    fontawesome
+                                                </li>
+                                                <li class="text-muted">آپدیت های رایگان</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="productComments" role="tabpanel" aria-labelledby="productComments-tab">
+                                        <!-- product-review -->
+                                        <div class="product-review-form mb-3">
+                                            <form action="#">
+                                                <div class="row align-items-center">
+                                                    <div class="col-lg-6">
+                                                        <div class="form-element-row">
+                                                            <label for="phone-number" class="label-element">
+                                                                عنوان نظر شما
+                                                                (اجباری)
+                                                            </label>
+                                                            <input type="text" class="input-element">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label>امتیاز شما:</label>
+                                                            <div class="add-rating">
+                                                                <input type="radio" name="rating" id="rating-1">
+                                                                <label for="rating-1"></label>
+                                                                <input type="radio" name="rating" id="rating-2">
+                                                                <label for="rating-2"></label>
+                                                                <input type="radio" name="rating" id="rating-3">
+                                                                <label for="rating-3"></label>
+                                                                <input type="radio" name="rating" id="rating-4">
+                                                                <label for="rating-4"></label>
+                                                                <input type="radio" name="rating" id="rating-5">
+                                                                <label for="rating-5"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-element-row">
+                                                            <label for="phone-number" class="label-element">
+                                                                ایمیل
+                                                                شما
+                                                            </label>
+                                                            <input type="text" class="input-element">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="form-element-row">
+                                                            <label for="phone-number" class="label-element">
+                                                                نظر
+                                                                شما
+                                                            </label>
+                                                            <textarea name="comment" id="comment" cols="30" rows="10" class="input-element"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <button class="btn btn-primary px-3">ارسال نظر <i class="fad fa-comment-alt-edit"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <div class="section-title mb-1 mt-4">
+                                                نظرات کاربران (۵)
+                                            </div>
+                                            <hr>
+                                        </div>
+                                        <div class="product-review mb-4">
+                                            <div class="blockquote comment mb-4">
+                                                <div class="blockquote-content mb-2">
+                                                    <div class="d-sm-flex align-items-center mb-2">
+                                                        <h6 class="font-weight-bold mb-0">راضیم</h6><span class="d-none d-sm-inline mx-3 text-muted opacity-50">|</span>
+                                                        <div class="ratings-container mb-0">
+                                                            <div class="ratings">
+                                                                <div class="ratings-val" style="width: 88%;">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <p>
+                                                        من ۳روز که خریدم و راضی هستم دوربینش خوبه فقط به نظرم
+                                                        باتری زود تموم
+                                                        میشه
+                                                        البته دائما هم باهاش کار میکنم ولی هر روز شارژش می‌کنم
+                                                        گوشیه خوش
+                                                        دستیه
+                                                    </p>
+                                                    <footer class="testimonial-footer d-flex align-items-center">
+                                                        <div class="testimonial-avatar">
+                                                            <img src="./assets/images/avatar/avatar.png" alt="Review Author Avatar">
+                                                        </div>
+                                                        <div class="pr-2 flex-grow-1">
+                                                            <div class="blockquote-footer">
+                                                                <span class="d-block font-weight-bold text-dark">حامد</span>
+                                                                <div class="d-flex justify-content-between align-items-center">
+                                                                    <cite class="text-sm">
+                                                                        در تاریخ ۷ فروردین
+                                                                        ۱۳۹۹
+                                                                    </cite>
+                                                                    <a href="#" class="link--with-border-bottom ml-1">پاسخ</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </footer>
+                                                </div>
+                                                <div class="blockquote comment mb-0">
+                                                    <div class="blockquote-content">
+                                                        <div class="d-sm-flex align-items-center mb-2">
+                                                            <h6 class="font-weight-bold mb-0">
+                                                                انتخابی عجیب!!!
+                                                            </h6><span class="d-none d-sm-inline mx-3 text-muted opacity-50">|</span>
+                                                            <div class="ratings-container mb-0">
+                                                                <div class="ratings">
+                                                                    <div class="ratings-val" style="width: 88%;"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <p>
+                                                            یعنی واقعا با این اختلاف قیمت خیلی کم بین این گوشی با
+                                                            حافظه ۳۲ و
+                                                            حافظه
+                                                            ۱۲۸ . خرید این گوشی با حافظه ۳۲ هیچ توجیه منطقی
+                                                            ندارد.....
+                                                        </p>
+                                                        <footer class="testimonial-footer d-flex align-items-center">
+                                                            <div class="testimonial-avatar">
+                                                                <img src="./assets/images/avatar/avatar.png" alt="Review Author Avatar">
+                                                            </div>
+                                                            <div class="pr-2 flex-grow-1">
+                                                                <div class="blockquote-footer">
+                                                                    <span class="d-block font-weight-bold text-dark">جلال</span>
+                                                                    <div class="d-flex justify-content-between align-items-center">
+                                                                        <cite class="text-sm">
+                                                                            در تاریخ ۷ فروردین
+                                                                            ۱۳۹۹
+                                                                        </cite>
+                                                                        <a href="#" class="link--with-border-bottom ml-1">پاسخ</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </footer>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="blockquote comment mb-4">
+                                                <div class="blockquote-content">
+                                                    <div class="d-sm-flex align-items-center mb-2">
+                                                        <h6 class="font-weight-bold mb-0">انتخابی عجیب!!!</h6>
+                                                        <span class="d-none d-sm-inline mx-3 text-muted opacity-50">|</span>
+                                                        <div class="ratings-container mb-0">
+                                                            <div class="ratings">
+                                                                <div class="ratings-val" style="width: 88%;">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <p>
+                                                        یعنی واقعا با این اختلاف قیمت خیلی کم بین این گوشی با
+                                                        حافظه ۳۲ و
+                                                        حافظه
+                                                        ۱۲۸ . خرید این گوشی با حافظه ۳۲ هیچ توجیه منطقی
+                                                        ندارد.....
+                                                    </p>
+                                                    <footer class="testimonial-footer d-flex align-items-center">
+                                                        <div class="testimonial-avatar">
+                                                            <img src="./assets/images/avatar/avatar.png" alt="Review Author Avatar">
+                                                        </div>
+                                                        <div class="pr-2 flex-grow-1">
+                                                            <div class="blockquote-footer">
+                                                                <span class="d-block font-weight-bold text-dark">سامان</span>
+                                                                <div class="d-flex justify-content-between align-items-center">
+                                                                    <cite class="text-sm">
+                                                                        در تاریخ ۷ فروردین
+                                                                        ۱۳۹۹
+                                                                    </cite>
+                                                                    <a href="#" class="link--with-border-bottom ml-1">پاسخ</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </footer>
+                                                </div>
+                                            </div>
+                                            <div class="blockquote comment mb-4">
+                                                <div class="blockquote-content">
+                                                    <div class="d-sm-flex align-items-center mb-2">
+                                                        <h6 class="font-weight-bold mb-0">گوشیA30S</h6><span class="d-none d-sm-inline mx-3 text-muted opacity-50">|</span>
+                                                        <div class="ratings-container mb-0">
+                                                            <div class="ratings">
+                                                                <div class="ratings-val" style="width: 88%;">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <p>
+                                                        باتوجه به قیمت عالیه.فرق چندانی با A50نداره فقط دوربین
+                                                        پشت که البته
+                                                        من
+                                                        دوربین هر دو گوشی رو باهم‌مقایسه کردم فرقی نداشتن
+                                                    </p>
+                                                    <footer class="testimonial-footer d-flex align-items-center">
+                                                        <div class="testimonial-avatar">
+                                                            <img src="./assets/images/avatar/avatar.png" alt="Review Author Avatar">
+                                                        </div>
+                                                        <div class="pr-2 flex-grow-1">
+                                                            <div class="blockquote-footer">
+                                                                <span class="d-block font-weight-bold text-dark">سامان</span>
+                                                                <div class="d-flex justify-content-between align-items-center">
+                                                                    <cite class="text-sm">
+                                                                        در تاریخ ۷ فروردین
+                                                                        ۱۳۹۹
+                                                                    </cite>
+                                                                    <a href="#" class="link--with-border-bottom ml-1">پاسخ</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </footer>
+                                                </div>
+                                            </div>
+                                            <div class="blockquote comment mb-4">
+                                                <div class="blockquote-content">
+                                                    <div class="d-sm-flex align-items-center mb-2">
+                                                        <h6 class="font-weight-bold mb-0">از همه نظر عالی</h6>
+                                                        <span class="d-none d-sm-inline mx-3 text-muted opacity-50">|</span>
+                                                        <div class="ratings-container mb-0">
+                                                            <div class="ratings">
+                                                                <div class="ratings-val" style="width: 88%;">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <p>من که نقطه ضعفی توش پیدا نکردم</p>
+                                                    <footer class="testimonial-footer d-flex align-items-center">
+                                                        <div class="testimonial-avatar">
+                                                            <img src="./assets/images/avatar/avatar.png" alt="Review Author Avatar">
+                                                        </div>
+                                                        <div class="pr-2 flex-grow-1">
+                                                            <div class="blockquote-footer">
+                                                                <span class="d-block font-weight-bold text-dark">سام</span>
+                                                                <div class="d-flex justify-content-between align-items-center">
+                                                                    <cite class="text-sm">
+                                                                        در تاریخ ۷ فروردین
+                                                                        ۱۳۹۹
+                                                                    </cite>
+                                                                    <a href="#" class="link--with-border-bottom ml-1">پاسخ</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </footer>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end product-review -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <div class="box box--rounded pt-3 mb-3">
+                    <div class="product-detail">
+                        <div class="product-price">
+                            <div class="product-price-info">
+                                <div class="product-price-off">
+                                    @Model.FileSize <span>مگابایت</span>
+                                </div>
+                            </div>
+                            <div class="product-price-real">
+                                <div class="product-price-raw">@Model.Time.ShowAudioBookTime() </div>
+                            </div>
+                        </div>
+                        <ul class="text-muted mb-3">
+                            <li><i class="far fa-check"></i> گارانتی کیفیت راست چین</li>
+                            <li><i class="far fa-check"></i> شش ماه ضمانت بازگشت وجه</li>
+                            <li><i class="far fa-check"></i> شش ماه پشتیبانی تضمین شده</li>
+                            <li><i class="far fa-check"></i> آپدیت رایگان، دسترسی مادام العمر به فایل</li>
+                        </ul>
+                        <a href="#" class="btn btn-success btn-block"> دانلود <i class="fad fa-download mr-2"></i></a>
+                    </div>
+                </div>
+                <div class="box box--rounded pt-3 mb-3">
+                    <div class="d-flex justify-content-between px-2 py-2">
+                        <span class="font-weight-bold">تاریخ انتشار</span>
+                        <span class=" text-muted">
+                            ۱۶ بهمن ۱۳۹۹
+                        </span>
+                    </div>
+                    <div class="d-flex justify-content-between px-2 py-2">
+                        <span class="font-weight-bold">تاریخ بروزرسانی</span>
+                        <span class="text-muted">
+                            ۱۶ بهمن ۱۳۹۹
+                        </span>
+                    </div>
+                    <div class="d-flex justify-content-between px-2 py-2">
+                        <span class="font-weight-bold">نسخه فعلی محصول</span>
+                        <span class="text-muted">
+                            1.0.0
+                        </span>
+                    </div>
+                    <div class="d-flex justify-content-between px-2 py-2">
+                        <span class="font-weight-bold">دسته‌بندی‌ اصلی</span>
+                        <a href="#" class="text-primary">
+                            قالب HTML فروشگاهی
+                        </a>
+                    </div>
+                    <div class=" d-flex justify-content-between px-2 py-2">
+                        <span class="font-weight-bold">دسته‌بندی‌</span>
+                        <span class="text-muted">
+                            <span> فروشگاهی</span>،
+                            <span>قالب HTML</span>
+                        </span>
+                    </div>
+                    <div class="d-flex justify-content-between px-2 py-2">
+                        <span class="font-weight-bold">طراحی</span>
+                        <span class="text-muted">
+                            <span>مدرن</span>،
+                            <span>مینیمال</span>
+                        </span>
+                    </div>
+                    <div class="d-flex justify-content-between px-2 py-2">
+                        <span class="font-weight-bold">فایل راهنما</span>
+                        <span class="text-muted">
+                            به زودی
+                        </span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center px-2 py-2">
+                        <span class="font-weight-bold">لینک کوتاه</span>
+                        <div class="form-element-row mb-0">
+                            <input type="text" class="input-element dir-ltr text-sm" value="https://www.rtl-theme.com/?p=171652">
+                        </div>
+                    </div>
+                </div>
+                <p class="text-sm text-muted text-center">
+                    تمامی حقوق برای <strong>BahramiiiRad</strong> محفوظ است!
+                </p>
+            </div>
+        </div>
+    </div>
+</main>
+

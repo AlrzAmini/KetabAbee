@@ -10,6 +10,8 @@ namespace KetabAbee.Domain.Models.Audio_Book
 {
     public class AudioBook
     {
+        #region properties
+
         [Key]
         public int AudioBookId { get; set; }
 
@@ -47,8 +49,13 @@ namespace KetabAbee.Domain.Models.Audio_Book
         [Range(0, 1000, ErrorMessage = "{0} باید بین {1} و {2} باشد")]
         public float FileSize { get; set; }
 
+        [DisplayName("زمان")]
+        public int Time { get; set; }
+
         public DateTime CreateDate { get; set; } = DateTime.Now;
 
         public bool IsDelete { get; set; }
+
+        #endregion
     }
 }

@@ -11,14 +11,19 @@ namespace KetabAbee.Application.Convertors
     {
         public static string ToShamsi(this DateTime date)
         {
-            PersianCalendar pc = new PersianCalendar();
+            var pc = new PersianCalendar();
 
             return pc.GetYear(date) + "/" + pc.GetMonth(date).ToString("00") + "/" + pc.GetDayOfMonth(date).ToString("00");
         }
 
         public static string ToShamsi(this DateTime? date)
         {
-            PersianCalendar pc = new PersianCalendar();
+            var pc = new PersianCalendar();
+
+            if (date == null)
+            {
+                return default;
+            }
 
             return pc.GetYear((DateTime)date) + "/" + pc.GetMonth((DateTime)date).ToString("00") + "/" + pc.GetDayOfMonth((DateTime)date).ToString("00");
         }
@@ -126,13 +131,13 @@ namespace KetabAbee.Application.Convertors
 
         public static DateTime StringShamsiToMiladi(this string shamsi)
         {
-            PersianCalendar pc = new PersianCalendar();
+            var pc = new PersianCalendar();
 
-            int year = int.Parse(shamsi.Substring(6, 4));
-            int month = int.Parse(shamsi.Substring(0, 2));
-            int day = int.Parse(shamsi.Substring(3, 2));
+            var year = int.Parse(shamsi.Substring(6, 4));
+            var month = int.Parse(shamsi.Substring(0, 2));
+            var day = int.Parse(shamsi.Substring(3, 2));
 
-            DateTime dt = pc.ToDateTime(year, month, day, 0, 0, 0, 0);
+            var dt = pc.ToDateTime(year, month, day, 0, 0, 0, 0);
 
             return dt;
         }
@@ -149,12 +154,35 @@ namespace KetabAbee.Application.Convertors
 
         public static DateTime ToMiladiDateTime(this string ts)
         {
-            var spliteDate = ts.GetEnglishNumbers().Split('/');
-            int year = int.Parse(spliteDate[0]);
-            int month = int.Parse(spliteDate[1]);
-            int day = int.Parse(spliteDate[2]);
-            DateTime currentDate = new DateTime(year, month, day, new PersianCalendar());
+            var splitDate = ts.GetEnglishNumbers().Split('/');
+            var year = int.Parse(splitDate[0]);
+            var month = int.Parse(splitDate[1]);
+            var day = int.Parse(splitDate[2]);
+            var currentDate = new DateTime(year, month, day, new PersianCalendar());
             return currentDate;
+        }
+
+        public static string ShowAudioBookTime(this int time)
+        {
+            switch (time)
+            {
+                case < 60:
+                    return time + " دقیقه ";
+                case 60:
+                    return 1 + " ساعت ";
+                case > 60:
+                    {
+                        var hours = time / 60;
+                        var minutes = time % 60;
+
+                        if (minutes == 0)
+                        {
+                            return hours + " ساعت ";
+                        }
+
+                        return hours + " ساعت " + minutes + " دقیقه ";
+                    }
+            }
         }
     }
 }
