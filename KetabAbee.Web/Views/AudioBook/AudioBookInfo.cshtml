@@ -45,21 +45,14 @@
                                     @Model.Title
                                 </h1>
                             </div>
-                        <ul class="nav nav-tabs" id="product-tab" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link active" id="productDescription-tab" data-toggle="tab" href="#productDescription" role="tab" aria-controls="productDescription" aria-selected="true">جزییات</a>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="productComments-tab" data-toggle="tab" href="#productComments" role="tab" aria-controls="productComments" aria-selected="false">نظرات</a>
-                            </li>
-                        </ul>
-                        <div class="alert alert-success mt-2">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <audio controls class="audio-1 mr-10">
-                                    <source src="@Model.FileSavePath" type="audio/ogg">
-                                </audio>
-                            </div>
-                        </div>
+                            <ul class="nav nav-tabs" id="product-tab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link active" id="productDescription-tab" data-toggle="tab" href="#productDescription" role="tab" aria-controls="productDescription" aria-selected="true">جزییات</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="productComments-tab" data-toggle="tab" href="#productComments" role="tab" aria-controls="productComments" aria-selected="false">نظرات</a>
+                                </li>
+                            </ul>
                             <div class="product-tab-content box box--rounded rounded--top-0">
                                 <div class="tab-content p-0" id="product-tab">
                                     <div class="tab-pane fade show active" id="productDescription" role="tabpanel" aria-labelledby="productDescription-tab">
@@ -96,6 +89,13 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="alert alert-success mt-2">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <audio controls class="mr-10">
+                                                    <source src="@Model.FileSavePath" type="audio/ogg">
+                                                </audio>
                                             </div>
                                         </div>
                                         <div class="product-desc">
@@ -383,7 +383,7 @@
                             <li><i class="far fa-check"></i> امکان درخواست کتاب جدید</li>
                             <li><i class="far fa-check"></i> همیشه رایگان :)</li>
                         </ul>
-                        <a href="#" class="btn btn-success btn-block"> دانلود <i class="fad fa-download mr-2"></i></a>
+                        <a asp-controller="AudioBook" asp-action="DownloadFile" asp-route-audiobookId="@Model.AudioBookId" class="btn btn-success btn-block"> دانلود <i class="fad fa-download mr-2"></i></a>
                     </div>
                 </div>
                 <div class="box box--rounded pt-3 mb-3">

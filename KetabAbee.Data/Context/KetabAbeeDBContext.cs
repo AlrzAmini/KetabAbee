@@ -142,6 +142,8 @@ namespace KetabAbee.Data.Context
 
         public DbSet<AudioBook> AudioBooks { get; set; }
 
+        public DbSet<DownloadedAudioBook> DownloadedAudioBooks { get; set; }
+
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

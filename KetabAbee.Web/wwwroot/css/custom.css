@@ -101,6 +101,18 @@ audio::-webkit-media-controls-time-remaining-display {
     transform: none;
 }
 
+.el-trans-3d {
+    transform: translate3d(0px, 0px, 0px);
+}
+
+.w-229 {
+    width: 229.333px;
+}
+
+.ml-10 {
+    margin-left: 10px;
+}
+
 .el-dashboard {
     padding-top: 0px;
     padding-bottom: 1px;

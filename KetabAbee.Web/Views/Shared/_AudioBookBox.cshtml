@@ -7,10 +7,6 @@
             <a asp-controller="AudioBook" asp-action="AudioBookInfo" asp-route-audiobookId="@Model.Id" asp-route-audiobookName="@Model.Name.NameFixerForUrl()" class="product-image">
                 <img src="@Model.ImageSavePath" alt="@Model.ImageAlt">
             </a>
-            <div class="product-card-actions">
-                <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                <button class="add-to-compare"><i class="fas fa-random"></i></button>
-            </div>
         </div>
         <div class="product-card-middle">
             <h6 class="product-name">

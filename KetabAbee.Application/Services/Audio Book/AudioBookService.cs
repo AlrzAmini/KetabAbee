@@ -90,6 +90,16 @@ namespace KetabAbee.Application.Services.Audio_Book
             return CreateAudioBookResult.Error;
         }
 
+        public async System.Threading.Tasks.Task AddDownloadAudioBook(int audiobookId, string userIp)
+        {
+            DownloadedAudioBook download = new()
+            {
+                UserIp = userIp,
+                AudioBookId = audiobookId
+            };
+            await _audioBookRepository.AddDownloadAudioBook(download);
+        }
+
         public async Task<bool> DeleteAudioBook(int audiobookId)
         {
             var audioBook = await _audioBookRepository.GetAudioBookById(audiobookId);
@@ -337,6 +347,11 @@ namespace KetabAbee.Application.Services.Audio_Book
                 }).ToList();
         }
 
+        public async Task<int> GetAudioBookDownloadCount(int audiobookId)
+        {
+            return await _audioBookRepository.GetAudioBookDownloadCount(audiobookId);
+        }
+
         public async Task<ShowAudioBookInfoViewModel> GetAudioBookForShowById(int audiobookId)
         {
             var audiobook = await _audioBookRepository.GetAudioBookById(audiobookId);
@@ -385,6 +400,35 @@ namespace KetabAbee.Application.Services.Audio_Book
             };
         }
 
+        public async Task<AudioBookFileInfoViewModel> GetFileInfoById(int audiobookId)
+        {
+            var audiobook = await _audioBookRepository.GetAudioBookById(audiobookId);
+            if (audiobook == null)
+            {
+                return null;
+            }
+
+            return new AudioBookFileInfoViewModel
+            {
+                FileName = audiobook.FileName,
+                FileSavePath = PathExtensions.AudioBookFileFullAddress(audiobook.FileName)
+            };
+        }
+
+        public async Task<List<AudioBookBoxViewModel>> GetMostDownloadedAudioBooks()
+        {
+            var result = await _audioBookRepository.GetMostDownloadedAudioBooks();
+            return result.Select(r => new AudioBookBoxViewModel
+            {
+                Name = r.Title,
+                Title = r.Title + " اثر " + r.Writer + " با صدای " + r.Speaker,
+                Time = r.Time,
+                ImageSavePath = PathExtensions.AudioBookImageFullAddress(r.ImageName),
+                Id = r.AudioBookId,
+                ImageAlt = r.Title + " با صدای " + r.Speaker
+            }).ToList();
+        }
+
         public async Task<ShowPlayerViewModel> GetPlayerInfoForShow(int audiobookId)
         {
             var audiobook = await _audioBookRepository.GetAudioBookById(audiobookId);
@@ -402,6 +446,17 @@ namespace KetabAbee.Application.Services.Audio_Book
                 ImageSavePath = PathExtensions.AudioBookImageFullAddress(audiobook.ImageName),
                 Title = audiobook.Title + " اثر " + audiobook.Writer + " با صدای " + audiobook.Speaker
             };
+        }
+
+        public async System.Threading.Tasks.Task IncreaseAudioBookDownloadCount(int audiobookId)
+        {
+            await _audioBookRepository.IncreaseAudioBookDownloadCount(
+                await _audioBookRepository.GetAudioBookById(audiobookId));
+        }
+
+        public async Task<bool> IsDownloadAudioBookRepetitious(int audiobookId, string userIp)
+        {
+            return await _audioBookRepository.IsDownloadAudioBookRepetitious(audiobookId, userIp);
         }
     }
 }

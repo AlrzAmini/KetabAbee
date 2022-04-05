@@ -1,0 +1,14 @@
+﻿@model List<KetabAbee.Application.DTOs.AudioBook.AudioBookBoxViewModel>
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="listing-items row">
+            @if (Model != null && Model.Any())
+            {
+                foreach (var audioBook in Model)
+                {
+                    <partial name="_AudioBookBox" model="audioBook"/>
+                }
+            }
+        </div>
+    </div>
+</div>

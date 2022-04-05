@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Audio_Book;
 
 namespace KetabAbee.Web.Controllers
@@ -42,6 +44,31 @@ namespace KetabAbee.Web.Controllers
             }
 
             return View(model);
+        }
+
+        #endregion
+
+        #region download
+
+        [HttpGet("DownloadFile/{audiobookId}")]
+        public async Task<IActionResult> DownloadFile(int audiobookId)
+        {
+            // if download was unique add a download to download table
+            // for counting most downloaded audio book and users favorites
+            var userIp = HttpContext.GetUserIp();
+            if (!await _audioBookService.IsDownloadAudioBookRepetitious(audiobookId, userIp))
+            {
+                await _audioBookService.IncreaseAudioBookDownloadCount(audiobookId);
+                await _audioBookService.AddDownloadAudioBook(audiobookId, userIp);
+            }
+
+            // download file
+            var fileInfo = await _audioBookService.GetFileInfoById(audiobookId);
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot" + fileInfo.FileSavePath);
+            var fileName = fileInfo.FileName;
+
+            var file = await System.IO.File.ReadAllBytesAsync(filePath);
+            return File(file, "application/force-download", fileName);
         }
 
         #endregion

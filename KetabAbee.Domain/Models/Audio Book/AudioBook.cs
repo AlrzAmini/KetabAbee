@@ -52,9 +52,18 @@ namespace KetabAbee.Domain.Models.Audio_Book
         [DisplayName("زمان")]
         public int Time { get; set; }
 
+        [DisplayName("تعداد دانلود")]
+        public int DownloadCount { get; set; }
+
         public DateTime CreateDate { get; set; } = DateTime.Now;
 
         public bool IsDelete { get; set; }
+
+        #endregion
+
+        #region relations
+
+        public ICollection<DownloadedAudioBook> DownloadedAudioBooks { get; set; }
 
         #endregion
     }

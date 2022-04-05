@@ -16,5 +16,15 @@ namespace KetabAbee.Domain.Interfaces
         Task<bool> UpdateAudioBook(AudioBook book);
 
         Task<bool> AddAudioBook(AudioBook book);
+
+        Task AddDownloadAudioBook(DownloadedAudioBook downloadedAudioBook);
+
+        Task<bool> IsDownloadAudioBookRepetitious(int audiobookId, string userIp);
+
+        Task<int> GetAudioBookDownloadCount(int audiobookId);
+
+        Task<List<AudioBook>> GetMostDownloadedAudioBooks();
+
+        Task IncreaseAudioBookDownloadCount(AudioBook audioBook);
     }
 }

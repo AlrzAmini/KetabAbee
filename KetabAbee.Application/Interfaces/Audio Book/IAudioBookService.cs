@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Admin.AudioBook;
 using KetabAbee.Application.DTOs.AudioBook;
+using KetabAbee.Domain.Models.Audio_Book;
 
 namespace KetabAbee.Application.Interfaces.Audio_Book
 {
@@ -22,5 +23,17 @@ namespace KetabAbee.Application.Interfaces.Audio_Book
         Task<ShowAudioBookInfoViewModel> GetAudioBookForShowById(int audiobookId);
 
         Task<ShowPlayerViewModel> GetPlayerInfoForShow(int audiobookId);
+
+        Task<AudioBookFileInfoViewModel> GetFileInfoById(int audiobookId);
+
+        Task<bool> IsDownloadAudioBookRepetitious(int audiobookId, string userIp);
+
+        System.Threading.Tasks.Task AddDownloadAudioBook(int audiobookId, string userIp);
+
+        Task<int> GetAudioBookDownloadCount(int audiobookId);
+
+        System.Threading.Tasks.Task IncreaseAudioBookDownloadCount(int audiobookId);
+
+        Task<List<AudioBookBoxViewModel>> GetMostDownloadedAudioBooks();
     }
 }
