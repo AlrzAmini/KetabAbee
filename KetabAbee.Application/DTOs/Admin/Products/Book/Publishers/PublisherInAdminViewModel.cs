@@ -11,5 +11,7 @@ namespace KetabAbee.Application.DTOs.Admin.Products.Book.Publishers
         public int PublisherId { get; set; }
 
         public string PublisherName { get; set; }
+
+        public int PublisherBooksCount { get; set; }
     }
 }

@@ -1,6 +1,5 @@
 ﻿@using KetabAbee.Application.Interfaces.Product
 @model List<KetabAbee.Application.DTOs.Admin.Products.Book.Publishers.PublisherInAdminViewModel>
-@inject IProductService _productService;
 @{
     ViewData["Title"] = "ناشران";
 }
@@ -43,7 +42,6 @@
                     <tbody>
                         @foreach (var pub in Model)
                         {
-                            var bookCount = _productService.PublisherBooksCount(pub.PublisherId);
                             <tr>
                                 <td>
                                     @pub.PublisherId
@@ -54,9 +52,9 @@
                                 <td>
                                     <a class="btn btn-danger" asp-controller="AdminPublisher" asp-action="DeletePublisher" asp-route-publisherId="@pub.PublisherId" onclick="return confirm('از حذف این ناشر اطمینان دارید ؟')">حذف</a>
                                     <a class="btn btn-info" asp-controller="AdminPublisher" asp-action="EditPublisher" asp-route-publisherId="@pub.PublisherId">ویرایش</a>
-                                    @if (bookCount > 0)
+                                    @if (pub.PublisherBooksCount > 0)
                                     {
-                                        <a class="btn btn-primary" asp-controller="AdminPublisher" asp-action="PublisherBooks" asp-route-publisherId="@pub.PublisherId">کتابها : @bookCount</a>
+                                        <a class="btn btn-primary" asp-controller="AdminPublisher" asp-action="PublisherBooks" asp-route-publisherId="@pub.PublisherId">کتابها : @pub.PublisherBooksCount</a>
                                     }
                                 </td>
                             </tr>

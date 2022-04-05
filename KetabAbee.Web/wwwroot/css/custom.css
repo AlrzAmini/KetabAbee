@@ -5,8 +5,33 @@
     font-weight: normal;
 }
 
+audio::-webkit-media-controls-panel {
+    background-color: #18A558;
+}
+
+audio::-webkit-media-controls-play-button {
+    background-color: #A3EBB1;
+    border-radius: 50%;
+}
+
+audio::-webkit-media-controls-play-button:hover {
+    background-color: rgba(177,212,224, .7);
+}
+
+audio::-webkit-media-controls-current-time-display {
+    color: #fff;
+}
+
+audio::-webkit-media-controls-time-remaining-display {
+    color: #fff;
+}
+
 .rounded2x {
     border-radius: 10px;
+}
+
+.mr-10 {
+    margin-right: 11rem !important;
 }
 
 .w-65 {

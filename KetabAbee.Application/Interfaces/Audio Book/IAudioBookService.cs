@@ -20,5 +20,7 @@ namespace KetabAbee.Application.Interfaces.Audio_Book
         Task<List<AudioBookBoxViewModel>> GetAllAudioBooksForShow();
 
         Task<ShowAudioBookInfoViewModel> GetAudioBookForShowById(int audiobookId);
+
+        Task<ShowPlayerViewModel> GetPlayerInfoForShow(int audiobookId);
     }
 }

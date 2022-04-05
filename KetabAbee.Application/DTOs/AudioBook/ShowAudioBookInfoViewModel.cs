@@ -34,6 +34,8 @@ namespace KetabAbee.Application.DTOs.AudioBook
 
         public string ImageName { get; set; }
 
+        public DateTime CreateDate { get; set; }
+
         #endregion
     }
 }

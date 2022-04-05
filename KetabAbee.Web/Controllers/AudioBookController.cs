@@ -32,16 +32,32 @@ namespace KetabAbee.Web.Controllers
         #region audio book info
 
         [HttpGet("A-Book/{audiobookId}/{audiobookName}")]
+        [HttpGet("A-B/{audiobookId}")]
         public async Task<IActionResult> AudioBookInfo(int audiobookId, string audiobookName)
         {
             var model = await _audioBookService.GetAudioBookForShowById(audiobookId);
             if (model == null)
             {
-                return Forbid();
+                return NotFound();
             }
 
             return View(model);
         }
+
+        #endregion
+
+        #region player
+
+        //[HttpGet("Play/{audiobookId}")]
+        //public async Task<IActionResult> ShowPlayer(int audiobookId)
+        //{
+        //    var playerInfo = await _audioBookService.GetPlayerInfoForShow(audiobookId);
+        //    if (playerInfo == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(playerInfo);
+        //}
 
         #endregion
     }

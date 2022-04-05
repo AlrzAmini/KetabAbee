@@ -358,7 +358,8 @@ namespace KetabAbee.Application.Services.Audio_Book
                 Speaker = audiobook.Speaker,
                 Title = audiobook.Title + " اثر " + audiobook.Writer + " با صدای " + audiobook.Speaker,
                 Name = audiobook.Title,
-                ImageName = audiobook.ImageName
+                ImageName = audiobook.ImageName,
+                CreateDate = audiobook.CreateDate
             };
         }
 
@@ -381,6 +382,25 @@ namespace KetabAbee.Application.Services.Audio_Book
                 FileName = audioBook.FileName,
                 Review = audioBook.Review,
                 Time = audioBook.Time
+            };
+        }
+
+        public async Task<ShowPlayerViewModel> GetPlayerInfoForShow(int audiobookId)
+        {
+            var audiobook = await _audioBookRepository.GetAudioBookById(audiobookId);
+            if (audiobook == null)
+            {
+                return null;
+            }
+
+            return new ShowPlayerViewModel
+            {
+                Name = audiobook.Title,
+                Writer = audiobook.Writer,
+                Speaker = audiobook.Speaker,
+                FileSavePath = PathExtensions.AudioBookFileFullAddress(audiobook.FileName),
+                ImageSavePath = PathExtensions.AudioBookImageFullAddress(audiobook.ImageName),
+                Title = audiobook.Title + " اثر " + audiobook.Writer + " با صدای " + audiobook.Speaker
             };
         }
     }

@@ -53,7 +53,7 @@ namespace KetabAbee.Data.Repository
 
         public IEnumerable<Publisher> GetPublishers()
         {
-            return _context.Publishers;
+            return _context.Publishers.Include(p=>p.Books);
         }
 
         public bool AddBook(Book book)

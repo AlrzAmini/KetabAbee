@@ -45,14 +45,21 @@
                                     @Model.Title
                                 </h1>
                             </div>
-                            <ul class="nav nav-tabs" id="product-tab" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <a class="nav-link active" id="productDescription-tab" data-toggle="tab" href="#productDescription" role="tab" aria-controls="productDescription" aria-selected="true">جزییات</a>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="productComments-tab" data-toggle="tab" href="#productComments" role="tab" aria-controls="productComments" aria-selected="false">نظرات</a>
-                                </li>
-                            </ul>
+                        <ul class="nav nav-tabs" id="product-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active" id="productDescription-tab" data-toggle="tab" href="#productDescription" role="tab" aria-controls="productDescription" aria-selected="true">جزییات</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="productComments-tab" data-toggle="tab" href="#productComments" role="tab" aria-controls="productComments" aria-selected="false">نظرات</a>
+                            </li>
+                        </ul>
+                        <div class="alert alert-success mt-2">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <audio controls class="audio-1 mr-10">
+                                    <source src="@Model.FileSavePath" type="audio/ogg">
+                                </audio>
+                            </div>
+                        </div>
                             <div class="product-tab-content box box--rounded rounded--top-0">
                                 <div class="tab-content p-0" id="product-tab">
                                     <div class="tab-pane fade show active" id="productDescription" role="tabpanel" aria-labelledby="productDescription-tab">
@@ -102,36 +109,6 @@
                                             <p class="mb-3">
                                                 @Html.Raw(Model.Review)
                                             </p>
-                                            <h3 class="mb-3">ویژگی های قالب HTML فروشگاهی همتا</h3>
-                                            <div class="pb-2">
-                                                <hr>
-                                            </div>
-                                            <ul class="list-style--circle pr-3">
-                                                <li class="text-muted">طراحی زیبا و حرفه ای</li>
-                                                <li class="text-muted">کاملا ریسپانسیو و واکنشگرا</li>
-                                                <li class="text-muted">
-                                                    کدنویسی اصولی،حرفه ای، استاندارد و تمیز
-                                                </li>
-                                                <li class="text-muted">
-                                                    انواع اسلایدر ها(اسلایدر محصولات،اسلایدر
-                                                    اصلی و محصولات شگفت
-                                                    انگیز)
-                                                </li>
-                                                <li class="text-muted">انواع مگامنوها</li>
-                                                <li class="text-muted">فیلترهای مختلف در صفحه لیست محصولات</li>
-                                                <li class="text-muted">بر پایه فریمورک محبوب Bootstrap</li>
-                                                <li class="text-muted">
-                                                    سازگار با انوع مرورگرها و دستگاه های
-                                                    مختلف
-                                                </li>
-                                                <li class="text-muted">طراحی منحصر به فرد و مدرن</li>
-                                                <li class="text-muted">mobile friendly</li>
-                                                <li class="text-muted">
-                                                    استفاده از نسخه کامل فونت آیکون
-                                                    fontawesome
-                                                </li>
-                                                <li class="text-muted">آپدیت های رایگان</li>
-                                            </ul>
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="productComments" role="tabpanel" aria-labelledby="productComments-tab">
@@ -401,10 +378,10 @@
                             </div>
                         </div>
                         <ul class="text-muted mb-3">
-                            <li><i class="far fa-check"></i> گارانتی کیفیت راست چین</li>
-                            <li><i class="far fa-check"></i> شش ماه ضمانت بازگشت وجه</li>
-                            <li><i class="far fa-check"></i> شش ماه پشتیبانی تضمین شده</li>
-                            <li><i class="far fa-check"></i> آپدیت رایگان، دسترسی مادام العمر به فایل</li>
+                            <li><i class="far fa-check"></i> کیفیت صدای عالی</li>
+                            <li><i class="far fa-check"></i> قابلیت پخش آنلاین و دانلود</li>
+                            <li><i class="far fa-check"></i> امکان درخواست کتاب جدید</li>
+                            <li><i class="far fa-check"></i> همیشه رایگان :)</li>
                         </ul>
                         <a href="#" class="btn btn-success btn-block"> دانلود <i class="fad fa-download mr-2"></i></a>
                     </div>
@@ -413,57 +390,40 @@
                     <div class="d-flex justify-content-between px-2 py-2">
                         <span class="font-weight-bold">تاریخ انتشار</span>
                         <span class=" text-muted">
-                            ۱۶ بهمن ۱۳۹۹
+                            @Model.CreateDate.ToIraniDate()
                         </span>
                     </div>
                     <div class="d-flex justify-content-between px-2 py-2">
-                        <span class="font-weight-bold">تاریخ بروزرسانی</span>
+                        <span class="font-weight-bold">نویسنده</span>
                         <span class="text-muted">
-                            ۱۶ بهمن ۱۳۹۹
+                            @Model.Writer
                         </span>
                     </div>
                     <div class="d-flex justify-content-between px-2 py-2">
-                        <span class="font-weight-bold">نسخه فعلی محصول</span>
+                        <span class="font-weight-bold">گوینده</span>
                         <span class="text-muted">
-                            1.0.0
+                            @Model.Speaker
                         </span>
                     </div>
                     <div class="d-flex justify-content-between px-2 py-2">
-                        <span class="font-weight-bold">دسته‌بندی‌ اصلی</span>
-                        <a href="#" class="text-primary">
-                            قالب HTML فروشگاهی
-                        </a>
-                    </div>
-                    <div class=" d-flex justify-content-between px-2 py-2">
-                        <span class="font-weight-bold">دسته‌بندی‌</span>
+                        <span class="font-weight-bold">زمان</span>
                         <span class="text-muted">
-                            <span> فروشگاهی</span>،
-                            <span>قالب HTML</span>
+                            @Model.Time.ShowAudioBookTime()
                         </span>
                     </div>
                     <div class="d-flex justify-content-between px-2 py-2">
-                        <span class="font-weight-bold">طراحی</span>
+                        <span class="font-weight-bold">حجم فایل</span>
                         <span class="text-muted">
-                            <span>مدرن</span>،
-                            <span>مینیمال</span>
-                        </span>
-                    </div>
-                    <div class="d-flex justify-content-between px-2 py-2">
-                        <span class="font-weight-bold">فایل راهنما</span>
-                        <span class="text-muted">
-                            به زودی
+                            @Model.FileSize.ToMegaByteForm()
                         </span>
                     </div>
                     <div class="d-flex justify-content-between align-items-center px-2 py-2">
                         <span class="font-weight-bold">لینک کوتاه</span>
                         <div class="form-element-row mb-0">
-                            <input type="text" class="input-element dir-ltr text-sm" value="https://www.rtl-theme.com/?p=171652">
+                            <input type="text" class="input-element dir-ltr text-sm" value="@CommonExtensions.DomainAddress/A-B/@Model.AudioBookId">
                         </div>
                     </div>
                 </div>
-                <p class="text-sm text-muted text-center">
-                    تمامی حقوق برای <strong>BahramiiiRad</strong> محفوظ است!
-                </p>
             </div>
         </div>
     </div>

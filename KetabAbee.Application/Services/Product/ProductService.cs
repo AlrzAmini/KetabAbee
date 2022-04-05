@@ -880,7 +880,8 @@ namespace KetabAbee.Application.Services.Product
                 .Select(p => new PublisherInAdminViewModel
                 {
                     PublisherName = p.PublisherName,
-                    PublisherId = p.PublisherId
+                    PublisherId = p.PublisherId,
+                    PublisherBooksCount = p.Books.Count
                 });
         }
 
