@@ -12,65 +12,50 @@ namespace KetabAbee.Application.Convertors
 {
     public class ImageConvertor
     {
-        public void Image_resize(string input_Image_Path, string output_Image_Path, int new_Width)
+        public void Image_resize(string inputImagePath, string outputImagePath, int newWidth)
         {
-
             const long quality = 50L;
 
-            Bitmap source_Bitmap = new Bitmap(input_Image_Path);
+            var sourceBitmap = new Bitmap(inputImagePath);
 
+            double dblWidthOriginal = sourceBitmap.Width;
 
+            double dblHeightOriginal = sourceBitmap.Height;
 
-            double dblWidth_origial = source_Bitmap.Width;
+            var relHeightWidth = dblHeightOriginal / dblWidthOriginal;
 
-            double dblHeigth_origial = source_Bitmap.Height;
+            var newHeight = (int)(newWidth * relHeightWidth);
 
-            double relation_heigth_width = dblHeigth_origial / dblWidth_origial;
+            //< create Empty DrawArea >
 
-            int new_Height = (int)(new_Width * relation_heigth_width);
+            var newDrawArea = new Bitmap(newWidth, newHeight);
 
+            //</ create Empty DrawArea >
 
-
-            //< create Empty Drawarea >
-
-            var new_DrawArea = new Bitmap(new_Width, new_Height);
-
-            //</ create Empty Drawarea >
-
-
-
-            using (var graphic_of_DrawArea = Graphics.FromImage(new_DrawArea))
-
+            using (var graphicOfDrawArea = Graphics.FromImage(newDrawArea))
             {
-
                 //< setup >
 
-                graphic_of_DrawArea.CompositingQuality = CompositingQuality.HighSpeed;
+                graphicOfDrawArea.CompositingQuality = CompositingQuality.HighSpeed;
 
-                graphic_of_DrawArea.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphicOfDrawArea.InterpolationMode = InterpolationMode.HighQualityBicubic;
 
-                graphic_of_DrawArea.CompositingMode = CompositingMode.SourceCopy;
+                graphicOfDrawArea.CompositingMode = CompositingMode.SourceCopy;
 
                 //</ setup >
 
-
-
                 //< draw into placeholder >
 
-                //*imports the image into the drawarea
+                //*imports the image into the drawArea
 
-                graphic_of_DrawArea.DrawImage(source_Bitmap, 0, 0, new_Width, new_Height);
+                graphicOfDrawArea.DrawImage(sourceBitmap, 0, 0, newWidth, newHeight);
 
                 //</ draw into placeholder >
 
-
-
                 //--< Output as .Jpg >--
 
-                using (var output = System.IO.File.Open(output_Image_Path, FileMode.Create))
-
+                using (var output = File.Open(outputImagePath, FileMode.Create))
                 {
-
                     //< setup jpg >
 
                     var qualityParamId = System.Drawing.Imaging.Encoder.Quality;
@@ -81,32 +66,26 @@ namespace KetabAbee.Application.Convertors
 
                     //</ setup jpg >
 
-
-
                     //< save Bitmap as Jpg >
 
                     var codec = ImageCodecInfo.GetImageDecoders().FirstOrDefault(c => c.FormatID == ImageFormat.Jpeg.Guid);
 
-                    new_DrawArea.Save(output, codec, encoderParameters);
+                    if (codec != null) newDrawArea.Save(output, codec, encoderParameters);
 
                     //resized_Bitmap.Dispose ();
 
                     output.Close();
 
                     //</ save Bitmap as Jpg >
-
                 }
 
                 //--</ Output as .Jpg >--
 
-                graphic_of_DrawArea.Dispose();
+                graphicOfDrawArea.Dispose();
 
             }
 
-            source_Bitmap.Dispose();
-
-            //---------------</ Image_resize() >---------------
-
+            sourceBitmap.Dispose();
         }
     }
 }
