@@ -5,10 +5,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Domain.Models.Audio_Book.Q_And_A;
 using KetabAbee.Domain.Models.Blog;
 using KetabAbee.Domain.Models.Comment.CommentReport;
 using KetabAbee.Domain.Models.Comment.ProductComment;
 using KetabAbee.Domain.Models.Products;
+using KetabAbee.Domain.Models.Products.Exam;
 using KetabAbee.Domain.Models.Ticket;
 
 namespace KetabAbee.Domain.Models.User
@@ -177,6 +179,10 @@ namespace KetabAbee.Domain.Models.User
         public ICollection<Compare> Compares { get; set; }
 
         public ICollection<BlogView> BlogViews { get; set; }
+
+        public ICollection<ExamTry> ExamTries { get; set; }
+
+        public ICollection<ABook_QAnswer> ABookQAnswers { get; set; }
 
         #endregion
     }

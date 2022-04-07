@@ -51,7 +51,7 @@ namespace KetabAbee.Application.Services.Exam
             var examTry = new ExamTry
             {
                 ExamId = examId,
-                UserId = userId,
+                UserId = (userId == 0 ? null : userId),
                 UserIp = userIp
             };
             await _examRepository.AddExamTry(examTry);

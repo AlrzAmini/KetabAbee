@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using KetabAbee.Domain.Models.Audio_Book;
+using KetabAbee.Domain.Models.Audio_Book.Q_And_A;
 using KetabAbee.Domain.Models.Banner;
 using KetabAbee.Domain.Models.Blog;
 using KetabAbee.Domain.Models.Comment.ProductComment;
@@ -146,6 +147,10 @@ namespace KetabAbee.Data.Context
         public DbSet<DownloadedAudioBook> DownloadedAudioBooks { get; set; }
 
         public DbSet<AudioBookRequest> AudioBookRequests { get; set; }
+
+        public DbSet<ABook_Question> ABookQuestions { get; set; }
+
+        public DbSet<ABook_QAnswer> ABookQAnswers { get; set; }
 
         #endregion
 

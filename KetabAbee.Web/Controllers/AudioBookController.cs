@@ -25,6 +25,7 @@ namespace KetabAbee.Web.Controllers
 
         #region index
 
+        [HttpGet("A-Books")]
         public async Task<IActionResult> AudioBooks()
         {
             return View(await _audioBookService.GetAllAudioBooksForShow());

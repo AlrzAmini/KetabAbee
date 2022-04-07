@@ -36,6 +36,8 @@ namespace KetabAbee.Domain.Models.Products.Exam
 
         public ICollection<ExamQuestion> Questions { get; set; }
 
+        public ICollection<ExamTry> ExamTries { get; set; }
+
         #endregion
     }
 }
