@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using KetabAbee.Domain.Models.Audio_Book;
+using KetabAbee.Domain.Models.Audio_Book.Q_And_A;
 
 namespace KetabAbee.Domain.Interfaces
 {
@@ -30,5 +31,17 @@ namespace KetabAbee.Domain.Interfaces
         Task<bool> AddAudioBookRequest(AudioBookRequest audioBookRequest);
 
         Task<IEnumerable<AudioBookRequest>> GetAllRequests();
+
+        #region Q & Answer
+
+        Task<bool> AddAudioBookQuestion(ABook_Question question);
+
+        Task<bool> UpdateAudioBookQuestion(ABook_Question question);
+
+        Task<bool> DeleteAudioBookQuestion(ABook_Question question);
+
+        Task<ABook_Question> GetAudioBookQuestionById(int questionId);
+
+        #endregion
     }
 }

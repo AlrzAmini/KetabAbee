@@ -37,6 +37,8 @@ namespace KetabAbee.Domain.Models.Audio_Book.Q_And_A
         [MaxLength(800, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
         public string Body { get; set; }
 
+        public bool IsDelete { get; set; }
+
         public DateTime SendDate { get; set; } = DateTime.Now;
 
         #endregion

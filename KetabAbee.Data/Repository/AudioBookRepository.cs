@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using KetabAbee.Data.Context;
 using KetabAbee.Domain.Interfaces;
 using KetabAbee.Domain.Models.Audio_Book;
+using KetabAbee.Domain.Models.Audio_Book.Q_And_A;
 using Microsoft.EntityFrameworkCore;
 
 namespace KetabAbee.Data.Repository
@@ -24,6 +25,20 @@ namespace KetabAbee.Data.Repository
             try
             {
                 await _context.AudioBooks.AddAsync(book);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> AddAudioBookQuestion(ABook_Question question)
+        {
+            try
+            {
+                await _context.ABookQuestions.AddAsync(question);
                 await _context.SaveChangesAsync();
                 return true;
             }
@@ -62,6 +77,21 @@ namespace KetabAbee.Data.Repository
             return await UpdateAudioBook(book);
         }
 
+        public async Task<bool> DeleteAudioBookQuestion(ABook_Question question)
+        {
+            try
+            {
+                question.IsDelete = true;
+                await UpdateAudioBookQuestion(question);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public async Task<IEnumerable<AudioBookRequest>> GetAllRequests()
         {
             return await Task.FromResult(_context.AudioBookRequests.AsQueryable());
@@ -77,9 +107,14 @@ namespace KetabAbee.Data.Repository
             return await _context.DownloadedAudioBooks.CountAsync(a => a.AudioBookId == audiobookId);
         }
 
+        public async Task<ABook_Question> GetAudioBookQuestionById(int questionId)
+        {
+            return await _context.ABookQuestions.FindAsync(questionId);
+        }
+
         public async Task<IQueryable<AudioBook>> GetAudioBooks()
         {
-            return await Task.FromResult(_context.AudioBooks.OrderByDescending(b=>b.CreateDate).AsQueryable());
+            return await Task.FromResult(_context.AudioBooks.OrderByDescending(b => b.CreateDate).AsQueryable());
         }
 
         public async Task<List<AudioBook>> GetMostDownloadedAudioBooks()
@@ -107,6 +142,20 @@ namespace KetabAbee.Data.Repository
             try
             {
                 _context.AudioBooks.Update(book);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> UpdateAudioBookQuestion(ABook_Question question)
+        {
+            try
+            {
+                _context.ABookQuestions.Update(question);
                 await _context.SaveChangesAsync();
                 return true;
             }

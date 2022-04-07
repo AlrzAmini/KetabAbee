@@ -39,5 +39,11 @@ namespace KetabAbee.Application.Interfaces.Audio_Book
         Task<bool> AddAudioBookRequest(CreateAudioBookRequest request);
 
         Task<AudioBookRequestsViewModel> GetAudioBookRequestsForShowInAdmin(AudioBookRequestsViewModel request);
+
+        #region Q & Answer
+
+
+
+        #endregion
     }
 }

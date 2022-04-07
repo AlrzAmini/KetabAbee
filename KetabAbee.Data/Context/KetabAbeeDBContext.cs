@@ -249,6 +249,12 @@ namespace KetabAbee.Data.Context
             modelBuilder.Entity<AudioBook>()
                 .HasQueryFilter(e => !e.IsDelete);
 
+            modelBuilder.Entity<ABook_Question>()
+                .HasQueryFilter(e => !e.IsDelete);
+
+            modelBuilder.Entity<ABook_QAnswer>()
+                .HasQueryFilter(e => !e.IsDelete);
+
             #endregion
 
             base.OnModelCreating(modelBuilder);
