@@ -356,7 +356,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- end product-review -->
                                     </div>
                                 </div>
                             </div>
@@ -423,9 +422,18 @@
                             <input type="text" class="input-element dir-ltr text-sm" value="@CommonExtensions.DomainAddress/A-B/@Model.AudioBookId">
                         </div>
                     </div>
+                    <div class="d-flex justify-content-between px-2 py-2">
+                        <a onclick="LoadAddBookRequestModalBody(@Model.AudioBookId)" class="btn btn-outline-info btn-block">ثبت درخواست کتاب صوتی</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </main>
+<div class="modal fade" id="RequestModal" tabindex="-1" aria-labelledby="RequestModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="RequestModalContent">
 
+        </div>
+    </div>
+</div>

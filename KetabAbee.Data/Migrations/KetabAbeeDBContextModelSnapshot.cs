@@ -77,6 +77,35 @@ namespace KetabAbee.Data.Migrations
                     b.ToTable("AudioBooks");
                 });
 
+            modelBuilder.Entity("KetabAbee.Domain.Models.Audio_Book.AudioBookRequest", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AudioBookId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("BookTitle")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("UserIp")
+                        .HasMaxLength(16)
+                        .HasColumnType("nvarchar(16)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AudioBookId");
+
+                    b.ToTable("AudioBookRequests");
+                });
+
             modelBuilder.Entity("KetabAbee.Domain.Models.Audio_Book.DownloadedAudioBook", b =>
                 {
                     b.Property<int>("Id")
@@ -873,6 +902,35 @@ namespace KetabAbee.Data.Migrations
                     b.ToTable("ExamResults");
                 });
 
+            modelBuilder.Entity("KetabAbee.Domain.Models.Products.Exam.ExamTry", b =>
+                {
+                    b.Property<int>("TryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ExamId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("TryDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserIp")
+                        .HasMaxLength(16)
+                        .HasColumnType("nvarchar(16)");
+
+                    b.HasKey("TryId");
+
+                    b.HasIndex("ExamId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ExamTries");
+                });
+
             modelBuilder.Entity("KetabAbee.Domain.Models.Products.Exam.QuestionAnswer", b =>
                 {
                     b.Property<int>("QAnswerId")
@@ -1427,6 +1485,17 @@ namespace KetabAbee.Data.Migrations
                     b.ToTable("NewsEmailNewsLetter");
                 });
 
+            modelBuilder.Entity("KetabAbee.Domain.Models.Audio_Book.AudioBookRequest", b =>
+                {
+                    b.HasOne("KetabAbee.Domain.Models.Audio_Book.AudioBook", "AudioBook")
+                        .WithMany("AudioBookRequests")
+                        .HasForeignKey("AudioBookId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AudioBook");
+                });
+
             modelBuilder.Entity("KetabAbee.Domain.Models.Audio_Book.DownloadedAudioBook", b =>
                 {
                     b.HasOne("KetabAbee.Domain.Models.Audio_Book.AudioBook", "AudioBook")
@@ -1730,6 +1799,24 @@ namespace KetabAbee.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("KetabAbee.Domain.Models.Products.Exam.ExamTry", b =>
+                {
+                    b.HasOne("KetabAbee.Domain.Models.Products.Exam.Exam", "Exam")
+                        .WithMany()
+                        .HasForeignKey("ExamId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("KetabAbee.Domain.Models.User.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Exam");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("KetabAbee.Domain.Models.Products.Exam.QuestionAnswer", b =>
                 {
                     b.HasOne("KetabAbee.Domain.Models.Products.Exam.ExamQuestion", "Question")
@@ -1945,6 +2032,8 @@ namespace KetabAbee.Data.Migrations
 
             modelBuilder.Entity("KetabAbee.Domain.Models.Audio_Book.AudioBook", b =>
                 {
+                    b.Navigation("AudioBookRequests");
+
                     b.Navigation("DownloadedAudioBooks");
                 });
 

@@ -33,6 +33,23 @@ namespace KetabAbee.Data.Repository
             }
         }
 
+        public async Task<bool> AddAudioBookRequest(AudioBookRequest audioBookRequest)
+        {
+            await _context.AudioBookRequests.AddAsync(audioBookRequest);
+            await _context.SaveChangesAsync();
+            return true;
+            //try
+            //{
+            //    await _context.AudioBookRequests.AddAsync(audioBookRequest);
+            //    await _context.SaveChangesAsync();
+            //    return true;
+            //}
+            //catch
+            //{
+            //    return false;
+            //}
+        }
+
         public async Task AddDownloadAudioBook(DownloadedAudioBook downloadedAudioBook)
         {
             await _context.DownloadedAudioBooks.AddAsync(downloadedAudioBook);
@@ -43,6 +60,11 @@ namespace KetabAbee.Data.Repository
         {
             book.IsDelete = true;
             return await UpdateAudioBook(book);
+        }
+
+        public async Task<IEnumerable<AudioBookRequest>> GetAllRequests()
+        {
+            return await Task.FromResult(_context.AudioBookRequests.AsQueryable());
         }
 
         public async Task<AudioBook> GetAudioBookById(int audiobookId)

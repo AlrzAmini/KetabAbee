@@ -59,5 +59,9 @@ namespace KetabAbee.Application.Interfaces.Exam
         Task<List<ExamResult>> GetExamResults();
 
         bool IsUserIpHaveAnyExam(string userIp);
+
+        System.Threading.Tasks.Task AddExamTry(int examId, string userIp, int userId);
+
+        Task<bool> IsUserValidForExam(string userIp, int examId, int userId, int validTryTimes);
     }
 }

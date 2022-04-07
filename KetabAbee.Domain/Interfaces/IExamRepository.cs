@@ -68,5 +68,10 @@ namespace KetabAbee.Domain.Interfaces
         Task<List<ExamResult>> GetExamResults();
 
         bool IsUserIpHaveAnyExamResult(string userIp);
+
+        Task AddExamTry(ExamTry examTry);
+
+        Task<int> GetUserExamTriesCount(string userIp, int examId);
+        Task<int> GetUserExamTriesCount(int userId, int examId);
     }
 }

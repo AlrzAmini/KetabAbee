@@ -134,4 +134,29 @@ function LoadContactUsModalBody() {
     });
 }
 
+function LoadAddBookRequestModalBody(audiobookId) {
+    $.ajax({
+        url: "/load-modal-request-book",
+        type: "get",
+        data: {
+            audiobookId: audiobookId
+        },
+        beforeSend: function () {
+            StartLoading();
+        },
+        success: function (response) {
+            CloseLoading();
+            $("#RequestModalContent").html(response);
+
+            $('#RequestForm').data('validator', null);
+            $.validator.unobtrusive.parse('#RequestForm');
+
+            $("#RequestModal").modal("show");
+        },
+        error: function () {
+            CloseLoading();
+            console.log("Error");
+        }
+    });
+}
 

@@ -26,5 +26,9 @@ namespace KetabAbee.Domain.Interfaces
         Task<List<AudioBook>> GetMostDownloadedAudioBooks();
 
         Task IncreaseAudioBookDownloadCount(AudioBook audioBook);
+
+        Task<bool> AddAudioBookRequest(AudioBookRequest audioBookRequest);
+
+        Task<IEnumerable<AudioBookRequest>> GetAllRequests();
     }
 }

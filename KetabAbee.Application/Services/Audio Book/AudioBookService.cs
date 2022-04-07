@@ -37,8 +37,7 @@ namespace KetabAbee.Application.Services.Audio_Book
                 Speaker = model.Speaker,
                 Title = model.Title,
                 ImageName = "Default.jpg",
-                Time = model.Time,
-                FileName = "Default.mp3"
+                Time = model.Time
             };
 
             #region add file
@@ -88,6 +87,19 @@ namespace KetabAbee.Application.Services.Audio_Book
             }
 
             return CreateAudioBookResult.Error;
+        }
+
+        public async Task<bool> AddAudioBookRequest(CreateAudioBookRequest request)
+        {
+            var audiobookRequest = new AudioBookRequest
+            {
+                UserName = request.UserName,
+                UserIp = request.UserIp,
+                BookTitle = request.BookTitle,
+                Id = CodeGenerator.Generate8UniqueCharacter(),
+                AudioBookId = request.AudioBookId
+            };
+            return await _audioBookRepository.AddAudioBookRequest(audiobookRequest);
         }
 
         public async System.Threading.Tasks.Task AddDownloadAudioBook(int audiobookId, string userIp)
@@ -398,6 +410,23 @@ namespace KetabAbee.Application.Services.Audio_Book
                 Review = audioBook.Review,
                 Time = audioBook.Time
             };
+        }
+
+        public async Task<AudioBookRequestsViewModel> GetAudioBookRequestsForShowInAdmin(AudioBookRequestsViewModel requests)
+        {
+            var query = await _audioBookRepository.GetAllRequests();
+            var result = query.Select(r => new ShowAudioBookRequestInList
+            {
+                BookTitle = r.BookTitle,
+                UserIp = r.UserIp,
+                UserName = r.UserName
+            }).AsQueryable();
+
+            //paging
+            var pager = Pager.Build(requests.PageNum, result.Count(), requests.Take, requests.PageCountAfterAndBefor);
+            var reqS = result.Paging(pager).ToList();
+
+            return requests.SetPaging(pager).SetRequests(reqS);
         }
 
         public async Task<AudioBookFileInfoViewModel> GetFileInfoById(int audiobookId)

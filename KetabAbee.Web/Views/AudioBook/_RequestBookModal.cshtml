@@ -1,0 +1,29 @@
+﻿@model KetabAbee.Application.DTOs.AudioBook.CreateAudioBookRequest
+
+<form id="RequestForm" asp-controller="AudioBook" asp-action="RequestBook" method="post">
+    <div class="modal-header">
+        <h5 class="modal-title">درخواست کتاب صوتی</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <input type="hidden" asp-for="AudioBookId" />
+            <div class="col-md-6">
+                <label>نام شما</label>
+                <input type="text" class="form-control" rows="5" asp-for="UserName" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <label>عنوان کتاب</label>
+                <input type="text" class="form-control" rows="5" asp-for="BookTitle" />
+                <span asp-validation-for="BookTitle" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">انصراف</button>
+        <button type="submit" class="btn btn-success">ارسال</button>
+    </div>
+</form>

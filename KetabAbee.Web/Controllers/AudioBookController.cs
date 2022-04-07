@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using KetabAbee.Application.DTOs.AudioBook;
 using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Audio_Book;
 
@@ -69,6 +70,38 @@ namespace KetabAbee.Web.Controllers
 
             var file = await System.IO.File.ReadAllBytesAsync(filePath);
             return File(file, "application/force-download", fileName);
+        }
+
+        #endregion
+
+        #region request new book
+
+        [HttpGet("load-modal-request-book")]
+        public IActionResult RequestBook(int audiobookId)
+        {
+            var createModel = new CreateAudioBookRequest
+            {
+                AudioBookId = audiobookId
+            };
+            return PartialView("_RequestBookModal", createModel);
+        }
+
+        [HttpPost("add-request-book"),ValidateAntiForgeryToken]
+        public async Task<IActionResult> RequestBook(CreateAudioBookRequest request)
+        {
+            if (!ModelState.IsValid)
+            { 
+                return PartialView("_RequestBookModal", request);
+            }
+
+            request.UserIp = HttpContext.GetUserIp();
+            if (await _audioBookService.AddAudioBookRequest(request))
+            {
+                TempData["SuccessSwal"] = "درخواست شما با موفقیت ثبت شد";
+                return RedirectToAction("AudioBookInfo", new { audiobookId = request.AudioBookId });
+            }
+            TempData["ErrorSwal"] = "مشکلی در ثبت درخواست رخ داد";
+            return RedirectToAction("AudioBookInfo", new { audiobookId = request.AudioBookId });
         }
 
         #endregion

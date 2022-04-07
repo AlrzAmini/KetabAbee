@@ -35,5 +35,9 @@ namespace KetabAbee.Application.Interfaces.Audio_Book
         System.Threading.Tasks.Task IncreaseAudioBookDownloadCount(int audiobookId);
 
         Task<List<AudioBookBoxViewModel>> GetMostDownloadedAudioBooks();
+
+        Task<bool> AddAudioBookRequest(CreateAudioBookRequest request);
+
+        Task<AudioBookRequestsViewModel> GetAudioBookRequestsForShowInAdmin(AudioBookRequestsViewModel request);
     }
 }

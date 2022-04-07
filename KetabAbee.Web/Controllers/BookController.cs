@@ -275,11 +275,11 @@ namespace KetabAbee.Web.Controllers
                 BookId = comment.ProductId,
                 CommentId = comment.CommentId
             };
-            return PartialView("_AddAnswerModal",answerModalModel);
+            return PartialView("_AddAnswerModal", answerModalModel);
         }
 
         [Authorize]
-        [HttpPost("add-comment-answer"),ValidateAntiForgeryToken]
+        [HttpPost("add-comment-answer"), ValidateAntiForgeryToken]
         public async Task<IActionResult> AddAnswer(CreateCommentAnswerViewModel answer)
         {
             if (User.Identity.IsAuthenticated)
@@ -439,17 +439,24 @@ namespace KetabAbee.Web.Controllers
         [HttpGet("Live-Exam/{examId}")]
         public async Task<IActionResult> LiveExam(int examId)
         {
+            var userIp = HttpContext.GetUserIp();
+            var userId = User.GetUserId();
+
             var liveExam = await _examService.GetLiveExamInfo(examId);
             if (liveExam == null)
             {
                 return NotFound();
             }
 
-            if (await _examService.IsUserCanDoExam(HttpContext.GetUserIp(), liveExam.Exam.BookId)) return View(liveExam);
+            if (await _examService.IsUserValidForExam(userIp, examId, userId, ExamConsts.ValidExamTryTimes))
+            {
+                await _examService.AddExamTry(examId, userIp, userId);
+                return View(liveExam);
+            }
 
             TempData["WarningSwal"] = "اجازه دسترسی به این آزمون را ندارید";
             return RedirectToAction("BookInfo",
-                new { bookId = liveExam.Exam.BookId, bookName = liveExam.Exam.Book.Name });
+                new { bookId = liveExam.Exam.BookId, bookName = liveExam.Exam.Book.Name.NameFixerForUrl() });
         }
 
         [HttpPost("Live-Exam/{examId}"), ValidateAntiForgeryToken]

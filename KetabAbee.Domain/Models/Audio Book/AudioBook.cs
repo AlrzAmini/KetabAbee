@@ -64,6 +64,7 @@ namespace KetabAbee.Domain.Models.Audio_Book
         #region relations
 
         public ICollection<DownloadedAudioBook> DownloadedAudioBooks { get; set; }
+        public ICollection<AudioBookRequest> AudioBookRequests { get; set; }
 
         #endregion
     }

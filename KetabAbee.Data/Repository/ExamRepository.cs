@@ -47,6 +47,12 @@ namespace KetabAbee.Data.Repository
             }
         }
 
+        public async Task AddExamTry(ExamTry examTry)
+        {
+            await _context.ExamTries.AddAsync(examTry);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task ChangeAllOfQuestionAnswerToIsNotCorrect(int questionId)
         {
             var qAnswers = await _context.QuestionAnswers.Where(a => a.QuestionId == questionId).ToListAsync();
@@ -221,6 +227,16 @@ namespace KetabAbee.Data.Repository
         public bool IsUserIpHaveAnyExamResult(string userIp)
         {
             return _context.ExamResults.Any(r=>r.UserIp == userIp);
+        }
+
+        public async Task<int> GetUserExamTriesCount(string userIp, int examId)
+        {
+            return await _context.ExamTries.CountAsync(t => t.ExamId == examId && t.UserIp == userIp);
+        }
+
+        public async Task<int> GetUserExamTriesCount(int userId, int examId)
+        {
+            return await _context.ExamTries.CountAsync(t => t.ExamId == examId && t.UserId == userId);
         }
 
         public async Task<bool> RemoveExam(Exam exam)

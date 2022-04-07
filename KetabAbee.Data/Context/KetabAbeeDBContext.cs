@@ -129,6 +129,7 @@ namespace KetabAbee.Data.Context
         public DbSet<QuestionAnswer> QuestionAnswers { get; set; }
         public DbSet<CorrectAnswer> CorrectAnswers { get; set; }
         public DbSet<ExamResult> ExamResults { get; set; }
+        public DbSet<ExamTry> ExamTries { get; set; }
 
         #endregion
 
@@ -143,6 +144,8 @@ namespace KetabAbee.Data.Context
         public DbSet<AudioBook> AudioBooks { get; set; }
 
         public DbSet<DownloadedAudioBook> DownloadedAudioBooks { get; set; }
+
+        public DbSet<AudioBookRequest> AudioBookRequests { get; set; }
 
         #endregion
 

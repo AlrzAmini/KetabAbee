@@ -110,5 +110,18 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Audio_Book
         }
 
         #endregion
+
+        #region requests
+
+        [HttpGet("Requests")]
+        public async Task<IActionResult> AudioBookRequests(AudioBookRequestsViewModel reqS)
+        {
+            var requests = await _audioBookService.GetAudioBookRequestsForShowInAdmin(reqS);
+            if (requests != null) return View(requests);
+            TempData["InfoMessage"] = "درخواست کتابی ثبت نشده است";
+            return RedirectToAction("Index");
+        }
+
+        #endregion
     }
 }

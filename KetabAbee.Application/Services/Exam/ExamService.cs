@@ -46,6 +46,17 @@ namespace KetabAbee.Application.Services.Exam
             return await _examRepository.AddCorrectAnswer(correctAnswer);
         }
 
+        public async System.Threading.Tasks.Task AddExamTry(int examId, string userIp, int userId)
+        {
+            var examTry = new ExamTry
+            {
+                ExamId = examId,
+                UserId = userId,
+                UserIp = userIp
+            };
+            await _examRepository.AddExamTry(examTry);
+        }
+
         public async Task<bool> AddQuestionToExam(CreateQuestionViewModel question)
         {
             try
@@ -311,7 +322,7 @@ namespace KetabAbee.Application.Services.Exam
         public async Task<bool> IsCorrectAnswerIsExistForAllExamQuestions(int examId)
         {
             var exam = await _examRepository.GetExamByIdWithIncludes(examId);
-            foreach (var qId in exam.Questions.Select(q=>q.QuestionId))
+            foreach (var qId in exam.Questions.Select(q => q.QuestionId))
             {
                 if (!await _examRepository.IsQuestionHaveCorrectAnswer(qId))
                 {
@@ -331,6 +342,18 @@ namespace KetabAbee.Application.Services.Exam
         public bool IsUserIpHaveAnyExam(string userIp)
         {
             return _examRepository.IsUserIpHaveAnyExamResult(userIp);
+        }
+
+        public async Task<bool> IsUserValidForExam(string userIp, int examId, int userId, int validTryTimes)
+        {
+            if (userId == 0)
+            {
+                var userExamTriesCount = await _examRepository.GetUserExamTriesCount(userIp, examId);
+                return userExamTriesCount < validTryTimes;
+            }
+
+            var userExamTries = await _examRepository.GetUserExamTriesCount(userId, examId);
+            return userExamTries < validTryTimes;
         }
     }
 }
