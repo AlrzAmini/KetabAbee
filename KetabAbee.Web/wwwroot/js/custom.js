@@ -184,4 +184,29 @@ function LoadCreateQuestionABookModalBody(audiobookId) {
         }
     });
 }
+function LoadCreateAnswerABookModalBody(questionId) {
+    $.ajax({
+        url: "/load-modal-create-ABook-answer",
+        type: "get",
+        data: {
+            questionId: questionId
+        },
+        beforeSend: function () {
+            StartLoading();
+        },
+        success: function (response) {
+            CloseLoading();
+            $("#QAnswerModalContent").html(response);
+
+            $('#CreateAnswerForm').data('validator', null);
+            $.validator.unobtrusive.parse('#CreateAnswerForm');
+
+            $("#QAnswerModal").modal("show");
+        },
+        error: function () {
+            CloseLoading();
+            console.log("Error");
+        }
+    });
+}
 

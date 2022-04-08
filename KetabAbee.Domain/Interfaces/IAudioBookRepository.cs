@@ -46,6 +46,20 @@ namespace KetabAbee.Domain.Interfaces
 
         Task<IQueryable<ABook_Question>> GetAudioBookQuestions(int audiobookId);
 
+        Task<IQueryable<ABook_QAnswer>> GetAudioBookQuestionAnswer(int questionId);
+
+        Task<bool> AddAudioBookQAnswer(ABook_QAnswer answer);
+
+        Task<ABook_QAnswer> GetAnswerById(int answerId);
+
+        ABook_QAnswer GetQAnswerById(int answerId);
+        ABook_Question GetQuestionById(int questionId);
+
+        bool IsUserSendQuestion(int userId, string userIp, int questionId);
+        bool IsUserSendAnswer(int userId, string userIp, int answerId);
+
+        Task<bool> DeleteAudioBookQAnswer(ABook_QAnswer answer);
+
         #endregion
     }
 }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs.Admin.AudioBook;
 using KetabAbee.Application.DTOs.AudioBook;
+using KetabAbee.Application.DTOs.AudioBook.QA.Answer;
 using KetabAbee.Application.DTOs.AudioBook.QA.Question;
 using KetabAbee.Application.DTOs.Paging;
 using KetabAbee.Application.Extensions;
@@ -95,9 +96,9 @@ namespace KetabAbee.Application.Services.Audio_Book
         {
             var audiobookRequest = new AudioBookRequest
             {
-                UserName = request.UserName,
+                UserName = request.UserName.Sanitizer(),
                 UserIp = request.UserIp,
-                BookTitle = request.BookTitle,
+                BookTitle = request.BookTitle.Sanitizer(),
                 Id = CodeGenerator.Generate8UniqueCharacter(),
                 AudioBookId = request.AudioBookId
             };
@@ -114,6 +115,19 @@ namespace KetabAbee.Application.Services.Audio_Book
             await _audioBookRepository.AddDownloadAudioBook(download);
         }
 
+        public async Task<bool> CreateAnswer(CreateQAnswerViewModel answer)
+        {
+            var newAnswer = new ABook_QAnswer
+            {
+                Body = answer.Body.Sanitizer(),
+                QuestionId = answer.QuestionId,
+                UserId = (answer.UserId == 0 ? null : answer.UserId),
+                UserIp = answer.UserIp,
+                UserName = answer.UserName.Sanitizer()
+            };
+            return await _audioBookRepository.AddAudioBookQAnswer(newAnswer);
+        }
+
         public async Task<bool> CreateQuestion(CreateQuestionViewModel question)
         {
             try
@@ -121,18 +135,33 @@ namespace KetabAbee.Application.Services.Audio_Book
                 var newQuestion = new ABook_Question
                 {
                     AudioBookId = question.AudioBookId,
-                    Body = question.Body,
-                    Title = question.Title,
-                    UserName = question.UserName,
+                    Body = question.Body.Sanitizer(),
+                    Title = question.Title.Sanitizer(),
+                    UserName = question.UserName.Sanitizer(),
                     UserIp = question.UserIp,
                     UserId = (question.UserId == 0 ? null : question.UserId)
                 };
                 return await _audioBookRepository.AddAudioBookQuestion(newQuestion);
             }
-            catch 
+            catch
             {
                 return false;
             }
+        }
+
+        public async Task<bool> DeleteAnswerById(int answerId, int userId, string userIp)
+        {
+            if (!_audioBookRepository.IsUserSendAnswer(userId, userIp, answerId))
+            {
+                return false;
+            }
+            var answer = await _audioBookRepository.GetAnswerById(answerId);
+            if (answer == null)
+            {
+                return false;
+            }
+
+            return await _audioBookRepository.DeleteAudioBookQAnswer(answer);
         }
 
         public async Task<bool> DeleteAudioBook(int audiobookId)
@@ -180,6 +209,21 @@ namespace KetabAbee.Application.Services.Audio_Book
             #endregion
 
             return await _audioBookRepository.DeleteAudioBook(audioBook);
+        }
+
+        public async Task<bool> DeleteQuestionById(int questionId, int userId, string userIp)
+        {
+            if (!_audioBookRepository.IsUserSendQuestion(userId, userIp, questionId))
+            {
+                return false;
+            }
+            var question = await _audioBookRepository.GetAudioBookQuestionById(questionId);
+            if (question == null)
+            {
+                return false;
+            }
+
+            return await _audioBookRepository.DeleteAudioBookQuestion(question);
         }
 
         public async Task<EditAudioBookResult> EditAudioBook(CreateAndEditAudioBookViewModel model)
@@ -367,7 +411,7 @@ namespace KetabAbee.Application.Services.Audio_Book
             return filter.SetPaging(pager).SetAudioBooks(audioBooks);
         }
 
-        public async Task<List<ShowQuestionViewModel>> GetABookQuestionsForShow(int audiobookId)
+        public async Task<List<ShowQuestionViewModel>> GetABookQuestionsForShow(int audiobookId, int userId, string userIp)
         {
             var query = await _audioBookRepository.GetAudioBookQuestions(audiobookId);
             return query.Select(q => new ShowQuestionViewModel
@@ -376,7 +420,9 @@ namespace KetabAbee.Application.Services.Audio_Book
                 Body = q.Body,
                 SendDate = q.SendDate,
                 Title = q.Title,
-                AvatarName = (q.UserId == null ? "User.jpg" : q.User.AvatarName)
+                AvatarName = (q.UserId == null ? "User.jpg" : q.User.AvatarName),
+                QuestionId = q.Id,
+                IsCurrentUserSentQuestion = _audioBookRepository.IsUserSendQuestion(userId, userIp, q.Id)
             }).ToList();
         }
 
@@ -449,6 +495,12 @@ namespace KetabAbee.Application.Services.Audio_Book
             };
         }
 
+        public async Task<int> GetAudioBookIdByQuestionId(int questionId)
+        {
+            var question = await _audioBookRepository.GetAudioBookQuestionById(questionId);
+            return question?.AudioBookId ?? default;
+        }
+
         public async Task<AudioBookRequestsViewModel> GetAudioBookRequestsForShowInAdmin(AudioBookRequestsViewModel requests)
         {
             var query = await _audioBookRepository.GetAllRequests();
@@ -514,6 +566,22 @@ namespace KetabAbee.Application.Services.Audio_Book
             };
         }
 
+        public async Task<List<ShowABookAnswersViewModel>> GetQuestionAnswersForShow(int questionId, int userId, string userIp)
+        {
+            var result = await _audioBookRepository.GetAudioBookQuestionAnswer(questionId);
+            return result.Select(r => new ShowABookAnswersViewModel
+            {
+                UserName = r.UserName,
+                AvatarName = (r.UserId == null ? "User.jpg" : r.User.AvatarName),
+                Body = r.Body,
+                SendDate = r.SendDate,
+                QuestionId = r.QuestionId,
+                AnswerId = r.AnswerId,
+                AudioBookId = r.Question.AudioBookId,
+                IsCurrentUserSentAnswer = _audioBookRepository.IsUserSendAnswer(userId, userIp, r.AnswerId)
+            }).ToList();
+        }
+
         public async System.Threading.Tasks.Task IncreaseAudioBookDownloadCount(int audiobookId)
         {
             await _audioBookRepository.IncreaseAudioBookDownloadCount(
@@ -523,6 +591,38 @@ namespace KetabAbee.Application.Services.Audio_Book
         public async Task<bool> IsDownloadAudioBookRepetitious(int audiobookId, string userIp)
         {
             return await _audioBookRepository.IsDownloadAudioBookRepetitious(audiobookId, userIp);
+        }
+
+        public bool IsUserSendAnswer(int userId, string userIp, int answerId)
+        {
+            var answer = _audioBookRepository.GetQAnswerById(answerId);
+            if (answer == null)
+            {
+                return false;
+            }
+
+            if (userId == 0)
+            {
+                return answer.UserIp == userIp;
+            }
+
+            return answer.UserId == userId;
+        }
+
+        public bool IsUserSendQuestion(int userId, string userIp, int questionId)
+        {
+            var question = _audioBookRepository.GetQuestionById(questionId);
+            if (question == null)
+            {
+                return false;
+            }
+
+            if (userId == 0)
+            {
+                return question.UserIp == userIp;
+            }
+
+            return question.UserId == userId;
         }
     }
 }

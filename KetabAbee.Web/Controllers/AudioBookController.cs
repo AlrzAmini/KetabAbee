@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.AudioBook;
+using KetabAbee.Application.DTOs.AudioBook.QA.Answer;
 using KetabAbee.Application.DTOs.AudioBook.QA.Question;
 using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Audio_Book;
@@ -136,6 +137,73 @@ namespace KetabAbee.Web.Controllers
             }
             TempData["ErrorSwal"] = "مشکلی در اننجام عملیات رخ داد";
             return RedirectToAction("AudioBookInfo", new { audiobookId = question.AudioBookId });
+        }
+
+        #endregion
+
+        #region answer
+
+        [HttpGet("load-modal-create-ABook-answer")]
+        public async Task<IActionResult> LoadCreateAnswerModal(int questionId)
+        {
+            var audioBookId = await _audioBookService.GetAudioBookIdByQuestionId(questionId);
+            var createAnswer = new CreateQAnswerViewModel
+            {
+                QuestionId = questionId,
+                AudioBookId = audioBookId
+            };
+            return PartialView("_CreateAnswerModal", createAnswer);
+        }
+
+        [HttpPost("CreateAnswer"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateAnswer(CreateQAnswerViewModel answer)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                answer.UserName = User.GetUserName();
+            }
+
+            answer.UserIp = HttpContext.GetUserIp();
+            answer.UserId = User.GetUserId();
+            if (await _audioBookService.CreateAnswer(answer))
+            {
+                TempData["SuccessSwal"] = "پاسخ شما با موفقیت ثبت شد";
+                return RedirectToAction("AudioBookInfo", new { audiobookId = answer.AudioBookId });
+            }
+            TempData["ErrorSwal"] = "مشکلی در اننجام عملیات رخ داد";
+            return RedirectToAction("AudioBookInfo", new { audiobookId = answer.AudioBookId });
+        }
+
+        #endregion
+
+        #region delete question
+
+        [HttpGet("DeleteQ/{questionId}")]
+        public async Task<IActionResult> DeleteQuestion(int questionId, string backUrl)
+        {
+            if (await _audioBookService.DeleteQuestionById(questionId, User.GetUserId(), HttpContext.GetUserIp()))
+            {
+                TempData["SuccessSwal"] = "با موفقیت حذف شد";
+                return Redirect(backUrl);
+            }
+            TempData["ErrorSwal"] = "مشکلی در حذف رخ داد";
+            return Redirect(backUrl);
+        }
+
+        #endregion
+
+        #region delete answer
+
+        [HttpGet("DeleteA/{answerId}")]
+        public async Task<IActionResult> DeleteAnswer(int answerId, string backUrl)
+        {
+            if (await _audioBookService.DeleteAnswerById(answerId, User.GetUserId(), HttpContext.GetUserIp()))
+            {
+                TempData["SuccessSwal"] = "با موفقیت حذف شد";
+                return Redirect(backUrl);
+            }
+            TempData["ErrorSwal"] = "مشکلی در حذف رخ داد";
+            return Redirect(backUrl);
         }
 
         #endregion

@@ -6,23 +6,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KetabAbee.Domain.Models.Audio_Book.Q_And_A
+namespace KetabAbee.Application.DTOs.AudioBook.QA.Answer
 {
-    public class ABook_QAnswer
+    public class CreateQAnswerViewModel
     {
         #region props
 
-        [Key]
-        public int AnswerId { get; set; }
+        public int UserId { get; set; }
 
         public int QuestionId { get; set; }
 
-        public int? UserId { get; set; }
+        public int AudioBookId { get; set; }
 
         [MaxLength(16)]
         public string UserIp { get; set; }
 
-        [DisplayName("نام کاربری")]
+        [DisplayName("نام")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
         [MaxLength(400, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
         public string UserName { get; set; }
@@ -32,19 +31,6 @@ namespace KetabAbee.Domain.Models.Audio_Book.Q_And_A
         [MaxLength(800, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
         public string Body { get; set; }
 
-        public bool IsDelete { get; set; }
-
-        public DateTime SendDate { get; set; } = DateTime.Now;
-
-        #endregion
-
-        #region relations
-
-        public ABook_Question Question { get; set; }
-
-        public User.User User { get; set; }
-
         #endregion
     }
 }
-

@@ -1,9 +1,9 @@
-﻿@model KetabAbee.Application.DTOs.AudioBook.QA.Question.CreateQuestionViewModel
-
-<form id="CreateQuestionForm" asp-controller="AudioBook" asp-action="CreateQuestion" method="post">
+﻿@model KetabAbee.Application.DTOs.AudioBook.QA.Answer.CreateQAnswerViewModel
+<form id="CreateAnswerForm" asp-controller="AudioBook" asp-action="CreateAnswer" method="post">
     <input type="hidden" asp-for="AudioBookId" />
+    <input type="hidden" asp-for="QuestionId" />
     <div class="modal-header">
-        <h5 class="modal-title">ثبت پرسش جدید</h5>
+        <h5 class="modal-title">ثبت پاسخ </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -13,18 +13,13 @@
             @if (!User.Identity.IsAuthenticated)
             {
                 <div class="col-md-6 mb-3">
-                    <label>نام شما</label>
+                    <label>نام</label>
                     <input type="text" class="form-control" asp-for="UserName">
                     <span asp-validation-for="UserName" class="text-danger"></span>
                 </div>
             }
-            <div class="col-md-12 mb-3">
-                <label>عنوان کوتاه</label>
-                <input type="text" class="form-control" asp-for="Title" placeholder="عنوان کوتاهی درباره موضوع سوالتان بنویسید. مثال : کیفیت صدا">
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
             <div class="col-md-12">
-                <label>متن پرسش</label>
+                <label>متن پاسخ</label>
                 <textarea class="form-control" rows="5" asp-for="Body"></textarea>
                 <span asp-validation-for="Body" class="text-danger"></span>
             </div>

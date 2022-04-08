@@ -34,6 +34,20 @@ namespace KetabAbee.Data.Repository
             }
         }
 
+        public async Task<bool> AddAudioBookQAnswer(ABook_QAnswer answer)
+        {
+            try
+            {
+                await _context.ABookQAnswers.AddAsync(answer);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public async Task<bool> AddAudioBookQuestion(ABook_Question question)
         {
             try
@@ -77,6 +91,21 @@ namespace KetabAbee.Data.Repository
             return await UpdateAudioBook(book);
         }
 
+        public async Task<bool> DeleteAudioBookQAnswer(ABook_QAnswer answer)
+        {
+            try
+            {
+                answer.IsDelete = true;
+                _context.ABookQAnswers.Update(answer);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public async Task<bool> DeleteAudioBookQuestion(ABook_Question question)
         {
             try
@@ -97,6 +126,11 @@ namespace KetabAbee.Data.Repository
             return await Task.FromResult(_context.AudioBookRequests.AsQueryable());
         }
 
+        public async Task<ABook_QAnswer> GetAnswerById(int answerId)
+        {
+            return await _context.ABookQAnswers.FindAsync(answerId);
+        }
+
         public async Task<AudioBook> GetAudioBookById(int audiobookId)
         {
             return await _context.AudioBooks.FindAsync(audiobookId);
@@ -107,6 +141,17 @@ namespace KetabAbee.Data.Repository
             return await _context.DownloadedAudioBooks.CountAsync(a => a.AudioBookId == audiobookId);
         }
 
+        public async Task<IQueryable<ABook_QAnswer>> GetAudioBookQuestionAnswer(int questionId)
+        {
+            return await Task.FromResult(_context.ABookQAnswers
+                .Include(a => a.User)
+                .Include(a => a.Question)
+                .Where(a => a.QuestionId == questionId)
+                .OrderByDescending(a => a.SendDate)
+                .AsQueryable());
+            //todo : add view model and service for show and delete q and a
+        }
+
         public async Task<ABook_Question> GetAudioBookQuestionById(int questionId)
         {
             return await _context.ABookQuestions.FindAsync(questionId);
@@ -114,7 +159,11 @@ namespace KetabAbee.Data.Repository
 
         public async Task<IQueryable<ABook_Question>> GetAudioBookQuestions(int audiobookId)
         {
-            return await Task.FromResult(_context.ABookQuestions.Include(q => q.User).AsQueryable());
+            return await Task.FromResult(_context.ABookQuestions
+                    .Include(q => q.User)
+                .Where(q => q.AudioBookId == audiobookId)
+                    .OrderByDescending(a => a.SendDate)
+                    .AsQueryable());
         }
 
         public async Task<int> GetAudioBookQuestionsCount(int audiobookId)
@@ -135,6 +184,16 @@ namespace KetabAbee.Data.Repository
                 .ToListAsync();
         }
 
+        public ABook_QAnswer GetQAnswerById(int answerId)
+        {
+            return _context.ABookQAnswers.Find(answerId);
+        }
+
+        public ABook_Question GetQuestionById(int questionId)
+        {
+            return _context.ABookQuestions.Find(questionId);
+        }
+
         public async Task IncreaseAudioBookDownloadCount(AudioBook audioBook)
         {
             audioBook.DownloadCount++;
@@ -145,6 +204,38 @@ namespace KetabAbee.Data.Repository
         {
             return await _context.DownloadedAudioBooks.AnyAsync(d =>
                 d.AudioBookId == audiobookId && d.UserIp == userIp);
+        }
+
+        public bool IsUserSendAnswer(int userId, string userIp, int answerId)
+        {
+            var answer = GetQAnswerById(answerId);
+            if (answer == null)
+            {
+                return false;
+            }
+
+            if (userId == 0)
+            {
+                return answer.UserIp == userIp;
+            }
+
+            return answer.UserId == userId;
+        }
+
+        public bool IsUserSendQuestion(int userId, string userIp, int questionId)
+        {
+            var question = GetQuestionById(questionId);
+            if (question == null)
+            {
+                return false;
+            }
+
+            if (userId == 0)
+            {
+                return question.UserIp == userIp;
+            }
+
+            return question.UserId == userId;
         }
 
         public async Task<bool> UpdateAudioBook(AudioBook book)

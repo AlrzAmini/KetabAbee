@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Admin.AudioBook;
 using KetabAbee.Application.DTOs.AudioBook;
+using KetabAbee.Application.DTOs.AudioBook.QA.Answer;
 using KetabAbee.Application.DTOs.AudioBook.QA.Question;
 using KetabAbee.Domain.Models.Audio_Book;
 
@@ -45,7 +46,20 @@ namespace KetabAbee.Application.Interfaces.Audio_Book
 
         Task<bool> CreateQuestion(CreateQuestionViewModel question);
 
-        Task<List<ShowQuestionViewModel>> GetABookQuestionsForShow(int audiobookId);
+        Task<List<ShowQuestionViewModel>> GetABookQuestionsForShow(int audiobookId, int userId, string userIp);
+
+        Task<List<ShowABookAnswersViewModel>> GetQuestionAnswersForShow(int questionId,int userId,string userIp);
+
+        Task<bool> CreateAnswer(CreateQAnswerViewModel answer);
+
+        Task<int> GetAudioBookIdByQuestionId(int questionId);
+
+        bool IsUserSendQuestion(int userId,string userIp,int questionId);
+        bool IsUserSendAnswer(int userId,string userIp,int answerId);
+
+        Task<bool> DeleteQuestionById(int questionId, int userId, string userIp);
+
+        Task<bool> DeleteAnswerById(int answerId, int userId, string userIp);
 
         #endregion
     }

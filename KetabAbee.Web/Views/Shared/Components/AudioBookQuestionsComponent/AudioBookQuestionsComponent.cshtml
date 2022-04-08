@@ -1,4 +1,5 @@
 ﻿@using KetabAbee.Application.Convertors
+@using KetabAbee.Application.Extensions
 @model List<KetabAbee.Application.DTOs.AudioBook.QA.Question.ShowQuestionViewModel>
 <div class="product-review mb-4">
     @if (Model != null && Model.Any())
@@ -8,14 +9,18 @@
             <div class="blockquote comment mb-4">
                 <div class="blockquote-content mb-2">
                     <div class="d-sm-flex align-items-center mb-2">
-                        <h6 class="font-weight-bold mb-0">@question.Title</h6>
+                        <h6 class="font-weight-bold mb-0 col-md-11">@question.Title</h6>
+                        @if (question.IsCurrentUserSentQuestion)
+                        {
+                            <a asp-controller="AudioBook" asp-action="DeleteQuestion" asp-route-questionId="@question.QuestionId" asp-route-backUrl="@Context.GetCurrentUrl()" class="btn btn-outline-danger btn-sm">حذف</a>
+                        }
                     </div>
                     <p>
                         @question.Body
                     </p>
                     <footer class="testimonial-footer d-flex align-items-center">
                         <div class="testimonial-avatar">
-                            <img src="/Avatar/thumb/@question.AvatarName" alt="Review Author Avatar">
+                            <img src="/Avatar/thumb/@question.AvatarName" alt="آواتار @question.UserName" class="img-fluid">
                         </div>
                         <div class="pr-2 flex-grow-1">
                             <div class="blockquote-footer">
@@ -24,50 +29,13 @@
                                     <cite class="text-sm">
                                         @question.SendDate.ToIraniDate()
                                     </cite>
-                                    <a href="#" class="link--with-border-bottom ml-1">پاسخ</a>
+                                    <a onclick="LoadCreateAnswerABookModalBody(@question.QuestionId)" class="link--with-border-bottom ml-1">پاسخ</a>
                                 </div>
                             </div>
                         </div>
                     </footer>
                 </div>
-                <div class="blockquote comment mb-0">
-                    <div class="blockquote-content">
-                        <div class="d-sm-flex align-items-center mb-2">
-                            <h6 class="font-weight-bold mb-0">
-                                انتخابی عجیب!!!
-                            </h6><span class="d-none d-sm-inline mx-3 text-muted opacity-50">|</span>
-                            <div class="ratings-container mb-0">
-                                <div class="ratings">
-                                    <div class="ratings-val" style="width: 88%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <p>
-                            یعنی واقعا با این اختلاف قیمت خیلی کم بین این گوشی با
-                            حافظه ۳۲ و
-                            حافظه
-                            ۱۲۸ . خرید این گوشی با حافظه ۳۲ هیچ توجیه منطقی
-                            ندارد.....
-                        </p>
-                        <footer class="testimonial-footer d-flex align-items-center">
-                            <div class="testimonial-avatar">
-                                <img src="./assets/images/avatar/avatar.png" alt="Review Author Avatar">
-                            </div>
-                            <div class="pr-2 flex-grow-1">
-                                <div class="blockquote-footer">
-                                    <span class="d-block font-weight-bold text-dark">جلال</span>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <cite class="text-sm">
-                                            در تاریخ ۷ فروردین
-                                            ۱۳۹۹
-                                        </cite>
-                                        <a href="#" class="link--with-border-bottom ml-1">پاسخ</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </footer>
-                    </div>
-                </div>
+                @await Component.InvokeAsync("AudioBookQAnswersComponent", question.QuestionId)
             </div>
         }
     }

@@ -1,0 +1,35 @@
+﻿@using KetabAbee.Application.Convertors
+@using KetabAbee.Application.Extensions
+@model List<KetabAbee.Application.DTOs.AudioBook.QA.Answer.ShowABookAnswersViewModel>
+@if (Model != null && Model.Any())
+{
+    foreach (var answer in Model)
+    {
+        <div class="blockquote comment mb-1">
+            <div class="blockquote-content">
+                <p>
+                   @answer.Body
+                </p>
+                <footer class="testimonial-footer d-flex align-items-center">
+                    <div class="testimonial-avatar">
+                        <img src="/Avatar/thumb/@answer.AvatarName" alt="آواتار @answer.UserName"  class="img-fluid">
+                    </div>
+                    <div class="pr-2 flex-grow-1">
+                        <div class="blockquote-footer">
+                            <span class="d-block font-weight-bold text-dark">@answer.UserName</span>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <cite class="text-sm">
+                                    @answer.SendDate.ToIraniDate()
+                                </cite>
+                                @if (answer.IsCurrentUserSentAnswer)
+                                {
+                                    <a asp-controller="AudioBook" asp-action="DeleteAnswer" asp-route-answerId="@answer.AnswerId" asp-route-backUrl="@Context.GetCurrentUrl()" class="btn btn-outline-danger btn-sm ml-1">حذف</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    }
+}

@@ -8,18 +8,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KetabAbee.Web.ViewComponents
 {
-    public class AudioBookQuestionsComponent : ViewComponent
+    public class AudioBookQAnswersComponent : ViewComponent
     {
         private readonly IAudioBookService _audioBookService;
 
-        public AudioBookQuestionsComponent(IAudioBookService audioBookService)
+        public AudioBookQAnswersComponent(IAudioBookService audioBookService)
         {
             _audioBookService = audioBookService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(int audiobookId)
+        public async Task<IViewComponentResult> InvokeAsync(int questionId)
         {
-            return View("AudioBookQuestionsComponent", await _audioBookService.GetABookQuestionsForShow(audiobookId, HttpContext.User.GetUserId(), HttpContext.GetUserIp()));
+            return View("AudioBookQAnswers", await _audioBookService.GetQuestionAnswersForShow(questionId,HttpContext.User.GetUserId(),HttpContext.GetUserIp()));
         }
     }
 }
