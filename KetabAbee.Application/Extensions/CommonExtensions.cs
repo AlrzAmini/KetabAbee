@@ -86,6 +86,6 @@ namespace KetabAbee.Application.Extensions
             return value + " مگابایت ";
         }
 
-        public static string DomainAddress = "https://localhost:44338";
+        public static string DomainAddress = "https://haamechitamoom.ir";
     }
 }

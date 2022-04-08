@@ -1,35 +1,21 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <link rel="icon" href="/images/book.png" type="image/gif" sizes="16x16">
-
     @await RenderSectionAsync("MetaTag", false)
     <partial name="_Metas" />
-
     <title>@ViewData["Title"]</title>
-
-
     <partial name="_Styles" />
     @await RenderSectionAsync("Styles", false)
 </head>
-
 <body>
-
     <div class="page-wrapper">
-
         @await Component.InvokeAsync("HeaderComponent")
-
         @RenderBody()
-
         <partial name="_Footer" />
-
     </div>
-
     <partial name="_Scripts" />
     <partial name="_SiteMessages" />
     @await RenderSectionAsync("Scripts", false)
-
 </body>
-
 </html>

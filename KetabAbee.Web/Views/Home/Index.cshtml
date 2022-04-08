@@ -40,7 +40,9 @@
                     مجله آبی
                 </div>
             </div>
-            @await Component.InvokeAsync("LatestBlogsComponent")
+            <cache expires-after="TimeSpan.FromMinutes(15)">
+                @await Component.InvokeAsync("LatestBlogsComponent")
+            </cache>
         </div>
     </div>ـ
 </main>

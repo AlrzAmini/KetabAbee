@@ -69,18 +69,6 @@ $("#compare-info").on("click", function () {
     });
 });
 
-function StartLoading(element = 'body') {
-    $(element).waitMe({
-        effect: 'bounce',
-        text: 'لطفا صبر کنید',
-        bg: 'rgba(255, 255, 255, 0.7)',
-        color: '#000'
-    });
-}
-
-function CloseLoading(element = 'body') {
-    $(element).waitMe('hide');
-}
 
 function LoadAddAnswerModalBody(commentId) {
     $.ajax({
@@ -90,10 +78,9 @@ function LoadAddAnswerModalBody(commentId) {
             commentId: commentId
         },
         beforeSend: function () {
-            StartLoading();
+           
         },
         success: function (response) {
-            CloseLoading();
             $("#AnswerModalContent").html(response);
 
             $('#AnswerForm').data('validator', null);
@@ -116,10 +103,9 @@ function LoadContactUsModalBody() {
            
         },
         beforeSend: function () {
-            StartLoading();
+            
         },
         success: function (response) {
-            CloseLoading();
             $("#ContactUsModalContent").html(response);
 
             $('#ContactUsForm').data('validator', null);
@@ -128,7 +114,6 @@ function LoadContactUsModalBody() {
             $("#ContactUsModal").modal("show");
         },
         error: function () {
-            CloseLoading();
             console.log("Error");
         }
     });
@@ -142,10 +127,10 @@ function LoadAddBookRequestModalBody(audiobookId) {
             audiobookId: audiobookId
         },
         beforeSend: function () {
-            StartLoading();
+            
         },
         success: function (response) {
-            CloseLoading();
+            
             $("#RequestModalContent").html(response);
 
             $('#RequestForm').data('validator', null);
@@ -154,7 +139,6 @@ function LoadAddBookRequestModalBody(audiobookId) {
             $("#RequestModal").modal("show");
         },
         error: function () {
-            CloseLoading();
             console.log("Error");
         }
     });
@@ -167,10 +151,10 @@ function LoadCreateQuestionABookModalBody(audiobookId) {
             audiobookId: audiobookId
         },
         beforeSend: function () {
-            StartLoading();
+            
         },
         success: function (response) {
-            CloseLoading();
+            
             $("#QuestionModalContent").html(response);
 
             $('#CreateQuestionForm').data('validator', null);
@@ -179,7 +163,6 @@ function LoadCreateQuestionABookModalBody(audiobookId) {
             $("#QuestionModal").modal("show");
         },
         error: function () {
-            CloseLoading();
             console.log("Error");
         }
     });
@@ -192,10 +175,9 @@ function LoadCreateAnswerABookModalBody(questionId) {
             questionId: questionId
         },
         beforeSend: function () {
-            StartLoading();
+            
         },
         success: function (response) {
-            CloseLoading();
             $("#QAnswerModalContent").html(response);
 
             $('#CreateAnswerForm').data('validator', null);
@@ -204,7 +186,6 @@ function LoadCreateAnswerABookModalBody(questionId) {
             $("#QAnswerModal").modal("show");
         },
         error: function () {
-            CloseLoading();
             console.log("Error");
         }
     });

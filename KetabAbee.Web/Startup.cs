@@ -123,7 +123,7 @@ namespace KetabAbee.Web
 
             #region Cach Static Files
 
-            app.UseStaticFiles(new StaticFileOptions()
+            app.UseStaticFiles(new StaticFileOptions
             {
                 OnPrepareResponse =
                     r =>
