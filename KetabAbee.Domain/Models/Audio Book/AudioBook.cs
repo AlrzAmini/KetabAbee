@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KetabAbee.Domain.Models.Audio_Book.Q_And_A;
 
 namespace KetabAbee.Domain.Models.Audio_Book
 {
@@ -65,6 +66,7 @@ namespace KetabAbee.Domain.Models.Audio_Book
 
         public ICollection<DownloadedAudioBook> DownloadedAudioBooks { get; set; }
         public ICollection<AudioBookRequest> AudioBookRequests { get; set; }
+        public ICollection<ABook_Question> AudioBookQuestions { get; set; }
 
         #endregion
     }

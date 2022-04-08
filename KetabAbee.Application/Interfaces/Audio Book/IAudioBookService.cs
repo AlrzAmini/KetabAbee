@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.Admin.AudioBook;
 using KetabAbee.Application.DTOs.AudioBook;
+using KetabAbee.Application.DTOs.AudioBook.QA.Question;
 using KetabAbee.Domain.Models.Audio_Book;
 
 namespace KetabAbee.Application.Interfaces.Audio_Book
@@ -42,7 +43,9 @@ namespace KetabAbee.Application.Interfaces.Audio_Book
 
         #region Q & Answer
 
+        Task<bool> CreateQuestion(CreateQuestionViewModel question);
 
+        Task<List<ShowQuestionViewModel>> GetABookQuestionsForShow(int audiobookId);
 
         #endregion
     }

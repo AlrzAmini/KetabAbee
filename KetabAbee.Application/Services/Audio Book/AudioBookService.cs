@@ -8,12 +8,14 @@ using System.Threading.Tasks;
 using KetabAbee.Application.Convertors;
 using KetabAbee.Application.DTOs.Admin.AudioBook;
 using KetabAbee.Application.DTOs.AudioBook;
+using KetabAbee.Application.DTOs.AudioBook.QA.Question;
 using KetabAbee.Application.DTOs.Paging;
 using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Generators;
 using KetabAbee.Application.Interfaces.Audio_Book;
 using KetabAbee.Domain.Interfaces;
 using KetabAbee.Domain.Models.Audio_Book;
+using KetabAbee.Domain.Models.Audio_Book.Q_And_A;
 
 namespace KetabAbee.Application.Services.Audio_Book
 {
@@ -110,6 +112,27 @@ namespace KetabAbee.Application.Services.Audio_Book
                 AudioBookId = audiobookId
             };
             await _audioBookRepository.AddDownloadAudioBook(download);
+        }
+
+        public async Task<bool> CreateQuestion(CreateQuestionViewModel question)
+        {
+            try
+            {
+                var newQuestion = new ABook_Question
+                {
+                    AudioBookId = question.AudioBookId,
+                    Body = question.Body,
+                    Title = question.Title,
+                    UserName = question.UserName,
+                    UserIp = question.UserIp,
+                    UserId = (question.UserId == 0 ? null : question.UserId)
+                };
+                return await _audioBookRepository.AddAudioBookQuestion(newQuestion);
+            }
+            catch 
+            {
+                return false;
+            }
         }
 
         public async Task<bool> DeleteAudioBook(int audiobookId)
@@ -344,6 +367,19 @@ namespace KetabAbee.Application.Services.Audio_Book
             return filter.SetPaging(pager).SetAudioBooks(audioBooks);
         }
 
+        public async Task<List<ShowQuestionViewModel>> GetABookQuestionsForShow(int audiobookId)
+        {
+            var query = await _audioBookRepository.GetAudioBookQuestions(audiobookId);
+            return query.Select(q => new ShowQuestionViewModel
+            {
+                UserName = q.UserName,
+                Body = q.Body,
+                SendDate = q.SendDate,
+                Title = q.Title,
+                AvatarName = (q.UserId == null ? "User.jpg" : q.User.AvatarName)
+            }).ToList();
+        }
+
         public async Task<List<AudioBookBoxViewModel>> GetAllAudioBooksForShow()
         {
             var result = await _audioBookRepository.GetAudioBooks();
@@ -386,7 +422,8 @@ namespace KetabAbee.Application.Services.Audio_Book
                 Title = audiobook.Title + " اثر " + audiobook.Writer + " با صدای " + audiobook.Speaker,
                 Name = audiobook.Title,
                 ImageName = audiobook.ImageName,
-                CreateDate = audiobook.CreateDate
+                CreateDate = audiobook.CreateDate,
+                QuestionsCount = await _audioBookRepository.GetAudioBookQuestionsCount(audiobookId)
             };
         }
 

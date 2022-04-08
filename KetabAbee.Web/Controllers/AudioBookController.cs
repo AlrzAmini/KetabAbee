@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using KetabAbee.Application.DTOs.AudioBook;
+using KetabAbee.Application.DTOs.AudioBook.QA.Question;
 using KetabAbee.Application.Extensions;
 using KetabAbee.Application.Interfaces.Audio_Book;
 
@@ -87,14 +88,13 @@ namespace KetabAbee.Web.Controllers
             return PartialView("_RequestBookModal", createModel);
         }
 
-        [HttpPost("add-request-book"),ValidateAntiForgeryToken]
+        [HttpPost("add-request-book"), ValidateAntiForgeryToken]
         public async Task<IActionResult> RequestBook(CreateAudioBookRequest request)
         {
-            if (!ModelState.IsValid)
-            { 
-                return PartialView("_RequestBookModal", request);
+            if (User.Identity.IsAuthenticated)
+            {
+                request.UserName = User.GetUserName();
             }
-
             request.UserIp = HttpContext.GetUserIp();
             if (await _audioBookService.AddAudioBookRequest(request))
             {
@@ -103,6 +103,39 @@ namespace KetabAbee.Web.Controllers
             }
             TempData["ErrorSwal"] = "مشکلی در ثبت درخواست رخ داد";
             return RedirectToAction("AudioBookInfo", new { audiobookId = request.AudioBookId });
+        }
+
+        #endregion
+
+        #region question
+
+        [HttpGet("load-modal-create-ABook-question")]
+        public IActionResult LoadCreateQuestionModal(int audiobookId)
+        {
+            var createQuestion = new CreateQuestionViewModel
+            {
+                AudioBookId = audiobookId
+            };
+            return PartialView("_CreateQuestionModal", createQuestion);
+        }
+
+        [HttpPost("CreateQuestion"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateQuestion(CreateQuestionViewModel question)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                question.UserName = User.GetUserName();
+            }
+
+            question.UserIp = HttpContext.GetUserIp();
+            question.UserId = User.GetUserId();
+            if (await _audioBookService.CreateQuestion(question))
+            {
+                TempData["SuccessSwal"] = "پرسش شما با موفقیت ثبت شد";
+                return RedirectToAction("AudioBookInfo", new { audiobookId = question.AudioBookId });
+            }
+            TempData["ErrorSwal"] = "مشکلی در اننجام عملیات رخ داد";
+            return RedirectToAction("AudioBookInfo", new { audiobookId = question.AudioBookId });
         }
 
         #endregion

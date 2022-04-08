@@ -112,6 +112,16 @@ namespace KetabAbee.Data.Repository
             return await _context.ABookQuestions.FindAsync(questionId);
         }
 
+        public async Task<IQueryable<ABook_Question>> GetAudioBookQuestions(int audiobookId)
+        {
+            return await Task.FromResult(_context.ABookQuestions.Include(q => q.User).AsQueryable());
+        }
+
+        public async Task<int> GetAudioBookQuestionsCount(int audiobookId)
+        {
+            return await _context.ABookQuestions.CountAsync(q => q.AudioBookId == audiobookId);
+        }
+
         public async Task<IQueryable<AudioBook>> GetAudioBooks()
         {
             return await Task.FromResult(_context.AudioBooks.OrderByDescending(b => b.CreateDate).AsQueryable());

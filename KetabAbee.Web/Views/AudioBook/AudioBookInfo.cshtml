@@ -114,248 +114,17 @@
                                     <div class="tab-pane fade" id="productComments" role="tabpanel" aria-labelledby="productComments-tab">
                                         <!-- product-review -->
                                         <div class="product-review-form mb-3">
-                                            <form action="#">
-                                                <div class="row align-items-center">
-                                                    <div class="col-lg-6">
-                                                        <div class="form-element-row">
-                                                            <label for="phone-number" class="label-element">
-                                                                عنوان نظر شما
-                                                                (اجباری)
-                                                            </label>
-                                                            <input type="text" class="input-element">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="form-group">
-                                                            <label>امتیاز شما:</label>
-                                                            <div class="add-rating">
-                                                                <input type="radio" name="rating" id="rating-1">
-                                                                <label for="rating-1"></label>
-                                                                <input type="radio" name="rating" id="rating-2">
-                                                                <label for="rating-2"></label>
-                                                                <input type="radio" name="rating" id="rating-3">
-                                                                <label for="rating-3"></label>
-                                                                <input type="radio" name="rating" id="rating-4">
-                                                                <label for="rating-4"></label>
-                                                                <input type="radio" name="rating" id="rating-5">
-                                                                <label for="rating-5"></label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="form-element-row">
-                                                            <label for="phone-number" class="label-element">
-                                                                ایمیل
-                                                                شما
-                                                            </label>
-                                                            <input type="text" class="input-element">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="form-element-row">
-                                                            <label for="phone-number" class="label-element">
-                                                                نظر
-                                                                شما
-                                                            </label>
-                                                            <textarea name="comment" id="comment" cols="30" rows="10" class="input-element"></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="form-group">
-                                                            <button class="btn btn-primary px-3">ارسال نظر <i class="fad fa-comment-alt-edit"></i></button>
-                                                        </div>
-                                                    </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <a onclick="LoadCreateQuestionABookModalBody(@Model.AudioBookId)" class="btn btn-success btn-block px-3">ارسال پرسش <i class="fad fa-comment-alt-edit"></i></a>
                                                 </div>
-                                            </form>
+                                            </div>
                                             <div class="section-title mb-1 mt-4">
-                                                نظرات کاربران (۵)
+                                                پرسش های کاربران (@Model.QuestionsCount)
                                             </div>
                                             <hr>
                                         </div>
-                                        <div class="product-review mb-4">
-                                            <div class="blockquote comment mb-4">
-                                                <div class="blockquote-content mb-2">
-                                                    <div class="d-sm-flex align-items-center mb-2">
-                                                        <h6 class="font-weight-bold mb-0">راضیم</h6><span class="d-none d-sm-inline mx-3 text-muted opacity-50">|</span>
-                                                        <div class="ratings-container mb-0">
-                                                            <div class="ratings">
-                                                                <div class="ratings-val" style="width: 88%;">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <p>
-                                                        من ۳روز که خریدم و راضی هستم دوربینش خوبه فقط به نظرم
-                                                        باتری زود تموم
-                                                        میشه
-                                                        البته دائما هم باهاش کار میکنم ولی هر روز شارژش می‌کنم
-                                                        گوشیه خوش
-                                                        دستیه
-                                                    </p>
-                                                    <footer class="testimonial-footer d-flex align-items-center">
-                                                        <div class="testimonial-avatar">
-                                                            <img src="./assets/images/avatar/avatar.png" alt="Review Author Avatar">
-                                                        </div>
-                                                        <div class="pr-2 flex-grow-1">
-                                                            <div class="blockquote-footer">
-                                                                <span class="d-block font-weight-bold text-dark">حامد</span>
-                                                                <div class="d-flex justify-content-between align-items-center">
-                                                                    <cite class="text-sm">
-                                                                        در تاریخ ۷ فروردین
-                                                                        ۱۳۹۹
-                                                                    </cite>
-                                                                    <a href="#" class="link--with-border-bottom ml-1">پاسخ</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </footer>
-                                                </div>
-                                                <div class="blockquote comment mb-0">
-                                                    <div class="blockquote-content">
-                                                        <div class="d-sm-flex align-items-center mb-2">
-                                                            <h6 class="font-weight-bold mb-0">
-                                                                انتخابی عجیب!!!
-                                                            </h6><span class="d-none d-sm-inline mx-3 text-muted opacity-50">|</span>
-                                                            <div class="ratings-container mb-0">
-                                                                <div class="ratings">
-                                                                    <div class="ratings-val" style="width: 88%;"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <p>
-                                                            یعنی واقعا با این اختلاف قیمت خیلی کم بین این گوشی با
-                                                            حافظه ۳۲ و
-                                                            حافظه
-                                                            ۱۲۸ . خرید این گوشی با حافظه ۳۲ هیچ توجیه منطقی
-                                                            ندارد.....
-                                                        </p>
-                                                        <footer class="testimonial-footer d-flex align-items-center">
-                                                            <div class="testimonial-avatar">
-                                                                <img src="./assets/images/avatar/avatar.png" alt="Review Author Avatar">
-                                                            </div>
-                                                            <div class="pr-2 flex-grow-1">
-                                                                <div class="blockquote-footer">
-                                                                    <span class="d-block font-weight-bold text-dark">جلال</span>
-                                                                    <div class="d-flex justify-content-between align-items-center">
-                                                                        <cite class="text-sm">
-                                                                            در تاریخ ۷ فروردین
-                                                                            ۱۳۹۹
-                                                                        </cite>
-                                                                        <a href="#" class="link--with-border-bottom ml-1">پاسخ</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </footer>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="blockquote comment mb-4">
-                                                <div class="blockquote-content">
-                                                    <div class="d-sm-flex align-items-center mb-2">
-                                                        <h6 class="font-weight-bold mb-0">انتخابی عجیب!!!</h6>
-                                                        <span class="d-none d-sm-inline mx-3 text-muted opacity-50">|</span>
-                                                        <div class="ratings-container mb-0">
-                                                            <div class="ratings">
-                                                                <div class="ratings-val" style="width: 88%;">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <p>
-                                                        یعنی واقعا با این اختلاف قیمت خیلی کم بین این گوشی با
-                                                        حافظه ۳۲ و
-                                                        حافظه
-                                                        ۱۲۸ . خرید این گوشی با حافظه ۳۲ هیچ توجیه منطقی
-                                                        ندارد.....
-                                                    </p>
-                                                    <footer class="testimonial-footer d-flex align-items-center">
-                                                        <div class="testimonial-avatar">
-                                                            <img src="./assets/images/avatar/avatar.png" alt="Review Author Avatar">
-                                                        </div>
-                                                        <div class="pr-2 flex-grow-1">
-                                                            <div class="blockquote-footer">
-                                                                <span class="d-block font-weight-bold text-dark">سامان</span>
-                                                                <div class="d-flex justify-content-between align-items-center">
-                                                                    <cite class="text-sm">
-                                                                        در تاریخ ۷ فروردین
-                                                                        ۱۳۹۹
-                                                                    </cite>
-                                                                    <a href="#" class="link--with-border-bottom ml-1">پاسخ</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </footer>
-                                                </div>
-                                            </div>
-                                            <div class="blockquote comment mb-4">
-                                                <div class="blockquote-content">
-                                                    <div class="d-sm-flex align-items-center mb-2">
-                                                        <h6 class="font-weight-bold mb-0">گوشیA30S</h6><span class="d-none d-sm-inline mx-3 text-muted opacity-50">|</span>
-                                                        <div class="ratings-container mb-0">
-                                                            <div class="ratings">
-                                                                <div class="ratings-val" style="width: 88%;">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <p>
-                                                        باتوجه به قیمت عالیه.فرق چندانی با A50نداره فقط دوربین
-                                                        پشت که البته
-                                                        من
-                                                        دوربین هر دو گوشی رو باهم‌مقایسه کردم فرقی نداشتن
-                                                    </p>
-                                                    <footer class="testimonial-footer d-flex align-items-center">
-                                                        <div class="testimonial-avatar">
-                                                            <img src="./assets/images/avatar/avatar.png" alt="Review Author Avatar">
-                                                        </div>
-                                                        <div class="pr-2 flex-grow-1">
-                                                            <div class="blockquote-footer">
-                                                                <span class="d-block font-weight-bold text-dark">سامان</span>
-                                                                <div class="d-flex justify-content-between align-items-center">
-                                                                    <cite class="text-sm">
-                                                                        در تاریخ ۷ فروردین
-                                                                        ۱۳۹۹
-                                                                    </cite>
-                                                                    <a href="#" class="link--with-border-bottom ml-1">پاسخ</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </footer>
-                                                </div>
-                                            </div>
-                                            <div class="blockquote comment mb-4">
-                                                <div class="blockquote-content">
-                                                    <div class="d-sm-flex align-items-center mb-2">
-                                                        <h6 class="font-weight-bold mb-0">از همه نظر عالی</h6>
-                                                        <span class="d-none d-sm-inline mx-3 text-muted opacity-50">|</span>
-                                                        <div class="ratings-container mb-0">
-                                                            <div class="ratings">
-                                                                <div class="ratings-val" style="width: 88%;">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <p>من که نقطه ضعفی توش پیدا نکردم</p>
-                                                    <footer class="testimonial-footer d-flex align-items-center">
-                                                        <div class="testimonial-avatar">
-                                                            <img src="./assets/images/avatar/avatar.png" alt="Review Author Avatar">
-                                                        </div>
-                                                        <div class="pr-2 flex-grow-1">
-                                                            <div class="blockquote-footer">
-                                                                <span class="d-block font-weight-bold text-dark">سام</span>
-                                                                <div class="d-flex justify-content-between align-items-center">
-                                                                    <cite class="text-sm">
-                                                                        در تاریخ ۷ فروردین
-                                                                        ۱۳۹۹
-                                                                    </cite>
-                                                                    <a href="#" class="link--with-border-bottom ml-1">پاسخ</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </footer>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        @await Component.InvokeAsync("AudioBookQuestionsComponent", Model.AudioBookId)
                                     </div>
                                 </div>
                             </div>
@@ -433,6 +202,13 @@
 <div class="modal fade" id="RequestModal" tabindex="-1" aria-labelledby="RequestModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content" id="RequestModalContent">
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="QuestionModal" tabindex="-1" aria-labelledby="QuestionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="QuestionModalContent">
 
         </div>
     </div>

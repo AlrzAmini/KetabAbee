@@ -159,4 +159,29 @@ function LoadAddBookRequestModalBody(audiobookId) {
         }
     });
 }
+function LoadCreateQuestionABookModalBody(audiobookId) {
+    $.ajax({
+        url: "/load-modal-create-ABook-question",
+        type: "get",
+        data: {
+            audiobookId: audiobookId
+        },
+        beforeSend: function () {
+            StartLoading();
+        },
+        success: function (response) {
+            CloseLoading();
+            $("#QuestionModalContent").html(response);
+
+            $('#CreateQuestionForm').data('validator', null);
+            $.validator.unobtrusive.parse('#CreateQuestionForm');
+
+            $("#QuestionModal").modal("show");
+        },
+        error: function () {
+            CloseLoading();
+            console.log("Error");
+        }
+    });
+}
 

@@ -42,6 +42,10 @@ namespace KetabAbee.Domain.Interfaces
 
         Task<ABook_Question> GetAudioBookQuestionById(int questionId);
 
+        Task<int> GetAudioBookQuestionsCount(int audiobookId);
+
+        Task<IQueryable<ABook_Question>> GetAudioBookQuestions(int audiobookId);
+
         #endregion
     }
 }
