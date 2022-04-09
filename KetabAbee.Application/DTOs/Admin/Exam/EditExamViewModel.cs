@@ -23,4 +23,12 @@ namespace KetabAbee.Application.DTOs.Admin.Exam
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
         public int Time { get; set; }
     }
+
+    public enum EditExamResult
+    {
+        Success,
+        Error,
+        NotFound,
+        BookHaveActiveExam
+    }
 }

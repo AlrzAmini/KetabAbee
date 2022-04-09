@@ -286,5 +286,10 @@ namespace KetabAbee.Data.Repository
                 return false;
             }
         }
+
+        public async Task<bool> IsBookHaveActiveExam(int bookId)
+        {
+            return await _context.Exams.AnyAsync(e => e.BookId == bookId && e.IsActive);
+        }
     }
 }

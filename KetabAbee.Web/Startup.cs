@@ -1,3 +1,4 @@
+using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace KetabAbee.Web
 {
@@ -63,6 +65,11 @@ namespace KetabAbee.Web
                 options.LogoutPath = "/Logout";
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(43200);
             });
+
+            services.AddDataProtection()
+                .PersistKeysToFileSystem(new DirectoryInfo(Directory.GetCurrentDirectory() + "\\wwwroot\\AuthorizeFile\\"))
+                .SetApplicationName("KetabAbee")
+                .SetDefaultKeyLifetime(TimeSpan.FromMinutes(43200));
 
             #endregion
 
@@ -118,7 +125,7 @@ namespace KetabAbee.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            
+
             app.UseHttpsRedirection();
 
             #region Cach Static Files
@@ -145,7 +152,7 @@ namespace KetabAbee.Web
                 {
 
                     //Set css and js files to be cached for 12 days
-                    TimeSpan maxAge = new(12, 0, 0, 0);     
+                    TimeSpan maxAge = new(12, 0, 0, 0);
                     context.Response.Headers.Append("Cache-Control", "max-age=" + maxAge.TotalSeconds.ToString("0"));
 
                 }

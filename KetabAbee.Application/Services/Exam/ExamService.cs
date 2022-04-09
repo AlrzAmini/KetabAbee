@@ -177,12 +177,22 @@ namespace KetabAbee.Application.Services.Exam
             return await _examRepository.DeleteQuestion(question);
         }
 
-        public async Task<bool> EditExam(EditExamViewModel exam)
+        public async Task<EditExamResult> EditExam(EditExamViewModel exam)
         {
             var newExam = await _examRepository.GetExamById(exam.ExamId);
+            if (newExam == null)
+            {
+                return EditExamResult.NotFound;
+            }
+
+            if (await _examRepository.IsBookHaveActiveExam(newExam.BookId))
+            {
+                return EditExamResult.BookHaveActiveExam;
+            }
+
             newExam.BookId = exam.productId;
             newExam.Time = exam.Time;
-            return await _examRepository.UpdateExam(newExam);
+            return await _examRepository.UpdateExam(newExam) ? EditExamResult.Success : EditExamResult.Error;
         }
 
         public async Task<ExamGuideViewModel> GetBookExamGuideInfo(int bookId)

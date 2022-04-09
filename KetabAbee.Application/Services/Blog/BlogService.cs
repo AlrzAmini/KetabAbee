@@ -93,7 +93,7 @@ namespace KetabAbee.Application.Services.Blog
 
             if (!string.IsNullOrEmpty(filter.Writer))
             {
-                result = result.Where(r => r.Writer.Contains(filter.BlogTitle));
+                result = result.Where(r => r.Writer.Contains(filter.Writer));
             }
 
             #endregion

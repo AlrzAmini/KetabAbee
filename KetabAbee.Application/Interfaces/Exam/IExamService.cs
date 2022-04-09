@@ -30,7 +30,7 @@ namespace KetabAbee.Application.Interfaces.Exam
 
         Task<EditExamViewModel> GetInfoForEditExam(int examId);
 
-        Task<bool> EditExam(EditExamViewModel exam);
+        Task<EditExamResult> EditExam(EditExamViewModel exam);
 
         Task<ExamGuideViewModel> GetBookExamGuideInfo(int bookId);
 

@@ -73,5 +73,7 @@ namespace KetabAbee.Domain.Interfaces
 
         Task<int> GetUserExamTriesCount(string userIp, int examId);
         Task<int> GetUserExamTriesCount(int userId, int examId);
+
+        Task<bool> IsBookHaveActiveExam(int bookId);
     }
 }

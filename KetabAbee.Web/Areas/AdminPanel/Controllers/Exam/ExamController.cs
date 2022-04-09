@@ -190,13 +190,25 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Exam
                 return View(exam);
             }
 
-            if (await _examService.EditExam(exam))
+            var res = await _examService.EditExam(exam);
+            switch (res)
             {
-                TempData["SuccessMessage"] = "آزمون ویرایش شد";
-                return RedirectToAction("Index");
+                case EditExamResult.Success:
+                    TempData["SuccessMessage"] = "آزمون ویرایش شد";
+                    return RedirectToAction("Index");
+                case EditExamResult.NotFound:
+                    TempData["ErrorMessage"] = "آزمون یافت نشد";
+                    return RedirectToAction("Index");
+                case EditExamResult.BookHaveActiveExam:
+                    TempData["ErrorMessage"] = "کتاب انتخابی در حال حاضر یک آزمون فعال دارد . یک کتاب نمیتواند دو آزمون فعال داشته باشد";
+                    return RedirectToAction("EditExam", new { examId = exam.ExamId });
+                case EditExamResult.Error:
+                    TempData["ErrorMessage"] = "مشکلی رخ داد";
+                    return RedirectToAction("Index");
+                default:
+                    TempData["ErrorMessage"] = "مشکلی رخ داد";
+                    return RedirectToAction("Index");
             }
-            TempData["ErrorMessage"] = "مشکلی در ویرایش آزمون رخ داد";
-            return RedirectToAction("Index");
         }
 
         #endregion
