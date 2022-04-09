@@ -12,7 +12,9 @@
     <div class="page-wrapper">
         @await Component.InvokeAsync("HeaderComponent")
         @RenderBody()
-        <partial name="_Footer" />
+        <cache expires-after="TimeSpan.FromMinutes(30)">
+            <partial name="_Footer" />
+        </cache>
     </div>
     <partial name="_Scripts" />
     <partial name="_SiteMessages" />

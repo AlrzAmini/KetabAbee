@@ -129,7 +129,7 @@ namespace KetabAbee.Application.Services.Product
                 // thumb
                 var imgReSizer = new ImageConvertor();
                 var imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/Book/thumb", book.ImageName);
-                imgReSizer.Image_resize(imgPath, imgThumbPath, 400);
+                imgReSizer.Image_resize(imgPath, imgThumbPath, 200);
             }
             else
             {
@@ -370,7 +370,7 @@ namespace KetabAbee.Application.Services.Product
 
             var imgReSizer = new ImageConvertor();
             imgThumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/Book/thumb", book.ImageName);
-            imgReSizer.Image_resize(imgPath, imgThumbPath, 400);
+            imgReSizer.Image_resize(imgPath, imgThumbPath, 200);
 
             return UpdateBook(book);
         }

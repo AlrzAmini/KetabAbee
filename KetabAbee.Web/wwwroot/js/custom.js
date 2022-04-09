@@ -90,7 +90,6 @@ function LoadAddAnswerModalBody(commentId) {
             $("#AnswerModal").modal("show");
         },
         error: function () {
-            CloseLoading();
             console.log("Error");
         }
     });

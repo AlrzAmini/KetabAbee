@@ -60,208 +60,210 @@
                     </form>
                 </div>
             </div>
-        <div class="user-items">
-            <div class="user-item">
-                <a asp-controller="Book" asp-action="AllUserCompares">
-                    <i class="fal fa-random"></i>
-                </a>
-            </div>
-            @if (isAuth)
-            {
-                var userCurrentOrder = ViewBag.UserCurrentOrder as Order;
-                int userBookIdsCount = ViewBag.UserBookIdsCount;
-
+            <div class="user-items">
                 <div class="user-item">
-                    <a asp-area="UserPanel" asp-controller="UserPanel" asp-action="FavoriteBooks">
-                        <i class="fal fa-heart"></i>
-                        <span class="bag-items-number">@userBookIdsCount</span>
+                    <a asp-controller="Book" asp-action="AllUserCompares">
+                        <i class="fal fa-random"></i>
                     </a>
                 </div>
-
-                if (userCurrentOrder != null && userCurrentOrder.OrderDetails.Any())
-                {
-                    <div class="user-item cart-list">
-                        <a asp-area="UserPanel" asp-controller="Order" asp-action="Cart" asp-route-orderId="@userCurrentOrder.OrderId">
-                            <i class="fal fa-shopping-basket"></i>
-                            <span class="bag-items-number">@userCurrentOrder.OrderDetails.Count</span>
-                        </a>
-                        <ul>
-                            <li class="cart-items">
-                                <ul class="do-nice-scroll">
-                                    @foreach (var detail in userCurrentOrder.OrderDetails)
-                                    {
-                                        <li class="cart-item">
-                                            <span class="d-flex align-items-center mb-2">
-                                                <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@detail.ProductId">
-                                                    <img src="/images/Book/thumb/@detail.Product.ImageName" alt="@detail.Product.Name تصویر">
-                                                </a>
-                                                <span>
-                                                    <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@detail.ProductId">
-                                                        <span class="title-item">
-                                                            @detail.Product.Name اثر @detail.Product.Writer
-                                                        </span>
-                                                    </a>
-                                                    <span class="color d-flex align-items-center">
-                                                        نشر:
-                                                        @detail.Product.Publisher.PublisherName
-                                                    </span>
-                                                </span>
-                                            </span>
-                                            @if (detail.Product.Inventory != null && detail.Product.Inventory != 0)
-                                            {
-                                                <span class="price">@detail.Price.ToToman()</span>
-                                            }
-                                            else
-                                            {
-                                                <span class="price">نا موجود</span>
-                                            }
-                                            <button class="remove-item" disabled="disabled">
-                                                @detail.Count
-                                            </button>
-                                        </li>
-                                    }
-                                </ul>
-                            </li>
-                            <li class="cart-footer d-flex align-items-center justify-content-between">
-                                <span class="d-flex flex-column">
-                                    <span>مبلغ کل:</span>
-                                    <span class="total">@userCurrentOrder.OrderSum.ToToman()</span>
-                                </span>
-                                <span class="d-block text-center px-2">
-                                    <a asp-area="UserPanel" asp-controller="Order" asp-action="Cart" asp-route-orderId="@userCurrentOrder.OrderId" class="btn-cart">
-                                        ثبت سفارش
-                                    </a>
-                                </span>
-                            </li>
-                        </ul>
-                    </div>
-                }
-                else
-                {
-                    <div class="user-item cart-list">
-                        <a>
-                            <i class="fal fa-shopping-basket"></i>
-                            <span class="bag-items-number">0</span>
-                        </a>
-                        <ul>
-                            <li class="cart-items">
-                                <div class="alert alert-danger m-1">
-                                    سبد خرید شما خالی است
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                }
-            }
-            <div class="user-item account">
                 @if (isAuth)
                 {
-                    var avatarName = ViewBag.AvatarName as string;
-                    long walletBalance = ViewBag.UserWalletBalance;
-                    <a asp-controller="UserPanel" asp-action="Dashboard">
-                        @User.Identity.Name
-                        <i class="fad fa-chevron-down text-sm mr-1"></i>
-                    </a>
-                    <ul class="dropdown-wrapper">
-                        <li class="header-profile-dropdown-account-container">
-                            <a asp-controller="UserPanel" asp-action="Dashboard" class="d-block">
-                                <span class="header-profile-dropdown-user">
-                                    <span class="header-profile-dropdown-user-img">
-                                        <img class="rounded-circle" src="/Avatar/thumb/@avatarName" alt="avatar">
+                    var userCurrentOrder = ViewBag.UserCurrentOrder as Order;
+                    int userBookIdsCount = ViewBag.UserBookIdsCount;
+
+                    <div class="user-item">
+                        <a asp-area="UserPanel" asp-controller="UserPanel" asp-action="FavoriteBooks">
+                            <i class="fal fa-heart"></i>
+                            <span class="bag-items-number">@userBookIdsCount</span>
+                        </a>
+                    </div>
+
+                    if (userCurrentOrder != null && userCurrentOrder.OrderDetails.Any())
+                    {
+                        <div class="user-item cart-list">
+                            <a asp-area="UserPanel" asp-controller="Order" asp-action="Cart" asp-route-orderId="@userCurrentOrder.OrderId">
+                                <i class="fal fa-shopping-basket"></i>
+                                <span class="bag-items-number">@userCurrentOrder.OrderDetails.Count</span>
+                            </a>
+                            <ul>
+                                <li class="cart-items">
+                                    <ul class="do-nice-scroll">
+                                        @foreach (var detail in userCurrentOrder.OrderDetails)
+                                        {
+                                            <li class="cart-item">
+                                                <span class="d-flex align-items-center mb-2">
+                                                    <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@detail.ProductId">
+                                                        <img src="/images/Book/thumb/@detail.Product.ImageName" alt="@detail.Product.Name تصویر">
+                                                    </a>
+                                                    <span>
+                                                        <a asp-controller="Book" asp-action="BookInfo" asp-route-bookId="@detail.ProductId">
+                                                            <span class="title-item">
+                                                                @detail.Product.Name اثر @detail.Product.Writer
+                                                            </span>
+                                                        </a>
+                                                        <span class="color d-flex align-items-center">
+                                                            نشر:
+                                                            @detail.Product.Publisher.PublisherName
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                                @if (detail.Product.Inventory != null && detail.Product.Inventory != 0)
+                                                {
+                                                    <span class="price">@detail.Price.ToToman()</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="price">نا موجود</span>
+                                                }
+                                                <button class="remove-item" disabled="disabled">
+                                                    @detail.Count
+                                                </button>
+                                            </li>
+                                        }
+                                    </ul>
+                                </li>
+                                <li class="cart-footer d-flex align-items-center justify-content-between">
+                                    <span class="d-flex flex-column">
+                                        <span>مبلغ کل:</span>
+                                        <span class="total">@userCurrentOrder.OrderSum.ToToman()</span>
                                     </span>
-                                    <span class="header-profile-dropdown-user-info">
-                                        <text class="header-profile-dropdown-user-name">
-                                            @User.Identity.Name
-                                        </text>
-                                        <span class="header-profile-dropdown-user-profile-link">
-                                            مشاهده حساب
-                                            کاربری
+                                    <span class="d-block text-center px-2">
+                                        <a asp-area="UserPanel" asp-controller="Order" asp-action="Cart" asp-route-orderId="@userCurrentOrder.OrderId" class="btn-cart">
+                                            ثبت سفارش
+                                        </a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="user-item cart-list">
+                            <a>
+                                <i class="fal fa-shopping-basket"></i>
+                                <span class="bag-items-number">0</span>
+                            </a>
+                            <ul>
+                                <li class="cart-items">
+                                    <div class="alert alert-danger m-1">
+                                        سبد خرید شما خالی است
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+                }
+                <div class="user-item account">
+                    @if (isAuth)
+                    {
+                        var avatarName = ViewBag.AvatarName as string;
+                        long walletBalance = ViewBag.UserWalletBalance;
+                        <a asp-controller="UserPanel" asp-action="Dashboard">
+                            @User.Identity.Name
+                            <i class="fad fa-chevron-down text-sm mr-1"></i>
+                        </a>
+                        <ul class="dropdown-wrapper">
+                            <li class="header-profile-dropdown-account-container">
+                                <a asp-controller="UserPanel" asp-action="Dashboard" class="d-block">
+                                    <span class="header-profile-dropdown-user">
+                                        <span class="header-profile-dropdown-user-img">
+                                            <img class="rounded-circle" src="/Avatar/thumb/@avatarName" alt="avatar">
+                                        </span>
+                                        <span class="header-profile-dropdown-user-info">
+                                            <text class="header-profile-dropdown-user-name">
+                                                @User.Identity.Name
+                                            </text>
+                                            <span class="header-profile-dropdown-user-profile-link">
+                                                مشاهده حساب
+                                                کاربری
+                                            </span>
                                         </span>
                                     </span>
-                                </span>
-                                <span class="header-profile-dropdown-account">
-                                    <span class="header-profile-dropdown-account-item">
-                                        <span class="header-profile-dropdown-account-item-title">موجودی</span>
-                                        <span class="header-profile-dropdown-account-item-amount">
-                                            <span class="header-profile-dropdown-account-item-amount-number">@walletBalance.ToToman()</span>
+                                    <span class="header-profile-dropdown-account">
+                                        <span class="header-profile-dropdown-account-item">
+                                            <span class="header-profile-dropdown-account-item-title">موجودی</span>
+                                            <span class="header-profile-dropdown-account-item-amount">
+                                                <span class="header-profile-dropdown-account-item-amount-number">@walletBalance.ToToman()</span>
+                                            </span>
                                         </span>
                                     </span>
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a asp-area="UserPanel" asp-controller="UserPanel" asp-action="Dashboard">
-                                پروفایل
-                            </a>
-                        </li>
-                        <li>
-                            <a asp-area="UserPanel" asp-controller="UserPanel" asp-action="EditProfile">
-                                ویرایش حساب کاربری
-                            </a>
-                        </li>
-                        <li>
-                            <a asp-area="UserPanel" asp-controller="UserPanel" asp-action="ChangePassword">
-                                تغییر کلمه عبور
-                            </a>
-                        </li>
-                        <li>
-                            <a asp-area="UserPanel" asp-controller="Ticket" asp-action="Index">
-                                تیکت ها
-                            </a>
-                        </li>
-                        <li>
-                            <a asp-area="UserPanel" asp-controller="Wallet" asp-action="ChargeWallet">
-                                کیف پول
-                            </a>
-                        </li>
-                        <li>
-                            <a asp-area="UserPanel" asp-controller="Order" asp-action="Orders">
-                                فاکتور ها
-                            </a>
-                        </li>
-                        <li>
-                            <a asp-area="UserPanel" asp-controller="UserPanel" asp-action="FavoriteBooks">
-                                علاقه مندی ها
-                            </a>
-                        </li>
-                        <li>
-                            <a asp-area="UserPanel" asp-controller="UserPanel" asp-action="UserBooks">
-                                خریدها
-                            </a>
-                        </li>
-                        <li>
-                            <a asp-area="UserPanel" asp-controller="UserPanel" asp-action="UserComments">
-                                دیدگاه ها
-                            </a>
-                        </li>
-                        <li>
-                            <a class="text-danger" asp-controller="Account" asp-action="Logout" asp-route-url="@Context.GetCurrentUrl()">
-                                خروج
-                            </a>
-                        </li>
-                    </ul>
-                }
-                else
-                {
-                    <a asp-controller="Account" asp-action="Register" class="btn-auth">
-                        <i class="fal fa-user-circle"></i>
-                        ورود و عضویت
-                    </a>
-                    <ul class="dropdown--wrapper">
-                        <li>
-                            <a asp-controller="Account" asp-action="Login" class="dropdown--btn-primary">وارد شوید</a>
-                        </li>
-                        <li>
-                            <span>کاربر جدید هستید؟</span>
-                            <a asp-controller="Account" asp-action="Register" class="border-bottom-dt">ثبت نام</a>
-                        </li>
-                    </ul>
-                }
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-area="UserPanel" asp-controller="UserPanel" asp-action="Dashboard">
+                                    پروفایل
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-area="UserPanel" asp-controller="UserPanel" asp-action="EditProfile">
+                                    ویرایش حساب کاربری
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-area="UserPanel" asp-controller="UserPanel" asp-action="ChangePassword">
+                                    تغییر کلمه عبور
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-area="UserPanel" asp-controller="Ticket" asp-action="Index">
+                                    تیکت ها
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-area="UserPanel" asp-controller="Wallet" asp-action="ChargeWallet">
+                                    کیف پول
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-area="UserPanel" asp-controller="Order" asp-action="Orders">
+                                    فاکتور ها
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-area="UserPanel" asp-controller="UserPanel" asp-action="FavoriteBooks">
+                                    علاقه مندی ها
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-area="UserPanel" asp-controller="UserPanel" asp-action="UserBooks">
+                                    خریدها
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-area="UserPanel" asp-controller="UserPanel" asp-action="UserComments">
+                                    دیدگاه ها
+                                </a>
+                            </li>
+                            <li>
+                                <a class="text-danger" asp-controller="Account" asp-action="Logout" asp-route-url="@Context.GetCurrentUrl()">
+                                    خروج
+                                </a>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <a asp-controller="Account" asp-action="Register" class="btn-auth">
+                            <i class="fal fa-user-circle"></i>
+                            ورود و عضویت
+                        </a>
+                        <ul class="dropdown--wrapper">
+                            <li>
+                                <a asp-controller="Account" asp-action="Login" class="dropdown--btn-primary">وارد شوید</a>
+                            </li>
+                            <li>
+                                <span>کاربر جدید هستید؟</span>
+                                <a asp-controller="Account" asp-action="Register" class="border-bottom-dt">ثبت نام</a>
+                            </li>
+                        </ul>
+                    }
+                </div>
             </div>
-        </div>
 
         </div>
-        <partial name="_NavBar" />
+        <cache expires-after="TimeSpan.FromMinutes(45)">
+            <partial name="_NavBar" />
+        </cache>
     </div>
 </header>
 <div class="header-responsive fixed--header-top">

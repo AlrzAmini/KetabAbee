@@ -85,10 +85,10 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Banner
                     TempData["WarningMessage"] = "بنر مورد نظر یافت نشد";
                     return RedirectToAction("Index");
                 case DeleteBannerResult.ImageError:
-                    TempData["WarningMessage"] = "مشکلی در ثبت تصویر رخ داد";
+                    TempData["WarningMessage"] = "مشکلی در حذف تصویر رخ داد";
                     return RedirectToAction("Index");
                 case DeleteBannerResult.Error:
-                    TempData["ErrorMessage"] = "مشکلی در ثبت بنر رخ داد";
+                    TempData["ErrorMessage"] = "مشکلی در حذف بنر رخ داد";
                     return RedirectToAction("Index");
                 default:
                     return RedirectToAction("Index");

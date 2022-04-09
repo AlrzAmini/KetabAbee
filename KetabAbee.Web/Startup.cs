@@ -130,9 +130,9 @@ namespace KetabAbee.Web
                     {
                         string path = r.File.PhysicalPath;
                         if (path.EndsWith(".css") || path.EndsWith(".js") || path.EndsWith(".gif") || path.EndsWith(".jpg")
-                            || path.EndsWith(".png") || path.EndsWith(".svg") || path.EndsWith(".woff2") || path.EndsWith(".ico") || path.EndsWith(".ttf") || path.EndsWith(".webp"))
+                            || path.EndsWith(".png") || path.EndsWith(".svg") || path.EndsWith(".woff2") || path.EndsWith(".woff") || path.EndsWith(".ico") || path.EndsWith(".ttf") || path.EndsWith(".webp"))
                         {
-                            TimeSpan maxAge = new(7, 0, 0, 0);
+                            TimeSpan maxAge = new(12, 0, 0, 0);
                             r.Context.Response.Headers.Append("Cache-Control", "max-age=" + maxAge.TotalSeconds.ToString("0"));
                         }
                     }
@@ -144,8 +144,8 @@ namespace KetabAbee.Web
                 if (path.EndsWith(".css") || path.EndsWith(".js"))
                 {
 
-                    //Set css and js files to be cached for 7 days
-                    TimeSpan maxAge = new(7, 0, 0, 0);     //7 days
+                    //Set css and js files to be cached for 12 days
+                    TimeSpan maxAge = new(12, 0, 0, 0);     
                     context.Response.Headers.Append("Cache-Control", "max-age=" + maxAge.TotalSeconds.ToString("0"));
 
                 }
