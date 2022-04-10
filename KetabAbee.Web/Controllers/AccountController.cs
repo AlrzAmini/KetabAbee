@@ -290,7 +290,7 @@ namespace KetabAbee.Web.Controllers
         [HttpGet("ResetPasswordByEmail/{id}")]
         public IActionResult ResetPasswordByEmail(string id) // id = email Activation code
         {
-            return View(new ResetPasswordViewModel()
+            return View(new ResetPasswordViewModel
             {
                 EmailActiveCode = id
             });

@@ -106,6 +106,7 @@ namespace KetabAbee.Application.DTOs
         [DisplayName("کلمه عبور")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید.")]
         [MaxLength(200, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر داشته باشد")]
+        [MinLength(6, ErrorMessage = "همه جا همینجوری رمز وارد می کنی ستون ؟ {0} باید حداقل {1} کاراکتر داشته باشه")]
         public string Password { get; set; }
 
         #endregion
