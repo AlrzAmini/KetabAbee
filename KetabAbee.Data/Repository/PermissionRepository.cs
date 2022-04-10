@@ -117,16 +117,14 @@ namespace KetabAbee.Data.Repository
                 .Select(r => r.PermissionId).ToList();
         }
 
-        public void UpdatePermissionOfRole(int roleId, List<int> selectedPermission)
+        public void RemovePermissionsOfRole(int roleId)
         {
             // remove old permissions of role
             _context.RolePermissions
                .Where(p => p.RoleId == roleId)
                .ToList()
                .ForEach(p => _context.RolePermissions.Remove(p));
-
-            // add new roles
-            AddPermissionsToRole(roleId, selectedPermission);
+            _context.SaveChanges();
         }
 
         public List<int> GetUserRolesByUserId(int userId)

@@ -28,7 +28,6 @@ namespace KetabAbee.Application.DTOs.Admin.Exam
     {
         Success,
         Error,
-        NotFound,
-        BookHaveActiveExam
+        NotFound
     }
 }

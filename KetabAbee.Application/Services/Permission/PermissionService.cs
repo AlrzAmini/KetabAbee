@@ -20,7 +20,10 @@ namespace KetabAbee.Application.Services.Permission
 
         public void AddPermissionsToRole(int roleId, List<int> selectedPermissions)
         {
-            _permissionRepository.AddPermissionsToRole(roleId, selectedPermissions);
+            if (selectedPermissions != null && selectedPermissions.Any())
+            {
+                _permissionRepository.AddPermissionsToRole(roleId, selectedPermissions);
+            }
         }
 
         public int AddRole(Role role)
@@ -92,7 +95,14 @@ namespace KetabAbee.Application.Services.Permission
 
         public void UpdatePermissionOfRole(int roleId, List<int> selectedPermission)
         {
-            _permissionRepository.UpdatePermissionOfRole(roleId, selectedPermission);
+            // remove role permissions
+            _permissionRepository.RemovePermissionsOfRole(roleId);
+
+            if (selectedPermission != null && selectedPermission.Any())
+            {
+                // add new roles
+                _permissionRepository.AddPermissionsToRole(roleId, selectedPermission);
+            }
         }
 
         public bool UpdateRole(Role role)

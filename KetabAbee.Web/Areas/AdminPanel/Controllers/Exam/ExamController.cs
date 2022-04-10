@@ -199,9 +199,6 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Exam
                 case EditExamResult.NotFound:
                     TempData["ErrorMessage"] = "آزمون یافت نشد";
                     return RedirectToAction("Index");
-                case EditExamResult.BookHaveActiveExam:
-                    TempData["ErrorMessage"] = "کتاب انتخابی در حال حاضر یک آزمون فعال دارد . یک کتاب نمیتواند دو آزمون فعال داشته باشد";
-                    return RedirectToAction("EditExam", new { examId = exam.ExamId });
                 case EditExamResult.Error:
                     TempData["ErrorMessage"] = "مشکلی رخ داد";
                     return RedirectToAction("Index");

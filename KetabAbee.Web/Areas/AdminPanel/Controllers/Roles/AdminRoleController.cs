@@ -73,7 +73,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Roles
             var roleId = _permissionService.AddRole(addRole.Role);
             if (roleId != 0)
             {
-                _permissionService.AddPermissionsToRole(roleId,addRole.SelectedPermissions);
+                _permissionService.AddPermissionsToRole(roleId, addRole.SelectedPermissions);
 
                 TempData["SuccessMessage"] = "افزودن نقش با موفقیت انجام شد";
                 return RedirectToAction("Index");
@@ -109,7 +109,7 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Roles
 
             if (_permissionService.UpdateRole(editRole.Role))
             {
-                _permissionService.UpdatePermissionOfRole(editRole.Role.RoleId,editRole.SelectedPermissions);
+                _permissionService.UpdatePermissionOfRole(editRole.Role.RoleId, editRole.SelectedPermissions);
                 TempData["SuccessMessage"] = "ویرایش نقش با موفقیت انجام شد";
                 return RedirectToAction("Index");
             }

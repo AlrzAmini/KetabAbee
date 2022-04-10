@@ -1,23 +1,28 @@
-﻿@{
+﻿@using KetabAbee.Application.Extensions
+@{
     ViewData["Title"] = "کتاب آبی";
 }
 @section MetaTag
 {
     <meta name="googlebot" content="index,follow" />
-    <meta name="robots" content="noodp,noydir" />
+    <meta name="robots" content="index, follow" />
     <meta name="description" content="هر آنچه که نیاز دارید با بهترین قیمت از کتاب آبی بخرید! جدیدترین انواع کتاب انگیزشی، فلسفی، توسعه فردی، رمان و داستان، کتاب کودک، آموزشی، نقاشی و... با امکان تعویض و مرجوعی آسان | ✓ارسال رايگان ✓پرداخت در محل ✓ضمانت بازگشت کالا - برای خرید کلیک کنید!" />
     <meta property=og:site_name value="کتابفروشی کتاب آبی" />
     <meta property=og:title content="کتابفروشی کتاب آبی" />
-    <meta property=og:url content="https://haamechitamoom.ir/" />
-    <meta property=og:image:width content="700"/>
-    <meta property=og:image:type content="image/jpg" />
-    <meta property=og:description content="">
+    <meta property=og:url content="@CommonExtensions.DomainAddress" />
+    <meta property="og:image" content="@CommonExtensions.DomainAddress/images/logo.png">
+    <meta property="og:image:url" content="@CommonExtensions.DomainAddress/images/logo.png">
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content="کتاب آبی" />
+    <meta property=og:description content="هر آنچه که نیاز دارید با بهترین قیمت از کتاب آبی بخرید! جدیدترین انواع کتاب انگیزشی، فلسفی، توسعه فردی، رمان و داستان، کتاب کودک، آموزشی، نقاشی و... با امکان تعویض و مرجوعی آسان | ✓ارسال رايگان ✓پرداخت در محل ✓ضمانت بازگشت کالا - برای خرید کلیک کنید!">
     <meta property=og:price:currency content="IRR" />
     <meta property=og:locale content="ir_FA" />
 }
 <main class="page-content">
     <div class="container">
-        @await Component.InvokeAsync("HeadBannersComponent")
+        <cache expires-after="TimeSpan.FromMinutes(5)">
+            @await Component.InvokeAsync("HeadBannersComponent")
+        </cache>
         <section class="product-carousel in-box">
             <div class="section-title">
                 <i class="fad fa-pen-nib text-info"></i>

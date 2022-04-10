@@ -185,11 +185,7 @@ namespace KetabAbee.Application.Services.Exam
                 return EditExamResult.NotFound;
             }
 
-            if (await _examRepository.IsBookHaveActiveExam(newExam.BookId))
-            {
-                return EditExamResult.BookHaveActiveExam;
-            }
-
+            newExam.IsActive = false;
             newExam.BookId = exam.productId;
             newExam.Time = exam.Time;
             return await _examRepository.UpdateExam(newExam) ? EditExamResult.Success : EditExamResult.Error;

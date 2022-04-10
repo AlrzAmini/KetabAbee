@@ -36,7 +36,7 @@ namespace KetabAbee.Domain.Interfaces
 
         List<int> GetPermissionIdsOfRoleByRoleId(int roleId);
 
-        void UpdatePermissionOfRole(int roleId, List<int> selectedPermission);
+        void RemovePermissionsOfRole(int roleId);
 
         List<int> GetUserRolesByUserId(int userId);
 
