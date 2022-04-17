@@ -111,6 +111,10 @@ namespace KetabAbee.Web
                 {
                     context.Response.Redirect("/404Error");
                 }
+                if (context.Response.StatusCode == 500)
+                {
+                    context.Response.Redirect("/500Error");
+                }
             });
 
             #endregion

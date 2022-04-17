@@ -216,6 +216,17 @@ namespace KetabAbee.Web.Controllers
 
         #endregion
 
+        #region 500 error 
+
+        [HttpGet("500Error")]
+        public IActionResult Server500ErrorPage()
+        {
+            return View();
+        }
+
+
+        #endregion
+
         #region advanced search
 
         [HttpGet("Advanced-Search")]
