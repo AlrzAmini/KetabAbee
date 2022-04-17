@@ -34,6 +34,16 @@ namespace KetabAbee.Web.Areas.AdminPanel.Controllers.Exam
 
         #endregion
 
+        #region guide lines
+
+        [HttpGet("guides")]
+        public IActionResult Guidelines()
+        {
+            return View();
+        }
+
+        #endregion
+
         #region exam results
 
         [HttpGet("Results")]
